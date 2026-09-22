@@ -285,6 +285,16 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .shot-img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;background:var(--surface2)}
 .shot-cap{display:flex;gap:6px;margin-top:6px;font-size:11.5px;color:var(--muted);line-height:1.55}
 .shot-cap b{color:var(--text);font-weight:600}
+.poi-gallery{display:grid;grid-template-columns:1.35fr .85fr;grid-auto-rows:minmax(92px,1fr);gap:5px;margin:12px 0 4px}
+.poi-gallery figure{position:relative;min-height:0;margin:0;border-radius:11px;overflow:hidden;background:var(--surface2);border:1px solid var(--line);cursor:zoom-in}
+.poi-gallery figure:first-child{grid-row:span 2}
+.poi-gallery img{display:block;width:100%;height:100%;min-height:92px;object-fit:cover;transition:transform .3s ease,filter .3s ease}
+.poi-gallery figure:hover img{transform:scale(1.035);filter:saturate(1.08)}
+.poi-gallery figcaption{position:absolute;inset:auto 0 0;padding:22px 8px 7px;color:#f9fbfa;font-size:11px;line-height:1.25;background:linear-gradient(180deg,transparent,rgba(8,16,24,.82));text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.photo-source{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0 12px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-size:12px;color:var(--muted)}
+.photo-source a{flex:0 0 auto;color:var(--brand);font-weight:700;text-decoration:none}
+.photo-source a:hover{text-decoration:underline}
+@media(max-width:420px){.poi-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:110px}.poi-gallery figure:first-child{grid-column:span 2;grid-row:auto}}
 .lb{position:fixed;inset:0;z-index:120;background:rgba(8,12,18,.94);display:none;align-items:center;justify-content:center;padding:14px}
 .lb.on{display:flex}
 .lb img{max-width:100%;max-height:100%;border-radius:10px}
@@ -1678,6 +1688,21 @@ function dayListHTML(key){
   const more = rows.length > MAXR ? '<li class="sh-more">… 以及另外 ' + (rows.length - MAXR) + ' 条</li>' : '';
   return '<div class="sh-sec"><h4>📅 行程安排（这个景点出现在哪几天 · 点击跳到那天）</h4><ul class="sh-days">' + items + more + '</ul></div>';
 }
+function poiPhotoKeys(key){
+  const keys = [key];
+  DAYS.forEach(d => dayKeys(d).forEach(k => {
+    if(k !== key && PHOTOS[k] && !keys.includes(k)) keys.push(k);
+  }));
+  return keys.slice(0, 5);
+}
+function poiGalleryHTML(key){
+  const keys = poiPhotoKeys(key);
+  if(!keys.length) return '';
+  return '<div class="poi-gallery" aria-label="相关实景照片">'
+    + keys.map(k => '<figure data-gallery-src="' + PHOTOS[k] + '"><img src="' + PHOTOS[k] + '" alt="' + esc((POIS[k] || {}).n || '') + ' 实景照片" loading="lazy"><figcaption>' + esc((POIS[k] || {}).n || '') + '</figcaption></figure>').join('')
+    + '</div>'
+    + '<div class="photo-source"><span>📷 同行程实景与相关机位</span><a href="https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent((POIS[key] || {}).n || '') + '" target="_blank" rel="noopener">查看小红书热门图 ↗</a></div>';
+}
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
   const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点' }[p.kind] || '地点';
@@ -1689,12 +1714,14 @@ function openPOI(key){
     + '<div class="reason">「' + esc(p.r) + '」</div>'
     + '<div class="sh-sec"><h4>必看点</h4><ul>' + p.hl.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
     + '<div class="sh-sec"><h4>体验建议</h4><ul>' + p.tip.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
-    + (PHOTOS[key] ? '<div class="shot"><img class="shot-img" id="shotImg" src="' + PHOTOS[key] + '" alt="' + esc(p.n) + ' 实景照片"><div class="shot-cap"><span>\ud83d\udcf7</span><span><b>' + esc((p.ph && p.ph[0]) || '') + '</b>\u3000\u5b9e\u666f\u7167\u7247\u00b7 ' + esc(CREDITS[key] || 'Wikimedia Commons') + '</span></div></div>' : '')
+    + poiGalleryHTML(key)
+    + '<div class="shot-cap"><span>📷</span><span><b>' + esc((p.ph && p.ph[0]) || '') + '</b>　实景照片· ' + esc(CREDITS[key] || 'Wikimedia Commons') + '</span></div>'
    + '<div class="sh-sec"><h4>热门拍照打卡点</h4><ul>' + p.ph.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>';
   $('#mask').classList.add('on');
   $('#shX').onclick = closePOI;
-  const si = $('#shotImg');
-  if(si) si.onclick = function(){ $('#lbImg').src = si.src; $('#lb').classList.add('on'); };
+  document.querySelectorAll('[data-gallery-src]').forEach(fig => {
+    fig.onclick = function(){ $('#lbImg').src = fig.dataset.gallerySrc; $('#lb').classList.add('on'); };
+  });
 }
 function closePOI(){ $('#mask').classList.remove('on'); }
 $('#mask').addEventListener('click', e => { if(e.target.id === 'mask') closePOI(); });
