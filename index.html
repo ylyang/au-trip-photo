@@ -1689,7 +1689,7 @@ function dayListHTML(key){
   return '<div class="sh-sec"><h4>📅 行程安排（这个景点出现在哪几天 · 点击跳到那天）</h4><ul class="sh-days">' + items + more + '</ul></div>';
 }
 function poiPhotoKeys(key){
-  const keys = [key];
+  const keys = PHOTOS[key] ? [key] : [];
   DAYS.forEach(d => dayKeys(d).forEach(k => {
     if(k !== key && PHOTOS[k] && !keys.includes(k)) keys.push(k);
   }));
@@ -1697,10 +1697,10 @@ function poiPhotoKeys(key){
 }
 function poiGalleryHTML(key){
   const keys = poiPhotoKeys(key);
-  if(!keys.length) return '';
-  return '<div class="poi-gallery" aria-label="相关实景照片">'
+  const gallery = keys.length ? '<div class="poi-gallery" aria-label="相关实景照片">'
     + keys.map(k => '<figure data-gallery-src="' + PHOTOS[k] + '"><img src="' + PHOTOS[k] + '" alt="' + esc((POIS[k] || {}).n || '') + ' 实景照片" loading="lazy"><figcaption>' + esc((POIS[k] || {}).n || '') + '</figcaption></figure>').join('')
-    + '</div>'
+    + '</div>' : '';
+  return gallery
     + '<div class="photo-source"><span>📷 同行程实景与相关机位</span><a href="https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent((POIS[key] || {}).n || '') + '" target="_blank" rel="noopener">查看小红书热门图 ↗</a></div>';
 }
 function openPOI(key){
