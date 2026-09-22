@@ -165,6 +165,13 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .day.open .caret{transform:rotate(90deg)}
 .day-body{display:none;border-top:1px solid var(--line);padding:6px 14px 14px}
 .day.open .day-body{display:block}
+.page-section{display:none}
+.page-section.active{display:block}
+.day.day-hidden{display:none}
+.section-nav{position:sticky;top:0;z-index:30;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 2px;margin:0 0 12px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);scrollbar-width:thin}
+.section-link{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.section-link:hover,.section-link.on{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+.section-link.on{font-weight:700}
 
 .daymap{margin:12px 0 4px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface2)}
 .daymap iframe,.daymap svg{display:block;width:100%;height:auto;aspect-ratio:1.28;border:0}
@@ -185,6 +192,13 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .item:last-child{border-bottom:none}
 .item.done{opacity:.45}
 .item.done .it-title{text-decoration:line-through}
+.item-toggle{width:100%;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--text);padding:2px 0 5px;text-align:left;font:inherit;cursor:pointer}
+.item-toggle:hover .item-summary-title{color:var(--brand)}
+.item-summary-time{flex:0 0 62px;text-align:right;font-size:12px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.item-summary-title{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-caret{flex:0 0 auto;color:var(--muted);font-size:11px;transition:transform .2s}
+.item.expanded .item-caret{transform:rotate(90deg)}
+.item-body[hidden]{display:none}
 .transfer{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:3px 11px;font-size:11.5px;color:var(--muted);margin:2px 0 9px}
 .it-row{display:flex;gap:11px;align-items:flex-start}
 .it-time{flex:0 0 auto;min-width:62px;text-align:right;padding-top:1px}
@@ -218,6 +232,15 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .tk{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
 .tk-h{background:var(--surface2);padding:9px 12px;font-weight:700;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .tk-b{padding:4px 12px 10px}
+.fold-card{overflow:hidden}
+.fold-card>summary{list-style:none;cursor:pointer}
+.fold-card>summary::-webkit-details-marker{display:none}
+.fold-card>summary:after{content:'⌄';margin-left:auto;color:var(--muted);font-size:15px;transition:transform .2s}
+.fold-card:not([open])>summary:after{transform:rotate(-90deg)}
+.tip-fold>summary{display:flex;align-items:center;gap:8px;padding:10px 0;font-size:14px;font-weight:700;color:var(--brand);cursor:pointer;list-style:none}
+.tip-fold>summary::-webkit-details-marker{display:none}
+.tip-fold>summary:after{content:'＋';margin-left:auto;color:var(--muted)}
+.tip-fold[open]>summary:after{content:'－'}
 .kv{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px}
 .kv:last-child{border-bottom:none}
 .kv .k{flex:0 0 78px;color:var(--muted);font-size:12.5px}
@@ -302,6 +325,17 @@ button{font-family:inherit;font-size:inherit;color:inherit}
     <button class="theme-btn" id="themeBtn">🌙 夜间</button>
   </div>
 
+  <nav class="section-nav" id="sectionNav" aria-label="页面分区">
+    <button class="section-link on" data-section="overview">总览</button>
+    <span id="dayNav" style="display:contents"></span>
+    <button class="section-link" data-section="tickets">票据与门票</button>
+    <button class="section-link" data-section="hotels">住宿</button>
+    <button class="section-link" data-section="todo">待办</button>
+    <button class="section-link" data-section="tips">实用贴士</button>
+    <button class="section-link" data-section="budget">预算与花费</button>
+  </nav>
+
+  <div id="section-overview" class="page-section active">
   <!-- ===== 1. 头图 ===== -->
   <div class="hero">
     <div class="hc" id="heroCollage"></div>
@@ -347,33 +381,44 @@ button{font-family:inherit;font-size:inherit;color:inherit}
     </div>
   </div>
 
+  </div>
+
   <!-- ===== 4. 时间轴 ===== -->
+  <div id="section-itinerary" class="page-section">
   <h2 style="font-size:17px;margin:22px 0 4px">📅 行程时间轴 · 共 10 天</h2>
   <div class="sub">点击日期标题展开／收起；每个条目右侧可打卡，进度存本机。</div>
   <div id="timeline"></div>
+  </div>
 
   <!-- ===== 5. 票据 / 住宿 / 贴士 ===== -->
-  <div id="sectTickets"></div>
+  <div id="sectTickets" class="page-section content-section"></div>
+  <div id="sectHotels" class="page-section content-section"></div>
 
   <!-- ===== 6. 待办 ===== -->
+  <div id="sectTodo" class="page-section">
   <div class="card">
     <div class="card-title">✅ 出发前待办清单</div>
     <div class="sub">办完一项告诉我，我来改页面（不做勾选框，避免各人浏览器显示不一致）。</div>
     <ul class="todo" id="todoList"></ul>
   </div>
+  </div>
 
   <!-- ===== 7. 实用贴士 ===== -->
+  <div id="sectTips" class="page-section">
   <div class="card">
     <div class="card-title">💡 实用贴士</div>
     <div id="tipsBox"></div>
   </div>
+  </div>
 
 
   <!-- ===== 8. 预算 ===== -->
+  <div id="sectBudget" class="page-section">
   <div class="card">
     <div class="card-title">💰 预算与花费</div>
     <div class="sub">「已付」为各订单实付金额合计；「已订待补」为已出票/已预订但金额未录入预算表的项目；「当地自付」为尚未发生的预估，仅供带钱参考。</div>
     <div id="budBox"></div>
+  </div>
   </div>
 
   <div class="hint">
@@ -1699,17 +1744,21 @@ function itemHTML(d, di, it, ii){
   const tline = it.t === '--:--'
     ? '<div class="t" style="color:var(--muted);font-size:12px">待定</div><div class="z">' + esc(it.tz) + '</div>'
     : '<div class="t">' + esc(it.t) + '</div><div class="z">' + esc(it.tz) + '</div>';
+  const summaryTime = it.t === '--:--' ? '待定' : esc(it.t);
+  const titleHtml = poi ? '<span class="placelink" data-poi="' + it.p + '">' + esc(it.ttl) + '</span>' : esc(it.ttl);
   return (it.tr ? '<div class="transfer">🚶 ' + esc(it.tr) + '</div>' : '')
     + '<div class="item' + (on ? ' done' : '') + '" data-id="' + id + '">'
-    + '<div class="it-row">'
+    + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="false">'
+    + '<span class="item-summary-time">' + summaryTime + '</span><span class="item-summary-title">' + esc(it.ttl) + '</span><span class="item-caret">▶</span></button>'
+    + '<div class="item-body" hidden><div class="it-row">'
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
-    + '<div class="it-title">' + (poi ? '<span class="placelink" data-poi="' + it.p + '">' + esc(it.ttl) + '</span>' : esc(it.ttl)) + '</div>'
+    + '<div class="it-title">' + titleHtml + '</div>'
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
     + (tags ? '<div class="tags">' + tags + '</div>' : '')
     + '</div>'
     + '<button class="ck' + (on ? ' on' : '') + '" data-ck="' + id + '">' + (on ? '✓ 已打卡' : '○ 打卡') + '</button>'
-    + '</div></div>';
+    + '</div></div></div>';
 }
 
 function dayHTML(d, i){
@@ -1758,6 +1807,30 @@ function dayHTML(d, i){
 }
 $('#timeline').innerHTML = DAYS.map(dayHTML).join('');
 
+/* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
+$('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + '</button>').join('');
+function showSection(section, dayIndex){
+  const target = section === 'itinerary' ? 'section-itinerary' : 'section-' + section;
+  document.querySelectorAll('.page-section').forEach(s => s.classList.toggle('active', s.id === target));
+  document.querySelectorAll('.section-link').forEach(b => b.classList.remove('on'));
+  const links = Array.from(document.querySelectorAll('.section-link'));
+  const link = dayIndex != null
+    ? document.querySelector('.section-link[data-day-nav="' + dayIndex + '"]')
+    : document.querySelector('.section-link[data-section="' + section + '"]');
+  if(link) link.classList.add('on');
+  document.querySelectorAll('#timeline .day').forEach(day => {
+    const keep = section === 'itinerary' && (dayIndex == null || +day.dataset.day === dayIndex);
+    day.classList.toggle('day-hidden', section === 'itinerary' && !keep);
+    if(dayIndex != null && +day.dataset.day === dayIndex) day.classList.add('open');
+  });
+}
+$('#sectionNav').addEventListener('click', e => {
+  const b = e.target.closest('.section-link');
+  if(!b) return;
+  const section = b.dataset.section;
+  showSection(section, b.dataset.dayNav == null ? null : +b.dataset.dayNav);
+});
+
 /* Google 不可达时每日地图也保留原有离线图 */
 function renderDayMaps(){
   document.querySelectorAll('.dmap').forEach(svg => {
@@ -1773,6 +1846,17 @@ renderDayMaps();
 $('#timeline').addEventListener('click', e => {
   const head = e.target.closest('.day-head');
   if(head){ head.parentElement.classList.toggle('open'); return; }
+  const itemToggle = e.target.closest('[data-item-toggle]');
+  if(itemToggle){
+    const item = itemToggle.closest('.item');
+    const body = item && item.querySelector('.item-body');
+    if(!body) return;
+    const isOpen = itemToggle.getAttribute('aria-expanded') === 'true';
+    itemToggle.setAttribute('aria-expanded', String(!isOpen));
+    body.hidden = isOpen;
+    item.classList.toggle('expanded', !isOpen);
+    return;
+  }
   const ck = e.target.closest('.ck');
   if(ck){
     const id = ck.dataset.ck;
@@ -1834,13 +1918,12 @@ window.addEventListener('resize', function(){
    ============================================================ */
 $('#sectTickets').innerHTML =
   '<h2 style="font-size:17px;margin:22px 0 4px">🎫 交通票据与门票</h2>'
-  + TICKETS.map(t => '<div class="card" style="padding:0;margin-bottom:12px"><div class="tk" style="border:none;border-radius:16px">'
-      + '<div class="tk-h">' + esc(t.t) + '<span class="badge ok">已确认</span></div>'
-      + '<div class="tk-b">' + t.rows.map(r => '<div class="kv"><div class="k">' + esc(r[0]) + '</div><div class="v mono">' + esc(r[1]) + '</div></div>').join('') + '</div>'
-    + '</div></div>').join('')
-  + '<h2 style="font-size:17px;margin:22px 0 4px">🏨 住宿</h2>'
-  + HOTELS.map((h, hi) => '<div class="card" style="padding:0;margin-bottom:12px"><div class="tk" style="border:none;border-radius:16px">'
-      + '<div class="tk-h">' + esc(h.city) + ' · ' + esc(h.d) + '<span class="badge ' + (h.ok ? 'ok' : 'tbd') + '">' + (h.ok ? '已确认' : '待确认') + '</span></div>'
+  + TICKETS.map(t => '<details class="card fold-card" open style="padding:0;margin-bottom:12px"><summary class="tk-h">' + esc(t.t) + '<span class="badge ok">已确认</span></summary><div class="tk-b">'
+      + t.rows.map(r => '<div class="kv"><div class="k">' + esc(r[0]) + '</div><div class="v mono">' + esc(r[1]) + '</div></div>').join('') + '</div></details>').join('');
+
+$('#sectHotels').innerHTML =
+  '<h2 style="font-size:17px;margin:22px 0 4px">🏨 住宿</h2>'
+  + HOTELS.map((h, hi) => '<details class="card fold-card" open style="padding:0;margin-bottom:12px"><summary class="tk-h">' + esc(h.city) + ' · ' + esc(h.d) + '<span class="badge ' + (h.ok ? 'ok' : 'tbd') + '">' + (h.ok ? '已确认' : '待确认') + '</span></summary>'
       + '<div class="tk-b">'
       + '<div class="kv"><div class="k">酒店</div><div class="v"><b>' + esc(h.n) + '</b> · ' + esc(h.star) + '</div></div>'
       + '<div class="kv"><div class="k">地址</div><div class="v">' + esc(h.addr) + '</div></div>'
@@ -1848,13 +1931,13 @@ $('#sectTickets').innerHTML =
       + '<div class="kv"><div class="k">金额</div><div class="v mono">' + esc(h.price) + '</div></div>'
       + '<div class="kv"><div class="k">备注</div><div class="v">' + esc(h.note) + '</div></div>'
       + '<div class="kv"><div class="k">导航</div><div class="v"><a href="' + navWeb(POIS[HOTEL_POI_KEYS[hi]]) + '" data-nav-hotel="' + hi + '">在 Google 地图开始导航</a></div></div>'
-      + '</div></div></div>').join('');
+      + '</div></details>').join('');
 
 /* ============================================================
    待办 / 贴士
    ============================================================ */
 $('#todoList').innerHTML = TODOS.map(t => '<li class="' + (t.u ? 'urg' : '') + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
-$('#tipsBox').innerHTML = TIPS.map(t => '<div style="margin-bottom:14px"><h4 style="font-size:14px;color:var(--brand)">' + esc(t.h) + '</h4><div style="font-size:13.5px;white-space:pre-line;margin-top:4px">' + esc(t.b) + '</div></div>').join('');
+$('#tipsBox').innerHTML = TIPS.map((t, i) => '<details class="tip-fold"' + (i === 0 ? ' open' : '') + '><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
 
 /* ============================================================
    预算
@@ -1888,7 +1971,7 @@ const BUDGET = {
       + '<div style="font-size:13.5px;font-weight:600;white-space:nowrap;color:' + (col || 'var(--text)') + '">' + esc(b) + '</div></div>';
   }
   function head(t){
-    return '<div style="font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--brand);margin:16px 0 2px">' + esc(t) + '</div>';
+    return '<summary style="padding:11px 12px;font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--brand);cursor:pointer;list-style:none">' + esc(t) + '</summary><div style="padding:0 12px 8px">';
   }
   function sum(a,b,col){
     return '<div style="display:flex;justify-content:space-between;gap:10px;padding:11px 12px;margin-top:8px;border-radius:10px;background:var(--surface2)">'
@@ -1896,19 +1979,19 @@ const BUDGET = {
       + '<div style="font-size:15px;font-weight:800;white-space:nowrap;color:' + col + '">' + esc(b) + '</div></div>';
   }
   var h = '';
-  h += head('已付 · 人民币 7 项');
+  h += '<details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 人民币 7 项');
   BUDGET.paid.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += sum('人民币已付合计（人均约 ¥21,133.95）', '¥42,267.90', 'var(--brand)');
-  h += head('已付 · 澳元结算，未折算');
+  h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 澳元结算，未折算');
   BUDGET.paidAud.forEach(function(x){ h += row(x.n, x.v, x.d); });
-  h += head('当地自付 · 预估，尚未发生');
+  h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('当地自付 · 预估，尚未发生');
   BUDGET.est.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += sum('含餐饮的总预估（不含澳元项与当地交通）', '¥46,767.90 – 49,467.90', 'var(--text)');
   h += '<div style="font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:12px;white-space:pre-line">'
     + esc('⚠️ 预算表原始「合计」单元格填的是 0 且无公式，¥42,267.90 是按 7 项实付金额逐项相加推算出来的，不是表格原文给出的数字。')
     + '\n' + esc('⚠️ 歌剧院讲解团以 AUD 100 结算且已全额付清，但表格未标注汇率与手续费，未计入人民币合计，请按实际刷卡汇率自行折算。')
     + '\n' + esc('🧾 悉尼酒店 ¥4,403.50 为你补充的实付金额，已计入已付合计；AUD 项均未折算，不要直接相加。')
-    + '</div>';
+    + '</div></div></details>';
   $('#budBox').innerHTML = h;
 })();
 </script>
