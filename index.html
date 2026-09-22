@@ -91,8 +91,19 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .mapbox.google #mainMap{display:none}
 .mapbox.offline .gmframe{display:none}
 .mapbox.google .svgctl{display:none!important}
+.mapbox.google .mapstatus{display:none}
 .mapstatus{position:absolute;left:8px;bottom:8px;z-index:2;background:rgba(255,255,255,.9);color:#334155;border:1px solid rgba(148,163,184,.45);border-radius:999px;padding:4px 9px;font-size:10.5px;box-shadow:0 2px 8px rgba(15,23,42,.12);pointer-events:none}
 [data-theme="dark"] .mapstatus{background:rgba(20,29,39,.9);color:#d5dbe3}
+.gmroute{display:none;position:absolute;left:8px;right:8px;bottom:8px;z-index:2;max-height:108px;overflow:auto;background:rgba(255,255,255,.94);border:1px solid rgba(148,163,184,.5);border-radius:12px;padding:7px 9px;box-shadow:0 3px 12px rgba(15,23,42,.16)}
+.mapbox.google .gmroute{display:block}
+.gr-head{font-size:10.5px;color:#475569;margin-bottom:5px;line-height:1.35;padding-right:54px}
+.gr-list{display:flex;gap:5px;overflow-x:auto;padding-bottom:1px;scrollbar-width:thin}
+.gr-item{border:1px solid #d7dee7;background:#fff;color:#243447;border-radius:999px;padding:4px 8px 4px 5px;font-size:11px;line-height:1.2;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:inherit}
+.gr-item b{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#1f7a5a;color:#fff;font-size:10px;flex:0 0 auto}
+.gr-item:hover{border-color:var(--brand);color:var(--brand)}
+[data-theme="dark"] .gmroute{background:rgba(20,29,39,.94);border-color:rgba(148,163,184,.35)}
+[data-theme="dark"] .gr-head{color:#c2cbd6}
+[data-theme="dark"] .gr-item{background:#18232f;border-color:#415064;color:#eef2f6}
 @media(max-width:700px){.mapbox svg,.gmframe{aspect-ratio:.62}}
 .mapctl{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:3}
 .mapctl button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:15px;line-height:1;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:0}
@@ -313,12 +324,13 @@ button{font-family:inherit;font-size:inherit;color:inherit}
   <!-- ===== 3. 总览地图 ===== -->
   <div class="card">
     <div class="card-title">🗺️ 行程总览地图</div>
-    <div class="sub">联网时默认使用 Google 地图；点「墨尔本 / 圣灵群岛 / 悉尼」或 D1–D10 可切换视图。Google 不可达或断网时会自动回落到离线地图，也可用右上角按钮手动切换。</div>
+    <div class="sub">联网时默认使用 Google 地图；点「墨尔本 / 圣灵群岛 / 悉尼」或 D1–D10 可切换视图。地图内 A–J 与底部名称一一对应；Google 免 Key 版最多展示前 10 站，海上 / 航班路线请切到离线图查看。Google 不可达或断网时会自动回落，也可用右上角按钮手动切换。</div>
     <div class="maptools" id="mapTools"></div>
     <div class="mapbox google" id="mapBox">
       <iframe id="gmFrame" class="gmframe" title="Google 行程地图" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
       <svg id="mainMap" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="mapctl"><button id="mapSourceBtn" class="source" title="切换到离线地图">离线图</button><button class="svgctl" id="zIn" title="放大">＋</button><button class="svgctl" id="zOut" title="缩小">－</button><button class="svgctl" id="zFit" title="回到初始视图" style="display:none">⤢</button></div>
+      <div class="gmroute" id="gmRouteLegend" aria-label="Google 地图路线地点"></div>
       <div class="mapstatus" id="mapStatus">Google 地图 · 需要联网</div>
     </div>
     <div class="ml-wrap" id="mapList"></div>
@@ -1318,26 +1330,54 @@ const REGION_VIEWS = {
   whit: { lat:-20.2675, lng:148.7183, z:11 },
   syd:  { lat:-33.8688, lng:151.2093, z:12 }
 };
-function googleEmbedURL(){
-  if(mapMode === 'region' && mapRegion){
-    const v = REGION_VIEWS[mapRegion];
-    return 'https://maps.google.com/maps?hl=zh-CN&ll=' + v.lat + ',' + v.lng + '&z=' + v.z + '&output=embed';
+function visitRank(key){
+  const ordered = allUsedKeys();
+  const i = ordered.indexOf(key);
+  return i < 0 ? 9999 : i;
+}
+function googleRouteKeys(){
+  let keys;
+  if(mapMode === 'day' && mapDay != null) keys = dayKeys(DAYS[mapDay]);
+  else if(mapMode === 'region' && mapRegion){
+    keys = REGIONS[mapRegion].keys.slice().sort((a, b) => visitRank(a) - visitRank(b));
+  }else if(mapMode === 'all') keys = allUsedKeys();
+  else keys = dayKeys(DAYS[1]); /* 默认先展示抵达墨尔本当天，路线最直观 */
+  return keys.filter((k, i) => POIS[k] && inRange(POIS[k]) && keys.indexOf(k) === i).slice(0, 10);
+}
+function googleRouteLabel(){
+  if(mapMode === 'day' && mapDay != null) return 'D' + DAYS[mapDay].n + ' · ' + DAYS[mapDay].title;
+  if(mapMode === 'region' && mapRegion) return REGIONS[mapRegion].n;
+  if(mapMode === 'all') return '全部行程（按游玩顺序取前 10 站）';
+  return '默认路线 · D2 抵达墨尔本';
+}
+function renderGoogleRouteLegend(keys){
+  const box = $('#gmRouteLegend'); if(!box) return;
+  if(!keys.length){
+    box.innerHTML = '<div class="gr-head">' + esc(googleRouteLabel()) + ' · 当天为跨境航班，Google 地图无可用的澳洲地面路线</div>';
+    return;
   }
-  if(mapMode === 'day' && mapDay != null){
-    const keys = dayKeys(DAYS[mapDay]).filter(k => POIS[k] && inRange(POIS[k]));
-    const pts = keys.slice(0, 10).map(k => POIS[k]);
-    if(pts.length === 1) return 'https://maps.google.com/maps?hl=zh-CN&q=' + pts[0].lat + ',' + pts[0].lng + '&z=15&output=embed';
-    if(pts.length > 1){
-      const dest = pts.slice(1).map(p => p.lat + ',' + p.lng).join('+to:');
-      return 'https://maps.google.com/maps?hl=zh-CN&saddr=' + pts[0].lat + ',' + pts[0].lng
-        + '&daddr=' + encodeURIComponent(dest) + '&dirflg=d&output=embed';
-    }
+  box.innerHTML = '<div class="gr-head">' + esc(googleRouteLabel()) + ' · A–J 对应地图路线标记，点名称看详情</div>'
+    + '<div class="gr-list">' + keys.map((k, i) => '<button class="gr-item" data-poi="' + k + '"><b>'
+      + String.fromCharCode(65 + i) + '</b>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
+}
+function googleEmbedURL(routeKeys){
+  const keys = routeKeys || googleRouteKeys();
+  const pts = keys.map(k => POIS[k]);
+  const view = mapMode === 'region' && mapRegion ? REGION_VIEWS[mapRegion] : null;
+  const viewPart = view ? '&ll=' + view.lat + ',' + view.lng + '&z=' + view.z : '';
+  if(pts.length === 1) return 'https://maps.google.com/maps?hl=zh-CN&q=' + pts[0].lat + ',' + pts[0].lng + '&z=15&output=embed';
+  if(pts.length > 1){
+    const dest = pts.slice(1).map(p => p.lat + ',' + p.lng).join('+to:');
+    return 'https://maps.google.com/maps?hl=zh-CN' + viewPart + '&saddr=' + pts[0].lat + ',' + pts[0].lng
+      + '&daddr=' + dest + '&dirflg=d&output=embed';
   }
   return 'https://maps.google.com/maps?hl=zh-CN&ll=-26.2744,134.7751&z=4&output=embed';
 }
 function updateGoogleMap(){
+  const keys = googleRouteKeys();
+  renderGoogleRouteLegend(keys);
   if(!googleMapStarted || !gmFrame) return;
-  const url = googleEmbedURL();
+  const url = googleEmbedURL(keys);
   if(gmFrame.getAttribute('src') !== url) gmFrame.setAttribute('src', url);
 }
 function setMapSource(source, manual){
@@ -1470,6 +1510,10 @@ $('#zFit').onclick = resetZoom;
 $('#mapSourceBtn').onclick = function(){ setMapSource(mapSource === 'google' ? 'offline' : 'google', true); };
 $('#mapList').addEventListener('click', e => {
   const b = e.target.closest('.ml-item'); if(!b) return;
+  openPOI(b.dataset.poi);
+});
+$('#gmRouteLegend').addEventListener('click', e => {
+  const b = e.target.closest('.gr-item'); if(!b) return;
   openPOI(b.dataset.poi);
 });
 /* 指针交互：双指捏合缩放 + （放大后）单指拖动；没放大时单指滑动留给页面滚动 */
