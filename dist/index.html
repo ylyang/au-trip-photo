@@ -1748,9 +1748,9 @@ function itemHTML(d, di, it, ii){
   const titleHtml = poi ? '<span class="placelink" data-poi="' + it.p + '">' + esc(it.ttl) + '</span>' : esc(it.ttl);
   return (it.tr ? '<div class="transfer">🚶 ' + esc(it.tr) + '</div>' : '')
     + '<div class="item' + (on ? ' done' : '') + '" data-id="' + id + '">'
-    + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="false">'
+    + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="true">'
     + '<span class="item-summary-time">' + summaryTime + '</span><span class="item-summary-title">' + esc(it.ttl) + '</span><span class="item-caret">▶</span></button>'
-    + '<div class="item-body" hidden><div class="it-row">'
+    + '<div class="item-body"><div class="it-row">'
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
     + '<div class="it-title">' + titleHtml + '</div>'
@@ -1783,7 +1783,7 @@ function dayHTML(d, i){
       + (route.includes(k) ? String.fromCharCode(65 + route.indexOf(k)) + ' · ' : '') + esc(POIS[k].n) + '</button>').join('') + '</div></div>';
   const navKeys = dayKeys(d);
   const hotelP = d.hotel && POIS[d.hotel] ? POIS[d.hotel] : null;
-  return '<div class="day" data-day="' + i + '">'
+  return '<div class="day open" data-day="' + i + '">'
     + '<div class="day-head">'
     + '<div class="day-badge" style="background:' + DC[i % DC.length] + '"><div class="dn">D' + d.n + '</div><div class="dd">' + d.date.slice(5).replace('-', '/') + '</div></div>'
     + '<div class="day-meta"><h3>' + esc(d.title) + '</h3><div class="dm">' + d.date.slice(5).replace('-', '/') + ' ' + esc(d.wd) + ' · ' + esc(d.city) + '</div></div>'
@@ -1810,7 +1810,8 @@ $('#timeline').innerHTML = DAYS.map(dayHTML).join('');
 /* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
 $('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + '</button>').join('');
 function showSection(section, dayIndex){
-  const target = section === 'itinerary' ? 'section-itinerary' : 'section-' + section;
+  const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', tips:'sectTips', budget:'sectBudget' };
+  const target = sectionIds[section] || 'section-overview';
   document.querySelectorAll('.page-section').forEach(s => s.classList.toggle('active', s.id === target));
   document.querySelectorAll('.section-link').forEach(b => b.classList.remove('on'));
   const links = Array.from(document.querySelectorAll('.section-link'));
@@ -1937,7 +1938,7 @@ $('#sectHotels').innerHTML =
    待办 / 贴士
    ============================================================ */
 $('#todoList').innerHTML = TODOS.map(t => '<li class="' + (t.u ? 'urg' : '') + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
-$('#tipsBox').innerHTML = TIPS.map((t, i) => '<details class="tip-fold"' + (i === 0 ? ' open' : '') + '><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
+$('#tipsBox').innerHTML = TIPS.map(t => '<details class="tip-fold" open><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
 
 /* ============================================================
    预算
