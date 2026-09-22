@@ -83,6 +83,20 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .clock .cz{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:baseline;gap:6px}
 .clock .ct{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px}
 .clock .cw{font-size:11.5px;color:var(--muted);margin-top:1px}
+.day-timebox{margin:4px 0 12px;padding:10px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(135deg,var(--surface2),var(--surface))}
+.day-time-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;font-size:11.5px;color:var(--muted)}
+.day-time-head b{color:var(--brand);font-size:12.5px}
+.day-timebox .cd-grid{margin:0;gap:5px}
+.day-timebox .cd-cell{padding:7px 3px;border-radius:9px}
+.day-timebox .cd-num{font-size:19px}
+.day-timebox .cd-lab{font-size:10px}
+.day-timebox .cd-next{font-size:12px;padding:7px 9px;margin-top:7px}
+.day-timebox .day-clocks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:7px}
+.day-timebox .clock{padding:6px 7px;border-radius:9px}
+.day-timebox .clock .cz{font-size:9px}
+.day-timebox .clock .ct{font-size:15px}
+.day-timebox .clock .cw{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:520px){.day-timebox .day-clocks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ---------- 地图 ---------- */
 .mapbox{position:relative;background:var(--surface2);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
@@ -139,6 +153,15 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .tcap{position:absolute;left:0;right:0;bottom:0;padding:14px 5px 3px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.78));color:#fff;font-size:10px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .tday{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.55);color:#fff;font-size:9px;font-weight:700;border-radius:5px;padding:1px 5px;pointer-events:none;letter-spacing:.3px}
 .tday.cur{background:var(--brand)}
+.hero .hc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:clamp(58px,9vw,108px);gap:4px;padding:4px;background:#17242a}
+.hero .hc .t{width:auto;height:auto;aspect-ratio:auto;min-height:0;flex:none}
+.hero .hc .t:first-child{grid-column:span 2;grid-row:span 2}
+.hero .hc .t:nth-child(5){grid-column:span 2}
+.hero .hc .t:nth-child(9){grid-column:span 2;grid-row:span 2}
+.hero .hc .t:nth-child(14){grid-column:span 2}
+.hero .hc .t img{filter:saturate(.92) contrast(1.04)}
+.hero .hc .t:hover img{transform:scale(1.04);filter:saturate(1.12) contrast(1.05);transition:transform .35s ease,filter .35s ease}
+@media(max-width:720px){.hero .hc{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(58px,18vw,92px)}.hero .hc .t:nth-child(5),.hero .hc .t:nth-child(14){grid-column:span 2}}
 .sh-days{list-style:none;padding:0;margin:0}
 .sh-days li{padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;line-height:1.5;cursor:pointer}
 .sh-days li:hover{color:var(--brand)}
@@ -150,7 +173,7 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 
 /* ---------- 时间轴 ---------- */
 .day{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
-.day-head{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;user-select:none}
+.day-head{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:default;user-select:none}
 .day-badge{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:800;line-height:1;box-shadow:var(--shadow)}
 .day-badge .dn{font-size:16px}
 .day-badge .dd{font-size:9.5px;opacity:.92;margin-top:2px;font-weight:600}
@@ -163,6 +186,7 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 [data-theme="dark"] .prog.done{color:#0e151d}
 .caret{font-size:11px;color:var(--muted);transition:transform .2s}
 .day.open .caret{transform:rotate(90deg)}
+.day-head .caret{display:none}
 .day-body{display:none;border-top:1px solid var(--line);padding:6px 14px 14px}
 .day.open .day-body{display:block}
 .page-section{display:none}
@@ -209,6 +233,9 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .it-title .placelink{cursor:pointer}
 .it-title .placelink:hover{color:var(--brand)}
 .it-desc{font-size:13px;color:var(--muted);margin-top:3px;white-space:pre-line}
+.item-place{font-size:12px;color:var(--brand);margin-top:6px}
+.item-place .placelink{cursor:pointer}
+.item-place .placelink:hover{text-decoration:underline}
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
 .tag{font-size:11px;border-radius:6px;padding:2px 7px;font-weight:600;line-height:1.6}
 .tag.flight{background:var(--accent-soft);color:var(--accent)}
@@ -1214,14 +1241,42 @@ function tzLabel(z, dt){
   if(z === 'Australia/Brisbane') return 'AEST · UTC+10';
   return dt.getTime() >= DST_START ? 'AEDT · UTC+11' : 'AEST · UTC+10';
 }
-function renderClocks(){
-  const now = new Date();
-  $('#clocks').innerHTML = ZONES.map(z => {
+function clocksHTML(now){
+  return ZONES.map(z => {
     const c = CLIMATE[z];
     return '<div class="clock"><div class="cz"><span><b>' + c.n + '</b> · ' + tzLabel(z, now) + '</span><span>' + fmtMD(z, now) + '</span></div>'
       + '<div class="ct">' + fmtTZ(z, now) + '</div>'
       + '<div class="cw">' + c.t + ' · ' + c.w + '</div></div>';
   }).join('');
+}
+function renderClocks(){
+  const now = new Date();
+  $('#clocks').innerHTML = clocksHTML(now);
+}
+function renderDayTimeboxes(nowMs){
+  const now = new Date(nowMs);
+  document.querySelectorAll('[data-day-time]').forEach(box => {
+    const i = +box.dataset.dayTime;
+    const events = EVENTS.filter(e => e.di === i);
+    const start = events.length ? events[0].u : Date.parse(DAYS[i].date + 'T00:00:00+10:00');
+    const end = events.length ? events[events.length - 1].u + 3600000 : start + 86400000;
+    let target, label;
+    if(nowMs < start){ target = start; label = '距 D' + DAYS[i].n + ' 开始'; }
+    else if(nowMs <= end){ target = end; label = '距 D' + DAYS[i].n + ' 行程结束'; }
+    else { target = nowMs; label = 'D' + DAYS[i].n + ' 已完成'; }
+    let ms = Math.max(0, target - nowMs);
+    const D = Math.floor(ms / 86400000); ms -= D * 86400000;
+    const H = Math.floor(ms / 3600000); ms -= H * 3600000;
+    const M = Math.floor(ms / 60000); ms -= M * 60000;
+    const S = Math.floor(ms / 1000);
+    ['d','h','m','s'].forEach((part, n) => { const el = box.querySelector('[data-day-part="' + part + '"]'); if(el) el.textContent = [D,H,M,S][n]; });
+    const next = box.querySelector('[data-day-next]');
+    if(next) next.innerHTML = '<b>' + label + '</b>' + (events.length && nowMs < start ? ' · ' + esc(events[0].it.ttl) : '');
+    const tz = box.querySelector('[data-day-tzlabel]');
+    if(tz) tz.textContent = '当前 ' + fmtMD('Australia/Melbourne', now) + ' · ' + tzLabel('Australia/Melbourne', now);
+    const clocks = box.querySelector('[data-day-clocks]');
+    if(clocks) clocks.innerHTML = clocksHTML(now);
+  });
 }
 function tick(){
   const now = Date.now();
@@ -1245,6 +1300,7 @@ function tick(){
       + '<br><span style="font-size:12px;opacity:.8">' + esc(nx.day.city) + '</span>';
   }
   renderClocks();
+  renderDayTimeboxes(now);
 }
 tick(); setInterval(tick, 1000);
 
@@ -1776,7 +1832,7 @@ function itemHTML(d, di, it, ii){
     ? '<div class="t" style="color:var(--muted);font-size:12px">待定</div><div class="z">' + esc(it.tz) + '</div>'
     : '<div class="t">' + esc(it.t) + '</div><div class="z">' + esc(it.tz) + '</div>';
   const summaryTime = it.t === '--:--' ? '待定' : esc(it.t);
-  const titleHtml = poi ? '<span class="placelink" data-poi="' + it.p + '">' + esc(it.ttl) + '</span>' : esc(it.ttl);
+  const placeLink = poi ? '<div class="item-place"><span class="placelink" data-poi="' + it.p + '">📍 查看地点详情</span></div>' : '';
   return (it.tr ? '<div class="transfer">🚶 ' + esc(it.tr) + '</div>' : '')
     + '<div class="item' + (on ? ' done' : '') + '" data-id="' + id + '">'
     + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="true">'
@@ -1784,12 +1840,24 @@ function itemHTML(d, di, it, ii){
     + '<div class="item-body"><div class="it-row">'
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
-    + '<div class="it-title">' + titleHtml + '</div>'
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
+    + placeLink
     + (tags ? '<div class="tags">' + tags + '</div>' : '')
     + '</div>'
     + '<button class="ck' + (on ? ' on' : '') + '" data-ck="' + id + '">' + (on ? '✓ 已打卡' : '○ 打卡') + '</button>'
     + '</div></div></div>';
+}
+
+function dayTimeHTML(i, d){
+  return '<div class="day-timebox" data-day-time="' + i + '">'
+    + '<div class="day-time-head"><b>⏱ D' + d.n + ' 当天时间</b><span data-day-tzlabel="' + i + '">正在同步</span></div>'
+    + '<div class="cd-grid">'
+    + '<div class="cd-cell"><div class="cd-num" data-day-part="d">--</div><div class="cd-lab">天</div></div>'
+    + '<div class="cd-cell"><div class="cd-num" data-day-part="h">--</div><div class="cd-lab">时</div></div>'
+    + '<div class="cd-cell"><div class="cd-num" data-day-part="m">--</div><div class="cd-lab">分</div></div>'
+    + '<div class="cd-cell"><div class="cd-num" data-day-part="s">--</div><div class="cd-lab">秒</div></div></div>'
+    + '<div class="cd-next" data-day-next="' + i + '">正在计算…</div>'
+    + '<div class="day-clocks" data-day-clocks="' + i + '"></div></div>';
 }
 
 function dayHTML(d, i){
@@ -1818,9 +1886,10 @@ function dayHTML(d, i){
     + '<div class="day-head">'
     + '<div class="day-badge" style="background:' + DC[i % DC.length] + '"><div class="dn">D' + d.n + '</div><div class="dd">' + d.date.slice(5).replace('-', '/') + '</div></div>'
     + '<div class="day-meta"><h3>' + esc(d.title) + '</h3><div class="dm">' + d.date.slice(5).replace('-', '/') + ' ' + esc(d.wd) + ' · ' + esc(d.city) + '</div></div>'
-    + '<div class="day-right"><span class="prog' + (showProg && done === counted.length ? ' done' : '') + '">' + progTxt + '</span><span class="caret">▶</span></div>'
+    + '<div class="day-right"><span class="prog' + (showProg && done === counted.length ? ' done' : '') + '">' + progTxt + '</span></div>'
     + '</div>'
     + '<div class="day-body">'
+    + dayTimeHTML(i, d)
     + dayCollage(i)
     + (d.warn ? '<div class="warnbox"><b>风险提示</b><div style="margin-top:5px">' + esc(d.warn) + '</div></div>' : '')
     + mapPart
@@ -1837,6 +1906,7 @@ function dayHTML(d, i){
     + '</div></div>';
 }
 $('#timeline').innerHTML = DAYS.map(dayHTML).join('');
+renderDayTimeboxes(Date.now());
 
 /* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
 $('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + '</button>').join('');
@@ -1876,8 +1946,6 @@ renderDayMaps();
 
 /* 折叠 */
 $('#timeline').addEventListener('click', e => {
-  const head = e.target.closest('.day-head');
-  if(head){ head.parentElement.classList.toggle('open'); return; }
   const itemToggle = e.target.closest('[data-item-toggle]');
   if(itemToggle){
     const item = itemToggle.closest('.item');
