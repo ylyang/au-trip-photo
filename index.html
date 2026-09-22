@@ -1690,7 +1690,11 @@ function dayListHTML(key){
 }
 function poiPhotoKeys(key){
   const keys = PHOTOS[key] ? [key] : [];
-  DAYS.forEach(d => dayKeys(d).forEach(k => {
+  const nearby = poiDays(key);
+  nearby.forEach(i => dayKeys(DAYS[i]).forEach(k => {
+    if(k !== key && PHOTOS[k] && !keys.includes(k)) keys.push(k);
+  }));
+  if(keys.length < 3) DAYS.forEach(d => dayKeys(d).forEach(k => {
     if(k !== key && PHOTOS[k] && !keys.includes(k)) keys.push(k);
   }));
   return keys.slice(0, 5);
