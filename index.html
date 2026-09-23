@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#f7f5ef">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="澳洲旅行手册">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>澳大利亚 10 天 · 旅行手册</title>
 <style>
 :root{
@@ -69,6 +72,33 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .card-title{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:12px}
 .card-title .ic{width:22px;height:22px;flex:0 0 22px}
 .sub{font-size:12.5px;color:var(--muted);margin-top:-6px;margin-bottom:12px}
+.preflight-card{border-top:3px solid var(--brand2);padding:14px 15px}
+.preflight-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.preflight-kicker{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand2);font-weight:800}
+.preflight-head .card-title{margin:2px 0 0;font-size:16px}
+.preflight-count{flex:0 0 auto;border-radius:999px;padding:4px 9px;background:var(--brand2-soft);color:var(--brand2);font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.preflight-count.all-done{background:var(--brand-soft);color:var(--brand)}
+.preflight-list{display:grid;gap:6px}
+.preflight-item{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:center;padding:8px 9px;border:1px solid var(--line);border-radius:11px;background:var(--surface2);transition:.18s ease}
+.preflight-item:hover{border-color:var(--brand2)}
+.preflight-item.done{opacity:.6;border-color:var(--brand)}
+.preflight-item.done .preflight-text{text-decoration:line-through}
+.preflight-check{width:26px;height:26px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--muted);font:inherit;font-size:13px;line-height:1;cursor:pointer}
+.preflight-check:hover{border-color:var(--brand);color:var(--brand)}
+.preflight-item.done .preflight-check{border-color:var(--brand);background:var(--brand);color:#fff}
+[data-theme="dark"] .preflight-item.done .preflight-check{color:#0e151d}
+.preflight-text{font-size:13px;line-height:1.45}
+.preflight-foot{margin-top:8px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.next-event-card{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface));}
+.next-event-icon{flex:0 0 auto;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:18px}
+.next-event-main{flex:1;min-width:0}
+.next-event-kicker{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.next-event-title{margin-top:2px;font-size:14.5px;font-weight:800;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.next-event-meta{margin-top:2px;font-size:12px;color:var(--muted);line-height:1.45}
+.next-event-btn{flex:0 0 auto;border:1px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:999px;padding:6px 10px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.next-event-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .next-event-btn:hover{color:#0e151d}
+@media(max-width:520px){.next-event-card{align-items:flex-start}.next-event-btn{align-self:center;padding:6px 8px}.next-event-title{white-space:normal}}
 
 /* ---------- 倒计时 ---------- */
 .cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 4px}
@@ -172,7 +202,7 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .mapbox svg.zoomed [filter]{filter:none!important}
 
 /* ---------- 时间轴 ---------- */
-.day{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;content-visibility:auto;contain-intrinsic-size:620px}
 .day-head{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:default;user-select:none}
 .day-badge{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:800;line-height:1;box-shadow:var(--shadow)}
 .day-badge .dn{font-size:16px}
@@ -387,6 +417,18 @@ button{font-family:inherit;font-size:inherit;color:inherit}
       <p>2026.10.01 – 10.10 · 墨尔本 · 圣灵群岛 · 悉尼 · 2 人同行 · 真实照片版</p>
     </div>
   </div>
+
+  <!-- ===== 2. 出发前确认 / 下一项 ===== -->
+  <div class="card preflight-card" id="preflightCard" aria-labelledby="preflightTitle">
+    <div class="preflight-head">
+      <div><div class="preflight-kicker">出发前检查</div><div class="card-title" id="preflightTitle">⚠️ 必须确认事项</div></div>
+      <span class="preflight-count" id="preflightCount" aria-live="polite">--</span>
+    </div>
+    <div class="preflight-list" id="preflightList"></div>
+    <div class="preflight-foot">点击圆点可标记已确认；状态保存在当前设备，不会上传到公开网页。</div>
+  </div>
+
+  <div class="card next-event-card" id="nextEventCard" aria-live="polite"></div>
 
   <!-- ===== 2. 倒计时 ===== -->
   <div class="card">
@@ -846,7 +888,7 @@ function poiDays(key){
   DAYS.forEach((d, i) => { if(d.hotel === key || d.items.some(it => it.p === key)) r.push(i); });
   return r;
 }
-function tileHTML(k, curDay){
+function tileHTML(k, curDay, priority){
   const p = POIS[k] || {n:''};
   const days = poiDays(k);
   let badge = '';
@@ -854,19 +896,20 @@ function tileHTML(k, curDay){
     badge = '<span class="tday' + (curDay != null && days.indexOf(curDay) >= 0 ? ' cur' : '') + '">'
       + days.map(i => 'D' + DAYS[i].n).join('·') + '</span>';
   }
+  const load = priority ? ' loading="eager" fetchpriority="high"' : ' loading="lazy" fetchpriority="low"';
   return '<div class="t" data-poi="' + k + '" title="' + esc(p.n) + '">'
-    + '<img src="' + PHOTOS[k] + '" alt="' + esc(p.n) + ' 实景照片" loading="lazy">'
+    + '<img src="' + PHOTOS[k] + '" alt="' + esc(p.n) + ' 实景照片" decoding="async"' + load + '>'
     + badge
     + '<span class="tcap">' + esc(p.n) + '</span></div>';
 }
-function collageHTML(keys){ return keys.filter(k => PHOTOS[k]).map(k => tileHTML(k, null)).join(''); }
+function collageHTML(keys){ return keys.filter(k => PHOTOS[k]).map((k, i) => tileHTML(k, null, i === 0)).join(''); }
 function dayPhotoKeys(i){
   return dayKeys(DAYS[i]).filter(k => PHOTOS[k]).slice(0, 6);
 }
 function dayCollage(i){
   const ks = dayPhotoKeys(i);
   if(!ks.length) return '';
-  return '<div class="dcol" data-dc="' + i + '">' + ks.map(kk => tileHTML(kk, i)).join('') + '</div>';
+  return '<div class="dcol" data-dc="' + i + '">' + ks.map(kk => tileHTML(kk, i, false)).join('') + '</div>';
 }
 
 const DC = ['#c05f3f','#2c6d95','#1f7a5a','#b8862b','#8e5fa8','#3f8f9a','#c2685f','#5a7d9a','#6b8f4e','#a0623a','#7a7f8c'];
@@ -1299,9 +1342,33 @@ function renderDayTimeboxes(nowMs){
     if(clocks) clocks.innerHTML = clocksHTML(now);
   });
 }
+function durationText(ms){
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const d = Math.floor(total / 86400), h = Math.floor((total % 86400) / 3600), m = Math.floor((total % 3600) / 60);
+  if(d > 0) return d + ' 天 ' + h + ' 小时后';
+  if(h > 0) return h + ' 小时 ' + m + ' 分后';
+  return m + ' 分钟后';
+}
+function renderNextEvent(nowMs, nx){
+  const card = $('#nextEventCard');
+  if(!card) return;
+  if(!nx){
+    card.innerHTML = '<div class="next-event-icon">✓</div><div class="next-event-main"><div class="next-event-kicker">行程状态</div><div class="next-event-title">10 天行程已完成</div><div class="next-event-meta">可以在时间轴和照片墙中回顾本次旅程。</div></div>';
+    return;
+  }
+  const p = nx.it.p && POIS[nx.it.p] ? POIS[nx.it.p] : null;
+  const when = nx.day.date.slice(5).replace('-', '/') + ' · ' + nx.it.t + ' ' + nx.it.tz;
+  const where = p ? '📍 ' + p.n : nx.day.city;
+  card.innerHTML = '<div class="next-event-icon">⏭</div>'
+    + '<div class="next-event-main"><div class="next-event-kicker">下一项行程 · ' + durationText(nx.u - nowMs) + '</div>'
+    + '<div class="next-event-title">D' + nx.day.n + ' · ' + esc(nx.it.ttl) + '</div>'
+    + '<div class="next-event-meta">' + esc(when) + ' · ' + esc(where) + '</div></div>'
+    + '<button type="button" class="next-event-btn" data-next-jump="' + nx.di + '">查看当天</button>';
+}
 function tick(){
   const now = Date.now();
   let nx = EVENTS.find(e => e.u > now);
+  renderNextEvent(now, nx);
   let label = '';
   if(!nx){
     $('#cdD').textContent = '0'; $('#cdH').textContent = '0'; $('#cdM').textContent = '0'; $('#cdS').textContent = '0';
@@ -1779,7 +1846,7 @@ function poiPhotoKeys(key){
 function poiGalleryHTML(key){
   const keys = poiPhotoKeys(key);
   const gallery = keys.length ? '<div class="poi-gallery" aria-label="相关实景照片">'
-    + keys.map(k => '<figure data-gallery-src="' + PHOTOS[k] + '"><img src="' + PHOTOS[k] + '" alt="' + esc((POIS[k] || {}).n || '') + ' 实景照片" loading="lazy"><figcaption>' + esc((POIS[k] || {}).n || '') + '</figcaption></figure>').join('')
+    + keys.map(k => '<figure data-gallery-src="' + PHOTOS[k] + '"><img src="' + PHOTOS[k] + '" alt="' + esc((POIS[k] || {}).n || '') + ' 实景照片" loading="lazy" decoding="async" fetchpriority="low"><figcaption>' + esc((POIS[k] || {}).n || '') + '</figcaption></figure>').join('')
     + '</div>' : '';
   return gallery
     + '<div class="photo-source"><span>📷 同行程实景与相关机位</span><a href="https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent((POIS[key] || {}).n || '') + '" target="_blank" rel="noopener">查看小红书热门图 ↗</a></div>';
@@ -1964,6 +2031,13 @@ $('#sectionNav').addEventListener('click', e => {
   const section = b.dataset.section;
   showSection(section, b.dataset.dayNav == null ? null : +b.dataset.dayNav);
 });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-next-jump]');
+  if(!b) return;
+  showSection('itinerary', +b.dataset.nextJump);
+  const day = document.querySelector('.day[data-day="' + b.dataset.nextJump + '"]');
+  if(day) setTimeout(() => day.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+});
 
 /* Google 不可达时每日地图也保留原有离线图 */
 function renderDayMaps(){
@@ -2071,6 +2145,31 @@ $('#sectHotels').innerHTML =
 $('#todoList').innerHTML = TODOS.map(t => '<li class="' + (t.u ? 'urg' : '') + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
 $('#tipsBox').innerHTML = TIPS.map(t => '<details class="tip-fold" open><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
 
+/* 首页出发前确认卡：只取标记为紧急的待办，并在本设备保存确认状态 */
+let PF = {};
+try{ PF = JSON.parse(localStorage.getItem('au26_preflight') || '{}'); }catch(e){ PF = {}; }
+function savePF(){ try{ localStorage.setItem('au26_preflight', JSON.stringify(PF)); }catch(e){} }
+function renderPreflight(){
+  const list = $('#preflightList'), count = $('#preflightCount');
+  if(!list || !count) return;
+  const must = TODOS.filter(t => t.u);
+  const done = must.filter((_, i) => !!PF[i]).length;
+  count.textContent = done + '/' + must.length + ' 已确认';
+  count.classList.toggle('all-done', done === must.length);
+  list.innerHTML = must.map((t, i) => '<div class="preflight-item' + (PF[i] ? ' done' : '') + '" data-preflight="' + i + '">'
+    + '<button type="button" class="preflight-check" aria-label="' + (PF[i] ? '取消确认' : '标记已确认') + '">' + (PF[i] ? '✓' : '○') + '</button>'
+    + '<div class="preflight-text">' + esc(t.t) + '</div></div>').join('');
+}
+renderPreflight();
+$('#preflightList').addEventListener('click', e => {
+  const row = e.target.closest('[data-preflight]');
+  if(!row) return;
+  const i = row.dataset.preflight;
+  PF[i] = !PF[i];
+  savePF();
+  renderPreflight();
+});
+
 /* ============================================================
    预算
    ============================================================ */
@@ -2126,6 +2225,13 @@ const BUDGET = {
     + '</div></div></details>';
   $('#budBox').innerHTML = h;
 })();
+
+/* 公开网址启用 PWA 缓存；本地 file:// 预览不注册 Service Worker */
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js', { scope:'./' }).catch(function(){});
+  });
+}
 </script>
 </body>
 </html>
