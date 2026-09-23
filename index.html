@@ -321,6 +321,11 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .photo-source{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0 12px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-size:12px;color:var(--muted)}
 .photo-source a{flex:0 0 auto;color:var(--brand);font-weight:700;text-decoration:none}
 .photo-source a:hover{text-decoration:underline}
+.xhs-note{display:grid;gap:4px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,var(--surface2),var(--surface));color:var(--text);text-decoration:none}
+.xhs-note:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:var(--shadow)}
+.xhs-note-title{font-weight:700;font-size:13px;line-height:1.4}
+.xhs-note-meta{font-size:11px;color:var(--brand)}
+.xhs-note-tip{font-size:12px;color:var(--muted);line-height:1.5}
 @media(max-width:420px){.poi-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:110px}.poi-gallery figure:first-child{grid-column:span 2;grid-row:auto}}
 .lb{position:fixed;inset:0;z-index:120;background:rgba(8,12,18,.94);display:none;align-items:center;justify-content:center;padding:14px}
 .lb.on{display:flex}
@@ -806,6 +811,22 @@ const CREDITS = {
   exhibition:'DXR · CC BY-SA 4.0 / Wikimedia Commons',
   lagoon:'Niki Gango · CC BY-SA 3.0 / Wikimedia Commons',
   coralsea:'Richard N Horne · CC BY 4.0 / Wikimedia Commons'
+};
+
+/* 小红书公开笔记灵感：只保存标题、互动量和原笔记入口，不复制平台原图 */
+const XHS_NOTES = {
+  flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
+  hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
+  blockarcade:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'皇家拱廊中段拱形栏杆与玻璃顶适合侧身回头拍，傍晚暖灯氛围更好。'},
+  whitehaven:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',url:'https://www.xiaohongshu.com/search_result/6aa919e4000000002502f0b4?xsec_token=ABR0H7x_ISxnNX1dB7Q19dGB2FCuDzwTrxtG81oAr3REs=&xsec_source=',tip:'白天堂沙滩建议提前确认潮汐、接送码头和防晒装备，海上活动留出天气备选。'},
+  heartreef:{title:'解锁爱心大堡礁',likes:'18',url:'https://www.xiaohongshu.com/search_result/6aa0bc9a000000002900cc52?xsec_token=ABEu04cg0d4w3Du5rFSGjVRyxs0wW3jH6KhUUdLetGvdo=&xsec_source=',tip:'观光飞机拍心形礁时优先选靠窗座位，提前确认起飞时间和天气。'},
+  hillinlet:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',url:'https://www.xiaohongshu.com/search_result/6aa919e4000000002502f0b4?xsec_token=ABR0H7x_ISxnNX1dB7Q19dGB2FCuDzwTrxtG81oAr3REs=&xsec_source=',tip:'希尔湾观景台适合拍沙纹和潮汐变化，白色沙滩与蓝绿色海水形成天然构图。'},
+  operahouse:{title:'为了这9张图，专门去了趟悉尼',likes:'61',url:'https://www.xiaohongshu.com/search_result/6a994d21000000001001dbde?xsec_token=ABJZIflPuSdBJXCQFcy2JyGN8t_KyNMQfG-cd8dJmJJNk=&xsec_source=',tip:'悉尼歌剧院可从环形码头、皇家植物园和海港大桥三个方向取景，注意避开正午硬光。'},
+  hbrbridge:{title:'悉尼两日游路线图＋拍照时间保姆攻略',likes:'40',url:'https://www.xiaohongshu.com/search_result/6aa15f32000000001200170e?xsec_token=ABhSjVvyfuCJrnwd_xnR1K_QJG71ZraLYvBclO9blF7Kw=&xsec_source=',tip:'海港大桥和歌剧院适合安排在日落前后，蓝调时刻可以同时拍到灯光与天空层次。'},
+  bondi:{title:'悉尼最美的机位',likes:'25',url:'https://www.xiaohongshu.com/search_result/69872ebb000000001a0208a3?xsec_token=ABpt4pyh_bSAqaYCpFV7aepYUCrWjN-MRf0XZjFS0WauQ=&xsec_source=',tip:'邦迪海滩沿海岸步道取景，上午光线更干净，注意海风和台阶安全。'},
+  penguin:{title:'坐蒸汽小火车去看小企鹅',likes:'3',url:'https://www.xiaohongshu.com/search_result/6a4652e00000000008027eb4?xsec_token=AB1UDW5xPBkt4lruWLHhXMcEH68WA7Mt-gJim7u4ZU9ig=&xsec_source=',tip:'菲利普岛看企鹅要提前确认入场时间，现场不要使用闪光灯，也不要越过观景线。'},
+  brighton:{title:'墨尔本必打卡：彩虹小屋＋菲利普岛',likes:'5',url:'https://www.xiaohongshu.com/search_result/6a8e001d000000002003d4a6?xsec_token=ABsnH3wKPME9CW_2oklvGogkxWDjey0cY4-tQhCwmDXyE=&xsec_source=',tip:'彩虹小屋适合用连续色块做构图，建议避开人流高峰并尊重私人门前空间。'},
+  puffing:{title:'墨尔本一日游｜坐蒸汽小火车去看',likes:'3',url:'https://www.xiaohongshu.com/search_result/6a4652e00000000008027eb4?xsec_token=AB1UDW5xPBkt4lruWLHhXMcEH68WA7Mt-gJim7u4ZU9ig=&xsec_source=',tip:'蒸汽小火车沿途适合拍车厢、森林和木桥，提前确认发车站与返程班次。'}
 };
 
 
@@ -1763,6 +1784,15 @@ function poiGalleryHTML(key){
   return gallery
     + '<div class="photo-source"><span>📷 同行程实景与相关机位</span><a href="https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent((POIS[key] || {}).n || '') + '" target="_blank" rel="noopener">查看小红书热门图 ↗</a></div>';
 }
+function xhsInspirationHTML(key){
+  const n = XHS_NOTES[key];
+  if(!n) return '';
+  return '<div class="sh-sec xhs-inspiration"><h4>小红书热门灵感</h4>'
+    + '<a class="xhs-note" href="' + n.url + '" target="_blank" rel="noopener">'
+    + '<span class="xhs-note-title">' + esc(n.title) + '</span>'
+    + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　↗ 打开原笔记</span>'
+    + '<span class="xhs-note-tip">' + esc(n.tip) + '</span></a></div>';
+}
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
   const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点' }[p.kind] || '地点';
@@ -1776,7 +1806,8 @@ function openPOI(key){
     + '<div class="sh-sec"><h4>体验建议</h4><ul>' + p.tip.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
     + poiGalleryHTML(key)
     + '<div class="shot-cap"><span>📷</span><span><b>' + esc((p.ph && p.ph[0]) || '') + '</b>　实景照片· ' + esc(CREDITS[key] || 'Wikimedia Commons') + '</span></div>'
-   + '<div class="sh-sec"><h4>热门拍照打卡点</h4><ul>' + p.ph.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>';
+    + xhsInspirationHTML(key)
+    + '<div class="sh-sec"><h4>热门拍照打卡点</h4><ul>' + p.ph.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>';
   $('#mask').classList.add('on');
   $('#shX').onclick = closePOI;
   document.querySelectorAll('[data-gallery-src]').forEach(fig => {
