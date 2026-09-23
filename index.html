@@ -197,6 +197,56 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .section-link:hover,.section-link.on{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
 .section-link.on{font-weight:700}
 
+/* ---------- 照片展示方案预览 ---------- */
+.photo-style-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(135deg,var(--surface),var(--surface2));box-shadow:0 8px 20px rgba(32,52,61,.06)}
+.photo-style-kicker{flex:0 0 auto;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:800}
+.photo-style-buttons{display:flex;gap:6px;flex-wrap:wrap}
+.photo-style-btn{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 10px;font:inherit;font-size:12px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease,color .18s ease}
+.photo-style-btn:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-1px)}
+.photo-style-btn.on{border-color:var(--brand);background:var(--brand);color:#fff;font-weight:700}
+[data-theme="dark"] .photo-style-btn.on{color:#0e151d}
+.photo-style-note{flex:1 1 220px;min-width:180px;font-size:12px;color:var(--muted);line-height:1.45}
+@media(max-width:520px){.photo-style-picker{align-items:flex-start;flex-direction:column;gap:7px}.photo-style-note{min-width:0}}
+
+/* A · 杂志编辑：默认的不规则拼图 */
+body[data-photo-style="editorial"] .hero .hc,
+body[data-photo-style="editorial"] .dcol{scroll-behavior:smooth}
+
+/* B · 横向胶片：在手机上左右滑动，每张照片都有完整画面 */
+body[data-photo-style="filmstrip"] .hero .hc{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:8px;scroll-snap-type:x mandatory;scrollbar-width:thin;background:var(--surface2)}
+body[data-photo-style="filmstrip"] .hero .hc .t{flex:0 0 68%;width:auto;height:auto;min-height:clamp(170px,32vw,310px);aspect-ratio:4/3;scroll-snap-align:start}
+body[data-photo-style="filmstrip"] .hero .hc .t:first-child{flex-basis:82%}
+body[data-photo-style="filmstrip"] .hero .hc .t:nth-child(5),
+body[data-photo-style="filmstrip"] .hero .hc .t:nth-child(9),
+body[data-photo-style="filmstrip"] .hero .hc .t:nth-child(14){grid-column:auto;grid-row:auto}
+body[data-photo-style="filmstrip"] .dcol{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:7px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+body[data-photo-style="filmstrip"] .dcol .t{flex:0 0 76%;width:auto;aspect-ratio:4/3;scroll-snap-align:start}
+body[data-photo-style="filmstrip"] .dcol .t:first-child{flex-basis:86%}
+body[data-photo-style="filmstrip"] .poi-gallery{display:flex;overflow-x:auto;gap:7px;padding-bottom:3px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+body[data-photo-style="filmstrip"] .poi-gallery figure{flex:0 0 78%;height:190px;scroll-snap-align:start}
+body[data-photo-style="filmstrip"] .poi-gallery figure:first-child{grid-row:auto}
+
+/* C · 沉浸大图：先用一张主图建立记忆点，再按顺序展开 */
+body[data-photo-style="immersive"] .hero .hc{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.85fr);grid-auto-rows:clamp(78px,13vw,150px);gap:6px;padding:6px;background:#17242a}
+body[data-photo-style="immersive"] .hero .hc .t{width:auto;height:auto;min-height:0;aspect-ratio:auto;flex:none}
+body[data-photo-style="immersive"] .hero .hc .t:first-child{grid-column:1;grid-row:span 3}
+body[data-photo-style="immersive"] .hero .hc .t:nth-child(2){grid-column:2;grid-row:1}
+body[data-photo-style="immersive"] .hero .hc .t:nth-child(3){grid-column:2;grid-row:2}
+body[data-photo-style="immersive"] .hero .hc .t:nth-child(4){grid-column:2;grid-row:3}
+body[data-photo-style="immersive"] .hero .hc .t:nth-child(n+5){grid-column:auto;grid-row:auto}
+body[data-photo-style="immersive"] .dcol{display:grid;grid-template-columns:1.35fr .85fr;grid-auto-rows:clamp(90px,18vw,150px);gap:5px;padding:5px}
+body[data-photo-style="immersive"] .dcol .t{width:auto;height:auto;min-height:0;aspect-ratio:auto;flex:none}
+body[data-photo-style="immersive"] .dcol .t:first-child{grid-column:1;grid-row:span 2}
+body[data-photo-style="immersive"] .dcol .t:nth-child(2){grid-column:2;grid-row:1}
+body[data-photo-style="immersive"] .dcol .t:nth-child(3){grid-column:2;grid-row:2}
+body[data-photo-style="immersive"] .poi-gallery{grid-template-columns:1.55fr .85fr;grid-auto-rows:minmax(100px,1fr);gap:6px;padding:4px}
+body[data-photo-style="immersive"] .poi-gallery figure:first-child{grid-row:span 2}
+body[data-photo-style="immersive"] .poi-gallery figcaption{padding-bottom:9px;font-size:11.5px}
+@media(max-width:720px){
+  body[data-photo-style="immersive"] .hero .hc{grid-auto-rows:clamp(72px,20vw,118px)}
+  body[data-photo-style="immersive"] .dcol{grid-auto-rows:clamp(92px,29vw,145px)}
+}
+
 .daymap{margin:12px 0 4px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface2)}
 .daymap iframe,.daymap svg{display:block;width:100%;height:auto;aspect-ratio:1.28;border:0}
 .daymap.google svg,.daymap.offline iframe{display:none}
@@ -376,6 +426,16 @@ button{font-family:inherit;font-size:inherit;color:inherit}
     <button class="section-link" data-section="tips">实用贴士</button>
     <button class="section-link" data-section="budget">预算与花费</button>
   </nav>
+
+  <div class="photo-style-picker" id="photoStylePicker" aria-label="照片展示方案">
+    <div class="photo-style-kicker">照片展示方案</div>
+    <div class="photo-style-buttons" role="group" aria-label="选择照片展示方案">
+      <button type="button" class="photo-style-btn on" data-photo-style-btn="editorial">A · 杂志编辑</button>
+      <button type="button" class="photo-style-btn" data-photo-style-btn="filmstrip">B · 横向胶片</button>
+      <button type="button" class="photo-style-btn" data-photo-style-btn="immersive">C · 沉浸大图</button>
+    </div>
+    <div class="photo-style-note" id="photoStyleNote">不规则主图 + 辅图，像旅行杂志的开篇。</div>
+  </div>
 
   <div id="section-overview" class="page-section active">
   <!-- ===== 1. 头图 ===== -->
@@ -1941,6 +2001,35 @@ renderDayTimeboxes(Date.now());
 
 /* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
 $('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + '</button>').join('');
+
+/* 照片展示方案：只改变布局，不改变照片、行程和数据 */
+const PHOTO_STYLE_COPY = {
+  editorial: '不规则主图 + 辅图，像旅行杂志的开篇。',
+  filmstrip: '横向胶片带，适合在手机上左右滑动逐张比较。',
+  immersive: '一张大图先建立记忆点，再按顺序展开当天照片。'
+};
+function setPhotoStyle(style, persist){
+  if(!PHOTO_STYLE_COPY[style]) style = 'editorial';
+  document.body.dataset.photoStyle = style;
+  document.querySelectorAll('[data-photo-style-btn]').forEach(function(btn){
+    const on = btn.dataset.photoStyleBtn === style;
+    btn.classList.toggle('on', on);
+    btn.setAttribute('aria-pressed', String(on));
+  });
+  const note = $('#photoStyleNote');
+  if(note) note.textContent = PHOTO_STYLE_COPY[style];
+  if(persist){
+    try{ localStorage.setItem('au26_photo_style', style); }catch(_e){}
+  }
+}
+let savedPhotoStyle = 'editorial';
+try{ savedPhotoStyle = localStorage.getItem('au26_photo_style') || savedPhotoStyle; }catch(_e){}
+setPhotoStyle(savedPhotoStyle, false);
+$('#photoStylePicker').addEventListener('click', function(e){
+  const btn = e.target.closest('[data-photo-style-btn]');
+  if(btn) setPhotoStyle(btn.dataset.photoStyleBtn, true);
+});
+
 function showSection(section, dayIndex){
   const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', tips:'sectTips', budget:'sectBudget' };
   const target = sectionIds[section] || 'section-overview';
