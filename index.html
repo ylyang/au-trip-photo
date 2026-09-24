@@ -2100,7 +2100,7 @@ $('#timeline').innerHTML = DAYS.map(dayHTML).join('');
 renderDayTimeboxes(Date.now());
 
 /* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
-$('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + '</button>').join('');
+$('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + ' ' + d.date.slice(5).replace('-', '/') + '</button>').join('');
 
 function showSection(section, dayIndex){
   const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', tips:'sectTips', budget:'sectBudget' };
