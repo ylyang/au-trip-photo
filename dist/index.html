@@ -11,16 +11,16 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>澳大利亚 10 天 · 旅行手册</title>
 <style>
-/* finesse · register=h5+product · A=sun-coral+lagoon-blue · B=warm-system-sans · C=photo-mosaic+route-rail · D=CSS-color-feedback · E=summer-postcard · SOUL=7 SPECTACLE=2 DENSITY=7 */
+/* finesse · register=h5+product · A=sun-coral+lagoon-blue+sunlit-photo-frame · B=warm-system-sans · C=photo-mosaic+route-rail · D=CSS-color-feedback · E=summer-postcard · SOUL=7 SPECTACLE=2 DENSITY=7 */
 :root{
   --bg:#FFF4EC; --surface:#FFFDF9; --surface2:#FFF0E4; --surface3:#F9E0CE;
   --text:#25364A; --muted:#64748A; --line:rgba(107,70,49,.14);
-  --brand:#C94D3A; --brand-soft:#FFE0D7; --brand2:#B94F36; --brand2-soft:#FFE6DB;
-  --accent:#147EAE; --accent-soft:#E1F3FB;
+  --brand:#B74334; --brand-soft:#FFE0D7; --brand2:#B94F36; --brand2-soft:#FFE6DB;
+  --accent:#0F789F; --accent-soft:#E1F3FB;
   --warn:#9E6611; --warn-soft:#FFF0CF;
   --on-brand:#FFF9F4; --on-accent:#FFFDFC; --on-photo:#FFFDFC; --accent-rgb:20,126,174;
   --shadow-ink:#6B4631; --shadow-ink-rgb:107,70,49;
-  --photo-frame:#223A50; --overlay-bg:rgba(20,30,46,.94); --overlay-bg-soft:rgba(27,37,54,.52);
+  --photo-frame:#FFE4CC; --photo-frame-wash:#FFF1DF; --overlay-bg:rgba(20,30,46,.94); --overlay-bg-soft:rgba(27,37,54,.52);
   --map-surface:rgba(255,253,249,.94); --map-ink:#2C4358; --map-border:rgba(65,86,102,.18); --map-chip:#FFFDF9; --map-chip-ink:#2C4358;
   --sky-top:#BDEBFA; --sky-bot:#FFF3D8;
   --hill-far:#CBE6D5; --hill-near:#A9D6BF; --ground:#8EC6A6;
@@ -40,7 +40,7 @@
   --warn:#F6C35B; --warn-soft:#403922;
   --on-brand:#1D2230; --on-accent:#142234; --on-photo:#FFFDFC; --accent-rgb:111,201,240;
   --shadow-ink:#080E1A; --shadow-ink-rgb:8,14,26;
-  --photo-frame:#111D30; --overlay-bg:rgba(10,16,28,.96); --overlay-bg-soft:rgba(10,16,28,.62);
+  --photo-frame:#243A52; --photo-frame-wash:#304D66; --overlay-bg:rgba(10,16,28,.96); --overlay-bg-soft:rgba(10,16,28,.62);
   --map-surface:rgba(32,45,69,.96); --map-ink:#E8F2FA; --map-border:rgba(181,205,225,.22); --map-chip:#27354D; --map-chip-ink:#EDF6FC;
   --sky-top:#193957; --sky-bot:#172238;
   --hill-far:#27465B; --hill-near:#214653; --ground:#1B4050;
@@ -211,7 +211,7 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .tcap{position:absolute;left:0;right:0;bottom:0;padding:14px 5px 3px;background:linear-gradient(180deg,transparent,var(--overlay-bg));color:var(--on-photo);font-size:10px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .tday{position:absolute;top:4px;left:4px;background:var(--overlay-bg-soft);color:var(--on-photo);font-size:9px;font-weight:700;border-radius:5px;padding:1px 5px;pointer-events:none;letter-spacing:.3px}
 .tday.cur{background:var(--brand)}
-.hero .hc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:clamp(58px,9vw,108px);gap:4px;padding:4px;background:var(--photo-frame)}
+.hero .hc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:clamp(58px,9vw,108px);gap:4px;padding:4px;background:linear-gradient(135deg,var(--photo-frame),var(--photo-frame-wash))}
 .hero .hc .t{width:auto;height:auto;aspect-ratio:auto;min-height:0;flex:none}
 .hero .hc .t:first-child{grid-column:span 2;grid-row:span 2}
 .hero .hc .t:nth-child(5){grid-column:span 2}
@@ -1044,7 +1044,7 @@ function dayCollage(i){
   return '<div class="dcol" data-dc="' + i + '">' + ks.map(kk => tileHTML(kk, i, false)).join('') + '</div>';
 }
 
-const DC = ['#C94D3A','#147EAE','#9E6611','#2F9D78','#B94F36','#D56B4F','#3D91B8','#B96C55','#6D9A4A','#B26A2A','#52677B'];
+const DC = ['#B74334','#0F789F','#8A5A0A','#237A5A','#A53F2D','#A9472F','#2B7898','#91523F','#4F7A39','#8E541B','#465C72'];
 
 const DAYS = [
 {
@@ -1612,7 +1612,7 @@ const TAS_D = pathOf(TAS.map(p => P(p[0], p[1])));
 
 /* 默认视图只放地理上分散的大地点，避免墨尔本一带挤成一团 */
 const DEF_KEYS = ['mel','ppp','syd','dorsett','harbourcove','grace','whitehaven','operahouse','penguin','heartreef','twelveapostles','taronga'];
-const KIND_COLOR = { airport:'#B94F36', station:'#B94F36', hotel:'#147EAE', sight:'#C94D3A' };
+const KIND_COLOR = { airport:'#B94F36', station:'#B94F36', hotel:'#0F789F', sight:'#B74334' };
 
 function allUsedKeys(){
   const s = [];
@@ -1663,7 +1663,7 @@ function pinMarkup(pts, k, showLabels, vb){
   const HIT = Math.min(24 * k, vb[2] * 0.13, vb[3] * 0.13);
   let pins = '';
   pts.forEach((o, i) => {
-    const col = KIND_COLOR[o.p.kind] || '#C94D3A';
+    const col = KIND_COLOR[o.p.kind] || '#B74334';
     const x = o.xy[0], y = o.xy[1];
     const isHotel = o.p.kind === 'hotel';
     pins += '<g class="pin" data-poi="' + o.k + '">'
@@ -1689,7 +1689,7 @@ function buildMap(keys, routeKeys, color, showLabels, opts){
     const rp = routeKeys.map(key => POIS[key]).filter(p => p && inRange(p)).map(p => P(p.lng, p.lat));
     if(rp.length > 1){
       route = '<path d="M' + rp.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L') + '" fill="none" stroke="'
-        + (color || '#C94D3A') + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" opacity=".85" stroke-dasharray="7 5" vector-effect="non-scaling-stroke"/>';
+        + (color || '#B74334') + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" opacity=".85" stroke-dasharray="7 5" vector-effect="non-scaling-stroke"/>';
     }
   }
   const gid = 'g' + (++defSeq);
@@ -1876,7 +1876,7 @@ function renderMapList(){
     : mapMode === 'region' ? REGIONS[mapRegion].n
     : mapMode === 'all' ? '全部地点' : '总览地点';
   box.innerHTML = '<div class="ml-h">' + esc(label) + ' · 共 ' + ks.length + ' 个地点 —— 点地点可查看介绍并直接导航</div>'
-    + '<div class="ml-list">' + ks.map(k => '<button class="ml-item" data-poi="' + k + '"><i style="background:' + (KIND_COLOR[POIS[k].kind] || '#C94D3A') + '"></i>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
+    + '<div class="ml-list">' + ks.map(k => '<button class="ml-item" data-poi="' + k + '"><i style="background:' + (KIND_COLOR[POIS[k].kind] || '#B74334') + '"></i>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
 }
 function applyVB(){
   setVB(mainMap, VB);
