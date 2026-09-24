@@ -360,6 +360,31 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .lb{position:fixed;inset:0;z-index:120;background:rgba(8,12,18,.94);display:none;align-items:center;justify-content:center;padding:14px}
 .lb.on{display:flex}
 .lb img{max-width:100%;max-height:100%;border-radius:10px}
+.nav-choice-mask{z-index:140}
+.nav-choice-sheet{background:var(--surface);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:10px 15px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px rgba(8,18,28,.22);animation:up .22s ease}
+.nav-choice-handle{width:40px;height:4px;border-radius:999px;background:var(--line);margin:1px auto 10px}
+.nav-choice-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.nav-choice-head-main{flex:1;min-width:0}
+.nav-choice-kicker{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:800}
+.nav-choice-title{font-size:17px;font-weight:800;line-height:1.35;margin-top:2px}
+.nav-choice-close{flex:0 0 auto;width:32px;height:32px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font:inherit;cursor:pointer}
+.nav-choice-dest{padding:9px 11px;margin-bottom:9px;border:1px solid var(--line);border-radius:11px;background:var(--surface2);font-size:12px;color:var(--muted);line-height:1.5;max-height:72px;overflow:auto}
+.nav-choice-actions{display:grid;gap:7px}
+.nav-choice-action{width:100%;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:10px 11px;background:var(--surface);color:var(--text);font:inherit;text-align:left;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.nav-choice-action:hover{border-color:var(--brand);background:var(--brand-soft);transform:translateY(-1px)}
+.nav-choice-action .ico{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--surface2);font-size:16px}
+.nav-choice-action .lab{font-size:13.5px;font-weight:750;line-height:1.35}
+.nav-choice-action .desc{display:block;margin-top:2px;color:var(--muted);font-size:11px;font-weight:400;line-height:1.4}
+.nav-choice-action .arr{color:var(--muted);font-size:13px}
+.nav-choice-tip{display:none;padding:12px;border:1px solid var(--brand);border-radius:13px;background:var(--brand-soft);font-size:13px;line-height:1.65}
+.nav-choice-tip.on{display:block}
+.nav-choice-tip b{color:var(--brand)}
+.nav-choice-tip ol{margin:6px 0 0;padding-left:20px}
+.nav-choice-done{width:100%;margin-top:9px;border:0;border-radius:11px;padding:9px;background:var(--brand);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+[data-theme="dark"] .nav-choice-done{color:#0e151d}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));z-index:180;max-width:min(88vw,420px);transform:translate(-50%,18px);opacity:0;pointer-events:none;border-radius:999px;padding:9px 14px;background:rgba(17,28,37,.94);color:#fff;font-size:12.5px;line-height:1.4;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,.25);transition:opacity .18s ease,transform .18s ease}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(min-width:640px){.nav-choice-sheet{border-radius:20px;padding-bottom:18px}}
 .reason{background:var(--brand-soft);border-radius:11px;padding:10px 12px;font-size:13.5px;font-style:italic;color:var(--text)}
 .hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:22px;line-height:1.6}
 .pin{cursor:pointer}
@@ -513,6 +538,23 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 
 <div class="mask" id="mask"><div class="sheet" id="sheet"></div></div>
 <div class="lb" id="lb"><img id="lbImg" alt=""></div>
+<div class="mask nav-choice-mask" id="navChoiceMask" role="dialog" aria-modal="true" aria-labelledby="navChoiceTitle">
+  <div class="nav-choice-sheet" id="navChoiceSheet">
+    <div class="nav-choice-handle" aria-hidden="true"></div>
+    <div class="nav-choice-head">
+      <div class="nav-choice-head-main"><div class="nav-choice-kicker">选择导航方式</div><div class="nav-choice-title" id="navChoiceTitle">前往目的地</div></div>
+      <button type="button" class="nav-choice-close" id="navChoiceClose" aria-label="关闭导航选择">✕</button>
+    </div>
+    <div class="nav-choice-dest" id="navChoiceDest"></div>
+    <div class="nav-choice-actions" id="navChoiceActions">
+      <button type="button" class="nav-choice-action" data-nav-choice="web"><span class="ico">🌐</span><span class="lab">Google Maps 网页版<span class="desc">联网打开路线；不会先弹出系统 App 列表</span></span><span class="arr">›</span></button>
+      <button type="button" class="nav-choice-action" data-nav-choice="copy"><span class="ico">📋</span><span class="lab">复制地址<span class="desc">复制地点名称、地址和经纬度</span></span><span class="arr">›</span></button>
+      <button type="button" class="nav-choice-action" data-nav-choice="chujing"><span class="ico">🧭</span><span class="lab">出境易用户<span class="desc">复制地址并提示打开出境易 Google Maps</span></span><span class="arr">›</span></button>
+    </div>
+    <div class="nav-choice-tip" id="navChoiceTip"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ============================================================
@@ -1194,65 +1236,80 @@ function navWeb(p){
   return 'https://www.google.com/maps/dir/?api=1&destination=' + p.lat + ',' + p.lng
     + '&travelmode=driving&dir_action=navigate';
 }
-function navURL(p){ return navWeb(p); }
-function deviceKind(){
-  const ua = navigator.userAgent || '';
-  if(/iPad|iPhone|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
-  if(/Android/i.test(ua)) return 'android';
-  return 'desktop';
-}
-function navSchemes(p, kind){
-  const d = kind || deviceKind();
-  const xy = p.lat + ',' + p.lng;
-  const name = encodeURIComponent(p.n || p.loc || '目的地');
-  if(d === 'ios') return ['comgooglemaps://?daddr=' + xy + '&directionsmode=driving&q=' + name];
-  if(d === 'android') return ['google.navigation:q=' + xy + '&mode=d', 'geo:' + xy + '?q=' + xy + '(' + name + ')'];
-  return [];
-}
 function goSameTab(url){
   try{ window.location.assign(url); }
   catch(_){ try{ window.location.href = url; }catch(__){} }
 }
-function tryNavScheme(chain, index, web){
-  if(index >= chain.length){ goSameTab(web); return; }
-  let left = false, timer = null;
-  const onLeave = function(){
-    if(document.visibilityState === 'hidden'){ left = true; cleanup(); }
-  };
-  const cleanup = function(){
-    clearTimeout(timer);
-    document.removeEventListener('visibilitychange', onLeave);
-    window.removeEventListener('pagehide', onPageHide);
-  };
-  const onPageHide = function(){ left = true; cleanup(); };
-  document.addEventListener('visibilitychange', onLeave);
-  window.addEventListener('pagehide', onPageHide);
-  timer = setTimeout(function(){
-    cleanup();
-    if(!left && document.visibilityState !== 'hidden') tryNavScheme(chain, index + 1, web);
-  }, 1200);
-  goSameTab(chain[index]);
-}
-function openNav(p, ev){
-  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
-  const web = navWeb(p), chain = navSchemes(p);
-  if(!chain.length){ goSameTab(web); return false; }
-  tryNavScheme(chain, 0, web);
-  return false;
-}
-function openNavRoute(keys, ev){
-  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
-  goSameTab(multiNav(keys));
-  return false;
-}
 function multiNav(keys){
   const pts = keys.map(k => POIS[k]).filter(Boolean);
   if(!pts.length) return '#';
-  if(pts.length === 1) return navURL(pts[0]);
+  if(pts.length === 1) return navWeb(pts[0]);
   const o = pts[0], d = pts[pts.length - 1];
   const w = pts.slice(1, -1).map(p => p.lat + ',' + p.lng).join('|');
   return 'https://www.google.com/maps/dir/?api=1&origin=' + o.lat + ',' + o.lng + '&destination=' + d.lat + ',' + d.lng
     + (w ? '&waypoints=' + encodeURIComponent(w) : '') + '&dir_action=navigate';
+}
+
+/* 导航选择面板：Google 网页版 / 复制地址 / 出境易操作提示 */
+let NAV_CHOICE = null, toastTimer = null;
+function poiCopyText(p){
+  return (p.n || '目的地') + '\n' + (p.loc || '') + '\n经纬度：' + p.lat + ',' + p.lng;
+}
+function routeCopyText(keys){
+  const pts = keys.map(k => POIS[k]).filter(Boolean);
+  return pts.map((p, i) => (i + 1) + '. ' + p.n + '\n' + p.loc + '\n经纬度：' + p.lat + ',' + p.lng).join('\n\n');
+}
+function showToast(msg){
+  const el = $('#toast'); if(!el) return;
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('on'), 2400);
+}
+function copyPlainText(text){
+  if(navigator.clipboard && window.isSecureContext){
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => fallbackCopy(text));
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly','');
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(_e){}
+  ta.remove(); return ok;
+}
+function closeNavChoice(){
+  const mask = $('#navChoiceMask');
+  if(mask) mask.classList.remove('on');
+  NAV_CHOICE = null;
+}
+function openNavChoice(ctx){
+  NAV_CHOICE = ctx;
+  closePOI();
+  $('#navChoiceTitle').textContent = ctx.title || '前往目的地';
+  $('#navChoiceDest').textContent = ctx.summary || '';
+  $('#navChoiceActions').style.display = '';
+  $('#navChoiceTip').classList.remove('on');
+  $('#navChoiceTip').innerHTML = '';
+  $('#navChoiceMask').classList.add('on');
+  setTimeout(() => { const b = $('#navChoiceSheet').querySelector('[data-nav-choice]'); if(b) b.focus(); }, 40);
+}
+function openNav(p, ev){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  openNavChoice({ title:p.n, summary:p.loc, url:navWeb(p), copy:poiCopyText(p), route:false });
+  return false;
+}
+function openNavRoute(keys, ev){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  const pts = keys.map(k => POIS[k]).filter(Boolean);
+  openNavChoice({
+    title:'全天多点路线',
+    summary:pts.map((p, i) => String.fromCharCode(65 + i) + ' · ' + p.n).join(' → '),
+    url:multiNav(keys), copy:routeCopyText(keys), route:true
+  });
+  return false;
 }
 
 /* 事件表 */
@@ -1910,8 +1967,44 @@ document.addEventListener('click', function(e){
     if(p) openNav(p, e);
   }
 });
+$('#navChoiceClose').addEventListener('click', closeNavChoice);
+$('#navChoiceMask').addEventListener('click', function(e){
+  if(e.target.id === 'navChoiceMask') closeNavChoice();
+});
+$('#navChoiceActions').addEventListener('click', async function(e){
+  const btn = e.target.closest('[data-nav-choice]');
+  if(!btn || !NAV_CHOICE) return;
+  const choice = btn.dataset.navChoice;
+  const ctx = NAV_CHOICE;
+  if(choice === 'web'){
+    closeNavChoice();
+    goSameTab(ctx.url);
+    return;
+  }
+  const copied = await copyPlainText(ctx.copy);
+  if(choice === 'copy'){
+    closeNavChoice();
+    showToast(copied ? (ctx.route ? '全天路线已复制' : '地址已复制') : '复制失败，请长按地址手动复制');
+    return;
+  }
+  if(choice === 'chujing'){
+    $('#navChoiceActions').style.display = 'none';
+    const tip = $('#navChoiceTip');
+    tip.innerHTML = '<b>' + (copied ? (ctx.route ? '全天路线已按顺序复制' : '地址已复制') : '自动复制失败，请长按上方地址复制') + '</b>'
+      + '<ol><li>打开“出境易”</li><li>打开其中的 Google Maps</li><li>在搜索框长按粘贴' + (ctx.route ? '；请按编号逐个添加途经点' : '并开始导航') + '</li></ol>'
+      + '<button type="button" class="nav-choice-done">知道了</button>';
+    tip.classList.add('on');
+    const done = tip.querySelector('.nav-choice-done');
+    if(done) done.addEventListener('click', closeNavChoice, { once:true });
+  }
+});
 $('#lb').addEventListener('click', function(){ $('#lb').classList.remove('on'); });
-document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if($('#lb').classList.contains('on')) $('#lb').classList.remove('on'); else closePOI(); });
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  if($('#navChoiceMask').classList.contains('on')) closeNavChoice();
+  else if($('#lb').classList.contains('on')) $('#lb').classList.remove('on');
+  else closePOI();
+});
 
 /* ============================================================
    时间轴
@@ -1992,7 +2085,7 @@ function dayHTML(d, i){
     + (d.warn ? '<div class="warnbox"><b>风险提示</b><div style="margin-top:5px">' + esc(d.warn) + '</div></div>' : '')
     + mapPart
     + '<div class="minitools">'
-    + '<a class="btn" href="' + multiNav(navKeys) + '" data-nav-day="' + i + '">🧭 一键打开全天多点导航</a>'
+    + '<a class="btn" href="' + multiNav(navKeys) + '" data-nav-day="' + i + '">🧭 全天路线与导航</a>'
     + '<button class="btn" data-jump="' + i + '">🗺️ 在主地图放大这天</button>'
     + '</div>'
     + '<div class="tl">' + d.items.map((it, ii) => itemHTML(d, i, it, ii)).join('') + '</div>'
@@ -2136,7 +2229,7 @@ $('#sectHotels').innerHTML =
       + '<div class="kv"><div class="k">时间</div><div class="v mono">' + esc(h.in) + '</div></div>'
       + '<div class="kv"><div class="k">金额</div><div class="v mono">' + esc(h.price) + '</div></div>'
       + '<div class="kv"><div class="k">备注</div><div class="v">' + esc(h.note) + '</div></div>'
-      + '<div class="kv"><div class="k">导航</div><div class="v"><a href="' + navWeb(POIS[HOTEL_POI_KEYS[hi]]) + '" data-nav-hotel="' + hi + '">在 Google 地图开始导航</a></div></div>'
+      + '<div class="kv"><div class="k">导航</div><div class="v"><a href="' + navWeb(POIS[HOTEL_POI_KEYS[hi]]) + '" data-nav-hotel="' + hi + '">选择导航方式</a></div></div>'
       + '</div></details>').join('');
 
 /* ============================================================
