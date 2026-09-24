@@ -89,6 +89,32 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 [data-theme="dark"] .preflight-item.done .preflight-check{color:#0e151d}
 .preflight-text{font-size:13px;line-height:1.45}
 .preflight-foot{margin-top:8px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.trip-summary{padding:16px 15px 15px;border-top:3px solid var(--accent);background:linear-gradient(145deg,var(--surface),var(--accent-soft));}
+.trip-summary .card-title{margin-bottom:5px}
+.trip-summary-lead{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0 0 14px}
+.route-spine{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:4px 0 16px;padding:0 2px}
+.route-stop{position:relative;text-align:center;min-width:0}
+.route-stop:not(:last-child)::after{content:'→';position:absolute;right:-7px;top:9px;color:var(--accent);font-size:19px;font-weight:800;line-height:1}
+.route-dot{width:26px;height:26px;margin:0 auto 5px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:11px;font-weight:800;box-shadow:0 0 0 4px var(--surface),0 0 0 5px rgba(44,109,149,.28)}
+.route-stop:nth-child(2) .route-dot{background:var(--brand)}
+.route-stop:nth-child(3) .route-dot{background:var(--warn)}
+.route-stop:nth-child(4) .route-dot{background:var(--brand2)}
+.route-name{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.route-date{font-size:10.5px;color:var(--muted);margin-top:1px}
+.flow-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.flow-day{position:relative;border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:10px 10px 10px 42px;min-width:0;text-align:left;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.flow-day:hover{transform:translateY(-1px);border-color:var(--accent);box-shadow:var(--shadow)}
+.flow-day:focus-visible{outline:3px solid rgba(44,109,149,.35);outline-offset:2px}
+.flow-badge{position:absolute;left:10px;top:10px;width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:var(--brand);color:#fff;font-size:11px;font-weight:800}
+.flow-day-head{display:flex;align-items:baseline;gap:6px;min-width:0}
+.flow-day-title{font-size:12.5px;font-weight:800;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flow-day-date{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.flow-chain{display:flex;align-items:center;flex-wrap:wrap;gap:3px 4px;min-width:0;margin-top:6px;font-size:11.5px;color:var(--text);line-height:1.35}
+.flow-stop-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flow-arrow{flex:0 0 auto;color:var(--accent);font-weight:800}
+.flow-more{flex:0 0 auto;color:var(--muted);font-size:10.5px}
+.flow-hint{font-size:11px;color:var(--muted);margin-top:10px;text-align:center}
+@media(max-width:560px){.route-stop:not(:last-child)::after{right:-6px;font-size:16px}.route-name{font-size:11px}.route-date{font-size:9.5px}.flow-days{grid-template-columns:1fr}.flow-day{padding-right:9px}}
 .next-event-card{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface));}
 .next-event-icon{flex:0 0 auto;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:18px}
 .next-event-main{flex:1;min-width:0}
@@ -442,6 +468,20 @@ button{font-family:inherit;font-size:inherit;color:inherit}
       <p>2026.10.01 – 10.10 · 墨尔本 · 圣灵群岛 · 悉尼 · 2 人同行 · 真实照片版</p>
     </div>
   </div>
+
+  <!-- ===== 1.5. 全程概要与流程 ===== -->
+  <section class="card trip-summary" aria-labelledby="tripSummaryTitle">
+    <div class="card-title" id="tripSummaryTitle">🧭 全程概要 · 先去哪，再去哪</div>
+    <p class="trip-summary-lead">10 天、2 人，从上海出发，先在墨尔本适应节奏，再去大洋路与圣灵群岛，最后在悉尼集中看城市与海岸线。</p>
+    <div class="route-spine" aria-label="城市路线">
+      <div class="route-stop"><div class="route-dot">沪</div><div class="route-name">上海</div><div class="route-date">D1 / D10</div></div>
+      <div class="route-stop"><div class="route-dot">墨</div><div class="route-name">墨尔本</div><div class="route-date">D2–D5</div></div>
+      <div class="route-stop"><div class="route-dot">岛</div><div class="route-name">圣灵群岛</div><div class="route-date">D5–D7</div></div>
+      <div class="route-stop"><div class="route-dot">悉</div><div class="route-name">悉尼</div><div class="route-date">D7–D10</div></div>
+    </div>
+    <div class="flow-days" id="tripFlow" aria-label="每日行程流程"></div>
+    <div class="flow-hint">点击任意一天，直接跳到当天的详细时间轴。</div>
+  </section>
 
   <!-- ===== 2. 出发前确认 / 下一项 ===== -->
   <div class="card preflight-card" id="preflightCard" aria-labelledby="preflightTitle">
@@ -1179,6 +1219,31 @@ const DAYS = [
  ]
 }
 ];
+
+const TRIP_FLOW = [
+  {d:1, title:'启程', stops:['虹桥机场','厦门中转','飞往墨尔本']},
+  {d:2, title:'抵达墨尔本 · 市区慢逛', stops:['墨尔本机场','南十字星','酒店寄存','唐人街','拱廊街','咖啡巷','弗林德斯街车站','联邦广场','雅拉河南岸']},
+  {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','考拉园','企鹅归巢','回墨尔本']},
+  {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','阿波罗湾午餐','灯塔 / 纪念拱门','回墨尔本']},
+  {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖']},
+  {d:6, title:'白天堂沙滩 · 浮潜', stops:['酒店集合','珊瑚海码头','白天堂沙滩','希尔湾','蝠鲼湾浮潜','回艾尔利']},
+  {d:7, title:'心形礁 · 飞往悉尼', stops:['酒店退房','观光飞机','心形礁','艾尔利主街','PPP 机场','悉尼机场','Grace Hotel']},
+  {d:8, title:'悉尼市中心步行', stops:['The Grace','QVB','海德公园','圣玛丽大教堂','州美术馆','皇家植物园','歌剧院讲解','海港大桥 / 岩石区']},
+  {d:9, title:'塔龙加 · 邦迪到库吉', stops:['The Grace','环形码头','塔龙加动物园','邦迪海滩','Bondi → Coogee','库吉晚餐','回酒店']},
+  {d:10, title:'返程回上海', stops:['Grace Hotel 退房','悉尼机场','厦门中转','上海虹桥','到家']}
+];
+function renderTripFlow(){
+  const box = document.querySelector('#tripFlow');
+  if(!box) return;
+  box.innerHTML = TRIP_FLOW.map((flow, i) => {
+    const day = DAYS[i] || {};
+    const chain = flow.stops.map((stop, j) => '<span class="flow-stop-name">' + esc(stop) + '</span>' + (j < flow.stops.length - 1 ? '<span class="flow-arrow" aria-hidden="true">→</span>' : '')).join('');
+    return '<button type="button" class="flow-day" data-flow-day="' + i + '" aria-label="查看 D' + flow.d + ' ' + esc(flow.title) + ' 详细行程">'
+      + '<span class="flow-badge">D' + flow.d + '</span>'
+      + '<span class="flow-day-head"><span class="flow-day-title">' + esc(flow.title) + '</span><span class="flow-day-date">' + (day.date ? day.date.slice(5).replace('-', '/') : '') + '</span></span>'
+      + '<span class="flow-chain">' + chain + '</span></button>';
+  }).join('');
+}
 
 const TICKETS = [
 {t:'✈️ 国际段往返 · 上海 ⇄ 墨尔本 / 悉尼',ok:true,rows:[
@@ -2164,6 +2229,7 @@ function dayHTML(d, i){
     + '</div></div>';
 }
 $('#timeline').innerHTML = DAYS.map(dayHTML).join('');
+renderTripFlow();
 renderDayTimeboxes(Date.now());
 
 /* 顶部快捷分区导航：每天只显示选中的日期，其他内容按板块切换 */
@@ -2196,6 +2262,14 @@ document.addEventListener('click', e => {
   if(!b) return;
   showSection('itinerary', +b.dataset.nextJump);
   const day = document.querySelector('.day[data-day="' + b.dataset.nextJump + '"]');
+  if(day) setTimeout(() => day.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+});
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-flow-day]');
+  if(!b) return;
+  const dayIndex = +b.dataset.flowDay;
+  showSection('itinerary', dayIndex);
+  const day = document.querySelector('.day[data-day="' + dayIndex + '"]');
   if(day) setTimeout(() => day.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
 });
 
