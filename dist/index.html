@@ -1221,7 +1221,7 @@ const TICKETS = [
   ['费用不含','自理餐食、个人消费、超出行程项目；吉布森石阶仅推荐且不包含'],
   ['小费','AUD 5 / 人 / 天 · 两人合计 AUD 10'],
   ['退改','不支持改期；行程开始前 3 日 00:00 以上取消无违约金，之后取消收取 100%'],
-  ['金额','截图未显示实付金额，待补充'],
+  ['金额','¥ 1,094.68（2 人合计）'],
   ['重要提醒','商家将在 10/03 18:00 前提供紧急联系电话；集合时间和接送地址以最终通知为准']
 ]},
 {t:'🎫 悉尼歌剧院 1 小时中文讲解团（10/08）',ok:true,rows:[
@@ -2340,7 +2340,7 @@ const BUDGET = {
   {n:'悉尼酒店 · The Grace Hotel',v:'¥4,403.50',d:'3 晚（10/7–10/10）· 早餐 AUD 39/人另计'},
   {n:'圣灵群岛酒店 · Harbour Cove',v:'¥4,003.00',d:'2 晚（10/5–10/7）· AUD 840'},
   {n:'墨尔本一日游 · 小火车 + 企鹅岛 + 考拉园',v:'¥2,381.40',d:'订单 ****5957 · 10/3 · 2 人'},
-  {n:'墨尔本一日游 · 大洋路中文团',v:'金额待补充',d:'飞猪出游行程单 · 10/4 · 2 人 · 截图未显示实付金额'},
+  {n:'墨尔本一日游 · 大洋路中文团',v:'¥1,094.68',d:'飞猪出游行程单 · 10/4 · 2 人'},
   {n:'圣灵群岛活动 · 懒猫 Fly + Raft',v:'¥4,776.00',d:'订单 ****9610 · 10/6 出海 + 10/7 观光飞机 · 2 人'}
  ],
  paidAud:[
@@ -2370,16 +2370,16 @@ const BUDGET = {
       + '<div style="font-size:15px;font-weight:800;white-space:nowrap;color:' + col + '">' + esc(b) + '</div></div>';
   }
   var h = '';
-  h += '<details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 人民币 8 项（1 项金额待补）');
+  h += '<details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 人民币 8 项');
   BUDGET.paid.forEach(function(x){ h += row(x.n, x.v, x.d); });
-  h += sum('人民币已知实付合计（暂不含大洋路团费）', '¥42,267.90 + 待补', 'var(--brand)');
+  h += sum('人民币已付合计（人均约 ¥21,681.29）', '¥43,362.58', 'var(--brand)');
   h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 澳元结算，未折算');
   BUDGET.paidAud.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('当地自付 · 预估，尚未发生');
   BUDGET.est.forEach(function(x){ h += row(x.n, x.v, x.d); });
-  h += sum('含餐饮的总预估（不含澳元项与当地交通）', '¥46,767.90 – 49,467.90', 'var(--text)');
+  h += sum('含餐饮的总预估（不含澳元项与当地交通）', '¥47,862.58 – 50,562.58', 'var(--text)');
   h += '<div style="font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:12px;white-space:pre-line">'
-    + esc('⚠️ ¥42,267.90 是此前 7 项已知实付金额逐项相加的结果；大洋路团费截图未显示金额，尚未计入。')
+    + esc('⚠️ ¥43,362.58 为 8 项人民币实付金额逐项相加；其中大洋路一日游为 ¥1,094.68（2 人）。')
     + '\n' + esc('⚠️ 歌剧院讲解团以 AUD 100 结算且已全额付清，但表格未标注汇率与手续费，未计入人民币合计，请按实际刷卡汇率自行折算。')
     + '\n' + esc('🧾 悉尼酒店 ¥4,403.50 为你补充的实付金额，已计入已付合计；AUD 项均未折算，不要直接相加。')
     + '</div></div></details>';
