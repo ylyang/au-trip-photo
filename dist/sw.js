@@ -1,4 +1,4 @@
-const CACHE_NAME = 'au-trip-photo-v15';
+const CACHE_NAME = 'au-trip-photo-v16';
 const CORE_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {

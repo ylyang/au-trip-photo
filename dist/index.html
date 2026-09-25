@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN" data-theme="light" data-palette="coral">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -11,7 +11,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>澳大利亚 10 天 · 旅行手册</title>
 <style>
-/* finesse · register=h5+product · A=sun-coral+lagoon-blue+sunlit-photo-frame · B=warm-system-sans · C=photo-mosaic+route-rail · D=CSS-color-feedback · E=summer-postcard · SOUL=7 SPECTACLE=2 DENSITY=7 */
+/* finesse · register=h5+product · A=coral+mint+lemon-runtime-palettes · B=warm-system-sans · C=photo-mosaic+route-rail · D=CSS-color-feedback · E=summer-postcard · SOUL=7 SPECTACLE=2 DENSITY=7 */
 :root{
   --bg:#FFF4EC; --surface:#FFFDF9; --surface2:#FFF0E4; --surface3:#F9E0CE;
   --text:#25364A; --muted:#64748A; --line:rgba(107,70,49,.14);
@@ -51,6 +51,83 @@
   --bird:#B4C4D3; --road:#594A36;
   --shadow:0 1px 2px rgba(8,14,26,.32),0 6px 20px rgba(8,14,26,.34);
 }
+/* 配色与明暗模式独立：默认珊瑚沙滩，另有海盐薄荷与晴空柠檬 */
+html[data-palette="mint"]{
+  --bg:#EFF9F3; --surface:#FEFFFC; --surface2:#E5F6EC; --surface3:#D3EBDD;
+  --text:#1E3A39; --muted:#5E7771; --line:rgba(35,94,76,.15);
+  --brand:#B74735; --brand-soft:#FFE5DD; --brand2:#A94735; --brand2-soft:#FCE7DE;
+  --accent:#147C76; --accent-soft:#DFF4F0;
+  --warn:#8A6211; --warn-soft:#FFF1CD;
+  --on-brand:#FFFDF7; --on-accent:#FFFDF7; --on-photo:#FFFDFC; --accent-rgb:20,124,118;
+  --shadow-ink:#2B5C51; --shadow-ink-rgb:43,92,81;
+  --photo-frame:#DDF3E8; --photo-frame-wash:#F1FBF5; --overlay-bg:rgba(15,45,43,.94); --overlay-bg-soft:rgba(20,63,58,.52);
+  --map-surface:rgba(254,255,252,.95); --map-ink:#264844; --map-border:rgba(35,94,76,.18); --map-chip:#FEFFFC; --map-chip-ink:#264844;
+  --sky-top:#CDEEEB; --sky-bot:#F3FCEB;
+  --hill-far:#C6E6D3; --hill-near:#9BCFB3; --ground:#77B58F;
+  --ocean:#5BC3BC; --ocean2:#9EE0D7; --beach-sand:#F4DF9A;
+  --bldg:#E9D6B8; --bldg2:#D5BD98; --bldg-line:#A58A68;
+  --tree:#35966B; --tree2:#237752; --trunk:#8D6546;
+  --window:#D5F3F0; --light:#FFD36B; --cloud:#FEFFFC;
+  --bird:#4E6F69; --road:#C6A579;
+  --shadow:0 1px 2px rgba(43,92,81,.06),0 6px 18px rgba(43,92,81,.09);
+}
+html[data-theme="dark"][data-palette="mint"]{
+  --bg:#142B2A; --surface:#1D3B38; --surface2:#274945; --surface3:#315A54;
+  --text:#F1FFF9; --muted:#B3D0C6; --line:rgba(214,239,228,.14);
+  --brand:#FF9683; --brand-soft:#493732; --brand2:#FFA07E; --brand2-soft:#4D3730;
+  --accent:#62D4C8; --accent-soft:#1E4F4B;
+  --warn:#F4CD68; --warn-soft:#3E3A24;
+  --on-brand:#172827; --on-accent:#102625; --on-photo:#FFFDFC; --accent-rgb:98,212,200;
+  --shadow-ink:#081C1B; --shadow-ink-rgb:8,28,27;
+  --photo-frame:#203D3A; --photo-frame-wash:#29534E; --overlay-bg:rgba(7,24,23,.96); --overlay-bg-soft:rgba(7,24,23,.62);
+  --map-surface:rgba(29,59,56,.96); --map-ink:#E9FAF2; --map-border:rgba(190,223,211,.22); --map-chip:#254742; --map-chip-ink:#EEFCF6;
+  --sky-top:#193C3C; --sky-bot:#142B2A;
+  --hill-far:#255249; --hill-near:#1D473D; --ground:#183D35;
+  --ocean:#1E7270; --ocean2:#2D928B; --beach-sand:#5F5636;
+  --bldg:#374B46; --bldg2:#2B3D39; --bldg-line:#5F7B72;
+  --tree:#2E7B5B; --tree2:#23583F; --trunk:#4D392C;
+  --window:#58B7AF; --light:#FFD36B; --cloud:#304D49;
+  --bird:#B2CEC4; --road:#514A35;
+  --shadow:0 1px 2px rgba(8,28,27,.32),0 6px 20px rgba(8,28,27,.34);
+}
+html[data-palette="lemon"]{
+  --bg:#FFF9DF; --surface:#FFFDF5; --surface2:#FFF3C6; --surface3:#FFE9A8;
+  --text:#3B3B2F; --muted:#6D6A55; --line:rgba(104,86,30,.15);
+  --brand:#B44A30; --brand-soft:#FFE1D3; --brand2:#A9452D; --brand2-soft:#FFE7D5;
+  --accent:#087EA4; --accent-soft:#E2F4F7;
+  --warn:#8B5A00; --warn-soft:#FFF0C4;
+  --on-brand:#FFFDF6; --on-accent:#FFFDF6; --on-photo:#FFFDFC; --accent-rgb:8,126,164;
+  --shadow-ink:#5C4B1F; --shadow-ink-rgb:92,75,31;
+  --photo-frame:#FFF0B8; --photo-frame-wash:#FFF9DE; --overlay-bg:rgba(28,42,45,.94); --overlay-bg-soft:rgba(37,57,58,.52);
+  --map-surface:rgba(255,253,245,.95); --map-ink:#3F4D4A; --map-border:rgba(81,97,79,.18); --map-chip:#FFFDF5; --map-chip-ink:#3F4D4A;
+  --sky-top:#CBEFFF; --sky-bot:#FFF7C8;
+  --hill-far:#D8E7BC; --hill-near:#BFD58C; --ground:#9ACB75;
+  --ocean:#55BFDC; --ocean2:#A7E4F3; --beach-sand:#FFE2A0;
+  --bldg:#F0D7A5; --bldg2:#DABF8C; --bldg-line:#AF8E63;
+  --tree:#4A9D62; --tree2:#32784A; --trunk:#8B6546;
+  --window:#D6F4FC; --light:#FFD15E; --cloud:#FFFDF5;
+  --bird:#586A6D; --road:#D2AF67;
+  --shadow:0 1px 2px rgba(92,75,31,.06),0 6px 18px rgba(92,75,31,.09);
+}
+html[data-theme="dark"][data-palette="lemon"]{
+  --bg:#2D2A1B; --surface:#3A3624; --surface2:#49432B; --surface3:#5B5234;
+  --text:#FFF9E7; --muted:#D6CA9F; --line:rgba(255,239,184,.14);
+  --brand:#FF9B78; --brand-soft:#51372D; --brand2:#FFA37D; --brand2-soft:#56392F;
+  --accent:#64C9EA; --accent-soft:#214C59;
+  --warn:#FFD06B; --warn-soft:#4A3D20;
+  --on-brand:#2C271B; --on-accent:#162A32; --on-photo:#FFFDF5; --accent-rgb:100,201,234;
+  --shadow-ink:#141209; --shadow-ink-rgb:20,18,9;
+  --photo-frame:#474027; --photo-frame-wash:#615834; --overlay-bg:rgba(20,18,9,.96); --overlay-bg-soft:rgba(20,18,9,.62);
+  --map-surface:rgba(58,54,36,.96); --map-ink:#FFF7D8; --map-border:rgba(246,229,168,.22); --map-chip:#49442C; --map-chip-ink:#FFF8DE;
+  --sky-top:#344759; --sky-bot:#2D2A1B;
+  --hill-far:#4D5B3B; --hill-near:#455137; --ground:#3D4B30;
+  --ocean:#2D778D; --ocean2:#3C9DB2; --beach-sand:#685937;
+  --bldg:#51482E; --bldg2:#403A27; --bldg-line:#807447;
+  --tree:#367653; --tree2:#28583D; --trunk:#533B2A;
+  --window:#6FC3DC; --light:#FFD06B; --cloud:#4A503B;
+  --bird:#D2C99D; --road:#655635;
+  --shadow:0 1px 2px rgba(20,18,9,.32),0 6px 20px rgba(20,18,9,.34);
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;overflow-x:clip}
 body{
@@ -67,7 +144,32 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 /* ---------- 顶部 ---------- */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 4px 6px}
 .brand-mini{font-size:13px;color:var(--muted);letter-spacing:1px}
-.theme-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;box-shadow:var(--shadow)}
+.top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.theme-btn,.palette-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
+.theme-btn:focus-visible,.palette-btn:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.palette-btn{display:inline-flex;align-items:center;gap:5px;color:var(--text)}
+.palette-btn::before{content:'';width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--brand) 0 42%,var(--photo-frame) 42% 68%,var(--accent) 68%);box-shadow:0 0 0 1px var(--line)}
+.palette-sheet[hidden]{display:none}
+.palette-sheet{position:fixed;z-index:1200;inset:0;display:grid;align-items:end;color:var(--text)}
+.palette-backdrop{position:absolute;inset:0;border:0;background:rgba(var(--shadow-ink-rgb),.48);cursor:default}
+.palette-panel{position:relative;z-index:1;width:min(100%,600px);margin:0 auto;padding:10px 14px calc(18px + env(safe-area-inset-bottom));border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;background:var(--surface);box-shadow:0 -12px 36px rgba(var(--shadow-ink-rgb),.22)}
+.palette-grip{width:38px;height:4px;margin:0 auto 14px;border-radius:99px;background:var(--line)}
+.palette-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:13px}
+.palette-eyebrow{margin:0 0 2px;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--accent)}
+.palette-head h2{font-size:18px;line-height:1.35}.palette-head p{margin:3px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.palette-close{width:34px;height:34px;flex:0 0 34px;border:1px solid var(--line);border-radius:50%;background:var(--surface2);color:var(--muted);font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.palette-close:focus-visible,.palette-option:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.palette-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.palette-option{min-width:0;min-height:96px;padding:8px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--text);text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(var(--shadow-ink-rgb),.05);transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.palette-option:hover{transform:translateY(-1px);border-color:var(--accent)}
+.palette-option[aria-checked="true"]{border:2px solid var(--brand);padding:7px;background:var(--brand-soft);box-shadow:0 5px 14px rgba(var(--shadow-ink-rgb),.1)}
+.palette-preview{display:block;height:33px;margin-bottom:7px;border-radius:9px;border:1px solid rgba(37,54,74,.09);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.palette-option[data-palette-choice="coral"] .palette-preview{background:linear-gradient(135deg,#FFF1DF 0 39%,#B74334 39% 62%,#0F789F 62%)}
+.palette-option[data-palette-choice="mint"] .palette-preview{background:linear-gradient(135deg,#F1FBF5 0 39%,#B74735 39% 62%,#147C76 62%)}
+.palette-option[data-palette-choice="lemon"] .palette-preview{background:linear-gradient(135deg,#FFF9DE 0 39%,#B44A30 39% 62%,#087EA4 62%)}
+.palette-option strong,.palette-option small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.palette-option strong{font-size:12px;line-height:1.35}.palette-option small{margin-top:1px;color:var(--muted);font-size:10px;line-height:1.35}
+body.palette-open{overflow:hidden}
+@media(max-width:380px){.topbar{gap:6px}.brand-mini{font-size:12px;letter-spacing:.7px}.top-actions{gap:4px}.theme-btn,.palette-btn{padding:6px 8px;font-size:12px}.palette-panel{padding-left:10px;padding-right:10px}.palette-grid{gap:6px}.palette-option{padding:7px;min-height:92px}.palette-option[aria-checked="true"]{padding:6px}.palette-option strong{font-size:11.5px}.palette-option small{font-size:9.5px}}
 .hero{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;background:var(--surface2)}
 .hero svg{display:block;width:100%;height:auto}
 .hero-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;
@@ -425,6 +527,22 @@ button{font-family:inherit;font-size:inherit;color:inherit}
   --sky-mid:#274C68; --bldg-sand:#655238; --rock:#514A40; --rock2:#3C382F;
   --sail:#D7E0E7; --rail:#607287; --water-dark:#164B66; --glass:#6BAEC5;
 }
+html[data-palette="mint"]{
+  --sky-mid:#D9F5F1; --bldg-sand:#E4CEA9; --rock:#B9A27E; --rock2:#947A5C;
+  --sail:#FEFFFC; --rail:#6D8A84; --water-dark:#2E9992; --glass:#D5F3F0;
+}
+html[data-theme="dark"][data-palette="mint"]{
+  --sky-mid:#23504F; --bldg-sand:#64533B; --rock:#4D4940; --rock2:#39362F;
+  --sail:#D9EEE6; --rail:#5B766E; --water-dark:#165A57; --glass:#5AB9AF;
+}
+html[data-palette="lemon"]{
+  --sky-mid:#DCF5FC; --bldg-sand:#EBD3A1; --rock:#C8AD73; --rock2:#A48859;
+  --sail:#FFFDF5; --rail:#7E8065; --water-dark:#2A96B6; --glass:#D6F4FC;
+}
+html[data-theme="dark"][data-palette="lemon"]{
+  --sky-mid:#395469; --bldg-sand:#6D5E37; --rock:#57503B; --rock2:#403C2F;
+  --sail:#EDE7C8; --rail:#7C7657; --water-dark:#19566D; --glass:#6BBFD8;
+}
 .clouds{opacity:.92}
 [data-theme="dark"] .clouds{opacity:.3}
 
@@ -446,7 +564,36 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 
   <div class="topbar">
     <div class="brand-mini">AUSTRALIA 2026</div>
-    <button class="theme-btn" id="themeBtn">🌙 夜间</button>
+    <div class="top-actions">
+      <button class="palette-btn" id="paletteBtn" type="button" aria-haspopup="dialog" aria-expanded="false">配色</button>
+      <button class="theme-btn" id="themeBtn" type="button">🌙 夜间</button>
+    </div>
+  </div>
+
+  <div class="palette-sheet" id="paletteSheet" hidden aria-hidden="true">
+    <button class="palette-backdrop" type="button" data-palette-close aria-label="关闭配色选择"></button>
+    <section class="palette-panel" role="dialog" aria-modal="true" aria-labelledby="paletteTitle" aria-describedby="paletteDesc">
+      <div class="palette-grip" aria-hidden="true"></div>
+      <div class="palette-head">
+        <div>
+          <p class="palette-eyebrow">TRIP STYLE</p>
+          <h2 id="paletteTitle">选择旅行配色</h2>
+          <p id="paletteDesc">配色和日间 / 夜间模式可分别选择。</p>
+        </div>
+        <button class="palette-close" type="button" data-palette-close aria-label="关闭">×</button>
+      </div>
+      <div class="palette-grid" role="radiogroup" aria-label="旅行配色">
+        <button class="palette-option" type="button" role="radio" aria-checked="true" data-palette-choice="coral">
+          <span class="palette-preview" aria-hidden="true"></span><strong>珊瑚沙滩</strong><small>暖阳与潟湖蓝</small>
+        </button>
+        <button class="palette-option" type="button" role="radio" aria-checked="false" data-palette-choice="mint">
+          <span class="palette-preview" aria-hidden="true"></span><strong>海盐薄荷</strong><small>轻盈海岸绿</small>
+        </button>
+        <button class="palette-option" type="button" role="radio" aria-checked="false" data-palette-choice="lemon">
+          <span class="palette-preview" aria-hidden="true"></span><strong>晴空柠檬</strong><small>明亮晴空黄</small>
+        </button>
+      </div>
+    </section>
   </div>
 
   <nav class="section-nav" id="sectionNav" aria-label="页面分区">
@@ -1044,7 +1191,54 @@ function dayCollage(i){
   return '<div class="dcol" data-dc="' + i + '">' + ks.map(kk => tileHTML(kk, i, false)).join('') + '</div>';
 }
 
-const DC = ['#B74334','#0F789F','#8A5A0A','#237A5A','#A53F2D','#A9472F','#2B7898','#91523F','#4F7A39','#8E541B','#465C72'];
+/* 配色只改变视觉 token；行程、地点与导航数据保持不变。 */
+const PALETTES = {
+  coral:{
+    label:'珊瑚沙滩', theme:{ light:'#FFF4EC', dark:'#172238' }, fallback:'#B74334',
+    dayColors:['#B74334','#0F789F','#8A5A0A','#237A5A','#A53F2D','#A9472F','#2B7898','#91523F','#4F7A39','#8E541B','#465C72'],
+    kindColors:{ airport:'#B94F36', station:'#B94F36', hotel:'#0F789F', sight:'#B74334' }
+  },
+  mint:{
+    label:'海盐薄荷', theme:{ light:'#EFF9F3', dark:'#142B2A' }, fallback:'#B74735',
+    dayColors:['#B74735','#147C76','#8A6211','#3C8360','#A94735','#9B5D43','#2A817B','#8B5B45','#537A3F','#8A651F','#48655F'],
+    kindColors:{ airport:'#A94735', station:'#A94735', hotel:'#147C76', sight:'#B74735' }
+  },
+  lemon:{
+    label:'晴空柠檬', theme:{ light:'#FFF9DF', dark:'#2D2A1B' }, fallback:'#B44A30',
+    dayColors:['#B44A30','#087EA4','#8B5A00','#3A7B54','#A9452D','#9F5635','#277C98','#8D613A','#5B783A','#8C5E12','#536567'],
+    kindColors:{ airport:'#A9452D', station:'#A9452D', hotel:'#087EA4', sight:'#B44A30' }
+  }
+};
+let activePalette = 'coral';
+let DC = PALETTES.coral.dayColors.slice();
+let KIND_COLOR = Object.assign({}, PALETTES.coral.kindColors);
+let paletteSwitchReady = false;
+function paletteConfig(){ return PALETTES[activePalette] || PALETTES.coral; }
+function paletteFallback(){ return paletteConfig().fallback; }
+function refreshThemeColor(){
+  const cfg = paletteConfig();
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const meta = document.querySelector('meta[name=theme-color]');
+  if(meta) meta.setAttribute('content', dark ? cfg.theme.dark : cfg.theme.light);
+}
+function setPalette(name, persist){
+  const next = PALETTES[name] ? name : 'coral';
+  const cfg = PALETTES[next];
+  activePalette = next;
+  DC = cfg.dayColors.slice();
+  KIND_COLOR = Object.assign({}, cfg.kindColors);
+  document.documentElement.setAttribute('data-palette', next);
+  if(persist !== false){ try{ localStorage.setItem('au26_palette', next); }catch(e){} }
+  document.querySelectorAll('[data-palette-choice]').forEach(btn => {
+    const selected = btn.dataset.paletteChoice === next;
+    btn.setAttribute('aria-checked', String(selected));
+  });
+  const trigger = $('#paletteBtn');
+  if(trigger) trigger.setAttribute('aria-label', '当前配色：' + cfg.label + '；打开配色选择');
+  document.querySelectorAll('.day-badge').forEach((badge, i) => { badge.style.background = DC[i % DC.length]; });
+  refreshThemeColor();
+  if(paletteSwitchReady){ repaintMain(); renderDayMaps(); }
+}
 
 const DAYS = [
 {
@@ -1462,17 +1656,62 @@ EVENTS.sort((a, b) => a.u - b.u);
    主题
    ============================================================ */
 const mq = window.matchMedia('(prefers-color-scheme: dark)');
-function setTheme(t){
-  document.documentElement.setAttribute('data-theme', t);
-  try{ localStorage.setItem('au26_theme', t); }catch(e){}
-  $('#themeBtn').textContent = t === 'dark' ? '☀️ 日间' : '🌙 夜间';
-  try{ document.querySelector('meta[name=theme-color]').setAttribute('content', t === 'dark' ? '#172238' : '#FFF4EC'); }catch(e){}
-}
 let savedTheme = null;
 try{ savedTheme = localStorage.getItem('au26_theme'); }catch(e){}
-setTheme(savedTheme || (mq.matches ? 'dark' : 'light'));
-mq.addEventListener('change', e => { if(!savedTheme) setTheme(e.matches ? 'dark' : 'light'); });
+function setTheme(t, persist){
+  document.documentElement.setAttribute('data-theme', t);
+  if(persist !== false){
+    savedTheme = t;
+    try{ localStorage.setItem('au26_theme', t); }catch(e){}
+  }
+  $('#themeBtn').textContent = t === 'dark' ? '☀️ 日间' : '🌙 夜间';
+  refreshThemeColor();
+}
+setTheme(savedTheme || (mq.matches ? 'dark' : 'light'), false);
+mq.addEventListener('change', e => { if(!savedTheme) setTheme(e.matches ? 'dark' : 'light', false); });
 $('#themeBtn').onclick = () => setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+
+let savedPalette = null;
+try{ savedPalette = localStorage.getItem('au26_palette'); }catch(e){}
+setPalette(savedPalette || 'coral', false);
+const paletteSheet = $('#paletteSheet');
+function openPaletteSheet(){
+  if(!paletteSheet) return;
+  paletteSheet.hidden = false;
+  paletteSheet.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('palette-open');
+  $('#paletteBtn').setAttribute('aria-expanded', 'true');
+  requestAnimationFrame(() => {
+    const selected = paletteSheet.querySelector('[data-palette-choice][aria-checked="true"]');
+    if(selected) selected.focus();
+  });
+}
+function closePaletteSheet(returnFocus){
+  if(!paletteSheet) return;
+  paletteSheet.hidden = true;
+  paletteSheet.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('palette-open');
+  $('#paletteBtn').setAttribute('aria-expanded', 'false');
+  if(returnFocus) $('#paletteBtn').focus();
+}
+$('#paletteBtn').onclick = openPaletteSheet;
+paletteSheet.addEventListener('click', e => {
+  if(e.target.closest('[data-palette-close]')){ closePaletteSheet(true); return; }
+  const choice = e.target.closest('[data-palette-choice]');
+  if(!choice) return;
+  setPalette(choice.dataset.paletteChoice);
+  closePaletteSheet(true);
+});
+document.addEventListener('keydown', e => {
+  if(!paletteSheet || paletteSheet.hidden) return;
+  if(e.key === 'Escape'){ e.preventDefault(); closePaletteSheet(true); return; }
+  if(e.key !== 'Tab') return;
+  const buttons = Array.from(paletteSheet.querySelectorAll('button:not([disabled])'));
+  if(!buttons.length) return;
+  const first = buttons[0], last = buttons[buttons.length - 1];
+  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+});
 
 /* ============================================================
    倒计时 + 时钟
@@ -1612,7 +1851,6 @@ const TAS_D = pathOf(TAS.map(p => P(p[0], p[1])));
 
 /* 默认视图只放地理上分散的大地点，避免墨尔本一带挤成一团 */
 const DEF_KEYS = ['mel','ppp','syd','dorsett','harbourcove','grace','whitehaven','operahouse','penguin','heartreef','twelveapostles','taronga'];
-const KIND_COLOR = { airport:'#B94F36', station:'#B94F36', hotel:'#0F789F', sight:'#B74334' };
 
 function allUsedKeys(){
   const s = [];
@@ -1663,7 +1901,7 @@ function pinMarkup(pts, k, showLabels, vb){
   const HIT = Math.min(24 * k, vb[2] * 0.13, vb[3] * 0.13);
   let pins = '';
   pts.forEach((o, i) => {
-    const col = KIND_COLOR[o.p.kind] || '#B74334';
+    const col = KIND_COLOR[o.p.kind] || paletteFallback();
     const x = o.xy[0], y = o.xy[1];
     const isHotel = o.p.kind === 'hotel';
     pins += '<g class="pin" data-poi="' + o.k + '">'
@@ -1689,7 +1927,7 @@ function buildMap(keys, routeKeys, color, showLabels, opts){
     const rp = routeKeys.map(key => POIS[key]).filter(p => p && inRange(p)).map(p => P(p.lng, p.lat));
     if(rp.length > 1){
       route = '<path d="M' + rp.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L') + '" fill="none" stroke="'
-        + (color || '#B74334') + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" opacity=".85" stroke-dasharray="7 5" vector-effect="non-scaling-stroke"/>';
+        + (color || paletteFallback()) + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" opacity=".85" stroke-dasharray="7 5" vector-effect="non-scaling-stroke"/>';
     }
   }
   const gid = 'g' + (++defSeq);
@@ -1876,7 +2114,7 @@ function renderMapList(){
     : mapMode === 'region' ? REGIONS[mapRegion].n
     : mapMode === 'all' ? '全部地点' : '总览地点';
   box.innerHTML = '<div class="ml-h">' + esc(label) + ' · 共 ' + ks.length + ' 个地点 —— 点地点可查看介绍并直接导航</div>'
-    + '<div class="ml-list">' + ks.map(k => '<button class="ml-item" data-poi="' + k + '"><i style="background:' + (KIND_COLOR[POIS[k].kind] || '#B74334') + '"></i>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
+    + '<div class="ml-list">' + ks.map(k => '<button class="ml-item" data-poi="' + k + '"><i style="background:' + (KIND_COLOR[POIS[k].kind] || paletteFallback()) + '"></i>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
 }
 function applyVB(){
   setVB(mainMap, VB);
@@ -2285,6 +2523,7 @@ function renderDayMaps(){
   });
 }
 renderDayMaps();
+paletteSwitchReady = true;
 
 /* 折叠 */
 $('#timeline').addEventListener('click', e => {
