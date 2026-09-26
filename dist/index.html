@@ -820,6 +820,16 @@ const POIS = {
     hl:['Southbank Promenade 河岸步道','沿河餐厅与酒吧','对岸就是 Flinders St 站灯光'],
     tip:['晚上河边风大，带件外套','餐厅偏游客价，可往东走两条街找本地店'],
     ph:['河边夜景','步道上的街头艺人'],kind:'sight'},
+  lulumoora:{n:'lululemon Moorabbin Factory Outlet',loc:'Shop G-039, DFO Moorabbin, 250 Centre Dandenong Rd, Moorabbin Airport VIC 3194',lat:-37.9713651,lng:145.0890300,
+    r:'墨尔本官方工厂店，通常比市中心正价店便宜；但折扣、颜色和尺码库存每天都会变化。',
+    hl:['官方 Factory Outlet','每日通常 10:00–18:00','折扣款、季节款与多件活动最值得先看'],
+    tip:['从市中心打车约 35–50 分钟，公共交通耗时更长','只买 1–2 件时，往返叫车费可能吃掉折扣差价；买得多再值得专程去','进店先问当天额外折扣与目标尺码','若航班延误超过 1 小时，建议放弃此站，改逛市中心 Emporium 正价店'],
+    ph:['门店招牌','折扣墙与尺码区'],xq:'墨尔本 lululemon Moorabbin Outlet 折扣 尺码',kind:'shop'},
+  cwsouthwharf:{n:'Chemist Warehouse · DFO South Wharf',loc:'DFO South Wharf, 20 Convention Centre Pl, South Wharf VIC 3006',lat:-37.8251278,lng:144.9491461,
+    r:'位于 Moorabbin 返回市区和雅拉河南岸晚餐之间，适合顺路购买 Swisse；查询时多款约五折或低于五折。',
+    hl:['10/2 周五营业时间：10:00–21:00','Swisse Magnesium Glycinate 120 片：查询时 AUD 24.99','Swisse Iron 30 片：查询时 AUD 6.49','Swisse Calcium + Vitamin D 150 片：查询时 AUD 17.49'],
+    tip:['价格为 2026-09-26 官网查询结果，出发当天以门店价与库存为准','先确认具体产品、剂量和数量，再比较每粒单价','保健品请按标签使用；有基础疾病或正在服药先咨询医生/药师'],
+    ph:['Swisse 货架','促销价签'],xq:'墨尔本 Chemist Warehouse Swisse 必买 价格',kind:'shop'},
   /* --- 普芬比利一日游 --- */
   meet601:{n:'集合点 · 601 Lonsdale Street',loc:'601 Lonsdale St, Melbourne VIC 3000（Men\'s Gallery 门前）',lat:-37.8105,lng:144.9590,
     r:'一日游大巴集合地，务必提前 15 分钟到，迟到不等人。',
@@ -1131,7 +1141,7 @@ const CREDITS = {
   gorarch:'Orderinchaos · CC BY-SA 4.0 / Wikimedia Commons'
 };
 
-/* 小红书热门灵感：优先唤起 App，失败时回退到小红书官方搜索页；不固化会过期的 xsec_token。 */
+/* 小红书热门灵感：按钮本身使用官方 App deeplink，保持原生用户点击，不固化会过期的 xsec_token。 */
 const XHS_NOTES = {
   flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
   hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
@@ -1250,20 +1260,25 @@ const DAYS = [
  ]
 },
 {
- n:2, date:'2026-10-02', wd:'周五', city:'墨尔本 · 市区半日', tz:'Australia/Melbourne',
- title:'抵达墨尔本 · 市区慢逛（倒时差）',
+ n:2, date:'2026-10-02', wd:'周五', city:'墨尔本 · 市区 / Moorabbin', tz:'Australia/Melbourne',
+ title:'抵达墨尔本 · 市区慢逛 + 购物',
  hotel:'dorsett', hotelNote:'入住 15:00 / 退房 11:00 · 不可退款 · 共 3 晚（10/2–10/5）\nDorsett Melbourne · 615 Little Lonsdale Street, Melbourne VIC 3000',hotelOk:true,
+ warn:'🛍️ lululemon 单品低价优先去 Moorabbin Factory Outlet；但距市中心约 23 公里且 18:00 关门。若只买 1–2 件或航班延误超过 1 小时，往返叫车费可能不划算，直接改去 Emporium 正价店。',
  items:[
   {t:'09:35',tz:'AEST',ttl:'抵达墨尔本图拉马莱恩机场 T2',d:'入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。',tags:['航班','注意'],p:'mel'},
   {t:'10:50',tz:'AEST',ttl:'SkyBus 机场 → 南十字星车站',d:'直达市区，车程约 25 分钟，单程约 AUD 24/人。',tags:['导航'],p:'southern',tr:'约 25 分钟'},
   {t:'11:30',tz:'AEST',ttl:'酒店寄存行李 · 轻装出发',d:'Dorsett 入住时间 15:00，先把行李寄存在前台。',tags:['注意'],p:'dorsett',tr:'步行约 10 分钟'},
   {t:'12:00',tz:'AEST',ttl:'午餐 · 酒店附近',d:'寄存行李后在酒店或南十字星车站附近就近用餐，省下往返时间，也方便按时前往拱廊街。',tags:['介绍'],tr:'步行约 5–10 分钟'},
-  {t:'13:20',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊',d:'两条 19 世纪拱廊街相邻，看马赛克地砖与彩色玻璃穹顶。',tags:['介绍'],p:'blockarcade',tr:'步行约 8 分钟'},
-  {t:'14:20',tz:'AEST',ttl:'咖啡歇脚 · 迪格雷夫斯街',d:'墨尔本咖啡巷文化的发源地。抗时差最有效的两件事：晒太阳 + 一杯咖啡，别在这时候睡长觉。',tags:['介绍'],p:'degraves',tr:'步行约 4 分钟'},
-  {t:'15:00',tz:'AEST',ttl:'回酒店办理入住 · 稍作休整',d:'Dorsett Melbourne，15:00 后可入住。补 30–60 分钟短觉即可，睡过头今晚就完了。',tags:['注意'],p:'dorsett',tr:'步行约 8 分钟'},
-  {t:'16:40',tz:'AEST',ttl:'弗林德斯街车站 + 圣保罗大教堂',d:'墨尔本最经典地标组合，隔街相望。',tags:['介绍'],p:'flinders',tr:'步行约 14 分钟'},
-  {t:'17:30',tz:'AEST',ttl:'联邦广场',d:'几何立面广场，正对弗林德斯街车站，傍晚侧光最好。',tags:['介绍'],p:'fedsquare',tr:'步行约 3 分钟'},
-  {t:'18:40',tz:'AEST',ttl:'雅拉河南岸 · 晚餐',d:'河南岸餐厅一条街，看夜景吃晚饭。今天别安排太晚，早点休息。',tags:['介绍'],p:'southbank',tr:'步行约 8 分钟'}
+  {t:'13:10',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊',d:'两条 19 世纪拱廊街相邻，看马赛克地砖与彩色玻璃穹顶。',tags:['介绍'],p:'blockarcade',tr:'步行约 8 分钟'},
+  {t:'14:05',tz:'AEST',ttl:'咖啡歇脚 · 迪格雷夫斯街',d:'墨尔本咖啡巷文化的发源地。晒太阳 + 一杯咖啡帮助倒时差，今天不回酒店午睡。',tags:['介绍'],p:'degraves',tr:'步行约 4 分钟'},
+  {t:'14:40',tz:'AEST',ttl:'弗林德斯街车站 + 圣保罗大教堂',d:'墨尔本最经典地标组合，隔街相望。',tags:['介绍'],p:'flinders',tr:'步行约 4 分钟'},
+  {t:'15:20',tz:'AEST',ttl:'联邦广场',d:'几何立面广场，正对弗林德斯街车站。停留约 20 分钟后叫车去 Outlet。',tags:['介绍'],p:'fedsquare',tr:'步行约 3 分钟'},
+  {t:'15:45',tz:'AEST',ttl:'前往 lululemon Moorabbin Factory Outlet',d:'这是墨尔本官方工厂店，通常比 Emporium 正价店便宜。建议直接打车，公共交通会明显压缩购物时间。',tags:['导航','注意'],p:'lulumoora',tr:'打车约 35–50 分钟'},
+  {t:'16:30',tz:'AEST',ttl:'★ lululemon Outlet 选购',d:'优先找目标尺码、基础色和当日额外折扣。库存与折扣不保证；17:40 前结账离店。',tags:['介绍','注意'],p:'lulumoora'},
+  {t:'17:40',tz:'AEST',ttl:'前往 DFO South Wharf',d:'叫车返回市区，直接到 South Wharf；这里和晚餐地点顺路。',tags:['导航'],p:'cwsouthwharf',tr:'打车约 35–50 分钟'},
+  {t:'18:25',tz:'AEST',ttl:'★ Chemist Warehouse 买 Swisse',d:'优先看半价促销与大包装每粒单价。当前参考：甘氨酸镁 120 片 AUD 24.99、铁 30 片 AUD 6.49、钙 + 维 D 150 片 AUD 17.49；当天以门店价格为准。',tags:['介绍','注意'],p:'cwsouthwharf'},
+  {t:'19:00',tz:'AEST',ttl:'雅拉河南岸 · 晚餐',d:'从 DFO 沿河步行到 Southbank，看夜景吃晚饭。',tags:['介绍'],p:'southbank',tr:'步行约 8–15 分钟'},
+  {t:'20:30',tz:'AEST',ttl:'晚饭后回酒店办理入住',d:'返回 Dorsett Melbourne 正式入住，取回寄存行李。第一晚不再安排其他活动，尽早休息。',tags:['注意'],p:'dorsett',tr:'打车 / 电车约 15 分钟'}
  ]
 },
 {
@@ -1414,7 +1429,7 @@ const DAYS = [
 
 const TRIP_FLOW = [
   {d:1, title:'启程', stops:['虹桥机场','厦门中转','飞往墨尔本']},
-  {d:2, title:'抵达墨尔本 · 市区慢逛', stops:['墨尔本机场','南十字星','酒店寄存','酒店附近午餐','拱廊街','咖啡巷','弗林德斯街车站','联邦广场','雅拉河南岸']},
+  {d:2, title:'抵达墨尔本 · 市区 + 购物', stops:['墨尔本机场','南十字星','酒店寄存','酒店附近午餐','拱廊街','咖啡巷','弗林德斯街 / 联邦广场','lululemon Moorabbin Outlet','South Wharf 买 Swisse','雅拉河南岸晚餐','酒店入住']},
   {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','考拉园','企鹅归巢','回墨尔本']},
   {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','阿波罗湾午餐','灯塔 / 纪念拱门','回墨尔本']},
   {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖']},
@@ -2276,18 +2291,15 @@ function poiGalleryHTML(key){
     + '</div>' : '';
   const query = (POIS[key] || {}).n || '';
   return gallery
-    + xhsActionsHTML(query, '在小红书查看 ↗')
-    + '<div class="photo-source-note">优先打开小红书 App；未安装或未关联时自动进入小红书网页版。</div>';
-}
-function xhsSearchURL(query){
-  return 'https://www.xiaohongshu.com/search_result/?keyword=' + encodeURIComponent(query || '') + '&source=web_search_result_notes';
+    + xhsActionsHTML((POIS[key] || {}).xq || query, '打开小红书搜索 ↗')
+    + '<div class="photo-source-note">直接唤起小红书 App 并带入搜索词；若浏览器禁止唤起，可复制关键词后在 App 内粘贴。</div>';
 }
 function xhsAppURL(query){
   const q = encodeURIComponent(query || '');
   if(/Android/i.test(navigator.userAgent || '')){
-    return 'intent://search/result?keyword=' + q + '&source=web_search_result_notes#Intent;scheme=xhsdiscover;package=com.xingin.xhs;S.browser_fallback_url=' + encodeURIComponent(xhsSearchURL(query)) + ';end';
+    return 'intent://search/result?keyword=' + q + '&target_search=notes&source=deeplink#Intent;scheme=xhsdiscover;package=com.xingin.xhs;end';
   }
-  return 'xhsdiscover://search/result?keyword=' + q + '&source=web_search_result_notes';
+  return 'xhsdiscover://search/result?keyword=' + q + '&target_search=notes&source=deeplink';
 }
 function xhsActionsHTML(query, openLabel){
   const q = String(query || '');
@@ -2298,7 +2310,7 @@ function xhsActionsHTML(query, openLabel){
 function xhsActionButtonsHTML(query, openLabel){
   const q = String(query || '');
   return '<div class="xhs-actions">'
-    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" data-xhs-open="' + esc(q) + '" rel="noopener noreferrer">' + esc(openLabel || '在小红书查看 ↗') + '</a>'
+    + '<a class="xhs-open" href="' + xhsAppURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
     + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制小红书搜索词</button>'
     + '</div>';
 }
@@ -2310,12 +2322,12 @@ function xhsInspirationHTML(key){
     + '<span class="xhs-note-title">' + esc(n.title) + '</span>'
     + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　· 小红书热门灵感</span>'
     + '<span class="xhs-note-tip">' + esc(n.tip) + '</span>'
-    + xhsActionButtonsHTML(n.query || n.title, '在小红书查看 ↗')
+    + xhsActionButtonsHTML(n.query || n.title, '打开小红书搜索 ↗')
     + '</div></div>';
 }
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
-  const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点' }[p.kind] || '地点';
+  const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点', shop:'购物' }[p.kind] || '地点';
   $('#sheet').innerHTML =
     '<div class="sh-top"><h3>' + esc(p.n) + '</h3><button class="sh-x" id="shX">✕</button></div>'
     + '<div style="font-size:12px;color:var(--muted);margin-bottom:6px">' + kindName + '</div>'
@@ -2345,24 +2357,6 @@ $('#sheet').addEventListener('click', e => {
   setTimeout(function(){ try { el.scrollIntoView({ behavior:'smooth', block:'start' }); } catch(_){} }, 60);
 });
 document.addEventListener('click', e => {
-  const open = e.target.closest('[data-xhs-open]');
-  if(open){
-    e.preventDefault();
-    const query = open.dataset.xhsOpen || '';
-    const webURL = xhsSearchURL(query);
-    let leftPage = false;
-    const onVisibility = function(){
-      if(document.hidden) leftPage = true;
-    };
-    document.addEventListener('visibilitychange', onVisibility, { once:true });
-    showToast('正在打开小红书…');
-    window.location.href = xhsAppURL(query);
-    setTimeout(function(){
-      document.removeEventListener('visibilitychange', onVisibility);
-      if(!leftPage && !document.hidden) window.location.href = webURL;
-    }, 900);
-    return;
-  }
   const copy = e.target.closest('[data-xhs-copy]');
   if(!copy) return;
   e.preventDefault();
