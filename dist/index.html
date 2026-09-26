@@ -820,12 +820,6 @@ const POIS = {
     hl:['Southbank Promenade 河岸步道','沿河餐厅与酒吧','对岸就是 Flinders St 站灯光'],
     tip:['晚上河边风大，带件外套','餐厅偏游客价，可往东走两条街找本地店'],
     ph:['河边夜景','步道上的街头艺人'],kind:'sight'},
-  chinatown:{n:'墨尔本唐人街 Chinatown',loc:'Little Bourke St, Melbourne VIC 3000',lat:-37.8117,lng:144.9688,
-    r:'澳洲最早的唐人街之一，倒时差期间吃中餐最舒服。',
-    hl:['Little Bourke St 牌楼','烧腊、港式茶餐厅'],
-    tip:['人均 AUD 20–35','多数店可刷卡，小店铺备点现金'],
-    ph:['唐人街牌楼'],kind:'sight'},
-
   /* --- 普芬比利一日游 --- */
   meet601:{n:'集合点 · 601 Lonsdale Street',loc:'601 Lonsdale St, Melbourne VIC 3000（Men\'s Gallery 门前）',lat:-37.8105,lng:144.9590,
     r:'一日游大巴集合地，务必提前 15 分钟到，迟到不等人。',
@@ -1137,7 +1131,7 @@ const CREDITS = {
   gorarch:'Orderinchaos · CC BY-SA 4.0 / Wikimedia Commons'
 };
 
-/* 小红书热门灵感：公开图片搜索负责网页查看，复制关键词负责 App 内搜索；不固化会过期的 xsec_token。 */
+/* 小红书热门灵感：优先唤起 App，失败时回退到小红书官方搜索页；不固化会过期的 xsec_token。 */
 const XHS_NOTES = {
   flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
   hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
@@ -1263,7 +1257,7 @@ const DAYS = [
   {t:'09:35',tz:'AEST',ttl:'抵达墨尔本图拉马莱恩机场 T2',d:'入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。',tags:['航班','注意'],p:'mel'},
   {t:'10:50',tz:'AEST',ttl:'SkyBus 机场 → 南十字星车站',d:'直达市区，车程约 25 分钟，单程约 AUD 24/人。',tags:['导航'],p:'southern',tr:'约 25 分钟'},
   {t:'11:30',tz:'AEST',ttl:'酒店寄存行李 · 轻装出发',d:'Dorsett 入住时间 15:00，先把行李寄存在前台。',tags:['注意'],p:'dorsett',tr:'步行约 10 分钟'},
-  {t:'12:00',tz:'AEST',ttl:'午餐 · 墨尔本唐人街',d:'倒时差第一顿，吃点熟悉的。Little Bourke St 一带选择很多。',tags:['介绍'],p:'chinatown',tr:'步行约 12 分钟'},
+  {t:'12:00',tz:'AEST',ttl:'午餐 · 酒店附近',d:'寄存行李后在酒店或南十字星车站附近就近用餐，省下往返时间，也方便按时前往拱廊街。',tags:['介绍'],tr:'步行约 5–10 分钟'},
   {t:'13:20',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊',d:'两条 19 世纪拱廊街相邻，看马赛克地砖与彩色玻璃穹顶。',tags:['介绍'],p:'blockarcade',tr:'步行约 8 分钟'},
   {t:'14:20',tz:'AEST',ttl:'咖啡歇脚 · 迪格雷夫斯街',d:'墨尔本咖啡巷文化的发源地。抗时差最有效的两件事：晒太阳 + 一杯咖啡，别在这时候睡长觉。',tags:['介绍'],p:'degraves',tr:'步行约 4 分钟'},
   {t:'15:00',tz:'AEST',ttl:'回酒店办理入住 · 稍作休整',d:'Dorsett Melbourne，15:00 后可入住。补 30–60 分钟短觉即可，睡过头今晚就完了。',tags:['注意'],p:'dorsett',tr:'步行约 8 分钟'},
@@ -1420,7 +1414,7 @@ const DAYS = [
 
 const TRIP_FLOW = [
   {d:1, title:'启程', stops:['虹桥机场','厦门中转','飞往墨尔本']},
-  {d:2, title:'抵达墨尔本 · 市区慢逛', stops:['墨尔本机场','南十字星','酒店寄存','唐人街','拱廊街','咖啡巷','弗林德斯街车站','联邦广场','雅拉河南岸']},
+  {d:2, title:'抵达墨尔本 · 市区慢逛', stops:['墨尔本机场','南十字星','酒店寄存','酒店附近午餐','拱廊街','咖啡巷','弗林德斯街车站','联邦广场','雅拉河南岸']},
   {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','考拉园','企鹅归巢','回墨尔本']},
   {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','阿波罗湾午餐','灯塔 / 纪念拱门','回墨尔本']},
   {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖']},
@@ -2282,11 +2276,18 @@ function poiGalleryHTML(key){
     + '</div>' : '';
   const query = (POIS[key] || {}).n || '';
   return gallery
-    + xhsActionsHTML(query, '查看热门图 ↗')
-    + '<div class="photo-source-note">热门图通过公开图片搜索打开；也可复制关键词到小红书 App 内搜索。</div>';
+    + xhsActionsHTML(query, '在小红书查看 ↗')
+    + '<div class="photo-source-note">优先打开小红书 App；未安装或未关联时自动进入小红书网页版。</div>';
 }
 function xhsSearchURL(query){
-  return 'https://cn.bing.com/images/search?q=' + encodeURIComponent('site:xiaohongshu.com ' + (query || ''));
+  return 'https://www.xiaohongshu.com/search_result/?keyword=' + encodeURIComponent(query || '') + '&source=web_search_result_notes';
+}
+function xhsAppURL(query){
+  const q = encodeURIComponent(query || '');
+  if(/Android/i.test(navigator.userAgent || '')){
+    return 'intent://search/result?keyword=' + q + '&source=web_search_result_notes#Intent;scheme=xhsdiscover;package=com.xingin.xhs;S.browser_fallback_url=' + encodeURIComponent(xhsSearchURL(query)) + ';end';
+  }
+  return 'xhsdiscover://search/result?keyword=' + q + '&source=web_search_result_notes';
 }
 function xhsActionsHTML(query, openLabel){
   const q = String(query || '');
@@ -2297,7 +2298,7 @@ function xhsActionsHTML(query, openLabel){
 function xhsActionButtonsHTML(query, openLabel){
   const q = String(query || '');
   return '<div class="xhs-actions">'
-    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '查看热门图 ↗') + '</a>'
+    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" data-xhs-open="' + esc(q) + '" rel="noopener noreferrer">' + esc(openLabel || '在小红书查看 ↗') + '</a>'
     + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制小红书搜索词</button>'
     + '</div>';
 }
@@ -2309,7 +2310,7 @@ function xhsInspirationHTML(key){
     + '<span class="xhs-note-title">' + esc(n.title) + '</span>'
     + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　· 小红书热门灵感</span>'
     + '<span class="xhs-note-tip">' + esc(n.tip) + '</span>'
-    + xhsActionButtonsHTML(n.query || n.title, '查看热门图 ↗')
+    + xhsActionButtonsHTML(n.query || n.title, '在小红书查看 ↗')
     + '</div></div>';
 }
 function openPOI(key){
@@ -2344,6 +2345,24 @@ $('#sheet').addEventListener('click', e => {
   setTimeout(function(){ try { el.scrollIntoView({ behavior:'smooth', block:'start' }); } catch(_){} }, 60);
 });
 document.addEventListener('click', e => {
+  const open = e.target.closest('[data-xhs-open]');
+  if(open){
+    e.preventDefault();
+    const query = open.dataset.xhsOpen || '';
+    const webURL = xhsSearchURL(query);
+    let leftPage = false;
+    const onVisibility = function(){
+      if(document.hidden) leftPage = true;
+    };
+    document.addEventListener('visibilitychange', onVisibility, { once:true });
+    showToast('正在打开小红书…');
+    window.location.href = xhsAppURL(query);
+    setTimeout(function(){
+      document.removeEventListener('visibilitychange', onVisibility);
+      if(!leftPage && !document.hidden) window.location.href = webURL;
+    }, 900);
+    return;
+  }
   const copy = e.target.closest('[data-xhs-copy]');
   if(!copy) return;
   e.preventDefault();
