@@ -485,6 +485,14 @@ body.palette-open{overflow:hidden}
 .xhs-note-title{font-weight:700;font-size:13px;line-height:1.4}
 .xhs-note-meta{font-size:11px;color:var(--brand)}
 .xhs-note-tip{font-size:12px;color:var(--muted);line-height:1.5}
+.xhs-dialog{width:min(440px,calc(100% - 28px));max-height:85vh;overflow:auto;padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.xhs-dialog::backdrop{background:rgba(20,30,46,.55)}
+.xhs-dialog p{color:var(--muted);font-size:13px}
+.xhs-dialog textarea{display:block;width:100%;min-height:74px;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);color:var(--text);font:inherit;resize:vertical}
+.xhs-dialog .xhs-actions{justify-content:flex-start;margin:14px 0}
+.xhs-dialog .xhs-open,.xhs-dialog .xhs-copy{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;font-size:14px;white-space:normal}
+.xhs-dialog .xhs-primary{background:var(--brand);color:var(--on-brand)}
+.xhs-dialog [hidden]{display:none}
 @media(max-width:420px){.poi-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:110px}.poi-gallery figure:first-child{grid-column:span 2;grid-row:auto}.photo-source{align-items:flex-start;flex-direction:column}.xhs-actions{justify-content:flex-start}}
 .lb{position:fixed;inset:0;z-index:120;background:var(--overlay-bg);display:none;align-items:center;justify-content:center;padding:14px}
 .lb.on{display:flex}
@@ -746,6 +754,16 @@ html[data-theme="dark"][data-palette="lemon"]{
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="xhs-dialog" id="xhsDialog" aria-labelledby="xhsDialogTitle">
+  <div class="sh-top"><h3 id="xhsDialogTitle">在小红书里搜索</h3><button type="button" class="sh-x" id="xhsClose" aria-label="关闭小红书搜索">✕</button></div>
+  <p>点击下方按钮，在提示中允许打开小红书。</p>
+  <label for="xhsQuery">搜索关键词</label>
+  <textarea id="xhsQuery" readonly></textarea>
+  <div class="xhs-actions"><a id="xhsLaunch" class="xhs-open xhs-primary">打开小红书 App 搜索</a><button type="button" id="xhsCopyQuery" class="xhs-copy" data-xhs-copy="">复制关键词</button></div>
+  <p id="xhsLaunchStatus" role="status" aria-live="polite">如果 App 只打开首页，请复制上面的关键词，在小红书搜索框内粘贴。</p>
+  <div class="xhs-actions"><a id="xhsIntent" class="xhs-open" hidden>备用打开方式</a></div>
+  <p>没有弹出 App？可试“备用打开方式”，或复制关键词后手动打开小红书。微信内请先用手机浏览器打开旅行手册。</p>
+</dialog>
 
 <script>
 /* ============================================================
@@ -2300,11 +2318,29 @@ function poiGalleryHTML(key){
   const query = (POIS[key] || {}).n || '';
   return gallery
     + xhsActionsHTML((POIS[key] || {}).xq || query, '打开小红书搜索 ↗')
-    + '<div class="photo-source-note">直接打开小红书官方搜索页并带入关键词；若手机没有自动转到 App，可继续使用网页版，或复制关键词到 App 内粘贴。</div>';
+    + '<div class="photo-source-note">电脑打开小红书网页搜索；手机提供 App 搜索入口与可复制的关键词。</div>';
 }
 function xhsWebURL(query){
   const q = encodeURIComponent(query || '');
   return 'https://www.xiaohongshu.com/search_result/?keyword=' + q + '&source=web_explore_feed';
+}
+function xhsIsMobile(){
+  return /Android|iPhone|iPad|iPod|HarmonyOS/i.test(navigator.userAgent || '') || !!(navigator.userAgentData && navigator.userAgentData.mobile);
+}
+function xhsAppURL(query){
+  return 'xhsdiscover://search/result?keyword=' + encodeURIComponent(query || '') + '&target_search=notes&source=deeplink';
+}
+function xhsIntentURL(query){
+  return xhsAppURL(query).replace('xhsdiscover://', 'intent://') + '#Intent;scheme=xhsdiscover;package=com.xingin.xhs;end';
+}
+function openXhsSearch(query){
+  $('#xhsQuery').value = query;
+  $('#xhsCopyQuery').dataset.xhsCopy = query;
+  $('#xhsLaunch').href = xhsAppURL(query);
+  $('#xhsIntent').href = xhsIntentURL(query);
+  $('#xhsIntent').hidden = !/Android|HarmonyOS/i.test(navigator.userAgent || '');
+  $('#xhsLaunchStatus').textContent = '如果 App 只打开首页，请复制上面的关键词，在小红书搜索框内粘贴。';
+  $('#xhsDialog').showModal();
 }
 function xhsActionsHTML(query, openLabel){
   const q = String(query || '');
@@ -2314,8 +2350,11 @@ function xhsActionsHTML(query, openLabel){
 }
 function xhsActionButtonsHTML(query, openLabel){
   const q = String(query || '');
+  const open = xhsIsMobile()
+    ? '<button class="xhs-open" type="button" data-xhs-mobile="' + esc(q) + '">小红书 App 搜索 ↗</button>'
+    : '<a class="xhs-open" href="' + xhsWebURL(q) + '" target="_blank" rel="noopener noreferrer" data-xhs-open="' + esc(q) + '">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>';
   return '<div class="xhs-actions">'
-    + '<a class="xhs-open" href="' + xhsWebURL(q) + '" target="_blank" rel="noopener noreferrer" data-xhs-open="' + esc(q) + '">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
+    + open
     + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制小红书搜索词</button>'
     + '</div>';
 }
@@ -2361,10 +2400,22 @@ $('#sheet').addEventListener('click', e => {
   closePOI();
   setTimeout(function(){ try { el.scrollIntoView({ behavior:'smooth', block:'start' }); } catch(_){} }, 60);
 });
-document.addEventListener('click', e => {
+$('#xhsClose').addEventListener('click', () => $('#xhsDialog').close());
+function handleXhsClick(e){
+  const mobile = e.target.closest('[data-xhs-mobile]');
+  if(mobile){
+    e.preventDefault();
+    openXhsSearch(mobile.dataset.xhsMobile || '');
+    return;
+  }
+  const launch = e.target.closest('#xhsLaunch, #xhsIntent');
+  if(launch){
+    $('#xhsLaunchStatus').textContent = '已尝试打开 App。若仍停留在这里，请试备用打开方式，或复制关键词后手动打开小红书。';
+    return; // Keep the native link gesture: do not await clipboard writes or launch from a timer.
+  }
   const open = e.target.closest('[data-xhs-open]');
   if(open){
-    showToast('正在打开小红书官方搜索页；若未跳转 App，可直接使用网页版');
+    showToast('正在打开小红书官方搜索页');
     return;
   }
   const copy = e.target.closest('[data-xhs-copy]');
@@ -2374,7 +2425,8 @@ document.addEventListener('click', e => {
   copyPlainText(query).then(ok => {
     showToast(ok ? '搜索词已复制，打开小红书后直接粘贴' : '复制失败，请长按搜索词手动复制');
   }).catch(() => showToast('复制失败，请长按搜索词手动复制'));
-});
+}
+document.addEventListener('click', handleXhsClick);
 document.addEventListener('click', function(e){
   const poiLink = e.target.closest('[data-nav-poi]');
   if(poiLink){
