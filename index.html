@@ -820,6 +820,16 @@ const POIS = {
     hl:['Southbank Promenade 河岸步道','沿河餐厅与酒吧','对岸就是 Flinders St 站灯光'],
     tip:['晚上河边风大，带件外套','餐厅偏游客价，可往东走两条街找本地店'],
     ph:['河边夜景','步道上的街头艺人'],kind:'sight'},
+  higherground:{n:'Higher Ground Melbourne',loc:'650 Little Bourke St, Melbourne VIC 3000',lat:-37.8158967,lng:144.9531574,
+    r:'离酒店和南十字星都近，挑高 15 米的旧电站空间很有墨尔本气氛，落地第一餐无需绕路。',
+    hl:['招牌辣味炒蛋 Chilli Scrambled Eggs','Avocado Pretzel','Blueberry & Ricotta Hotcakes'],
+    tip:['周五通常 07:00–17:00 营业，建议提前订位','两人可选一甜一咸共享，人均约 AUD 25–40，以当日菜单为准','若现场等位超过 20 分钟，改在 Spencer Outlet Centre 附近简餐，避免耽误购物'],
+    ph:['旧电站挑高大厅','楼梯与拱窗构图'],xq:'墨尔本 Higher Ground brunch 必吃',kind:'food'},
+  asado:{n:'Asado · Southbank',loc:'6 Riverside Quay, Southbank VIC 3006',lat:-37.8209861,lng:144.9639956,
+    r:'从联邦广场步行过河即到，阿根廷炭火菜适合两人分享，吃完可沿雅拉河看夜景。',
+    hl:['Beef Empanada 牛肉馅饼','Provoleta 烤奶酪','炭烤鸡或牛小排','Papas Bravas 炸土豆'],
+    tip:['周五通常 12:00–23:30 营业，建议提前订位','两人建议点 2 个馅饼 + 烤奶酪 + 一份主菜 + 一份配菜，约 AUD 110–150，不含酒水','想控制预算可单点共享，不必选每人 AUD 105 的套餐；菜单与价格以到店为准','偏爱牛排和河景可把 The Meat & Wine Co Southbank 作为较贵备选'],
+    ph:['开放式炭火厨房','Southbank 河畔夜景'],xq:'墨尔本 Southbank Asado 河景 晚餐',kind:'food'},
   luluemporium:{n:'lululemon · Emporium Melbourne',loc:'Tenancy G-031A / G-3032, 287 Lonsdale St, Melbourne VIC 3000',lat:-37.8128,lng:144.9632,
     r:'只购买一两件时，市中心门店比专程前往远郊 Outlet 更省总费用和时间，也更容易衔接当天步行路线。',
     hl:['10/2 周五通常营业至 21:00','位于 Emporium Melbourne，靠近皇家拱廊','款式和常用尺码通常比 Outlet 更完整'],
@@ -1203,17 +1213,17 @@ const PALETTES = {
   coral:{
     label:'珊瑚沙滩', theme:{ light:'#FFF4EC', dark:'#172238' }, fallback:'#B74334',
     dayColors:['#B74334','#0F789F','#8A5A0A','#237A5A','#A53F2D','#A9472F','#2B7898','#91523F','#4F7A39','#8E541B','#465C72'],
-    kindColors:{ airport:'#B94F36', station:'#B94F36', hotel:'#0F789F', sight:'#B74334' }
+    kindColors:{ airport:'#B94F36', station:'#B94F36', hotel:'#0F789F', sight:'#B74334', food:'#C16A21' }
   },
   mint:{
     label:'海盐薄荷', theme:{ light:'#EFF9F3', dark:'#142B2A' }, fallback:'#B74735',
     dayColors:['#B74735','#147C76','#8A6211','#3C8360','#A94735','#9B5D43','#2A817B','#8B5B45','#537A3F','#8A651F','#48655F'],
-    kindColors:{ airport:'#A94735', station:'#A94735', hotel:'#147C76', sight:'#B74735' }
+    kindColors:{ airport:'#A94735', station:'#A94735', hotel:'#147C76', sight:'#B74735', food:'#A56D18' }
   },
   lemon:{
     label:'晴空柠檬', theme:{ light:'#FFF9DF', dark:'#2D2A1B' }, fallback:'#B44A30',
     dayColors:['#B44A30','#087EA4','#8B5A00','#3A7B54','#A9452D','#9F5635','#277C98','#8D613A','#5B783A','#8C5E12','#536567'],
-    kindColors:{ airport:'#A9452D', station:'#A9452D', hotel:'#087EA4', sight:'#B44A30' }
+    kindColors:{ airport:'#A9452D', station:'#A9452D', hotel:'#087EA4', sight:'#B44A30', food:'#A86B00' }
   }
 };
 let activePalette = 'coral';
@@ -1268,14 +1278,14 @@ const DAYS = [
   {t:'09:35',tz:'AEST',ttl:'抵达墨尔本图拉马莱恩机场 T2',d:'入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。',tags:['航班','注意'],p:'mel'},
   {t:'10:50',tz:'AEST',ttl:'SkyBus 机场 → 南十字星车站',d:'直达市区，车程约 25 分钟，单程约 AUD 24/人。',tags:['导航'],p:'southern',tr:'约 25 分钟'},
   {t:'11:30',tz:'AEST',ttl:'酒店寄存行李 · 轻装出发',d:'Dorsett 入住时间 15:00，先把行李寄存在前台。',tags:['注意'],p:'dorsett',tr:'步行约 10 分钟'},
-  {t:'12:00',tz:'AEST',ttl:'午餐 · 酒店附近',d:'寄存行李后在酒店或南十字星车站附近就近用餐，省下往返时间，也方便按时前往拱廊街。',tags:['介绍'],tr:'步行约 5–10 分钟'},
+  {t:'12:00',tz:'AEST',ttl:'午餐 · Higher Ground（建议预约）',d:'从酒店步行约 5 分钟。两人可点一份辣味炒蛋或牛油果椒盐卷饼，再共享一份蓝莓乳清干酪热香饼；人均约 AUD 25–40。若等位超过 20 分钟就启用附近简餐备选，别耽误后面的购物。',tags:['介绍','需提前订'],p:'higherground',tr:'步行约 5 分钟'},
   {t:'12:50',tz:'AEST',ttl:'★ Chemist Warehouse 买 Swisse',d:'去 Spencer Outlet Centre 门店，靠近南十字星与酒店。优先看半价促销和每粒单价；当天以门店价格与库存为准。',tags:['介绍','注意'],p:'cwspencer',tr:'步行约 8–12 分钟'},
   {t:'13:30',tz:'AEST',ttl:'★ lululemon Emporium 选购',d:'只买 1–2 件直接逛市中心正价店更划算，无需承担 Moorabbin 往返车费。先看目标款式，再留意店内折扣区。',tags:['介绍'],p:'luluemporium',tr:'免费电车 / 步行约 15 分钟'},
   {t:'14:20',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊',d:'两条 19 世纪拱廊街相邻，看马赛克地砖与彩色玻璃穹顶。',tags:['介绍'],p:'blockarcade',tr:'步行约 6 分钟'},
   {t:'15:20',tz:'AEST',ttl:'咖啡歇脚 · 迪格雷夫斯街',d:'墨尔本咖啡巷文化的发源地。晒太阳 + 一杯咖啡帮助倒时差，今天不回酒店午睡。',tags:['介绍'],p:'degraves',tr:'步行约 6 分钟'},
   {t:'16:00',tz:'AEST',ttl:'弗林德斯街车站 + 圣保罗大教堂',d:'墨尔本最经典地标组合，隔街相望。',tags:['介绍'],p:'flinders',tr:'步行约 4 分钟'},
   {t:'16:45',tz:'AEST',ttl:'联邦广场',d:'几何立面广场，正对弗林德斯街车站；傍晚可以慢慢拍照。',tags:['介绍'],p:'fedsquare',tr:'步行约 3 分钟'},
-  {t:'18:00',tz:'AEST',ttl:'雅拉河南岸 · 晚餐',d:'沿河散步看夜景后吃晚饭，不再安排远距离折返。',tags:['介绍'],p:'southbank',tr:'步行约 8 分钟'},
+  {t:'18:00',tz:'AEST',ttl:'晚餐 · Asado Southbank（建议预约）',d:'从联邦广场过河约 8 分钟。两人建议共享 2 个牛肉馅饼、烤奶酪、一份炭烤主菜和一份土豆，预计 AUD 110–150（不含酒水）；饭后沿雅拉河散步再回酒店。',tags:['介绍','需提前订'],p:'asado',tr:'步行约 8 分钟'},
   {t:'20:00',tz:'AEST',ttl:'晚饭后回酒店办理入住',d:'返回 Dorsett Melbourne 正式入住，取回寄存行李。第一晚不再安排其他活动，尽早休息。',tags:['注意'],p:'dorsett',tr:'打车 / 电车约 15 分钟'}
  ]
 },
@@ -1427,7 +1437,7 @@ const DAYS = [
 
 const TRIP_FLOW = [
   {d:1, title:'启程', stops:['虹桥机场','厦门中转','飞往墨尔本']},
-  {d:2, title:'抵达墨尔本 · 市区 + 购物', stops:['墨尔本机场','南十字星','酒店寄存','酒店附近午餐','Spencer 买 Swisse','Emporium 买 lululemon','拱廊街','咖啡巷','弗林德斯街 / 联邦广场','雅拉河南岸晚餐','酒店入住']},
+  {d:2, title:'抵达墨尔本 · 市区 + 购物', stops:['墨尔本机场','南十字星','酒店寄存','Higher Ground 午餐','Spencer 买 Swisse','Emporium 买 lululemon','拱廊街','咖啡巷','弗林德斯街 / 联邦广场','Asado 河畔晚餐','酒店入住']},
   {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','考拉园','企鹅归巢','回墨尔本']},
   {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','阿波罗湾午餐','灯塔 / 纪念拱门','回墨尔本']},
   {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖']},
@@ -2325,7 +2335,7 @@ function xhsInspirationHTML(key){
 }
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
-  const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点', shop:'购物' }[p.kind] || '地点';
+  const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点', shop:'购物', food:'餐厅' }[p.kind] || '地点';
   $('#sheet').innerHTML =
     '<div class="sh-top"><h3>' + esc(p.n) + '</h3><button class="sh-x" id="shX">✕</button></div>'
     + '<div style="font-size:12px;color:var(--muted);margin-bottom:6px">' + kindName + '</div>'
