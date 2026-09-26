@@ -475,14 +475,17 @@ body.palette-open{overflow:hidden}
 .poi-gallery figure:hover img{transform:scale(1.035);filter:saturate(1.08)}
 .poi-gallery figcaption{position:absolute;inset:auto 0 0;padding:22px 8px 7px;color:var(--on-photo);font-size:11px;line-height:1.25;background:linear-gradient(180deg,transparent,var(--overlay-bg));text-shadow:0 1px 2px var(--shadow-ink)}
 .photo-source{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0 12px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-size:12px;color:var(--muted)}
-.photo-source a{flex:0 0 auto;color:var(--brand);font-weight:700;text-decoration:none}
-.photo-source a:hover{text-decoration:underline}
-.xhs-note{display:grid;gap:4px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,var(--surface2),var(--surface));color:var(--text);text-decoration:none}
+.photo-source-note{margin:-7px 0 12px;font-size:11px;color:var(--muted)}
+.xhs-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:0 0 auto;flex-wrap:wrap}
+.xhs-open,.xhs-copy{min-height:30px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;background:var(--surface);color:var(--brand);font:inherit;font-size:11px;font-weight:700;line-height:1.25;text-decoration:none;cursor:pointer;white-space:nowrap}
+.xhs-open:hover,.xhs-copy:hover{border-color:var(--brand);background:var(--brand-soft)}
+.xhs-open:focus-visible,.xhs-copy:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.xhs-note{display:grid;gap:4px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,var(--surface2),var(--surface));color:var(--text)}
 .xhs-note:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:var(--shadow)}
 .xhs-note-title{font-weight:700;font-size:13px;line-height:1.4}
 .xhs-note-meta{font-size:11px;color:var(--brand)}
 .xhs-note-tip{font-size:12px;color:var(--muted);line-height:1.5}
-@media(max-width:420px){.poi-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:110px}.poi-gallery figure:first-child{grid-column:span 2;grid-row:auto}}
+@media(max-width:420px){.poi-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:110px}.poi-gallery figure:first-child{grid-column:span 2;grid-row:auto}.photo-source{align-items:flex-start;flex-direction:column}.xhs-actions{justify-content:flex-start}}
 .lb{position:fixed;inset:0;z-index:120;background:var(--overlay-bg);display:none;align-items:center;justify-content:center;padding:14px}
 .lb.on{display:flex}
 .lb img{max-width:100%;max-height:100%;border-radius:10px}
@@ -1134,20 +1137,20 @@ const CREDITS = {
   gorarch:'Orderinchaos · CC BY-SA 4.0 / Wikimedia Commons'
 };
 
-/* 小红书公开笔记灵感：只保存标题、互动量和原笔记入口，不复制平台原图 */
+/* 小红书热门灵感：保留标题与互动量；入口改为稳定的关键词搜索，不固化会过期的 xsec_token。 */
 const XHS_NOTES = {
-  flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
-  hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
-  blockarcade:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',url:'https://www.xiaohongshu.com/search_result/69759266000000001a0287b9?xsec_token=ABSqCwGVIpJWaRNKT8_W4yqviV38rVgwBp9x7bpIJuZZo=&xsec_source=',tip:'皇家拱廊中段拱形栏杆与玻璃顶适合侧身回头拍，傍晚暖灯氛围更好。'},
-  whitehaven:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',url:'https://www.xiaohongshu.com/search_result/6aa919e4000000002502f0b4?xsec_token=ABR0H7x_ISxnNX1dB7Q19dGB2FCuDzwTrxtG81oAr3REs=&xsec_source=',tip:'白天堂沙滩建议提前确认潮汐、接送码头和防晒装备，海上活动留出天气备选。'},
-  heartreef:{title:'解锁爱心大堡礁',likes:'18',url:'https://www.xiaohongshu.com/search_result/6aa0bc9a000000002900cc52?xsec_token=ABEu04cg0d4w3Du5rFSGjVRyxs0wW3jH6KhUUdLetGvdo=&xsec_source=',tip:'观光飞机拍心形礁时优先选靠窗座位，提前确认起飞时间和天气。'},
-  hillinlet:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',url:'https://www.xiaohongshu.com/search_result/6aa919e4000000002502f0b4?xsec_token=ABR0H7x_ISxnNX1dB7Q19dGB2FCuDzwTrxtG81oAr3REs=&xsec_source=',tip:'希尔湾观景台适合拍沙纹和潮汐变化，白色沙滩与蓝绿色海水形成天然构图。'},
-  operahouse:{title:'为了这9张图，专门去了趟悉尼',likes:'61',url:'https://www.xiaohongshu.com/search_result/6a994d21000000001001dbde?xsec_token=ABJZIflPuSdBJXCQFcy2JyGN8t_KyNMQfG-cd8dJmJJNk=&xsec_source=',tip:'悉尼歌剧院可从环形码头、皇家植物园和海港大桥三个方向取景，注意避开正午硬光。'},
-  hbrbridge:{title:'悉尼两日游路线图＋拍照时间保姆攻略',likes:'40',url:'https://www.xiaohongshu.com/search_result/6aa15f32000000001200170e?xsec_token=ABhSjVvyfuCJrnwd_xnR1K_QJG71ZraLYvBclO9blF7Kw=&xsec_source=',tip:'海港大桥和歌剧院适合安排在日落前后，蓝调时刻可以同时拍到灯光与天空层次。'},
-  bondi:{title:'悉尼最美的机位',likes:'25',url:'https://www.xiaohongshu.com/search_result/69872ebb000000001a0208a3?xsec_token=ABpt4pyh_bSAqaYCpFV7aepYUCrWjN-MRf0XZjFS0WauQ=&xsec_source=',tip:'邦迪海滩沿海岸步道取景，上午光线更干净，注意海风和台阶安全。'},
-  penguin:{title:'坐蒸汽小火车去看小企鹅',likes:'3',url:'https://www.xiaohongshu.com/search_result/6a4652e00000000008027eb4?xsec_token=AB1UDW5xPBkt4lruWLHhXMcEH68WA7Mt-gJim7u4ZU9ig=&xsec_source=',tip:'菲利普岛看企鹅要提前确认入场时间，现场不要使用闪光灯，也不要越过观景线。'},
-  brighton:{title:'墨尔本必打卡：彩虹小屋＋菲利普岛',likes:'5',url:'https://www.xiaohongshu.com/search_result/6a8e001d000000002003d4a6?xsec_token=ABsnH3wKPME9CW_2oklvGogkxWDjey0cY4-tQhCwmDXyE=&xsec_source=',tip:'彩虹小屋适合用连续色块做构图，建议避开人流高峰并尊重私人门前空间。'},
-  puffing:{title:'墨尔本一日游｜坐蒸汽小火车去看',likes:'3',url:'https://www.xiaohongshu.com/search_result/6a4652e00000000008027eb4?xsec_token=AB1UDW5xPBkt4lruWLHhXMcEH68WA7Mt-gJim7u4ZU9ig=&xsec_source=',tip:'蒸汽小火车沿途适合拍车厢、森林和木桥，提前确认发车站与返程班次。'}
+  flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
+  hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
+  blockarcade:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'皇家拱廊中段拱形栏杆与玻璃顶适合侧身回头拍，傍晚暖灯氛围更好。'},
+  whitehaven:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',query:'圣灵群岛 白天堂沙滩 希尔湾',tip:'白天堂沙滩建议提前确认潮汐、接送码头和防晒装备，海上活动留出天气备选。'},
+  heartreef:{title:'解锁爱心大堡礁',likes:'18',query:'心形礁 大堡礁 观光飞机',tip:'观光飞机拍心形礁时优先选靠窗座位，提前确认起飞时间和天气。'},
+  hillinlet:{title:'圣灵群岛5天4晚｜小众避坑点',likes:'31',query:'圣灵群岛 白天堂沙滩 希尔湾',tip:'希尔湾观景台适合拍沙纹和潮汐变化，白色沙滩与蓝绿色海水形成天然构图。'},
+  operahouse:{title:'为了这9张图，专门去了趟悉尼',likes:'61',query:'悉尼 歌剧院 海港大桥 拍照',tip:'悉尼歌剧院可从环形码头、皇家植物园和海港大桥三个方向取景，注意避开正午硬光。'},
+  hbrbridge:{title:'悉尼两日游路线图＋拍照时间保姆攻略',likes:'40',query:'悉尼 歌剧院 海港大桥 拍照',tip:'海港大桥和歌剧院适合安排在日落前后，蓝调时刻可以同时拍到灯光与天空层次。'},
+  bondi:{title:'悉尼最美的机位',likes:'25',query:'悉尼 邦迪海滩 拍照',tip:'邦迪海滩沿海岸步道取景，上午光线更干净，注意海风和台阶安全。'},
+  penguin:{title:'坐蒸汽小火车去看小企鹅',likes:'3',query:'墨尔本 蒸汽小火车 菲利普岛 企鹅',tip:'菲利普岛看企鹅要提前确认入场时间，现场不要使用闪光灯，也不要越过观景线。'},
+  brighton:{title:'墨尔本必打卡：彩虹小屋＋菲利普岛',likes:'5',query:'墨尔本 布莱顿彩虹小屋 菲利普岛',tip:'彩虹小屋适合用连续色块做构图，建议避开人流高峰并尊重私人门前空间。'},
+  puffing:{title:'墨尔本一日游｜坐蒸汽小火车去看',likes:'3',query:'墨尔本 蒸汽小火车 菲利普岛 企鹅',tip:'蒸汽小火车沿途适合拍车厢、森林和木桥，提前确认发车站与返程班次。'}
 };
 
 
@@ -2277,17 +2280,37 @@ function poiGalleryHTML(key){
   const gallery = keys.length ? '<div class="poi-gallery" aria-label="相关实景照片">'
     + keys.map(k => '<figure data-gallery-src="' + PHOTOS[k] + '"><img src="' + PHOTOS[k] + '" alt="' + esc((POIS[k] || {}).n || '') + ' 实景照片" loading="lazy" decoding="async" fetchpriority="low"><figcaption>' + esc((POIS[k] || {}).n || '') + '</figcaption></figure>').join('')
     + '</div>' : '';
+  const query = (POIS[key] || {}).n || '';
   return gallery
-    + '<div class="photo-source"><span>📷 同行程实景与相关机位</span><a href="https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent((POIS[key] || {}).n || '') + '" target="_blank" rel="noopener">查看小红书热门图 ↗</a></div>';
+    + xhsActionsHTML(query, '搜索热门图 ↗')
+    + '<div class="photo-source-note">若没有自动跳转，复制搜索词后打开小红书粘贴即可。</div>';
+}
+function xhsSearchURL(query){
+  return 'https://www.xiaohongshu.com/search_result/?keyword=' + encodeURIComponent(query || '');
+}
+function xhsActionsHTML(query, openLabel){
+  const q = String(query || '');
+  return '<div class="photo-source"><span>📷 同行程实景与相关机位</span>'
+    + xhsActionButtonsHTML(q, openLabel)
+    + '</div>';
+}
+function xhsActionButtonsHTML(query, openLabel){
+  const q = String(query || '');
+  return '<div class="xhs-actions">'
+    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
+    + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制搜索词</button>'
+    + '</div>';
 }
 function xhsInspirationHTML(key){
   const n = XHS_NOTES[key];
   if(!n) return '';
   return '<div class="sh-sec xhs-inspiration"><h4>小红书热门灵感</h4>'
-    + '<a class="xhs-note" href="' + n.url + '" target="_blank" rel="noopener">'
+    + '<div class="xhs-note">'
     + '<span class="xhs-note-title">' + esc(n.title) + '</span>'
-    + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　↗ 打开原笔记</span>'
-    + '<span class="xhs-note-tip">' + esc(n.tip) + '</span></a></div>';
+    + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　· 搜索同类热门图</span>'
+    + '<span class="xhs-note-tip">' + esc(n.tip) + '</span>'
+    + xhsActionButtonsHTML(n.query || n.title, '打开小红书搜索 ↗')
+    + '</div></div>';
 }
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
@@ -2319,6 +2342,15 @@ $('#sheet').addEventListener('click', e => {
   el.classList.add('open');
   closePOI();
   setTimeout(function(){ try { el.scrollIntoView({ behavior:'smooth', block:'start' }); } catch(_){} }, 60);
+});
+document.addEventListener('click', e => {
+  const copy = e.target.closest('[data-xhs-copy]');
+  if(!copy) return;
+  e.preventDefault();
+  const query = copy.dataset.xhsCopy || '';
+  copyPlainText(query).then(ok => {
+    showToast(ok ? '搜索词已复制，打开小红书后直接粘贴' : '复制失败，请长按搜索词手动复制');
+  }).catch(() => showToast('复制失败，请长按搜索词手动复制'));
 });
 document.addEventListener('click', function(e){
   const poiLink = e.target.closest('[data-nav-poi]');
