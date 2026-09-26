@@ -1137,7 +1137,7 @@ const CREDITS = {
   gorarch:'Orderinchaos · CC BY-SA 4.0 / Wikimedia Commons'
 };
 
-/* 小红书热门灵感：保留标题与互动量；入口改为稳定的关键词搜索，不固化会过期的 xsec_token。 */
+/* 小红书热门灵感：公开图片搜索负责网页查看，复制关键词负责 App 内搜索；不固化会过期的 xsec_token。 */
 const XHS_NOTES = {
   flinders:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'弗林德斯街车站、霍西尔巷、皇家拱廊可连成一条步行拍照线，下午侧光更适合拍建筑。'},
   hosier:{title:'墨尔本Citywalk封神！周董同款3大地标连刷',likes:'1589',query:'墨尔本 Citywalk 弗林德斯街 霍西尔巷 皇家拱廊',tip:'纯色穿搭和仰拍涂鸦墙更容易突出人物，早上或傍晚人更少。'},
@@ -2282,11 +2282,11 @@ function poiGalleryHTML(key){
     + '</div>' : '';
   const query = (POIS[key] || {}).n || '';
   return gallery
-    + xhsActionsHTML(query, '搜索热门图 ↗')
-    + '<div class="photo-source-note">若没有自动跳转，复制搜索词后打开小红书粘贴即可。</div>';
+    + xhsActionsHTML(query, '查看热门图 ↗')
+    + '<div class="photo-source-note">热门图通过公开图片搜索打开；也可复制关键词到小红书 App 内搜索。</div>';
 }
 function xhsSearchURL(query){
-  return 'https://www.xiaohongshu.com/search_result/?keyword=' + encodeURIComponent(query || '');
+  return 'https://cn.bing.com/images/search?q=' + encodeURIComponent('site:xiaohongshu.com ' + (query || ''));
 }
 function xhsActionsHTML(query, openLabel){
   const q = String(query || '');
@@ -2297,8 +2297,8 @@ function xhsActionsHTML(query, openLabel){
 function xhsActionButtonsHTML(query, openLabel){
   const q = String(query || '');
   return '<div class="xhs-actions">'
-    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
-    + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制搜索词</button>'
+    + '<a class="xhs-open" href="' + xhsSearchURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '查看热门图 ↗') + '</a>'
+    + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制小红书搜索词</button>'
     + '</div>';
 }
 function xhsInspirationHTML(key){
@@ -2307,9 +2307,9 @@ function xhsInspirationHTML(key){
   return '<div class="sh-sec xhs-inspiration"><h4>小红书热门灵感</h4>'
     + '<div class="xhs-note">'
     + '<span class="xhs-note-title">' + esc(n.title) + '</span>'
-    + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　· 搜索同类热门图</span>'
+    + '<span class="xhs-note-meta">❤ ' + esc(n.likes) + ' 赞　· 小红书热门灵感</span>'
     + '<span class="xhs-note-tip">' + esc(n.tip) + '</span>'
-    + xhsActionButtonsHTML(n.query || n.title, '打开小红书搜索 ↗')
+    + xhsActionButtonsHTML(n.query || n.title, '查看热门图 ↗')
     + '</div></div>';
 }
 function openPOI(key){
