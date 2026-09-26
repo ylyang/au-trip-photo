@@ -2300,14 +2300,11 @@ function poiGalleryHTML(key){
   const query = (POIS[key] || {}).n || '';
   return gallery
     + xhsActionsHTML((POIS[key] || {}).xq || query, '打开小红书搜索 ↗')
-    + '<div class="photo-source-note">直接唤起小红书 App 并带入搜索词；若浏览器禁止唤起，可复制关键词后在 App 内粘贴。</div>';
+    + '<div class="photo-source-note">直接打开小红书官方搜索页并带入关键词；若手机没有自动转到 App，可继续使用网页版，或复制关键词到 App 内粘贴。</div>';
 }
-function xhsAppURL(query){
+function xhsWebURL(query){
   const q = encodeURIComponent(query || '');
-  if(/Android/i.test(navigator.userAgent || '')){
-    return 'intent://search/result?keyword=' + q + '&target_search=notes&source=deeplink#Intent;scheme=xhsdiscover;package=com.xingin.xhs;end';
-  }
-  return 'xhsdiscover://search/result?keyword=' + q + '&target_search=notes&source=deeplink';
+  return 'https://www.xiaohongshu.com/search_result/?keyword=' + q + '&source=web_explore_feed';
 }
 function xhsActionsHTML(query, openLabel){
   const q = String(query || '');
@@ -2318,7 +2315,7 @@ function xhsActionsHTML(query, openLabel){
 function xhsActionButtonsHTML(query, openLabel){
   const q = String(query || '');
   return '<div class="xhs-actions">'
-    + '<a class="xhs-open" href="' + xhsAppURL(q) + '" rel="noopener noreferrer">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
+    + '<a class="xhs-open" href="' + xhsWebURL(q) + '" target="_blank" rel="noopener noreferrer" data-xhs-open="' + esc(q) + '">' + esc(openLabel || '打开小红书搜索 ↗') + '</a>'
     + '<button class="xhs-copy" type="button" data-xhs-copy="' + esc(q) + '">复制小红书搜索词</button>'
     + '</div>';
 }
@@ -2365,6 +2362,11 @@ $('#sheet').addEventListener('click', e => {
   setTimeout(function(){ try { el.scrollIntoView({ behavior:'smooth', block:'start' }); } catch(_){} }, 60);
 });
 document.addEventListener('click', e => {
+  const open = e.target.closest('[data-xhs-open]');
+  if(open){
+    showToast('正在打开小红书官方搜索页；若未跳转 App，可直接使用网页版');
+    return;
+  }
   const copy = e.target.closest('[data-xhs-copy]');
   if(!copy) return;
   e.preventDefault();
