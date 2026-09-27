@@ -1,5 +1,5 @@
-const CACHE_NAME = 'au-trip-photo-v25';
-const CORE_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
+const CACHE_NAME = 'au-trip-photo-v26';
+const CORE_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', event => {
   self.skipWaiting();

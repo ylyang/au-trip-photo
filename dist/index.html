@@ -145,8 +145,9 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 4px 6px}
 .brand-mini{font-size:13px;color:var(--muted);letter-spacing:1px}
 .top-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}
-.theme-btn,.palette-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
-.theme-btn:focus-visible,.palette-btn:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.theme-btn,.palette-btn,.install-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
+.theme-btn:focus-visible,.palette-btn:focus-visible,.install-btn:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.install-btn{border-color:var(--accent);color:var(--accent);font-weight:700}
 .palette-btn{display:inline-flex;align-items:center;gap:5px;color:var(--text)}
 .palette-btn::before{content:'';width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--brand) 0 42%,var(--photo-frame) 42% 68%,var(--accent) 68%);box-shadow:0 0 0 1px var(--line)}
 .palette-sheet[hidden]{display:none}
@@ -169,7 +170,21 @@ button{font-family:inherit;font-size:inherit;color:inherit}
 .palette-option[data-palette-choice="lemon"] .palette-preview{background:linear-gradient(135deg,#FFF9DE 0 39%,#B44A30 39% 62%,#087EA4 62%)}
 .palette-option strong,.palette-option small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.palette-option strong{font-size:12px;line-height:1.35}.palette-option small{margin-top:1px;color:var(--muted);font-size:10px;line-height:1.35}
 body.palette-open{overflow:hidden}
-@media(max-width:380px){.topbar{gap:6px}.brand-mini{font-size:12px;letter-spacing:.7px}.top-actions{gap:4px}.theme-btn,.palette-btn{padding:6px 8px;font-size:12px}.palette-panel{padding-left:10px;padding-right:10px}.palette-grid{gap:6px}.palette-option{padding:7px;min-height:92px}.palette-option[aria-checked="true"]{padding:6px}.palette-option strong{font-size:11.5px}.palette-option small{font-size:9.5px}}
+@media(max-width:380px){.topbar{gap:5px}.brand-mini{font-size:11px;letter-spacing:.5px}.top-actions{gap:3px}.theme-btn,.palette-btn,.install-btn{padding:6px 7px;font-size:11.5px}.palette-panel{padding-left:10px;padding-right:10px}.palette-grid{gap:6px}.palette-option{padding:7px;min-height:92px}.palette-option[aria-checked="true"]{padding:6px}.palette-option strong{font-size:11.5px}.palette-option small{font-size:9.5px}}
+.pwa-install-banner[hidden],.pwa-install-guide[hidden]{display:none}
+.pwa-install-banner{position:fixed;z-index:980;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));width:min(calc(100% - 24px),520px);transform:translateX(-50%);display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 11px 11px 12px;border:1px solid rgba(var(--accent-rgb),.35);border-radius:18px;background:var(--surface);box-shadow:0 14px 44px rgba(var(--shadow-ink-rgb),.24);color:var(--text)}
+.pwa-install-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--accent-soft);font-size:22px}
+.pwa-install-copy{min-width:0}.pwa-install-copy strong{display:block;font-size:13.5px;line-height:1.35}.pwa-install-copy span{display:block;margin-top:2px;color:var(--muted);font-size:11.5px;line-height:1.4}
+.pwa-install-actions{display:flex;align-items:center;gap:5px}.pwa-install-action{border:0;border-radius:999px;background:var(--accent);color:var(--on-accent);padding:8px 11px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}.pwa-install-dismiss{width:30px;height:30px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:18px;line-height:1;cursor:pointer}
+.pwa-install-action:focus-visible,.pwa-install-dismiss:focus-visible,.pwa-guide-close:focus-visible,.pwa-guide-done:focus-visible{outline:3px solid rgba(var(--accent-rgb),.32);outline-offset:2px}
+.pwa-install-guide{position:fixed;z-index:1300;inset:0;display:grid;align-items:end;color:var(--text)}
+.pwa-guide-backdrop{position:absolute;inset:0;border:0;background:rgba(var(--shadow-ink-rgb),.5)}
+.pwa-guide-panel{position:relative;z-index:1;width:min(100%,560px);margin:0 auto;padding:10px 16px calc(18px + env(safe-area-inset-bottom));border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;background:var(--surface);box-shadow:0 -12px 40px rgba(var(--shadow-ink-rgb),.24)}
+.pwa-guide-grip{width:38px;height:4px;margin:0 auto 13px;border-radius:99px;background:var(--line)}
+.pwa-guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.pwa-guide-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--accent)}.pwa-guide-head h2{margin-top:2px;font-size:19px}.pwa-guide-close{width:34px;height:34px;flex:0 0 34px;border:1px solid var(--line);border-radius:50%;background:var(--surface2);color:var(--muted);font-size:22px;line-height:1;cursor:pointer}
+.pwa-guide-steps{margin:14px 0;padding:12px 13px;border-radius:14px;background:var(--surface2);font-size:13px;line-height:1.75}.pwa-guide-steps b{color:var(--accent)}.pwa-guide-note{margin:0 0 13px;color:var(--muted);font-size:11.5px;line-height:1.55}.pwa-guide-done{width:100%;border:0;border-radius:13px;background:var(--accent);color:var(--on-accent);padding:11px 14px;font-size:14px;font-weight:800;cursor:pointer}
+body.pwa-guide-open{overflow:hidden}
+@media(max-width:420px){.pwa-install-banner{grid-template-columns:36px minmax(0,1fr);gap:8px}.pwa-install-icon{width:36px;height:36px;border-radius:11px;font-size:19px}.pwa-install-actions{grid-column:1/-1;justify-content:flex-end}.pwa-install-action{flex:1}.pwa-install-copy strong{font-size:13px}}
 .hero{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;background:var(--surface2)}
 .hero svg{display:block;width:100%;height:auto}
 .hero-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;
@@ -576,6 +591,7 @@ html[data-theme="dark"][data-palette="lemon"]{
   <div class="topbar">
     <div class="brand-mini">AUSTRALIA 2026</div>
     <div class="top-actions">
+      <button class="install-btn" id="pwaInstallBtn" type="button">📲 安装</button>
       <button class="palette-btn" id="paletteBtn" type="button" aria-haspopup="dialog" aria-expanded="false">配色</button>
       <button class="theme-btn" id="themeBtn" type="button">🌙 夜间</button>
     </div>
@@ -604,6 +620,29 @@ html[data-theme="dark"][data-palette="lemon"]{
           <span class="palette-preview" aria-hidden="true"></span><strong>晴空柠檬</strong><small>明亮晴空黄</small>
         </button>
       </div>
+    </section>
+  </div>
+
+  <aside class="pwa-install-banner" id="pwaInstallBanner" aria-live="polite" hidden>
+    <div class="pwa-install-icon" aria-hidden="true">🧳</div>
+    <div class="pwa-install-copy"><strong>把旅行手册放到手机桌面</strong><span>像 App 一样打开，已缓存内容断网也能看。</span></div>
+    <div class="pwa-install-actions">
+      <button class="pwa-install-action" id="pwaInstallAction" type="button">添加到桌面</button>
+      <button class="pwa-install-dismiss" id="pwaInstallDismiss" type="button" aria-label="暂时关闭安装提示">×</button>
+    </div>
+  </aside>
+
+  <div class="pwa-install-guide" id="pwaInstallGuide" hidden aria-hidden="true">
+    <button class="pwa-guide-backdrop" type="button" data-pwa-guide-close aria-label="关闭安装说明"></button>
+    <section class="pwa-guide-panel" role="dialog" aria-modal="true" aria-labelledby="pwaGuideTitle">
+      <div class="pwa-guide-grip" aria-hidden="true"></div>
+      <div class="pwa-guide-head">
+        <div><div class="pwa-guide-kicker">离线旅行手册</div><h2 id="pwaGuideTitle">添加到手机桌面</h2></div>
+        <button class="pwa-guide-close" type="button" data-pwa-guide-close aria-label="关闭">×</button>
+      </div>
+      <div class="pwa-guide-steps" id="pwaGuideSteps"></div>
+      <p class="pwa-guide-note">不同品牌的手机浏览器名称可能略有不同。添加后请从桌面图标打开一次，让离线内容完成缓存。</p>
+      <button class="pwa-guide-done" id="pwaGuideDone" type="button">我知道了</button>
     </section>
   </div>
 
@@ -2846,6 +2885,104 @@ const BUDGET = {
     + '\n' + esc('🧾 悉尼酒店 ¥4,403.50 与大洋路一日游 ¥1,094.68（2 人）均已计入已付合计。')
     + '</div></div></details>';
   $('#budBox').innerHTML = h;
+})();
+
+/* PWA 安装入口：支持系统安装提示；不支持时展示各平台手动步骤。 */
+(function(){
+  var deferredInstallPrompt = null;
+  var installBtn = document.getElementById('pwaInstallBtn');
+  var banner = document.getElementById('pwaInstallBanner');
+  var actionBtn = document.getElementById('pwaInstallAction');
+  var dismissBtn = document.getElementById('pwaInstallDismiss');
+  var guide = document.getElementById('pwaInstallGuide');
+  var guideSteps = document.getElementById('pwaGuideSteps');
+  var guideDone = document.getElementById('pwaGuideDone');
+  var dismissKey = 'pwa-install-banner-dismissed-v1';
+
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+  function setInstalledUI(){
+    if(installBtn) installBtn.hidden = true;
+    if(banner) banner.hidden = true;
+  }
+  function recentlyDismissed(){
+    try{
+      var at = Number(localStorage.getItem(dismissKey) || 0);
+      return at > 0 && Date.now() - at < 7 * 24 * 60 * 60 * 1000;
+    }catch(e){ return false; }
+  }
+  function showBanner(force){
+    if(!banner || isStandalone()) return;
+    if(force || !recentlyDismissed()) banner.hidden = false;
+  }
+  function hideBanner(remember){
+    if(banner) banner.hidden = true;
+    if(remember){
+      try{ localStorage.setItem(dismissKey, String(Date.now())); }catch(e){}
+    }
+  }
+  function closeGuide(){
+    if(!guide) return;
+    guide.hidden = true;
+    guide.setAttribute('aria-hidden','true');
+    document.body.classList.remove('pwa-guide-open');
+    if(installBtn) installBtn.focus();
+  }
+  function openManualGuide(){
+    if(!guide || !guideSteps) return;
+    var ua = navigator.userAgent || '';
+    var isiOS = /iPhone|iPad|iPod/i.test(ua);
+    var isAndroid = /Android/i.test(ua);
+    if(isiOS){
+      guideSteps.innerHTML = '<b>iPhone / iPad：</b><br>1. 请使用 Safari 打开本页<br>2. 点击底部“分享”按钮<br>3. 向下滑并选择“添加到主屏幕”<br>4. 点击右上角“添加”';
+    }else if(isAndroid){
+      guideSteps.innerHTML = '<b>安卓手机：</b><br>1. 点击浏览器右上角“⋮”或底部菜单<br>2. 选择“添加到主屏幕”或“安装应用”<br>3. 确认添加<br><br>如果手机自带浏览器没有该选项，请复制本页网址，用 Chrome 或 Edge 打开后再试。';
+    }else{
+      guideSteps.innerHTML = '<b>电脑浏览器：</b><br>点击地址栏右侧的“安装”图标；也可以打开浏览器菜单，选择“安装此应用”。<br><br><b>手机：</b>打开浏览器菜单，选择“添加到主屏幕”或“安装应用”。';
+    }
+    guide.hidden = false;
+    guide.setAttribute('aria-hidden','false');
+    document.body.classList.add('pwa-guide-open');
+    if(guideDone) guideDone.focus();
+  }
+  async function requestInstall(){
+    if(isStandalone()){
+      setInstalledUI();
+      return;
+    }
+    if(!deferredInstallPrompt){
+      openManualGuide();
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    try{
+      var choice = await deferredInstallPrompt.userChoice;
+      if(choice && choice.outcome === 'accepted') hideBanner(true);
+    }catch(e){}
+    deferredInstallPrompt = null;
+  }
+
+  window.addEventListener('beforeinstallprompt', function(event){
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    showBanner(false);
+  });
+  window.addEventListener('appinstalled', function(){
+    deferredInstallPrompt = null;
+    setInstalledUI();
+    try{ localStorage.setItem(dismissKey, String(Date.now())); }catch(e){}
+  });
+  if(installBtn) installBtn.addEventListener('click', requestInstall);
+  if(actionBtn) actionBtn.addEventListener('click', requestInstall);
+  if(dismissBtn) dismissBtn.addEventListener('click', function(){ hideBanner(true); });
+  if(guideDone) guideDone.addEventListener('click', closeGuide);
+  if(guide) guide.querySelectorAll('[data-pwa-guide-close]').forEach(function(el){ el.addEventListener('click', closeGuide); });
+  document.addEventListener('keydown', function(event){ if(event.key === 'Escape' && guide && !guide.hidden) closeGuide(); });
+  window.addEventListener('load', function(){
+    if(isStandalone()) setInstalledUI();
+    else window.setTimeout(function(){ showBanner(false); }, 900);
+  });
 })();
 
 /* 公开网址启用 PWA 缓存；本地 file:// 预览不注册 Service Worker */
