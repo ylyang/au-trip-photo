@@ -545,6 +545,33 @@ body.pwa-guide-open{overflow:hidden}
 [data-theme="dark"] .night-only{display:block}
 .note{background:var(--surface2);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--muted)}
 
+/* ---------- 纪念品指南 ---------- */
+.souvenir-intro{overflow:hidden;position:relative;background:linear-gradient(135deg,var(--brand-soft),var(--accent-soft))}
+.souvenir-intro:after{content:'🎁';position:absolute;right:16px;bottom:-18px;font-size:82px;opacity:.12;transform:rotate(-8deg);pointer-events:none}
+.souvenir-rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;position:relative}
+.souvenir-rule{padding:10px;border:1px solid color-mix(in srgb,var(--brand) 18%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--surface) 84%,transparent);font-size:12px;line-height:1.5}
+.souvenir-rule b{display:block;color:var(--brand);font-size:12.5px;margin-bottom:2px}
+.souvenir-day{margin:14px 0}
+.souvenir-day-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.souvenir-day-badge{flex:0 0 auto;min-width:48px;padding:7px 9px;border-radius:11px;background:var(--brand);color:var(--on-brand);text-align:center;font-size:12px;font-weight:800;line-height:1.2}
+.souvenir-day-head h3{font-size:15.5px;line-height:1.35}
+.souvenir-day-head p{margin-top:2px;color:var(--muted);font-size:12px}
+.souvenir-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.souvenir-card{display:flex;flex-direction:column;min-width:0;padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 6px 18px rgba(var(--shadow-ink-rgb),.05)}
+.souvenir-card-top{display:flex;align-items:flex-start;gap:9px}
+.souvenir-icon{flex:0 0 auto;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--surface2);font-size:19px}
+.souvenir-card h4{font-size:14px;line-height:1.4}
+.souvenir-label{display:inline-block;margin-top:4px;border-radius:999px;padding:2px 7px;background:var(--brand-soft);color:var(--brand);font-size:10.5px;font-weight:750}
+.souvenir-card p{margin-top:8px;color:var(--muted);font-size:12.5px;line-height:1.65}
+.souvenir-meta{display:grid;gap:4px;margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;line-height:1.5}
+.souvenir-meta b{color:var(--text)}
+.souvenir-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px}
+.souvenir-links .xhs-actions{justify-content:flex-start}
+.souvenir-links>a{display:inline-flex;align-items:center;min-height:30px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;color:var(--brand);font-size:11px;font-weight:700;text-decoration:none}
+.souvenir-links>a:hover{border-color:var(--brand);background:var(--brand-soft)}
+.souvenir-warning{margin:14px 0 0;padding:11px 13px;border-left:4px solid var(--warn);border-radius:0 12px 12px 0;background:var(--warn-soft);font-size:12.5px;line-height:1.65}
+@media(max-width:620px){.souvenir-rules{grid-template-columns:1fr}.souvenir-grid{grid-template-columns:1fr}.souvenir-intro:after{font-size:64px}}
+
 :root{
   --sky-mid:#D9F1FA; --bldg-sand:#E8CFA7; --rock:#C7AC88; --rock2:#A88A69;
   --sail:#FFFDF9; --rail:#7B8797; --water-dark:#2D91B7; --glass:#D8F2FA;
@@ -652,6 +679,7 @@ html[data-theme="dark"][data-palette="lemon"]{
     <button class="section-link" data-section="tickets">票据与保险</button>
     <button class="section-link" data-section="hotels">住宿</button>
     <button class="section-link" data-section="todo">待办</button>
+    <button class="section-link" data-section="souvenirs">纪念品</button>
     <button class="section-link" data-section="tips">实用贴士</button>
     <button class="section-link" data-section="budget">预算与花费</button>
   </nav>
@@ -749,6 +777,9 @@ html[data-theme="dark"][data-palette="lemon"]{
     <ul class="todo" id="todoList"></ul>
   </div>
   </div>
+
+  <!-- ===== 7. 纪念品 ===== -->
+  <div id="sectSouvenirs" class="page-section"></div>
 
   <!-- ===== 7. 实用贴士 ===== -->
   <div id="sectTips" class="page-section">
@@ -2457,6 +2488,57 @@ function xhsInspirationHTML(key){
     + xhsActionButtonsHTML(n.query || n.title, '打开小红书搜索 ↗')
     + '</div></div>';
 }
+
+/* ============================================================
+   按路线购买的纪念品指南
+   ============================================================ */
+const SOUVENIRS = [
+  {day:'D2',date:'10/02',place:'墨尔本市中心',items:[
+    {icon:'🍫',name:'Koko Black 巧克力 / 热巧克力粉',label:'最适合送人',why:'品牌从墨尔本皇家拱廊起步，城市辨识度比通用袋鼠纪念品更强；小盒装轻便、好分送。',where:'逛 CBD 拱廊时顺路去附近门店，出发前用官网门店页确认营业状态。',budget:'约 AUD 15–45，以店内为准',url:'https://www.kokoblack.com/pages/store-locator',query:'墨尔本 Koko Black 巧克力 伴手礼'},
+    {icon:'🚋',name:'墨尔本电车 / 巷弄插画小物',label:'轻便有城市感',why:'优先选本地设计师的明信片、珐琅徽章、茶巾或小幅版画，比批量生产的“澳洲通用款”更值得留。',where:'CBD 独立设计店、博物馆商店或拱廊店铺；看到作者与产地标注再买。',budget:'参考 AUD 5–30',query:'墨尔本 电车 文创 纪念品 本地设计'}
+  ]},
+  {day:'D3',date:'10/03',place:'普芬比利蒸汽火车 · 菲利普岛',items:[
+    {icon:'🚂',name:'普芬比利铁路徽章 / 明信片',label:'铁路迷首选',why:'Lakeside Visitor Centre 的官方礼品店有铁路纪念品，也有丹德农山脉本地设计和手作产品。',where:'Lakeside Visitor Centre，当天乘车途中直接买，不必额外绕路。',budget:'优先小件，价格以现场为准',url:'https://puffingbillyrailway.org.au/lakeside-visitor-centre/visitor-centre-activities/',query:'普芬比利 蒸汽火车 纪念品 礼品店'},
+    {icon:'🐧',name:'小企鹅徽章 / 玩偶 / 明信片',label:'菲利普岛代表',why:'选企鹅归巢景区官方商店的小企鹅主题小物；照片不能拍的夜间体验，用一枚徽章或明信片来留念正合适。',where:'Penguin Parade / Nature Parks 官方商店，观赏前后购买。',budget:'小件优先，减少行李体积',url:'https://www.penguins.org.au/',query:'菲利普岛 企鹅归巢 纪念品 商店'}
+  ]},
+  {day:'D4',date:'10/04',place:'大洋路 · 阿波罗湾',items:[
+    {icon:'🎨',name:'本地艺术家海岸版画 / 卡片',label:'最有大洋路味道',why:'Coast Apollo Bay 展示当地艺术家 Heather Williams 的画作与印刷品，小幅画、卡片更适合带回国。',where:'Coast Apollo Bay，在阿波罗湾午餐停留时看；不为购物压缩十二门徒时间。',budget:'卡片和小幅印刷品优先',url:'https://visitgreatoceanroad.org.au/attractions/coast-apollo-bay/',query:'Apollo Bay Coast gallery 纪念品 大洋路'},
+    {icon:'🏡',name:'澳洲制造的小家居 / 海岸小物',label:'避开通用货',why:'Hawkeye Homewares 主打澳洲制造的家居和礼品；挑杯垫、茶巾等扁平耐带的小件。',where:'147 Great Ocean Road, Apollo Bay；午餐附近顺路才去。',budget:'参考 AUD 10–50',url:'https://visitgreatoceanroad.org.au/attractions/hawkeye-homewares/',query:'Apollo Bay Hawkeye Homewares 澳洲制造 纪念品'},
+    {icon:'🍬',name:'Great Ocean Road Rock 糖 / 澳洲动物巧克力',label:'可食用伴手礼',why:'比大型摆件好装，也适合分送；购买前看保质期、配料和外包装是否完整。',where:'Sweet View，39 Great Ocean Road, Apollo Bay。',budget:'少量购买，避免高温融化',url:'https://sweetview.com.au/',query:'Apollo Bay Sweet View Great Ocean Road rock candy'}
+  ]},
+  {day:'D5–D7',date:'10/05–10/07',place:'艾尔利海滩 · 圣灵群岛',items:[
+    {icon:'🧲',name:'心形礁 / 白天堂沙滩手工冰箱贴',label:'小红书近期热门',why:'“艾尔利老奶奶手工冰箱贴”、心形礁图案在近期旅行分享里反复出现；看到做工好的手工款可收一枚，不必专程追店。',where:'艾尔利镇中心或 Port of Airlie 周边纪念品店，比较做工与价格后再买。',budget:'只买 1–2 枚，避免为热门款溢价',query:'艾尔利海滩 老奶奶 手工冰箱贴 心形礁'},
+    {icon:'🪸',name:'圣灵群岛航拍卡 / 丝巾 / 海洋首饰',label:'当地艺术作品',why:'Above and Below Gallery 以圣灵群岛和大堡礁航拍作品为主，也有澳洲制作的海洋首饰与限量丝巾。',where:'Shop 12a, Port of Airlie Marina；从码头经过时顺路看。',budget:'明信片最轻；大幅作品可询问邮寄',url:'https://www.tourismwhitsundays.com.au/products/above-and-below-gallery',query:'Airlie Beach Above and Below Gallery 纪念品'}
+  ]},
+  {day:'D8',date:'10/08',place:'悉尼歌剧院 · 岩石区',items:[
+    {icon:'🎭',name:'歌剧院官方设计小物',label:'悉尼经典',why:'优先钥匙扣、明信片、茶巾等实用小件。官方商店有本地及原住民艺术家作品，比街边仿款更有出处。',where:'Sydney Opera House Shop，参观歌剧院时直接买。',budget:'小物约 AUD 15 起，以官网/店内为准',url:'https://sydneyoperahouseshop.com/',query:'悉尼歌剧院 官方商店 纪念品'},
+    {icon:'🖍️',name:'Squidinki 悉尼插画茶巾 / 杯垫',label:'设计感更强',why:'用幽默插画呈现悉尼地标，茶巾、杯垫、笔记本都比大摆件好带。',where:'85 George Street, The Rocks；逛岩石区时顺路。',budget:'按用途挑一件即可',url:'https://www.therocks.com/shop/squidinki',query:'悉尼 The Rocks Squidinki 纪念品'}
+  ]},
+  {day:'D9',date:'10/09',place:'塔龙加动物园 · 邦迪海滩',items:[
+    {icon:'🐨',name:'Zoo Pinz / 环保考拉玩偶',label:'动物园限定感',why:'徽章体积最小；若想买玩偶，可优先看官方 Eco 系列。官方在线店当前 Zoo Pinz 约 AUD 10.95、Eco 考拉约 AUD 24.95，现场以标价为准。',where:'Top Shop 选择最多；坐船离开可看 Lower Shop。',budget:'约 AUD 11–25',url:'https://www.taronga.org.au/sydney-zoo/plan/visitor-information/shop-taronga',query:'Taronga Zoo 纪念品 Zoo Pinz 考拉 玩偶'},
+    {icon:'🌊',name:'Aquabumps 邦迪摄影明信片 / 小幅作品',label:'海岸线记忆',why:'当地摄影作品比普通“Bondi”字样商品更耐看；大幅作品不便携时可选小尺寸或咨询邮寄。',where:'64 Hall Street, Bondi Beach，海滩行程附近。',budget:'先看小幅与书册，避免挤占行李',url:'https://www.aquabumps.com/contact-us/',query:'Bondi Beach Aquabumps Gallery 纪念品'},
+    {icon:'🌡️',name:'悉尼变色冰箱贴',label:'小红书热门备选',why:'近期分享里热度较高，但款式和售价差异大；只在顺路遇到且做工满意时买，不专程绕路。',where:'岩石区、Circular Quay 或 Bondi 的正规纪念品店。',budget:'先比两家再决定',query:'悉尼 变色冰箱贴 纪念品'}
+  ]}
+];
+
+function souvenirItemHTML(item){
+  return '<article class="souvenir-card"><div class="souvenir-card-top"><div class="souvenir-icon" aria-hidden="true">' + item.icon + '</div><div><h4>' + esc(item.name) + '</h4><span class="souvenir-label">' + esc(item.label) + '</span></div></div>'
+    + '<p>' + esc(item.why) + '</p><div class="souvenir-meta"><div><b>哪里买：</b>' + esc(item.where) + '</div><div><b>购买建议：</b>' + esc(item.budget) + '</div></div>'
+    + '<div class="souvenir-links">' + (item.url ? '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">官网 / 商店 ↗</a>' : '')
+    + xhsActionButtonsHTML(item.query, '小红书参考 ↗') + '</div></article>';
+}
+function renderSouvenirs(){
+  $('#sectSouvenirs').innerHTML = '<h2 style="font-size:17px;margin:22px 0 4px">🎁 沿途纪念品指南</h2>'
+    + '<div class="sub">按行程顺序整理；只推荐真正有地方特色、顺路且适合带回国的选择。价格会变动，以当天店内为准。</div>'
+    + '<section class="card souvenir-intro"><div class="card-title">怎么买最省心</div><div class="souvenir-rules">'
+    + '<div class="souvenir-rule"><b>先留空间</b>前半程只买扁平小件，大件和易碎品留到悉尼最后两天。</div>'
+    + '<div class="souvenir-rule"><b>看出处</b>优先官方商店、本地艺术家和 Australian made 标识，少买通用旅游货。</div>'
+    + '<div class="souvenir-rule"><b>控制数量</b>每个地区挑 1 件代表物即可；保留收据，易碎品随身携带。</div></div></section>'
+    + SOUVENIRS.map(group => '<section class="souvenir-day"><div class="souvenir-day-head"><div class="souvenir-day-badge">' + esc(group.day) + '<br>' + esc(group.date) + '</div><div><h3>' + esc(group.place) + '</h3><p>按当天路线顺手购买</p></div></div><div class="souvenir-grid">' + group.items.map(souvenirItemHTML).join('') + '</div></section>').join('')
+    + '<div class="souvenir-warning"><b>自然保护提醒：</b>白天堂沙滩、海岛和国家公园里的沙、珊瑚、贝壳与动植物不要带走；只购买正规商店出售的成品。食品、木制品和天然材料入境中国前请再次核对海关要求并如实申报。</div>'
+    + '<p class="hint">资料与店铺信息核对于 2026-09-27；小红书入口使用搜索词，避免单篇笔记失效。</p>';
+}
+renderSouvenirs();
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
   const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点', shop:'购物', food:'餐厅' }[p.kind] || '地点';
@@ -2672,7 +2754,7 @@ renderDayTimeboxes(Date.now());
 $('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + ' ' + d.date.slice(5).replace('-', '/') + '</button>').join('');
 
 function showSection(section, dayIndex){
-  const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', tips:'sectTips', budget:'sectBudget' };
+  const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', souvenirs:'sectSouvenirs', tips:'sectTips', budget:'sectBudget' };
   const target = sectionIds[section] || 'section-overview';
   document.querySelectorAll('.page-section').forEach(s => s.classList.toggle('active', s.id === target));
   document.querySelectorAll('.section-link').forEach(b => b.classList.remove('on'));
