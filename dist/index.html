@@ -572,6 +572,37 @@ body.pwa-guide-open{overflow:hidden}
 .souvenir-warning{margin:14px 0 0;padding:11px 13px;border-left:4px solid var(--warn);border-radius:0 12px 12px 0;background:var(--warn-soft);font-size:12.5px;line-height:1.65}
 @media(max-width:620px){.souvenir-rules{grid-template-columns:1fr}.souvenir-grid{grid-template-columns:1fr}.souvenir-intro:after{font-size:64px}}
 
+/* ---------- 必吃必喝 ---------- */
+.food-verdict{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--accent-soft),var(--brand-soft));border-color:color-mix(in srgb,var(--accent) 24%,var(--line))}
+.food-verdict:after{content:'🍹';position:absolute;right:14px;bottom:-22px;font-size:88px;opacity:.13;transform:rotate(9deg);pointer-events:none}
+.food-verdict h3{font-size:17px;line-height:1.4;margin-bottom:7px}
+.food-verdict p{max-width:760px;font-size:13px;line-height:1.7;color:var(--muted);position:relative}
+.food-plan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:12px;position:relative}
+.food-plan-step{padding:9px;border:1px solid var(--line);border-radius:11px;background:color-mix(in srgb,var(--surface) 88%,transparent);font-size:11.5px;line-height:1.45}
+.food-plan-step b{display:block;color:var(--brand);font-variant-numeric:tabular-nums;margin-bottom:2px}
+.food-day{margin:15px 0}
+.food-day-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.food-day-icon{flex:0 0 auto;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);font-size:24px}
+.food-day-head h3{font-size:15.5px;line-height:1.4}
+.food-day-head p{color:var(--muted);font-size:12px;margin-top:2px}
+.food-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.food-card{display:flex;flex-direction:column;min-width:0;padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 6px 18px rgba(var(--shadow-ink-rgb),.05)}
+.food-card.featured{border-color:var(--accent);background:linear-gradient(145deg,var(--accent-soft),var(--surface) 42%)}
+.food-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.food-card h4{font-size:14px;line-height:1.4}
+.food-status{flex:0 0 auto;border-radius:999px;padding:3px 7px;background:var(--brand-soft);color:var(--brand);font-size:10.5px;font-weight:750;white-space:nowrap}
+.food-card.featured .food-status{background:var(--accent);color:var(--on-accent)}
+.food-must{margin-top:8px;color:var(--text);font-size:12.5px;line-height:1.6}
+.food-must b{color:var(--brand)}
+.food-reason{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.6}
+.food-timing{margin-top:9px;padding:8px 9px;border-radius:10px;background:var(--surface2);font-size:11.5px;line-height:1.55}
+.food-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px}
+.food-actions>a{display:inline-flex;align-items:center;justify-content:center;min-height:30px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;color:var(--brand);font-size:11px;font-weight:700;text-decoration:none}
+.food-actions>a:hover{border-color:var(--brand);background:var(--brand-soft)}
+.food-actions .xhs-actions{justify-content:flex-start}
+.food-note{margin-top:14px;padding:11px 13px;border-radius:12px;background:var(--surface2);font-size:12px;line-height:1.65;color:var(--muted)}
+@media(max-width:620px){.food-plan{grid-template-columns:repeat(2,minmax(0,1fr))}.food-grid{grid-template-columns:1fr}.food-verdict:after{font-size:66px}}
+
 :root{
   --sky-mid:#D9F1FA; --bldg-sand:#E8CFA7; --rock:#C7AC88; --rock2:#A88A69;
   --sail:#FFFDF9; --rail:#7B8797; --water-dark:#2D91B7; --glass:#D8F2FA;
@@ -679,6 +710,7 @@ html[data-theme="dark"][data-palette="lemon"]{
     <button class="section-link" data-section="tickets">票据与保险</button>
     <button class="section-link" data-section="hotels">住宿</button>
     <button class="section-link" data-section="todo">待办</button>
+    <button class="section-link" data-section="food">必吃必喝</button>
     <button class="section-link" data-section="souvenirs">纪念品</button>
     <button class="section-link" data-section="tips">实用贴士</button>
     <button class="section-link" data-section="budget">预算与花费</button>
@@ -777,6 +809,9 @@ html[data-theme="dark"][data-palette="lemon"]{
     <ul class="todo" id="todoList"></ul>
   </div>
   </div>
+
+  <!-- ===== 7. 必吃必喝 ===== -->
+  <div id="sectFood" class="page-section"></div>
 
   <!-- ===== 7. 纪念品 ===== -->
   <div id="sectSouvenirs" class="page-section"></div>
@@ -986,6 +1021,11 @@ const POIS = {
     hl:['本地当日海鲜','Fish & Chips 炸鱼薯条','适合外带并控制用餐时间'],
     tip:['官网当前显示周日 11:00–19:00，出发前再确认','两人约 AUD 35–60，以当日鱼获和菜单为准','先确认导游集合点与时间，排队过长立即改买简餐'],
     ph:['炸鱼薯条与本地鱼获','Apollo Bay 海边午餐'],xq:'大洋路 Apollo Bay Fishermens Co-op 炸鱼薯条',web:'https://www.apollobayfishcoop.com.au/',kind:'food'},
+  apollobakery:{n:'Apollo Bay Bakery',loc:'125 Great Ocean Rd, Apollo Bay VIC 3233',lat:-38.7559739,lng:143.66917,
+    r:'大洋路著名扇贝派所在地，咖喱和白酱两种口味都使用整颗 Bass Strait 扇贝。',
+    hl:['Curry Scallop Pie 咖喱扇贝派','Scallop Mornay 白酱扇贝派','澳洲肉派与香肠卷'],
+    tip:['周日通常 06:00–15:00，跟团先确认集合时间','两人共享一只扇贝派，再去 Co-op 分食炸鱼薯条最合理'],
+    ph:['扇贝派剖面','大洋路门店招牌'],xq:'Apollo Bay Bakery scallop pie 扇贝派 必吃',web:'https://www.apollobaybakery.com.au/copy-of-bread',kind:'food'},
   splitpoint:{n:'斯普利特角灯塔 Split Point Lighthouse',loc:'13 Federal St, Aireys Inlet VIC 3231',lat:-38.467972,lng:144.104472,
     r:'建于 1891 年的白色灯塔，又称“白皇后”；行程截图安排约 15 分钟外观打卡。',
     hl:['白塔与红色塔顶','附近海崖景观','行程包含外观停留'],
@@ -1027,6 +1067,11 @@ const POIS = {
     hl:['当季海鲜与鱼类','海鲜拼盘 / Fish of the Day','店内 Rum Bar'],
     tip:['官网当前显示 Rum Bar 每天 17:00 至深夜，餐厅座位建议预约','两人约 AUD 90–140，不含酒水，以当日菜单为准','用餐后去主街超市买水、早餐和出海备用零食'],
     ph:['当季海鲜拼盘','Rum Bar 热带饮品'],xq:'艾尔利海滩 Fish Dvine 海鲜 餐厅',web:'https://www.fishdvine.com.au/',kind:'food'},
+  pavilion:{n:'The Pavilion · Coral Sea Resort',loc:'25 Ocean View Ave, Airlie Beach QLD 4802',lat:-20.2637038,lng:148.7158495,
+    r:'面向珊瑚海的露天餐厅，主打时令食材、区域农产、海鲜与日落鸡尾酒，适合作为 D6 晚餐备选。',
+    hl:['当日鲜鱼 / 海鲜','现代澳洲菜','热带鸡尾酒或无酒精特调'],
+    tip:['从 Harbour Cove 步行距离可控','繁忙时段建议预约','作为 The Deck 的景观型备选，二选一即可'],
+    ph:['海景露台','日落饮品'],xq:'Airlie Beach Coral Sea Pavilion 海鲜 日落 晚餐',web:'https://www.tourismwhitsundays.com.au/products/coral-sea-pavilion',kind:'food'},
   thedeck:{n:'The Deck · Airlie Beach',loc:'277 Shute Harbour Rd, Airlie Beach QLD 4802',lat:-20.2684689,lng:148.7183793,
     r:'就在泄湖与海滨步道旁，出海后的傍晚不用再走远；也适合观光飞机后快速吃午餐。',
     hl:['现代澳洲菜与地中海风味','披萨、海鲜和轻食','露台可看海滨与溪流'],
@@ -1124,11 +1169,16 @@ const POIS = {
     hl:['情人港夜景','水上映木栈道','附近的水族馆与海事博物馆'],
     tip:['晚上来更好看','餐饮偏游客价，可货比三家'],
     ph:['港边夜景'],kind:'sight'},
-  fishmarket:{n:'悉尼鱼市场 Sydney Fish Market',loc:'Bank St, Pyrmont NSW 2009',lat:-33.8780,lng:151.1960,
-    r:'南半球最大的鱼市场，现买现吃的生蚝与龙虾，性价比高。',
-    hl:['生蚝、龙虾、刺身拼盘','拍卖区（清晨）'],
-    tip:['上午去最鲜活，中午后人挤','海鲜可现场加工'],
-    ph:['海鲜拼盘'],kind:'sight'},
+  fishmarket:{n:'新悉尼鱼市场 Sydney Fish Market',loc:'1 Bridge Rd, Glebe NSW 2037',lat:-33.8743796,lng:151.1906679,
+    r:'2026 年 1 月启用的新鱼市场，集海鲜、餐饮与生鲜零售于一体；旧攻略里的 Bank Street 地址已经过时。',
+    hl:['Fruitezy 在 C2','现开生蚝与澳洲海鲜','黑荆湾滨水空间'],
+    tip:['市场每日 07:00–22:00，具体店铺时间各自不同','D8 若加入，建议早起打车往返；D9 行程太满不适合绕路'],
+    ph:['波浪形屋顶','滨水用餐区'],xq:'悉尼 新鱼市场 2026 必吃 Fruitezy',web:'https://www.sydneyfishmarket.com.au/plan-your-visit/',kind:'sight'},
+  fruitezy:{n:'Fruitezy · 新悉尼鱼市场 C2',loc:'Shop C2, Sydney Fish Market, 1 Bridge Rd, Glebe NSW 2037',lat:-33.8743796,lng:151.1906679,
+    r:'澳洲家庭经营的果蔬店兼果汁吧，现场可做鲜榨果汁、甘蔗汁、奶昔与果昔；值得喝，但需要为本次路线早起绕行。',
+    hl:['自选水果鲜榨果汁','西瓜 / 橙汁等即饮款','甘蔗汁、果昔与巧克力水果'],
+    tip:['D8 周四营业 07:00–22:00','建议一杯自选鲜榨 + 一杯西瓜或甘蔗汁，两人交换着尝','D8 07:15 从酒店打车，08:15 左右返程最稳'],
+    ph:['彩虹果蔬陈列','现场鲜榨果汁'],xq:'悉尼 Fruitezy 果汁 新鱼市场 C2 必吃',web:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',kind:'food'},
   bondi:{n:'邦迪海滩 Bondi Beach',loc:'Bondi Beach NSW 2026',lat:-33.8915,lng:151.2767,
     r:'澳洲最有名的海滩，也是 Bondi → Coogee 海岸步道的起点。',
     hl:['Bondi Icebergs 海边泳池','Bondi 沙滩','海岸步道'],
@@ -2539,6 +2589,52 @@ function renderSouvenirs(){
     + '<p class="hint">资料与店铺信息核对于 2026-09-27；小红书入口使用搜索词，避免单篇笔记失效。</p>';
 }
 renderSouvenirs();
+
+const FOOD_GROUPS = [
+  {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
+    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已排入 12:00',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'酒店寄存后步行约 5 分钟；若等位超过 20 分钟就启用附近简餐，不影响后续购物。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
+    {name:'Queen Victoria Market · Borek + Market Lane Coffee',status:'时间宽裕再加',must:'两人共享一只 Borek，配一杯外带咖啡；不要各点一份。',why:'维州官方美食路线直接推荐市场入口的 Borek 与 Market Lane Coffee，是比通用网红甜品更有墨尔本日常感的组合。',timing:'D2 周五市场 06:00–15:00。只有酒店寄存很顺、11:00 前能到时才去；11:25 还没买到就放弃，以免影响 Higher Ground。',poi:'qvmarket',url:'https://www.visitmelbourne.com/regions/melbourne/see-and-do/itineraries/48-hour-itinerary-food',query:'Queen Victoria Market Borek Market Lane Coffee 必吃'}
+  ]},
+  {day:'D3',date:'10/03',icon:'🥧',place:'普芬比利 · 菲利普岛',items:[
+    {name:'澳洲肉派 / 香肠卷 + 热饮',status:'见到再点',must:'Railway Café 若当天有 meat pie 或 sausage roll，可选一份配 Flat White / 热巧克力。',why:'这是最容易在团餐空档尝到的澳洲日常小吃，但 D3 核心是火车和企鹅，不值得为某一家店脱团排队。',timing:'完全服从导游的午餐地点和集合时间；Lakeside 只停约 1 小时时以快速热食为主。',poi:'puffing',url:'https://puffingbillyrailway.org.au/lakeside-visitor-centre/visitor-centre-activities/',query:'Puffing Billy Railway Cafe meat pie 必吃'}
+  ]},
+  {day:'D4',date:'10/04',icon:'🦞',place:'大洋路 · 阿波罗湾',items:[
+    {name:'Apollo Bay Bakery · 扇贝派',status:'大洋路必吃',must:'Curry Scallop Pie 或 Scallop Mornay 二选一；两人共享一只。',why:'官方旅游资料将这里称为大洋路扇贝派代表，内有整颗 Bass Strait 扇贝；比普通肉派更有阿波罗湾特色。',timing:'125 Great Ocean Road；周日通常营业至 15:00。先确认跟团集合时间，排队长就放弃。',poi:'apollobakery',url:'https://visitgreatoceanroad.org.au/restaurants/apollo-bay-bakery/',query:'Apollo Bay Bakery scallop pie 咖喱扇贝派'},
+    {name:'Fishermen’s Co-op · 本地炸鱼薯条',status:'已排入午餐',must:'点当日鱼获 fish & chips；预算允许再问 Southern Rock Lobster，先确认价格和重量。',why:'当地渔船供应 Bass Strait 海鲜。2025 年起港口店改造，热食已转到 18 Pascoe Street，网页里的地址已按现状更新。',timing:'两人策略：先共享 1 只扇贝派，再共享 1 份炸鱼薯条/海鲜，既都尝到又不浪费。',poi:'apollocoop',url:'https://www.apollobayfishcoop.com.au/',query:'Apollo Bay Fishermens Co-op fish chips rock lobster'}
+  ]},
+  {day:'D5–D7',date:'10/05–10/07',icon:'🐟',place:'艾尔利海滩 · 圣灵群岛',items:[
+    {name:'Fish D’Vine · 当日鲜鱼 + 热带饮品',status:'已排入 D5 晚餐',must:'先问 catch of the day；有澳洲 Barramundi、Coral Trout 或 Moreton Bay Bug 时优先。饮品选热带 Rum cocktail；不喝酒可点芒果/百香果 mocktail。',why:'这里的“当地感”来自昆士兰海鲜、热带水果风味和 Rum Bar，而不是硬追某一道全年固定的网红菜。',timing:'D5 18:45，建议预约。两人共享一份海鲜主菜加配菜即可，现场鱼获和价格优先。',poi:'fishdvine',url:'https://www.fishdvine.com.au/',query:'艾尔利海滩 Fish Dvine 必吃 barramundi rum bar'},
+    {name:'The Pavilion · 海鲜 + 日落特调',status:'D6 晚餐备选',must:'当日鲜鱼或海鲜，配一杯 tropical cocktail / mocktail。',why:'面向珊瑚海，官方资料明确主打区域农产、时令食材、海鲜与手工鸡尾酒；景观比“特定网红菜”更值得。',timing:'D6 与 The Deck 二选一：出海后若体力还好、想认真看日落就订这里；累了仍按原计划去更近的 The Deck。',poi:'pavilion',url:'https://www.tourismwhitsundays.com.au/products/coral-sea-pavilion',query:'Airlie Beach Coral Sea Pavilion sunset seafood cocktail'},
+    {name:'The Deck · 披萨 / 海鲜 + 芒果百香果饮品',status:'已排 D6 / D7',must:'出海后选披萨或海鲜主菜；另点芒果、菠萝或百香果风味冷饮补充水分。',why:'不算“目的地级名菜”，胜在泄湖边、营业时间和航班衔接最稳，属于本次行程最实用的吃法。',timing:'D6 18:30 前到；D7 午餐 13:30 前结账并外带晚餐。',poi:'thedeck',url:'https://thedeckairliebeach.com.au/menu/',query:'Airlie Beach The Deck 必吃 tropical drink'}
+  ]},
+  {day:'D8',date:'10/08',icon:'🍹',place:'悉尼 · 新鱼市场 / 市中心',items:[
+    {name:'Fruitezy · 现场鲜榨果汁',status:'值得，但要早起',must:'两人点两种交换喝：一杯自选鲜榨（橙 + 百香果或按当季水果搭配），另一杯西瓜汁或甘蔗汁；想吃甜品可加少量巧克力水果。',why:'你看到的推荐靠谱。Fruitezy 是澳洲家庭经营果蔬店，官方鱼市场页面确认有现做果汁、甘蔗汁、smoothie 与水果甜品；新店在 C2，不再是旧 Bank Street 地址。',timing:'推荐插入 D8：07:15 酒店打车 → 07:30–08:05 Fruitezy / 新鱼市场 → 08:05 打车回 QVB，约 08:30 抵达；原 09:15 QVB 不变。周四 Fruitezy 07:00–22:00。',poi:'fruitezy',url:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',query:'悉尼 Fruitezy 果汁 新鱼市场 C2 必喝',featured:true},
+    {name:'新悉尼鱼市场 · 生蚝 / 当日海鲜',status:'顺路才吃',must:'若早晨吃得惯海鲜，可两人共享 3–6 只现开生蚝；否则只逛市场、喝果汁，不要为了“打卡”硬吃。',why:'2026 年启用的新市场本身值得看，但 D8 后面还有满天步行和已出票的歌剧院讲解，早餐不宜过量。',timing:'市场位于 1 Bridge Road, Glebe，每日 07:00–22:00；各海鲜店营业时间不同。',poi:'fishmarket',url:'https://www.sydneyfishmarket.com.au/plan-your-visit/',query:'悉尼 新鱼市场 2026 生蚝 必吃'}
+  ]},
+  {day:'D8–D9',date:'10/08–10/09',icon:'🍺',place:'悉尼港 · 库吉海岸',items:[
+    {name:'澳洲酒馆餐 + 本地啤酒 / 姜汁啤酒',status:'D8 晚餐',must:'The Glenmore 点一份酒馆主菜或汉堡；饮品可问 NSW 精酿，或选无酒精 ginger beer。',why:'屋顶看海港的体验比追“全网第一名”餐厅更贴合这天路线，也是澳洲 pub culture 的轻松版本。',timing:'D8 18:30，天气好订屋顶位；风大或下雨就坐室内。',poi:'glenmore',query:'The Glenmore Sydney rooftop pub food local beer'},
+    {name:'Coogee Pavilion · 木火披萨 / 海鲜',status:'D9 已排入',must:'两人共享木火披萨，再配一份海鲜或沙拉；饮品选澳洲 cider / ginger beer。',why:'走完 6 公里海岸步道后就在终点吃，不需要再转场，实际体验会比远距离追网红餐厅更好。',timing:'D9 18:45，楼下 Ground Floor 可 walk-in；若步道延误就选快速餐，不等楼上座位。',poi:'coogeepav',url:'https://merivale.com/venues/coogeepavilion/',query:'Coogee Pavilion ground floor 必吃 pizza seafood'}
+  ]}
+];
+
+function foodItemHTML(item, gi, ii){
+  const p = item.poi && POIS[item.poi];
+  return '<article class="food-card' + (item.featured ? ' featured' : '') + '"><div class="food-card-head"><h4>' + esc(item.name) + '</h4><span class="food-status">' + esc(item.status) + '</span></div>'
+    + '<div class="food-must"><b>建议点：</b>' + esc(item.must) + '</div><div class="food-reason">' + esc(item.why) + '</div><div class="food-timing"><b>怎么插入：</b>' + esc(item.timing) + '</div>'
+    + '<div class="food-actions">' + (p ? '<a href="' + navWeb(p) + '" data-food-nav="' + gi + '_' + ii + '">选择导航方式</a>' : '')
+    + (item.url ? '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">官方信息 ↗</a>' : '')
+    + xhsActionButtonsHTML(item.query, '小红书参考 ↗') + '</div></article>';
+}
+function renderFood(){
+  $('#sectFood').innerHTML = '<h2 style="font-size:17px;margin:22px 0 4px">🍴 当地特色 · 必吃必喝</h2>'
+    + '<div class="sub">按实际路线与时间筛选；“当地特色”不等于每家都要吃，两人共享能尝到更多，也更适合后续步行。</div>'
+    + '<section class="card food-verdict"><h3>Fruitezy：值得喝，安排在 D8 早晨最合理</h3><p>官方最新资料确认它已搬入 <b>新悉尼鱼市场 Shop C2</b>，地址是 1 Bridge Road, Glebe。D8 周四 07:00 开门；早起约 1 小时打车往返，可以不删掉 QVB、歌剧院和岩石区。D9 行程已经很满，不建议再绕去鱼市场。</p><div class="food-plan">'
+    + '<div class="food-plan-step"><b>07:15</b>The Grace 打车出发</div><div class="food-plan-step"><b>07:30–08:05</b>果汁 + 快逛新鱼市场</div><div class="food-plan-step"><b>08:05</b>打车返回市中心</div><div class="food-plan-step"><b>09:15</b>原计划 QVB 不变</div></div></section>'
+    + FOOD_GROUPS.map((group, gi) => '<section class="food-day"><div class="food-day-head"><div class="food-day-icon" aria-hidden="true">' + group.icon + '</div><div><h3>' + esc(group.day) + ' · ' + esc(group.place) + '</h3><p>' + esc(group.date) + ' · 按游玩顺序选择</p></div></div><div class="food-grid">' + group.items.map((item, ii) => foodItemHTML(item, gi, ii)).join('') + '</div></section>').join('')
+    + '<div class="food-note"><b>点单原则：</b>海鲜先问“today’s catch”和时价；酒后不要下水或靠近悬崖；对贝类、坚果、乳制品过敏要主动说明。营业时间与菜单可能临时变化，页面已链接官方信息，出发当天再看一次。</div>'
+    + '<p class="hint">店铺、搬迁与营业资料核对于 2026-09-27；小红书只作为口味热度参考。</p>';
+}
+renderFood();
 function openPOI(key){
   const p = POIS[key]; if(!p) return;
   const kindName = { airport:'机场', station:'车站 / 码头', hotel:'住宿', sight:'景点', shop:'购物', food:'餐厅' }[p.kind] || '地点';
@@ -2609,6 +2705,14 @@ document.addEventListener('click', function(e){
   if(dayLink){
     const d = DAYS[+dayLink.dataset.navDay];
     if(d) openNavRoute(dayKeys(d), e);
+    return;
+  }
+  const foodLink = e.target.closest('[data-food-nav]');
+  if(foodLink){
+    const parts = foodLink.dataset.foodNav.split('_').map(Number);
+    const item = FOOD_GROUPS[parts[0]] && FOOD_GROUPS[parts[0]].items[parts[1]];
+    const p = item && POIS[item.poi];
+    if(p) openNav(p, e);
     return;
   }
   const hotelLink = e.target.closest('[data-nav-hotel]');
@@ -2754,7 +2858,7 @@ renderDayTimeboxes(Date.now());
 $('#dayNav').innerHTML = DAYS.map((d, i) => '<button class="section-link" data-section="itinerary" data-day-nav="' + i + '">D' + d.n + ' ' + d.date.slice(5).replace('-', '/') + '</button>').join('');
 
 function showSection(section, dayIndex){
-  const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', souvenirs:'sectSouvenirs', tips:'sectTips', budget:'sectBudget' };
+  const sectionIds = { overview:'section-overview', itinerary:'section-itinerary', tickets:'sectTickets', hotels:'sectHotels', todo:'sectTodo', food:'sectFood', souvenirs:'sectSouvenirs', tips:'sectTips', budget:'sectBudget' };
   const target = sectionIds[section] || 'section-overview';
   document.querySelectorAll('.page-section').forEach(s => s.classList.toggle('active', s.id === target));
   document.querySelectorAll('.section-link').forEach(b => b.classList.remove('on'));
