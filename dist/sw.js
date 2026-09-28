@@ -1,4 +1,4 @@
-const CACHE_NAME = 'au-trip-photo-v36';
+const CACHE_NAME = 'au-trip-photo-v37';
 const SOUVENIR_ASSETS = [
   'airlie-gallery','airlie-magnet','apollo-art','apollo-candy','apollo-homewares',
   'aquabumps-book','koko-black','melbourne-tram','opera-teatowel','phillip-penguin',
@@ -22,12 +22,38 @@ self.addEventListener('activate', event => {
   );
 });
 
+let repairInFlight = null;
+async function resourceStatus(cache){
+  const found = await Promise.all(CORE_ASSETS.map(url => cache.match(url)));
+  return {type:'OFFLINE_STATUS',version:CACHE_NAME,ready:found.every(r=>r && r.ok),photos:SOUVENIR_ASSETS.length,missing:found.filter(r=>!r || !r.ok).length};
+}
+async function repairResources(cache, port){
+  const failed=[];
+  for(let i=0;i<CORE_ASSETS.length;i++){
+    const url=CORE_ASSETS[i], cached=await cache.match(url);
+    if(!cached || !cached.ok){
+      try{
+        const response=await fetch(url,{cache:'reload'});
+        if(!response.ok) throw new Error('download failed');
+        await cache.put(url,response);
+      }catch(_){failed.push(url);}
+    }
+    port.postMessage({type:'OFFLINE_PROGRESS',done:i+1,total:CORE_ASSETS.length});
+  }
+  return {...await resourceStatus(cache),failed:failed.length};
+}
 self.addEventListener('message', event => {
-  if(!event.data || event.data.type !== 'OFFLINE_STATUS' || !event.ports[0]) return;
-  event.waitUntil(caches.open(CACHE_NAME).then(async cache => {
-    const found = await Promise.all(CORE_ASSETS.map(url => cache.match(url)));
-    event.ports[0].postMessage({type:'OFFLINE_STATUS',version:CACHE_NAME,ready:found.every(Boolean),photos:SOUVENIR_ASSETS.length});
-  }));
+  const type=event.data && event.data.type, port=event.ports && event.ports[0];
+  if(!['OFFLINE_STATUS','OFFLINE_REPAIR'].includes(type) || !port) return;
+  event.waitUntil((async()=>{
+    try{
+      const cache=await caches.open(CACHE_NAME);
+      if(type==='OFFLINE_REPAIR'){
+        if(!repairInFlight) repairInFlight=repairResources(cache,port).finally(()=>{repairInFlight=null;});
+        port.postMessage(await repairInFlight);
+      }else port.postMessage(await resourceStatus(cache));
+    }catch(_){port.postMessage({type:'OFFLINE_STATUS',version:CACHE_NAME,ready:false,error:true});}
+  })());
 });
 
 self.addEventListener('fetch', event => {

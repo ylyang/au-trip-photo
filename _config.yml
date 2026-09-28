@@ -1,0 +1,8 @@
+# Publish only the travel guide and its public assets, never tests or source mirrors.
+exclude:
+  - tests
+  - dist
+  - .openai
+  - README.md
+  - package.json
+  - package-lock.json

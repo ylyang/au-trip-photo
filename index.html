@@ -796,7 +796,7 @@ html[data-theme="dark"][data-palette="lemon"]{
   <!-- ===== 3. 总览地图 ===== -->
   <div class="card">
     <div class="card-title">🗺️ 行程总览地图</div>
-    <div class="sub">联网时默认使用 Google 地图；点「墨尔本 / 圣灵群岛 / 悉尼」或 D1–D10 可切换视图。地图内 A–J 与底部名称一一对应；Google 免 Key 版最多展示前 10 站，海上 / 航班路线请切到离线图查看。Google 不可达或断网时会自动回落，也可用右上角按钮手动切换。</div>
+    <div class="sub">联网时使用 Google 地图。城市 / 全部视图仅作地点预览，不连接跨城公路；每日详情提供按顺序分段导航，每段最多 3 个途经点。飞机和海上路段按时间轴及运营商安排，离线图仅作示意。Google 不可达时可切换离线图。</div>
     <div class="maptools" id="mapTools"></div>
     <div class="mapbox google" id="mapBox">
       <iframe id="gmFrame" class="gmframe" title="Google 行程地图" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
@@ -819,7 +819,7 @@ html[data-theme="dark"][data-palette="lemon"]{
   <!-- ===== 4. 时间轴 ===== -->
   <div id="section-itinerary" class="page-section">
   <h2 style="font-size:17px;margin:22px 0 4px">📅 行程时间轴 · 共 10 天</h2>
-  <div class="sub">点击日期标题展开／收起；每个条目右侧可打卡，进度存本机。</div>
+  <div class="sub">选择日期查看当天；每个行程项目可展开／收起，默认展开。打卡进度保存在本机，可选项目不计入必做进度。</div>
   <div id="timeline"></div>
   </div>
 
@@ -876,6 +876,7 @@ html[data-theme="dark"][data-palette="lemon"]{
       <button type="button" class="nav-choice-close" id="navChoiceClose" aria-label="关闭导航选择">✕</button>
     </div>
     <div class="nav-choice-dest" id="navChoiceDest"></div>
+    <label id="navModeLabel" for="navMode">出行方式 <select id="navMode" class="btn"><option value="walking">步行</option><option value="driving">驾车 / 接送</option><option value="transit">公共交通（建议逐站查）</option></select></label>
     <div class="nav-choice-actions" id="navChoiceActions">
       <button type="button" class="nav-choice-action" data-nav-choice="web"><span class="ico">🌐</span><span class="lab">Google Maps 网页版<span class="desc">联网打开路线；不会先弹出系统 App 列表</span></span><span class="arr">›</span></button>
       <button type="button" class="nav-choice-action" data-nav-choice="copy"><span class="ico">📋</span><span class="lab">复制地址<span class="desc">复制地点名称、地址和经纬度</span></span><span class="arr">›</span></button>
@@ -1009,7 +1010,7 @@ const POIS = {
     hl:['木质敞篷车厢，双腿悬在车外','穿过森林与木栈桥','Menzies Creek / Lakeside 沿线'],
     tip:['坐右侧风景更好','蒸汽煤灰会飘，别穿浅色外套','山区比市区凉 3–5℃，带外套'],
     ph:['腿伸出车厢时同伴抓拍','火车过栈桥时站在岸边拍'],kind:'sight'},
-  moonlit:{n:'Moonlit Sanctuary 野生动物保育园',loc:'550 Tyabb-Tooradin Rd, Pearcedale VIC 3912',lat:-38.4350,lng:145.3100,
+  moonlit:{n:'Moonlit Sanctuary 野生动物保育园',loc:'550 Tyabb-Tooradin Rd, Pearcedale VIC 3912',lat:-38.213456,lng:145.248642,mapQuery:'Moonlit Sanctuary, 550 Tyabb-Tooradin Road, Pearcedale VIC 3912',
     r:'可以喂袋鼠、近距离看考拉；Moonlit 明确不能抱考拉。互动体验是否包含在团费内，请向导游确认。',
     hl:['亲手喂袋鼠','考拉近距离接触','黄昏灯光步道'],
     tip:['考拉互动不能抱，可能另收费并需提前预约；先问导游是否能安排','园区停留时间以导游安排为准'],
@@ -1075,11 +1076,11 @@ const POIS = {
     ppp:{n:'维特桑迪考斯特机场（普罗瑟派恩 PPP）',loc:'Whitsunday Coast Airport, Proserpine QLD 4800',lat:-20.4947,lng:148.5517,
     r:'圣灵群岛的空中门户，到艾尔利海滩约 40 分钟车程；首选红色小巴 Airlie Airport Bus。',
     hl:['小型机场，出站快','优先找红色 Airlie Airport Bus','可同时确认 10/7 返程接驳'],
-    tip:['10/5 取到行李后先在到达区外寻找红色小巴','上车前确认送到 Harbour Cove，并询问能否当场登记 10/7 返程','若当班满员或找不到车，再询问机场服务台或改乘出租车'],
+    tip:['10/5 落地先在到达厅 Shop 1（2 号转盘对面）报到，再取行李，按指示乘红色小巴','上车前确认送到 Harbour Cove，并登记 10/7 返程时间和集合点','若当班满员或找不到柜台，询问机场服务台或改乘出租车'],
     ph:['机场航站楼'],kind:'airport'},
-  harbourcove:{n:'Harbour Cove 海港湾公寓',loc:'28-30 The Cove Road, Airlie Beach QLD 4802',lat:-20.2630,lng:148.7130,
-    r:'10/5–10/7 五星级海景公寓，带泳池，步行到主街与泄湖很近。',
-    hl:['面海阳台','泳池','步行 10 分钟到主街'],
+  harbourcove:{n:'Harbour Cove 海港湾公寓',loc:'28-30 The Cove Road, Airlie Beach QLD 4802',lat:-20.271589,lng:148.7258371,mapQuery:'Harbour Cove, 28-30 The Cove Road, Airlie Beach QLD 4802',
+    r:'10/5–10/7 五星级海景公寓，带泳池，靠近 Port of Airlie；到主街和泄湖请按实际步行路线留时间。',
+    hl:['面海阳台','泳池','到主街 / 泄湖步行预留约 20–25 分钟，以导航为准'],
     tip:['入住 14:00 后 / 退房 10:00','厨房设备齐全，可自炊','超市 Woolworths 在主街旁'],
     ph:['阳台海景','泳池'],kind:'hotel'},
   lagoon:{n:'艾尔利海滩泄湖 Airlie Beach Lagoon',loc:'Airlie Beach QLD 4802',lat:-20.2667,lng:148.7117,
@@ -1087,10 +1088,10 @@ const POIS = {
     hl:['免费露天泳池','紧邻海滩','旁边就是草坪和烧烤台'],
     tip:['免费、无救生员看护时段注意','傍晚来人少还能看日落'],
     ph:['泳池边拍海','草坪上'],kind:'sight'},
-  portofairlie:{n:'艾尔利港 Port of Airlie Marina',loc:'Airlie Beach QLD 4802',lat:-20.2700,lng:148.7070,
-    r:'所有出海团的主要集合码头，餐厅酒吧一条街。',
-    hl:['游艇码头','出海 check-in 柜台'],
-    tip:['出海当天提前 30 分钟 check-in','码头边有咖啡，等船时坐坐'],
+  portofairlie:{n:'艾尔利港 Port of Airlie Marina',loc:'Port of Airlie, Airlie Beach QLD 4802',lat:-20.2716,lng:148.7249,mapQuery:'Port of Airlie Marina, Airlie Beach QLD 4802',
+    r:'这是 Port of Airlie，不是本次 Ocean Rafting 出发的 Coral Sea Marina North；不要在这里等 D6 的船。',
+    hl:['游艇码头','周边商店与餐饮'],
+    tip:['本次 D6 在酒店等接驳，到 Coral Sea Marina North 报到','不同运营商使用不同码头，不凭港口名称猜集合点'],
     ph:['码头日落','游艇桅杆'],kind:'station'},
   pavilion:{n:'The Pavilion · Coral Sea Resort',loc:'25 Ocean View Ave, Airlie Beach QLD 4802',lat:-20.2637038,lng:148.7158495,
     r:'面向珊瑚海的露天餐厅，主打时令食材、区域农产、海鲜与日落鸡尾酒；已替代当前无法确认营业的 Fish D’Vine。',
@@ -1102,7 +1103,7 @@ const POIS = {
     hl:['现代澳洲菜与地中海风味','披萨、海鲜和轻食','露台可看海滨与溪流'],
     tip:['官网当前显示周日至周四 06:30–20:00，厨房可能提早收单','两人午餐约 AUD 50–80、晚餐约 AUD 65–100，以当日菜单为准','D6 建议 18:30 前到；D7 午餐最晚 14:00 结账，以免耽误取行李'],
     ph:['海滨露台','艾尔利主街晚餐'],xq:'艾尔利海滩 The Deck 餐厅 推荐',web:'https://thedeckairliebeach.com.au/menu/',book:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',bookNote:'D6 晚餐建议预约；D7 午餐可同时预订以保证航班衔接',kind:'food'},
-  coralsea:{n:'珊瑚海码头 Coral Sea Marina',loc:'Airlie Beach QLD 4802',lat:-20.2760,lng:148.7000,
+  coralsea:{n:'Coral Sea Marina North · Ocean Rafting',loc:'North Village, Shingley Drive, Airlie Beach QLD 4802（Sorrento 旁）',lat:-20.263897,lng:148.713415,mapQuery:'Ocean Rafting, Coral Sea Marina North, Shingley Drive, Airlie Beach QLD 4802',
     r:'直升机观光与部分快艇团的出发地，设施新。',
     hl:['直升机起降坪','新码头区'],
     tip:['直升机团一般从这里起飞','提前 30 分钟到做安全简报'],
@@ -1132,7 +1133,7 @@ const POIS = {
   syd:{n:'悉尼金斯福德史密斯机场 T1（国际）',loc:'Terminal 1, Sydney Airport NSW 2020',mapQuery:'Sydney Airport International Terminal 1, New South Wales, Australia',lat:-33.9461,lng:151.1772,
     r:'国际航班建议提前 3 小时到；T2 到 T1 有免费接驳。',
     hl:['T1 出发层','退税 TRS 柜台在安检后'],
-    tip:['同一张卡单店满 AUD 300 可退税','机场快线 Train 到 Central 约 13 分钟'],
+    tip:['离境前 60 天内同一 ABN 商家合资格商品含税合计至少 AUD 300；保留税务发票，以 ABF 条件为准','机场快线 Train 到 Central 约 13 分钟'],
     ph:['航站楼'],kind:'airport'},
   sydt2:{n:'悉尼机场 T2（国内）',loc:'Terminal 2, Sydney Airport NSW 2020',mapQuery:'Sydney Airport Domestic Terminal 2, New South Wales, Australia',lat:-33.9335,lng:151.1800,
     r:'D7 捷星 JQ839 抵达国内 T2；取行李后前往 Grace Hotel，不需要前往国际 T1。',hl:['捷星国内到达','Domestic Airport 火车站'],tip:['取行李后按火车或出租车标识前往市区'],ph:[],kind:'airport'},
@@ -1166,10 +1167,10 @@ const POIS = {
     hl:['歌剧院 + 大桥同框','石头座椅上的刻字'],
     tip:['从环形码头步行约 20 分钟','上午顺光，下午逆光但氛围好','人多，早点占位'],
     ph:['坐在椅子上拍同框','站在椅子旁侧拍'],kind:'sight'},
-  hbrbridge:{n:'悉尼海港大桥 Harbour Bridge',loc:'Sydney Harbour Bridge, Sydney NSW',lat:-33.8523,lng:151.2108,
+  hbrbridge:{n:'海港大桥 · BridgeMuseum 东南桥塔',loc:'经 Cumberland Street（Glenmore 对面）电梯或楼梯上桥，沿人行道向北约 300 米',lat:-33.8545,lng:151.2107,mapQuery:'BridgeMuseum, Sydney Harbour Bridge South East Pylon, The Rocks NSW',navMode:'walking',
     r:'可以步行过桥（免费），也可以爬桥拱顶（BridgeClimb，需提前订）。',
-    hl:['步行道横跨海港','Pylon Lookout 桥塔观景台（约 AUD 25）','桥下 Observatory Hill'],
-    tip:['步行过桥免费，从 Cahill Walk 上桥','Pylon 观景台比爬桥便宜很多，视野也不错'],
+    hl:['步行道横跨海港','BridgeMuseum 东南桥塔（网上成人 AUD 39.95 起）','桥下 Observatory Hill'],
+    tip:['步行过桥免费；桥塔从 Cumberland Street 人行入口上桥，不导航到车辆主路','BridgeMuseum 建议 45–90 分钟；周四常规 17:00 最后入场，以官网为准'],
     ph:['桥上拍歌剧院','桥塔观景台'],kind:'sight'},
   rocks:{n:'岩石区 The Rocks',loc:'The Rocks, Sydney NSW 2000',lat:-33.8580,lng:151.2090,
     r:'悉尼最老的街区，石板路 + 老酒馆，在大桥脚下。',
@@ -1204,7 +1205,7 @@ const POIS = {
   fruitezy:{n:'Fruitezy · 新悉尼鱼市场 C2',loc:'Shop C2, Sydney Fish Market, 1 Bridge Rd, Glebe NSW 2037',lat:-33.8743796,lng:151.1906679,
     r:'澳洲家庭经营的果蔬店兼果汁吧，现场可做鲜榨果汁、甘蔗汁、奶昔与果昔；值得喝，但需要为本次路线早起绕行。',
     hl:['自选水果鲜榨果汁','西瓜 / 橙汁等即饮款','甘蔗汁、果昔与巧克力水果'],
-    tip:['D8 周四营业 07:00–22:00','建议一杯自选鲜榨 + 一杯西瓜或甘蔗汁，两人交换着尝','D8 07:15 从酒店打车，08:15 左右返程最稳'],
+    tip:['D8 周四营业 07:00–22:00','建议一杯自选鲜榨 + 一杯西瓜或甘蔗汁，两人交换着尝','D8 可选：07:15 酒店出发，08:05 返程，08:45 前回酒店；起晚直接跳过'],
     ph:['彩虹果蔬陈列','现场鲜榨果汁'],xq:'悉尼 Fruitezy 果汁 新鱼市场 C2 必吃',web:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',kind:'food'},
   bondi:{n:'邦迪海滩 Bondi Beach',loc:'Bondi Beach NSW 2026',lat:-33.8915,lng:151.2767,
     r:'澳洲最有名的海滩，也是 Bondi → Coogee 海岸步道的起点。',
@@ -1228,7 +1229,7 @@ const POIS = {
     ph:['渡轮上拍歌剧院','Manly 海滩'],kind:'sight'},
   taronga:{n:'塔龙加动物园 Taronga Zoo',loc:'Bradleys Head Rd, Mosman NSW 2088',lat:-33.8433,lng:151.2400,
     r:'建在山坡上的动物园，长颈鹿展区正对悉尼港天际线，是全澳最好看的动物园机位。',
-    hl:['长颈鹿 + 歌剧院同框','缆车上下山','考拉区'],
+    hl:['长颈鹿 + 歌剧院同框','码头步行或按现场指示乘巴士进园；缆车暂停运营','考拉区'],
     tip:['从环形码头坐渡轮直达，20 分钟','上午动物活跃','门票提前网上订便宜'],
     ph:['长颈鹿区俯拍悉尼港'],kind:'sight'},
   watsons:{n:'屈臣氏湾 Watsons Bay',loc:'Watsons Bay NSW 2030',lat:-33.8420,lng:151.2820,
@@ -1458,200 +1459,1405 @@ function setPalette(name, persist){
 }
 
 const DAYS = [
-{
- n:1, date:'2026-10-01', wd:'周四', city:'上海 → 厦门 → 机上', tz:'Asia/Shanghai',
- title:'启程 · 飞往墨尔本',
- hotel:null, hotelNote:'夜宿航班 MF803（波音 787 宽体，含餐食）',
- items:[
-  {t:'16:10',tz:'CST',ttl:'抵达虹桥机场 T1 · 办理值机',d:'国际航班建议提前 2 小时到。厦门航空柜台，托运每人 1×23KG + 手提 1×8KG。',tags:['注意'],p:'sha'},
-  {t:'18:10',tz:'CST',ttl:'MF8510 上海虹桥 T1 → 厦门高崎 T3',d:'波音 737-800，含晚餐。飞行约 1 小时 50 分。',tags:['航班'],p:'sha',tr:'约 1 小时 50 分'},
-  {t:'20:00',tz:'CST',ttl:'抵达厦门高崎 T3 · 中转',d:'中转停留 2 小时 15 分。行李直挂墨尔本，无需提取、不出站。\n机上先把澳洲入境卡填好，省下落地后的时间。',tags:['航班'],p:'xmn',tr:'中转 2 小时 15 分'},
-  {t:'22:15',tz:'CST',ttl:'MF803 厦门高崎 T3 → 墨尔本 T2',d:'波音 787 宽体，含餐食。飞行约 9 小时 20 分。\n中国 UTC+8 / 墨尔本 UTC+10，落地时为 10/2 上午 09:35。',tags:['航班'],p:'xmn'}
- ]
-},
-{
- n:2, date:'2026-10-02', wd:'周五', city:'墨尔本 · 市区', tz:'Australia/Melbourne',
- title:'抵达墨尔本 · 市区慢逛 + 购物',
- hotel:'dorsett', hotelNote:'入住 15:00 / 退房 11:00 · 不可退款 · 共 3 晚（10/2–10/5）\nDorsett Melbourne · 615 Little Lonsdale Street, Melbourne VIC 3000',hotelOk:true,
- warn:'🛍️ 只买 1–2 件 lululemon，不去 Moorabbin Outlet：长距离往返车费很可能抵消折扣。改逛市中心 Emporium，节省约 2 小时并保留更多款式与尺码选择。',
- items:[
-  {t:'09:35',tz:'AEST',ttl:'抵达墨尔本图拉马莱恩机场 T2',d:'入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。',tags:['航班','注意'],p:'mel'},
-  {t:'10:50',tz:'AEST',ttl:'SkyBus 机场 → 南十字星车站',d:'直达市区，车程约 25 分钟，单程约 AUD 24/人。',tags:['导航'],p:'southern',tr:'约 25 分钟'},
-  {t:'11:30',tz:'AEST',ttl:'酒店寄存行李 · 轻装出发',d:'Dorsett 入住时间 15:00，先把行李寄存在前台。',tags:['注意'],p:'dorsett',tr:'步行约 10 分钟'},
-  {t:'12:15',tz:'AEST',ttl:'午餐 · Higher Ground（已预订）',d:'两人计划用餐 12:15–13:15，按 1 小时安排，13:15 左右结账离店。原订位时段 12:15–13:45 保留不变，不代表需要坐满。建议提前 10 分钟到店；人均约 AUD 25–40。若上菜较慢，缩短后续购物/拱廊停留，不赶着吃饭。',tags:['介绍','已确认'],p:'higherground',tr:'步行约 5 分钟'},
-  {t:'13:30',tz:'AEST',ttl:'★ Chemist Warehouse 买 Swisse',d:'Spencer Outlet Centre 门店，计划逛 30 分钟，14:00 左右离店。优先看促销与每粒单价；以门店价格和库存为准。',tags:['介绍','注意'],p:'cwspencer',tr:'步行约 8–12 分钟'},
-  {t:'14:15',tz:'AEST',ttl:'★ lululemon Emporium 选购',d:'只买 1–2 件，计划逛约 40 分钟，14:55 左右离店。先看目标款式，再留意折扣区；无需专程去远郊 Outlet。',tags:['介绍'],p:'luluemporium',tr:'免费电车 / 步行约 15 分钟'},
-  {t:'15:05',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊（弹性短逛）',d:'两条 19 世纪拱廊街，看马赛克地砖与彩色玻璃穹顶。今天只作约 10 分钟短逛；若购物超时则略过，保留咖啡休息。',tags:['介绍'],p:'blockarcade',tr:'步行约 6–10 分钟'},
-  {t:'15:20',tz:'AEST',ttl:'咖啡歇脚 · 迪格雷夫斯街',d:'墨尔本咖啡巷文化的发源地。晒太阳 + 一杯咖啡帮助倒时差，今天不回酒店午睡。',tags:['介绍'],p:'degraves',tr:'步行约 6 分钟'},
-  {t:'16:00',tz:'AEST',ttl:'弗林德斯街车站 + 圣保罗大教堂',d:'墨尔本最经典地标组合，隔街相望。',tags:['介绍'],p:'flinders',tr:'步行约 4 分钟'},
-  {t:'16:45',tz:'AEST',ttl:'联邦广场',d:'几何立面广场，正对弗林德斯街车站；傍晚可以慢慢拍照。',tags:['介绍'],p:'fedsquare',tr:'步行约 3 分钟'},
-  {t:'18:00',tz:'AEST',ttl:'晚餐 · Asado Southbank（建议预约）',d:'从联邦广场过河约 8 分钟。两人建议共享 2 个牛肉馅饼、烤奶酪、一份炭烤主菜和一份土豆，预计 AUD 110–150（不含酒水）；饭后沿雅拉河散步再回酒店。',tags:['介绍','需提前订'],p:'asado',tr:'步行约 8 分钟'},
-  {t:'20:00',tz:'AEST',ttl:'晚饭后回酒店办理入住',d:'返回 Dorsett Melbourne 正式入住，取回寄存行李。第一晚不再安排其他活动，尽早休息。',tags:['注意'],p:'dorsett',tr:'打车 / 电车约 15 分钟'}
- ]
-},
-{
- n:3, date:'2026-10-03', wd:'周六', city:'墨尔本近郊 · 布莱顿 / 丹德农 / 菲利普岛', tz:'Australia/Melbourne',
- title:'普芬比利一日游（含企鹅归巢）',
- hotel:'dorsett', hotelNote:'同 Dorsett Melbourne 第 2 晚',hotelOk:true,
- warn:'🎫 Klook 地下观赏台 · 两张独立成人凭证均已确认（2 人）。08:15 接载已确认，其余站点时间按导游安排。企鹅日落前后归巢，不是固定场次。\n⚠️ 10/4 凌晨 2:00 跳到 3:00，少睡一小时；明早还要参加大洋路早班团。今晚回酒店直接休息，提前准备好明日随身物品。',
- items:[
-  {t:'08:05',tz:'AEST',ttl:'抵达集合点 · 601 Lonsdale Street（已确认）',d:'两张成人凭证均已确认。08:15 在 Men\'s Gallery 门前接载，建议 08:05–08:10 到场。\n⚠️ 迟到不等人。带上两张电子凭证与护照。',tags:['已确认','注意'],p:'meet601'},
-  {t:'08:15',tz:'AEST',ttl:'出发 · 布莱顿彩虹小屋',d:'海边 80 多栋彩色木屋，免费，停留约 30 分钟。\n⚠️ 海边风大，戴好帽子。',tags:['介绍'],p:'brighton',tr:'车程约 40 分钟'},
-  {t:'09:30',tz:'AEST',ttl:'前往丹德农山 · 帕芬比利',d:'巴士前往 Belgrave 站，穿森林山路上行。',tags:['介绍'],p:'puffing',tr:'车程约 1 小时 15 分'},
-  {t:'11:00',tz:'AEST',ttl:'★ 帕芬比利蒸汽小火车',d:'百年窄轨蒸汽火车。把腿伸出敞篷车厢挂在木框外是招牌体验。\n⚠️ 山区比市区凉 3–5℃，带外套；别穿浅色衣服（煤灰）；相机手机抓稳。',tags:['需提前订','介绍'],p:'puffing'},
-  {t:'12:40',tz:'AEST',ttl:'午餐 · Lakeside Railway Café（以导游安排为准）',d:'如果团在 Lakeside 留出约 1 小时，可在游客中心 Railway Café 快速吃汉堡或热食，官网当前午餐主食约 AUD 22–25/份。先听导游确认集合地点；若停靠 Belgrave，则按团内推荐就近吃，不自行走远。',tags:['介绍','注意'],p:'puffing',tr:'约 1 小时'},
-  {t:'14:30',tz:'AEST',ttl:'Moonlit Sanctuary 野生动物保育园',d:'喂袋鼠、近距离看考拉；不能抱考拉。另付费的互动项目需预约，是否包含以及能否赶上由导游确认，不擅自离团。',tags:['介绍'],p:'moonlit',tr:'车程约 50 分钟'},
-  {t:'16:30',tz:'AEST',ttl:'前往菲利普岛',d:'穿过农场与海岸线，日落前抵达。',tags:['介绍'],p:'penguin',tr:'车程约 1 小时'},
-  {t:'--:--',tz:'AEST',ttl:'提前晚餐 · Penguin Parade Visitor Centre',d:'用餐时间服从导游通知，预算约 AUD 20–35/人，预留约 30 分钟。地下观赏台至少在当日预计企鹅到达前 30 分钟进场；若大巴到达较晚，优先快速外带，不因等餐耽误集合。',tags:['介绍','注意'],p:'penguin',tr:'用餐约 30 分钟；以导游安排为准'},
-  {t:'--:--',tz:'AEST',ttl:'★ 企鹅归巢 Penguin Parade',d:'日落前后企鹅归巢，具体时间受当天情况影响，并非固定 19:20 场次。10/3 仍为 AEST；以导游与园区当日通知为准，地下观赏台至少提前 30 分钟到场。\n⚠️ 观赏期间禁止拍照摄像；海边极冷，带厚外套与围巾。',tags:['已确认','注意'],p:'penguin'},
-  {t:'20:40',tz:'AEST',ttl:'返程回墨尔本市区',d:'含接送，回到市区约 22:30–23:00。',tags:['注意'],p:'dorsett',tr:'车程约 2 小时'}
- ]
-},
-{
- n:4, date:'2026-10-04', wd:'周日', city:'墨尔本 ⇄ 大洋路 · 中文跟团一日游', tz:'Australia/Melbourne',
- title:'大洋路一日游 · 十二门徒 / 阿波罗湾 / 灯塔',
- hotel:'dorsett', hotelNote:'同 Dorsett Melbourne 第 3 晚（最后一晚）',hotelOk:true,
- warn:'🎫 飞猪跟团游，2026/10/04，2 人；上车点：300 Spencer Street。凭预订人姓名出行，无需确认单。\n📩 10/03 澳洲时间 20:00 前，司机会短信通知具体出发时间、司机姓名、电话和车牌号，群内也会跟进。\n⏰ 一般 07:00–08:30 左右从市区出发，约 19:00–20:30 返回；今天凌晨起墨尔本进入夏令时（AEDT · UTC+11），以当地时间和前一晚通知为准。\n🍽️ 所有餐食自理；午餐途经小镇时自行用餐，晚餐回到墨尔本市区后自行安排。司导服务费 AUD 5/人，请准备两人合计 AUD 10 现金。\n🧥 海边风大、天气多变，比市区多带一件防风外套。吉布森石阶仅为推荐项目、不包含。\n⚠️ 出发前 3 天以上可免费退改；按 10/04 出发推算，建议最迟于 09/30 澳洲时间 24:00 前提出。个人原因和航班临时变动同样按此规则处理。两人旅行保险已购买；明天 10:10 起飞，返程后务必立即收拾行李。',
- items:[
-  {t:'07:00',tz:'AEDT',ttl:'集合上车 · 300 Spencer Street（约 07:00–08:30）',d:'在 300 Spencer Street（Atlantis Hotel）集合。凭预订人姓名出行，无需确认单。\n📩 10/03 澳洲时间 20:00 前查收司机短信：具体出发时间、司机姓名、电话和车牌号；收到后截图保存，并提前 10–15 分钟到达。页面先按最早 07:00 提醒，以免错过集合。',tags:['需提前订','导航','注意'],p:'gorpickup'},
-  {t:'--:--',tz:'AEDT',ttl:'大洋路 · 前往坎贝尔港海岸',d:'全天中文导游兼司机巴士服务。截图说明大洋路相关路段约 5 小时，景点次序可能因交通、天气和导游安排调整。',tags:['介绍'],p:'twelveapostles',tr:'长途车程'},
-  {t:'--:--',tz:'AEDT',ttl:'★ 十二门徒 Twelve Apostles',d:'大洋路最经典的石灰岩海蚀柱群，截图安排约 1 小时。门票包含且无需自费。\n⚠️ 海边风大，不越过护栏，按导游规定时间返回。',tags:['介绍'],p:'twelveapostles',tr:'停留约 1 小时'},
-  {t:'--:--',tz:'AEDT',ttl:'洛克阿德大峡谷 Loch Ard Gorge',d:'近距离看峡谷岩壁、海湾与沉船海岸地貌。截图安排约 20 分钟，费用已包含。',tags:['介绍'],p:'lochard',tr:'停留约 20 分钟'},
-  {t:'--:--',tz:'AEDT',ttl:'肯尼特河 · 寻找野生考拉',d:'导游带队寻找树上的野生考拉，也可能遇到鹦鹉。能否看到野生动物取决于当天情况，请保持安静、不投喂。',tags:['介绍'],p:'kennettriver',tr:'约 15 分钟'},
-  {t:'--:--',tz:'AEDT',ttl:'午餐 · Apollo Bay Fishermen’s Co-op',d:'优先去 18 Pascoe Street 分店吃本地海鲜或炸鱼薯条，两人约 AUD 35–60。官网当前显示周日 11:00–19:00；跟团只停约 1 小时，先确认集合点，排队过长就改外带或附近简餐。',tags:['注意','介绍'],p:'apollocoop',tr:'停留约 1 小时'},
-  {t:'--:--',tz:'AEDT',ttl:'斯普利特角灯塔 · 白皇后',d:'1891 年灯塔外观打卡，截图安排约 15 分钟。行程包含外观停留；登塔是否开放及费用以现场为准。',tags:['介绍'],p:'splitpoint',tr:'约 15 分钟'},
-  {t:'--:--',tz:'AEDT',ttl:'大洋路纪念拱门',d:'纪念参与修建大洋路的一战退伍军人。截图安排约 15 分钟，拍照时只在安全区域停留。',tags:['介绍'],p:'gorarch',tr:'约 15 分钟'},
-  {t:'--:--',tz:'AEDT',ttl:'沿途寻找野生袋鼠',d:'截图注明由司导带队寻找野生袋鼠，地点按当天线路安排。不要靠近、追逐或投喂。',tags:['介绍'],tr:'约 20 分钟'},
-  {t:'19:00',tz:'AEDT',ttl:'返回墨尔本市区（约 19:00–20:30）',d:'准确时间取决于当天交通。下车后先确认体力和次日行李是否已经基本收好。',tags:['注意'],p:'dorsett'},
-  {t:'20:30',tz:'AEDT',ttl:'晚餐 · Stalactites（视返城时间）',d:'周日晚营业到午夜，适合返城时间不确定的这一天。两人可点 Souvlaki / Gyros 加一份希腊蘸酱或烤肉拼盘，约 AUD 55–90。若返城晚于 21:00 或太累，直接外带回酒店。',tags:['介绍'],p:'stalactites',tr:'从酒店打车约 8 分钟'},
-  {t:'22:00',tz:'AEDT',ttl:'回酒店 · 整理次日航班行李',d:'确认护照、充电宝、转换头和退房物品；明早 07:30 离店。',tags:['注意'],p:'dorsett',tr:'打车约 8 分钟'}
- ]
-},
-{
- n:5, date:'2026-10-05', wd:'周一', city:'墨尔本 → 布里斯班 → 普罗瑟派恩 → 艾尔利海滩', tz:'Australia/Brisbane',
- title:'飞往圣灵群岛 · 艾尔利海滩',
- hotel:'harbourcove', hotelNote:'入住 14:00 后 / 退房 10:00 · 共 2 晚（10/5–10/7）\nHarbour Cove · 28-30 The Cove Road, Airlie Beach QLD 4802',hotelOk:true,
- warn:'⚠️ 布里斯班中转仅 1 小时 50 分，机票平台已自行标注「中转时间短」。两段同属维珍澳洲（VA321 → VA1117）、行李直达，但墨尔本段一旦延误就会连锁。下飞机直接走中转通道，不要在布里斯班闲逛。\n🚌 10/5 抵达 PPP 后优先找红色小巴 Airlie Airport Bus；上车前确认送到 Harbour Cove，并尽量当场登记 10/7 返回机场的接驳。\n⚠️ 昆士兰（布里斯班 / 普罗瑟派恩 / 艾尔利）不实行夏令时，全年 UTC+10，入境后时间会比墨尔本慢 1 小时。',
- items:[
-  {t:'07:30',tz:'AEDT',ttl:'退房 · 前往墨尔本机场 T3',d:'酒店 11:00 退房，但我们 07:30 就走。维珍澳洲 VA321 在 T3，澳洲境内航班建议提前 2 小时到。',tags:['注意'],p:'melt3',tr:'车程约 30 分钟'},
-  {t:'08:10',tz:'AEDT',ttl:'抵达 T3 · 值机 + 提前买午餐',d:'🧳 维珍澳洲 VA321 / VA1117 行李额（每人）：1 件个人物品 45×33×20cm（放座位下方）+ 1 件手提行李约 18 寸 ≤8kg + 1 件托运行李约 24 寸 ≤23kg。\n两段同属维珍澳洲，行李直达普罗瑟派恩。两段航班都无餐食，布里斯班转机仅 1 小时 50 分；在墨尔本 T3 安检后买三明治 / 沙拉、水和零食作为午餐，不在布里斯班排队。',tags:['注意'],p:'melt3'},
-  {t:'10:10',tz:'AEDT',ttl:'VA321 墨尔本 T3 → 布里斯班',d:'波音 737，无餐食。飞行约 2 小时 10 分。\n⏰ 墨尔本 UTC+11 / 布里斯班 UTC+10，抵达时布里斯班时间 11:20。',tags:['航班'],p:'melt3',tr:'约 2 小时 10 分'},
-  {t:'11:20',tz:'AEST',ttl:'抵达布里斯班 · 中转',d:'中转 1 小时 50 分，行李直达，无需重新托运。\n⚠️ 在国内航站楼按屏幕指示前往续程登机口，不要前往国际航站楼。',tags:['航班','注意'],p:'bne'},
-  {t:'13:10',tz:'AEST',ttl:'VA1117 布里斯班 → 普罗瑟派恩 PPP',d:'波音 737，无餐食。飞行约 1 小时 50 分。',tags:['航班'],p:'ppp',tr:'中转 1 小时 50 分'},
-  {t:'15:00',tz:'AEST',ttl:'抵达 PPP · 优先找红色小巴',d:'取到行李后到到达区外寻找红色 Airlie Airport Bus。上车前确认送到 Harbour Cove，并询问能否当场登记 10/7 返回 PPP 的接驳；若满员或找不到车，再询问服务台或改乘出租车。',tags:['航班','注意'],p:'ppp'},
-  {t:'15:40',tz:'AEST',ttl:'Airlie Airport Bus → 艾尔利海滩',d:'机场到艾尔利海滩约 40 分钟，下车点确认 Harbour Cove。若已登记返程，把 10/7 的集合地点、接载时间和联系方式截图保存。',tags:['导航','注意'],p:'harbourcove',tr:'车程约 40 分钟'},
-  {id:'d5-grocery',t:'16:40',tz:'AEST',ttl:'晚餐前采购 · 早餐、水与出海零食',d:'到镇上、酒店放好行李后先采购，预留约 30 分钟。10/5 为昆士兰公共假日，先请酒店核对附近主街超市营业情况；如超市已关门，改向酒店询问仍营业的便利店，不拖到晚餐后。若接驳延误，优先采购并缩短泄湖停留。',tags:['注意'],tr:'就近采购；店铺以当天营业情况为准'},
-  {t:'17:20',tz:'AEST',ttl:'艾尔利海滩泄湖 · 傍晚散步',d:'采购完成后再逛免费的海边人造泳池与滨海步道。若购物较晚，缩短停留，保留前往晚餐的时间。',tags:['介绍'],p:'lagoon',tr:'步行约 10 分钟'},
-  {t:'18:45',tz:'AEST',ttl:'晚餐 · Coral Sea Pavilion（建议预约）',d:'面向珊瑚海的露天餐厅。两人可选当日鲜鱼、海鲜主菜与配菜共享，约 AUD 90–150（不含酒水）；公共假日附加费以餐厅为准。早餐、饮用水和出海备用零食已安排在晚餐前采购。',tags:['介绍','需提前订'],p:'pavilion',tr:'从泄湖步行约 12–15 分钟'}
- ]
-},
-{
- n:6, date:'2026-10-06', wd:'周二', city:'圣灵群岛 · 出海日', tz:'Australia/Brisbane',
- title:'Ocean Rafting 南线 · 白天堂沙滩 + 希尔湾',
- hotel:'harbourcove', hotelNote:'同 Harbour Cove 第 2 晚',hotelOk:true,
- warn:'🎫 Ocean Rafting Fly + Raft 延长日套餐已确认（2 人）：10/06 Southern Lights 南线，08:45 在 Harbour Cove 酒店门口车道接载。\n🚫 两人都不参加浮潜：登船时主动告诉船员；到浮潜停靠点后按安排留在船上休息观景，不下水。\n⚠️ 至少提前 24 小时完成线上 check-in；出发前一日 16:00 前向运营商提供可联系手机号。Ocean Rafting：+61 7 4946 6848。',
- items:[
-  {t:'08:40',tz:'AEST',ttl:'酒店门口集合 · 南线接驳（已确认）',d:'08:45 在 Harbour Cove 酒店门口车道接载；提前 5 分钟等候，认准 Ocean Rafting 标识车辆。带上电子凭证、帽子、防晒与饮用水。\n⚠️ 登船时说明两人都不浮潜；迟到不等人。',tags:['已确认','注意'],p:'harbourcove'},
-  {t:'09:15',tz:'AEST',ttl:'珊瑚海码头 · 登船',d:'Coral Sea Marina 登船，穿好救生衣听安全讲解。',tags:['导航'],p:'coralsea',tr:'车程约 10 分钟'},
-  {t:'09:30',tz:'AEST',ttl:'快艇出海 → 圣灵群岛',d:'硬底快艇穿越 Whitsunday Passage，比大船快很多，约 45 分钟到白天堂沙滩。',tags:['介绍'],p:'whitehaven',tr:'航程约 45 分钟'},
-  {t:'10:15',tz:'AEST',ttl:'★ 白天堂沙滩 Whitehaven Beach',d:'7 公里纯白硅砂沙滩，含 98% 二氧化硅，全世界最白之一。\n⚠️ 白沙反射极强，防晒霜 + 帽子必带；沙子不能带走（海关严查）。',tags:['介绍'],p:'whitehaven'},
-  {t:'11:00',tz:'AEST',ttl:'★ 希尔湾观景台 Hill Inlet',d:'圣灵群岛最经典机位，看白沙与海水搅出的流动花纹。走上去约 10 分钟。\n📷 这是全团最出片的地方，别排在队尾。',tags:['介绍'],p:'hillinlet',tr:'步行约 10 分钟'},
-  {t:'12:00',tz:'AEST',ttl:'沙滩 / 船上自助午餐',d:'多数南线团含自助午餐。',tags:['介绍'],p:'whitehaven'},
-  {t:'13:00',tz:'AEST',ttl:'蝠鲼湾停靠 · 船上休息观景（不浮潜）',d:'团队到浮潜点后，两人不下水，按船员安排留在指定安全区域休息、看海和拍照。\n⚠️ 登船时再次确认船员已知晓两人不参加浮潜。',tags:['已确认','注意'],p:'mantaray',tr:'航程约 40 分钟'},
-  {t:'15:00',tz:'AEST',ttl:'返航 → 艾尔利海滩',d:'硬底快艇回程更快，约 45 分钟。',tags:['介绍'],p:'portofairlie',tr:'航程约 45 分钟'},
-  {t:'16:30',tz:'AEST',ttl:'回到镇上 · 冲洗休整',d:'出海一天又晒又累，先回酒店冲澡躺一会儿。',tags:['注意'],p:'harbourcove'},
-  {t:'18:30',tz:'AEST',ttl:'晚餐 · The Deck（20:00 前结束）',d:'出海回酒店冲洗后，去泄湖旁的 The Deck 吃披萨、海鲜或现代澳洲菜，两人约 AUD 65–100。官网当前周二营业到 20:00，建议 18:30 前到、不要拖到最后点单。',tags:['介绍'],p:'thedeck',tr:'步行约 10–15 分钟'}
- ]
-},
-{
- n:7, date:'2026-10-07', wd:'周三', city:'圣灵群岛 → 悉尼', tz:'Australia/Sydney',
- title:'心形礁观光飞机 · 傍晚飞悉尼',
- hotel:'grace', hotelNote:'入住 15:00 / 退房 11:00 · 共 3 晚（10/7–10/10）\nThe Grace Hotel · 77 York St, Sydney NSW 2000 · 早餐 AUD 39/人（不含在房费内）',hotelOk:true,
- warn:'🎫 Fly + Raft 延长日观光飞机已确认（2 人）：11:00 在 Harbour Cove 酒店门口车道接载，11:30–12:30 飞行；至少提前 24 小时完成线上 check-in。\n🌊 今天的潮汐：高潮 08:17（2.94m）→ 低潮 14:10（0.38m）。飞行时处于退潮中段，Hill Inlet 沙涡花纹清晰。\n🧳 JQ839 是捷星航空（廉航），行李额已确认含托运：1 件个人物品（放座位下方）+ 1 件手提行李约 20 寸 + 1 件托运行李约 32 寸 ≤25kg。\n⚠️ 廉航称重严格，超重 / 超尺寸在机场补票很贵，装箱前先称一下。\n⚠️ 今晚 22:30 才到酒店，需提前告知酒店会晚到。',
- items:[
-  {t:'10:00',tz:'AEST',ttl:'退房 · 行李寄存（待酒店确认）',d:'退房后优先请 Harbour Cove 保管两只大箱至约 14:15；护照、手机、相机、充电宝与药品随身。若酒店不能寄存，提前联系 Ocean Rafting 确认机场储物柜尺寸及接驳车能否携带大箱。',tags:['待确认','注意'],p:'harbourcove'},
-  {t:'10:55',tz:'AEST',ttl:'酒店门口集合 · 观光飞机接驳（已确认）',d:'11:00 在 Harbour Cove 酒店门口车道接载；提前 5 分钟等候，认准 Ocean Rafting 标识车辆。',tags:['已确认','注意'],p:'harbourcove'},
-  {t:'11:30',tz:'AEST',ttl:'★ 60 分钟观光飞机 · 心形礁（已确认）',d:'实际飞行 11:30–12:30，飞越白天堂沙滩、Hill Inlet 与大堡礁，看天然心形珊瑚礁。座位按重量分配。\n📷 窗上会有反光，贴着玻璃拍、关掉闪光灯。',tags:['已确认','介绍'],p:'heartreef'},
-  {t:'12:30',tz:'AEST',ttl:'降落 · 接驳返回艾尔利海滩',d:'降落 Whitsunday Airport 后乘接驳返回镇上，抵达时间以当天安排为准。',tags:['介绍'],p:'harbourcove',tr:'约 15–30 分钟'},
-  {t:'13:10',tz:'AEST',ttl:'午餐 · The Deck + 外带晚餐',d:'观光飞机后在泄湖旁吃轻食或披萨，两人约 AUD 50–80。最晚 14:00 结账，并外带三明治 / 沙拉作为 JQ839 晚餐；航班无餐食、21:15 才到悉尼。',tags:['介绍','注意'],p:'thedeck',tr:'步行约 8 分钟'},
-  {t:'14:15',tz:'AEST',ttl:'取行李 · 乘红色小巴前往 PPP',d:'按 10/5 登记的时间和地点等候 Airlie Airport Bus，建议安排 14:30 前离开艾尔利海滩；前一晚再次核对接载信息。若接驳未确认或未出现，立即改乘出租车。',tags:['注意'],p:'ppp',tr:'车程约 40 分钟'},
-  {t:'15:10',tz:'AEST',ttl:'抵达 PPP 机场 · 捷星 JQ839 值机',d:'🧳 行李额已确认含托运：个人物品 1 件（放座位下方）+ 手提约 20 寸 + 托运约 32 寸 ≤25kg / 人。\n⚠️ 廉航称重严格，超重在机场补票很贵，出发前把箱子称好。',tags:['航班','注意'],p:'ppp'},
-  {t:'17:50',tz:'AEST',ttl:'JQ839 普罗瑟派恩 → 悉尼 T2',d:'空客 320，无餐食。飞行约 2 小时 25 分。\n⏰ 昆士兰 UTC+10 / 悉尼 UTC+11，抵达时悉尼时间 21:15。',tags:['航班'],p:'sydt2',tr:'约 2 小时 25 分'},
-  {t:'21:15',tz:'AEDT',ttl:'抵达悉尼 T2 · 前往市区',d:'机场快线 Train 到 Central 约 13 分钟，或打车约 25 分钟。',tags:['导航'],p:'grace'},
-  {t:'22:30',tz:'AEDT',ttl:'入住 The Grace Hotel',d:'77 York St，悉尼 CBD。今天到此为止，早点休息。',tags:['注意'],p:'grace',tr:'车程约 25 分钟'}
- ]
-},
-{
- n:8, date:'2026-10-08', wd:'周四', city:'悉尼 · 市中心步行一日', tz:'Australia/Sydney',
- title:'悉尼步行一日游 · 含歌剧院中文讲解',
- hotel:'grace', hotelNote:'同 The Grace Hotel 第 2 晚',hotelOk:true,
- warn:'🎫 悉尼歌剧院中文讲解团 14:30 已出票（2 人）。必须 14:15 前到 Welcome Centre（下层大厅，Winnie\'s 旁），迟到不补、不退费。\n⚠️ 上午的 QVB / 海德公园 / 圣玛丽大教堂 / 新州美术馆全部免费，节奏可以自己掌握。',
- items:[
-  {t:'09:00',tz:'AEDT',ttl:'酒店出发 · 步行进 CBD',d:'从 The Grace Hotel（77 York St）沿 George St 往北，今天全程靠走。',tags:['导航'],p:'qvb'},
-  {t:'09:15',tz:'AEDT',ttl:'★ 维多利亚女王大厦 QVB（免费）',d:'1898 年罗马式商场，中央大吊钟与彩色玻璃穹顶，整点有机械钟表演。',tags:['介绍'],p:'qvb',tr:'步行约 6 分钟'},
-  {t:'09:50',tz:'AEDT',ttl:'海德公园 Hyde Park（免费）',d:'市中心最大的绿地，无花果树大道 + Archibald 喷泉。',tags:['介绍'],p:'hydepark',tr:'步行约 5 分钟'},
-  {t:'10:20',tz:'AEDT',ttl:'圣玛丽大教堂 St Mary\'s Cathedral（免费）',d:'澳洲最大的哥特复兴式教堂，砂岩立面 + 彩色玻璃，就在海德公园对面。',tags:['介绍'],p:'stmary',tr:'步行约 3 分钟'},
-  {t:'11:00',tz:'AEDT',ttl:'新南威尔士州美术馆（常设展免费）',d:'原住民艺术与澳洲当代艺术收藏很强。特展另购。',tags:['介绍'],p:'artgallery',tr:'步行约 10 分钟'},
-  {t:'11:50',tz:'AEDT',ttl:'午餐 · The Gallery Café（美术馆内）',d:'直接在 Naala Nura 馆内吃沙拉、三明治或季节轻食，两人约 AUD 40–70。11:50 左右入座、12:30 前离开；若排队就去馆内 Kiosk 外带，确保 14:15 前到歌剧院 Welcome Centre。',tags:['介绍','注意'],p:'gallerycafe',tr:'馆内用餐约 40 分钟'},
-  {t:'12:40',tz:'AEDT',ttl:'穿过皇家植物园（免费）',d:'海滨步道风景极好，一路缓坡走到麦考利夫人座椅。',tags:['介绍'],p:'botanic',tr:'步行约 20 分钟'},
-  {t:'13:10',tz:'AEDT',ttl:'★ 麦考利夫人座椅',d:'悉尼最经典机位：一把石头椅子，正对歌剧院与海港大桥同框。',tags:['介绍'],p:'macquaries',tr:'步行约 8 分钟'},
-  {t:'13:30',tz:'AEDT',ttl:'悉尼歌剧院外观 · 台阶拍照',d:'近距离看白帆瓷砖纹理。站在台阶上仰拍是最经典角度。',tags:['介绍'],p:'operahouse',tr:'步行约 15 分钟'},
-  {t:'14:15',tz:'AEDT',ttl:'★ 歌剧院 Welcome Centre 集合',d:'下层大厅（Lower Concourse），Winnie\'s 餐厅旁。\n⚠️ 务必 14:15 前到。大于 A4 的包需在 Welcome Centre 寄存，行李箱不能寄存。',tags:['需提前订','注意'],p:'welcome',tr:'步行约 3 分钟'},
-  {t:'14:30',tz:'AEDT',ttl:'★ 悉尼歌剧院 1 小时中文讲解团',d:'全程约 1 小时，含多达 300 级台阶的步行路线，穿好走的鞋。\n⚠️ 迟到无法加入、不退费。咨询电话 +61 2 9250 7250。',tags:['需提前订','介绍'],p:'operahouse'},
-  {t:'15:40',tz:'AEDT',ttl:'海港大桥步行 · Pylon 观景台',d:'步行过桥免费；Pylon Lookout 桥塔观景台约 AUD 25/人，视野很好，比爬桥便宜得多。',tags:['介绍'],p:'hbrbridge',tr:'步行约 10 分钟'},
-  {t:'16:40',tz:'AEDT',ttl:'★ 天文台山 Observatory Hill',d:'悉尼港边的免费制高点，看海港大桥与西向港景，本地人看日落的机位。',tags:['介绍'],p:'observatory',tr:'步行约 15 分钟'},
-  {t:'17:30',tz:'AEDT',ttl:'岩石区 The Rocks',d:'悉尼最老街区，石板路与老酒馆。周四没有市集（周末才有），但老街氛围仍在。',tags:['介绍'],p:'rocks',tr:'步行约 12 分钟'},
-  {t:'18:30',tz:'AEDT',ttl:'晚餐 · The Glenmore 屋顶酒馆（建议预约）',d:'岩石区行程终点的老酒馆，屋顶可看海港。两人点酒馆主菜或汉堡约 AUD 60–100（不含酒水）；天气好订屋顶位，天气差坐室内。',tags:['介绍','需提前订'],p:'glenmore'}
- ]
-},
-{
- n:9, date:'2026-10-09', wd:'周五', city:'悉尼 · 塔龙加 / 邦迪 → 库吉', tz:'Australia/Sydney',
- title:'塔龙加动物园 + 邦迪→库吉海岸步道',
- hotel:'grace', hotelNote:'同 The Grace Hotel 第 3 晚',hotelOk:true,
- warn:'⚠️ 两个半天拼在一起是满的：动物园必须 14:00 前离园，才能 15:30 前赶到邦迪，留出 2.5–3 小时走完海岸步道。\n⚠️ 10 月海水约 19℃，下水会冷；步道有台阶与爬坡，穿好走的鞋。工作日人比周末少。',
- items:[
-  {t:'08:30',tz:'AEDT',ttl:'酒店出发 · 步行到环形码头',d:'从酒店走到 Circular Quay 约 15 分钟，也可以坐一站火车。',tags:['导航'],p:'circularquay'},
-  {t:'09:00',tz:'AEDT',ttl:'渡轮 Circular Quay → Taronga Zoo',d:'4 号码头坐渡轮，约 12 分钟直达动物园码头，刷 Opal 卡即可。',tags:['导航'],p:'taronga',tr:'渡轮约 12 分钟'},
-  {t:'09:30',tz:'AEDT',ttl:'★ 塔龙加动物园（约 AUD 55/人）',d:'长颈鹿展区正对悉尼港天际线，是全澳最好看的动物园机位。含空中缆车。\n🎟️ 建议线上预购门票，现场买要排队。',tags:['需提前订','介绍'],p:'taronga'},
-  {t:'12:15',tz:'AEDT',ttl:'午餐 · Taronga Food Market（快速吃）',d:'园区中央的 Food Market 10:00–16:00 营业，有 grab-and-go 与热食。两人约 AUD 35–60；12:45 前吃完继续逛，最迟 13:30 离园。想坐下看港景可选 Saltwater Bistro，但周五 walk-in 等位可能压缩行程。',tags:['介绍','注意'],p:'taronga'},
-  {t:'13:30',tz:'AEDT',ttl:'离园 · 渡轮回环形码头',d:'14:00 前必须离园，否则赶不上下午的行程。',tags:['注意'],p:'circularquay',tr:'渡轮约 12 分钟'},
-  {t:'14:15',tz:'AEDT',ttl:'转车前往邦迪海滩',d:'环形码头坐火车到 Bondi Junction 再转公交，全程约 45 分钟。',tags:['导航'],p:'bondi',tr:'约 45 分钟'},
-  {t:'15:00',tz:'AEDT',ttl:'★ 邦迪海滩 + Bondi Icebergs 海边泳池',d:'澳洲最有名的海滩，Icebergs 是建在海边岩崖上的海水泳池，出片率极高。',tags:['介绍'],p:'bondi'},
-  {t:'16:00',tz:'AEDT',ttl:'★ Bondi → Coogee 海岸步道',d:'6 公里悬崖海景步道，2.5–3 小时，途经 Tamarama / Bronte / Clovelly。\n⚠️ 日落约 18:40，务必在天黑前走完；中途随时可以下到海滩搭公交退出。',tags:['介绍','注意'],p:'coogee',tr:'步行约 3 小时'},
-  {t:'18:45',tz:'AEDT',ttl:'晚餐 · Coogee Pavilion Ground Floor',d:'就在步道终点，楼下可 walk-in。两人可点木火披萨、汉堡或海鲜共享，约 AUD 65–110（不含酒水）；若步道延误，优先楼下快速餐，不等楼上座位。',tags:['介绍'],p:'coogeepav'},
-  {t:'20:30',tz:'AEDT',ttl:'回酒店 · 收拾行李',d:'明天 08:00 退房，今晚把行李收完、充电宝充满。',tags:['注意'],p:'grace',tr:'车程约 30 分钟'}
- ]
-},
-{
- n:10, date:'2026-10-10', wd:'周六', city:'悉尼 → 厦门 → 上海', tz:'Asia/Shanghai',
- title:'返程 · 飞回上海',
- hotel:null, hotelNote:'今晚 22:40 抵上海虹桥 T1',
- warn:'⚠️ 酒店退房时间 11:00，但国际航班 12:25 起飞、建议 09:25 前到机场 —— 两者对不上。方案：08:00 直接退房（不住到 11:00），08:30 出发去机场。\n🧾 退税：同一张卡、同一家店满 AUD 300 可在 TRS 柜台办理（安检后），记得把退税商品的手提袋留在随身行李里备查。',
- items:[
-  {t:'08:00',tz:'AEDT',ttl:'退房 · The Grace Hotel',d:'⚠️ 不等 11:00，直接 08:00 退房，把行李全部带走。',tags:['注意'],p:'grace'},
-  {t:'08:30',tz:'AEDT',ttl:'前往悉尼机场 T1',d:'机场快线 Train 从 Wynyard / Town Hall 到 International 站约 20 分钟，或打车约 25 分钟。',tags:['导航'],p:'syd',tr:'车程约 25 分钟'},
-  {t:'09:25',tz:'AEDT',ttl:'抵达 T1 · 值机 + 退税',d:'国际航班提前 3 小时。同卡单店满 AUD 300 可在 TRS 柜台退税（安检后办理）。',tags:['航班','注意'],p:'syd'},
-  {t:'12:25',tz:'AEDT',ttl:'MF802 悉尼 T1 → 厦门高崎 T3',d:'波音 787 宽体，含餐食。飞行约 9 小时 40 分。\n⏰ 悉尼 UTC+11 / 中国 UTC+8，抵达时中国时间 19:05。',tags:['航班'],p:'xmn'},
-  {t:'19:05',tz:'CST',ttl:'抵达厦门高崎 T3 · 中转（衔接待确认）',d:'当前记录中转 1 小时 55 分，是否满足这张联程票的衔接要求，等待本人向厦航 95557 确认。航班暂不改动。行李直挂须在悉尼值机时落实；在厦门仍需办理入境及通程待检区手续，以航司指引为准。',tags:['航班','待确认','注意'],p:'xmn',tr:'中转 1 小时 55 分 · 待航司确认'},
-  {t:'21:00',tz:'CST',ttl:'MF8517 厦门 T3 → 上海虹桥 T1',d:'波音 737-800，含点心。飞行约 1 小时 40 分。',tags:['航班'],p:'sha'},
-  {t:'22:40',tz:'CST',ttl:'抵达上海虹桥 T1 · 到家',d:'行程结束。',tags:['航班'],p:'sha'}
- ]
-}
+  {
+    "n": 1,
+    "date": "2026-10-01",
+    "wd": "周四",
+    "city": "上海 → 厦门 → 机上",
+    "tz": "Asia/Shanghai",
+    "title": "启程 · 飞往墨尔本",
+    "hotel": null,
+    "hotelNote": "夜宿航班 MF803（波音 787 宽体，含餐食）",
+    "items": [
+      {
+        "t": "16:10",
+        "tz": "CST",
+        "ttl": "抵达虹桥机场 T1 · 办理值机",
+        "d": "国际航班建议提前 2 小时到。厦门航空柜台，托运每人 1×23KG + 手提 1×8KG。",
+        "tags": [
+          "注意"
+        ],
+        "p": "sha"
+      },
+      {
+        "t": "18:10",
+        "tz": "CST",
+        "ttl": "MF8510 上海虹桥 T1 → 厦门高崎 T3",
+        "d": "波音 737-800，含晚餐。飞行约 1 小时 50 分。",
+        "tags": [
+          "航班"
+        ],
+        "p": "sha",
+        "tr": "约 1 小时 50 分"
+      },
+      {
+        "t": "20:00",
+        "tz": "CST",
+        "ttl": "抵达厦门高崎 T3 · 中转",
+        "d": "中转停留 2 小时 15 分。行李直挂墨尔本，无需提取、不出站。\n机上先把澳洲入境卡填好，省下落地后的时间。",
+        "tags": [
+          "航班"
+        ],
+        "p": "xmn",
+        "tr": "中转 2 小时 15 分"
+      },
+      {
+        "t": "22:15",
+        "tz": "CST",
+        "ttl": "MF803 厦门高崎 T3 → 墨尔本 T2",
+        "d": "波音 787 宽体，含餐食。飞行约 9 小时 20 分。\n中国 UTC+8 / 墨尔本 UTC+10，落地时为 10/2 上午 09:35。",
+        "tags": [
+          "航班"
+        ],
+        "p": "xmn"
+      }
+    ]
+  },
+  {
+    "n": 2,
+    "date": "2026-10-02",
+    "wd": "周五",
+    "city": "墨尔本 · 市区",
+    "tz": "Australia/Melbourne",
+    "title": "抵达墨尔本 · 市区慢逛 + 购物",
+    "hotel": "dorsett",
+    "hotelNote": "入住 15:00 / 退房 11:00 · 不可退款 · 共 3 晚（10/2–10/5）\nDorsett Melbourne · 615 Little Lonsdale Street, Melbourne VIC 3000",
+    "hotelOk": true,
+    "warn": "🛍️ 只买 1–2 件 lululemon，不去 Moorabbin Outlet：长距离往返车费很可能抵消折扣。改逛市中心 Emporium，节省约 2 小时并保留更多款式与尺码选择。",
+    "items": [
+      {
+        "t": "09:35",
+        "tz": "AEST",
+        "ttl": "抵达墨尔本图拉马莱恩机场 T2",
+        "d": "入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。",
+        "tags": [
+          "航班",
+          "注意"
+        ],
+        "p": "mel"
+      },
+      {
+        "t": "10:50",
+        "tz": "AEST",
+        "ttl": "SkyBus 机场 → 南十字星车站",
+        "d": "直达市区，车程约 25 分钟，单程约 AUD 24/人。",
+        "tags": [
+          "导航"
+        ],
+        "p": "southern",
+        "tr": "约 25 分钟"
+      },
+      {
+        "t": "11:30",
+        "tz": "AEST",
+        "ttl": "酒店寄存行李 · 轻装出发",
+        "d": "Dorsett 入住时间 15:00，先把行李寄存在前台。",
+        "tags": [
+          "注意"
+        ],
+        "p": "dorsett",
+        "tr": "步行约 10 分钟"
+      },
+      {
+        "t": "12:15",
+        "tz": "AEST",
+        "ttl": "午餐 · Higher Ground（已预订）",
+        "d": "两人计划用餐 12:15–13:15，按 1 小时安排，13:15 左右结账离店。原订位时段 12:15–13:45 保留不变，不代表需要坐满。建议提前 10 分钟到店；人均约 AUD 25–40。若上菜较慢，缩短后续购物/拱廊停留，不赶着吃饭。",
+        "tags": [
+          "介绍",
+          "已确认"
+        ],
+        "p": "higherground",
+        "tr": "步行约 5 分钟"
+      },
+      {
+        "t": "13:30",
+        "tz": "AEST",
+        "ttl": "★ Chemist Warehouse 买 Swisse",
+        "d": "Spencer Outlet Centre 门店，计划逛 30 分钟，14:00 左右离店。优先看促销与每粒单价；以门店价格和库存为准。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "cwspencer",
+        "tr": "步行约 8–12 分钟"
+      },
+      {
+        "t": "14:15",
+        "tz": "AEST",
+        "ttl": "★ lululemon Emporium 选购",
+        "d": "只买 1–2 件，计划逛约 40 分钟，14:55 左右离店。先看目标款式，再留意折扣区；无需专程去远郊 Outlet。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "luluemporium",
+        "tr": "免费电车 / 步行约 15 分钟"
+      },
+      {
+        "t": "15:05",
+        "tz": "AEST",
+        "ttl": "皇家拱廊 + 布洛克拱廊（弹性短逛）",
+        "d": "两条 19 世纪拱廊街，看马赛克地砖与彩色玻璃穹顶。今天只作约 10 分钟短逛；若购物超时则略过，保留咖啡休息。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "blockarcade",
+        "tr": "步行约 6–10 分钟"
+      },
+      {
+        "t": "15:20",
+        "tz": "AEST",
+        "ttl": "咖啡歇脚 · 迪格雷夫斯街",
+        "d": "墨尔本咖啡巷文化的发源地。晒太阳 + 一杯咖啡帮助倒时差，今天不回酒店午睡。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "degraves",
+        "tr": "步行约 6 分钟"
+      },
+      {
+        "t": "16:00",
+        "tz": "AEST",
+        "ttl": "弗林德斯街车站 + 圣保罗大教堂",
+        "d": "墨尔本最经典地标组合，隔街相望。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "flinders",
+        "tr": "步行约 4 分钟"
+      },
+      {
+        "t": "16:45",
+        "tz": "AEST",
+        "ttl": "联邦广场",
+        "d": "几何立面广场，正对弗林德斯街车站；傍晚可以慢慢拍照。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "fedsquare",
+        "tr": "步行约 3 分钟"
+      },
+      {
+        "t": "18:00",
+        "tz": "AEST",
+        "ttl": "晚餐 · Asado Southbank（建议预约）",
+        "d": "从联邦广场过河约 8 分钟。两人建议共享 2 个牛肉馅饼、烤奶酪、一份炭烤主菜和一份土豆，预计 AUD 110–150（不含酒水）；饭后沿雅拉河散步再回酒店。",
+        "tags": [
+          "介绍",
+          "需提前订"
+        ],
+        "p": "asado",
+        "tr": "步行约 8 分钟"
+      },
+      {
+        "t": "20:00",
+        "tz": "AEST",
+        "ttl": "晚饭后回酒店办理入住",
+        "d": "返回 Dorsett Melbourne 正式入住，取回寄存行李。第一晚不再安排其他活动，尽早休息。",
+        "tags": [
+          "注意"
+        ],
+        "p": "dorsett",
+        "tr": "打车 / 电车约 15 分钟"
+      }
+    ]
+  },
+  {
+    "n": 3,
+    "date": "2026-10-03",
+    "wd": "周六",
+    "city": "墨尔本近郊 · 布莱顿 / 丹德农 / 菲利普岛",
+    "tz": "Australia/Melbourne",
+    "title": "普芬比利一日游（含企鹅归巢）",
+    "hotel": "dorsett",
+    "hotelNote": "同 Dorsett Melbourne 第 2 晚",
+    "hotelOk": true,
+    "warn": "🎫 Klook 地下观赏台 · 两张独立成人凭证均已确认（2 人）。08:15 接载已确认，其余站点时间按导游安排。企鹅日落前后归巢，不是固定场次。\n⚠️ 10/4 凌晨 2:00 跳到 3:00，少睡一小时；明早还要参加大洋路早班团。今晚回酒店直接休息，提前准备好明日随身物品。",
+    "items": [
+      {
+        "t": "08:05",
+        "tz": "AEST",
+        "ttl": "抵达集合点 · 601 Lonsdale Street（已确认）",
+        "d": "两张成人凭证均已确认。08:15 在 Men's Gallery 门前接载，建议 08:05–08:10 到场。\n⚠️ 迟到不等人。带上两张电子凭证与护照。",
+        "tags": [
+          "已确认",
+          "注意"
+        ],
+        "p": "meet601"
+      },
+      {
+        "t": "08:15",
+        "tz": "AEST",
+        "ttl": "出发 · 布莱顿彩虹小屋",
+        "d": "海边 80 多栋彩色木屋，免费，停留约 30 分钟。\n⚠️ 海边风大，戴好帽子。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "brighton",
+        "tr": "车程约 40 分钟"
+      },
+      {
+        "t": "09:30",
+        "tz": "AEST",
+        "ttl": "前往丹德农山 · 帕芬比利",
+        "d": "巴士前往 Belgrave 站，穿森林山路上行。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "puffing",
+        "tr": "车程约 1 小时 15 分"
+      },
+      {
+        "t": "11:00",
+        "tz": "AEST",
+        "ttl": "★ 帕芬比利蒸汽小火车",
+        "d": "百年窄轨蒸汽火车。把腿伸出敞篷车厢挂在木框外是招牌体验。\n⚠️ 山区比市区凉 3–5℃，带外套；别穿浅色衣服（煤灰）；相机手机抓稳。",
+        "tags": [
+          "需提前订",
+          "介绍"
+        ],
+        "p": "puffing"
+      },
+      {
+        "t": "12:40",
+        "tz": "AEST",
+        "ttl": "午餐 · Lakeside Railway Café（以导游安排为准）",
+        "d": "如果团在 Lakeside 留出约 1 小时，可在游客中心 Railway Café 快速吃汉堡或热食，官网当前午餐主食约 AUD 22–25/份。先听导游确认集合地点；若停靠 Belgrave，则按团内推荐就近吃，不自行走远。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "puffing",
+        "tr": "约 1 小时"
+      },
+      {
+        "t": "14:30",
+        "tz": "AEST",
+        "ttl": "Moonlit Sanctuary 野生动物保育园",
+        "d": "喂袋鼠、近距离看考拉；不能抱考拉。另付费的互动项目需预约，是否包含以及能否赶上由导游确认，不擅自离团。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "moonlit",
+        "tr": "车程约 50 分钟"
+      },
+      {
+        "t": "16:30",
+        "tz": "AEST",
+        "ttl": "前往菲利普岛",
+        "d": "穿过农场与海岸线，日落前抵达。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "penguin",
+        "tr": "车程约 1 小时"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "提前晚餐 · Penguin Parade Visitor Centre",
+        "d": "用餐时间服从导游通知，预算约 AUD 20–35/人，预留约 30 分钟。地下观赏台至少在当日预计企鹅到达前 30 分钟进场；若大巴到达较晚，优先快速外带，不因等餐耽误集合。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "penguin",
+        "tr": "用餐约 30 分钟；以导游安排为准"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "★ 企鹅归巢 Penguin Parade",
+        "d": "日落前后企鹅归巢，具体时间受当天情况影响，并非固定 19:20 场次。10/3 仍为 AEST；以导游与园区当日通知为准，地下观赏台至少提前 30 分钟到场。\n⚠️ 观赏期间禁止拍照摄像；海边极冷，带厚外套与围巾。",
+        "tags": [
+          "已确认",
+          "注意"
+        ],
+        "p": "penguin"
+      },
+      {
+        "t": "20:40",
+        "tz": "AEST",
+        "ttl": "返程回墨尔本市区",
+        "d": "含接送，回到市区约 22:30–23:00。",
+        "tags": [
+          "注意"
+        ],
+        "p": "dorsett",
+        "tr": "车程约 2 小时"
+      }
+    ]
+  },
+  {
+    "n": 4,
+    "date": "2026-10-04",
+    "wd": "周日",
+    "city": "墨尔本 ⇄ 大洋路 · 中文跟团一日游",
+    "tz": "Australia/Melbourne",
+    "title": "大洋路一日游 · 十二门徒 / 阿波罗湾 / 灯塔",
+    "hotel": "dorsett",
+    "hotelNote": "同 Dorsett Melbourne 第 3 晚（最后一晚）",
+    "hotelOk": true,
+    "warn": "🎫 飞猪跟团游，2026/10/04，2 人；上车点：300 Spencer Street。凭预订人姓名出行，无需确认单。\n📩 10/03 澳洲时间 20:00 前，司机会短信通知具体出发时间、司机姓名、电话和车牌号，群内也会跟进。\n⏰ 一般 07:00–08:30 左右从市区出发，约 19:00–20:30 返回；今天凌晨起墨尔本进入夏令时（AEDT · UTC+11），以当地时间和前一晚通知为准。\n🍽️ 所有餐食自理；午餐途经小镇时自行用餐，晚餐回到墨尔本市区后自行安排。司导服务费 AUD 5/人，请准备两人合计 AUD 10 现金。\n🧥 海边风大、天气多变，比市区多带一件防风外套。吉布森石阶仅为推荐项目、不包含。\n⚠️ 出发前 3 天以上可免费退改；按 10/04 出发推算，建议最迟于 09/30 澳洲时间 24:00 前提出。个人原因和航班临时变动同样按此规则处理。两人旅行保险已购买；明天 10:10 起飞，返程后务必立即收拾行李。",
+    "items": [
+      {
+        "t": "07:00",
+        "tz": "AEDT",
+        "ttl": "集合上车 · 300 Spencer Street（约 07:00–08:30）",
+        "d": "在 300 Spencer Street（Atlantis Hotel）集合。凭预订人姓名出行，无需确认单。\n📩 10/03 澳洲时间 20:00 前查收司机短信：具体出发时间、司机姓名、电话和车牌号；收到后截图保存，并提前 10–15 分钟到达。页面先按最早 07:00 提醒，以免错过集合。",
+        "tags": [
+          "需提前订",
+          "导航",
+          "注意"
+        ],
+        "p": "gorpickup"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "大洋路 · 前往坎贝尔港海岸",
+        "d": "全天中文导游兼司机巴士服务。截图说明大洋路相关路段约 5 小时，景点次序可能因交通、天气和导游安排调整。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "twelveapostles",
+        "tr": "长途车程"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "★ 十二门徒 Twelve Apostles",
+        "d": "大洋路最经典的石灰岩海蚀柱群，截图安排约 1 小时。门票包含且无需自费。\n⚠️ 海边风大，不越过护栏，按导游规定时间返回。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "twelveapostles",
+        "tr": "停留约 1 小时"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "洛克阿德大峡谷 Loch Ard Gorge",
+        "d": "近距离看峡谷岩壁、海湾与沉船海岸地貌。截图安排约 20 分钟，费用已包含。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "lochard",
+        "tr": "停留约 20 分钟"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "肯尼特河 · 寻找野生考拉",
+        "d": "导游带队寻找树上的野生考拉，也可能遇到鹦鹉。能否看到野生动物取决于当天情况，请保持安静、不投喂。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "kennettriver",
+        "tr": "约 15 分钟"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "午餐 · Apollo Bay Fishermen’s Co-op",
+        "d": "优先去 18 Pascoe Street 分店吃本地海鲜或炸鱼薯条，两人约 AUD 35–60。官网当前显示周日 11:00–19:00；跟团只停约 1 小时，先确认集合点，排队过长就改外带或附近简餐。",
+        "tags": [
+          "注意",
+          "介绍"
+        ],
+        "p": "apollocoop",
+        "tr": "停留约 1 小时"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "斯普利特角灯塔 · 白皇后",
+        "d": "1891 年灯塔外观打卡，截图安排约 15 分钟。行程包含外观停留；登塔是否开放及费用以现场为准。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "splitpoint",
+        "tr": "约 15 分钟"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "大洋路纪念拱门",
+        "d": "纪念参与修建大洋路的一战退伍军人。截图安排约 15 分钟，拍照时只在安全区域停留。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "gorarch",
+        "tr": "约 15 分钟"
+      },
+      {
+        "t": "--:--",
+        "tz": "AEDT",
+        "ttl": "沿途寻找野生袋鼠",
+        "d": "截图注明由司导带队寻找野生袋鼠，地点按当天线路安排。不要靠近、追逐或投喂。",
+        "tags": [
+          "介绍"
+        ],
+        "tr": "约 20 分钟"
+      },
+      {
+        "t": "19:00",
+        "tz": "AEDT",
+        "ttl": "返回墨尔本市区（约 19:00–20:30）",
+        "d": "准确时间取决于当天交通。下车后先确认体力和次日行李是否已经基本收好。",
+        "tags": [
+          "注意"
+        ],
+        "p": "dorsett"
+      },
+      {
+        "t": "20:30",
+        "tz": "AEDT",
+        "ttl": "晚餐 · Stalactites（视返城时间）",
+        "d": "周日晚营业到午夜，适合返城时间不确定的这一天。两人可点 Souvlaki / Gyros 加一份希腊蘸酱或烤肉拼盘，约 AUD 55–90。若返城晚于 21:00 或太累，直接外带回酒店。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "stalactites",
+        "tr": "从酒店打车约 8 分钟"
+      },
+      {
+        "t": "22:00",
+        "tz": "AEDT",
+        "ttl": "回酒店 · 整理次日航班行李",
+        "d": "确认护照、充电宝、转换头和退房物品；明早 07:30 离店。",
+        "tags": [
+          "注意"
+        ],
+        "p": "dorsett",
+        "tr": "打车约 8 分钟"
+      }
+    ]
+  },
+  {
+    "n": 5,
+    "date": "2026-10-05",
+    "wd": "周一",
+    "city": "墨尔本 → 布里斯班 → 普罗瑟派恩 → 艾尔利海滩",
+    "tz": "Australia/Brisbane",
+    "title": "飞往圣灵群岛 · 艾尔利海滩",
+    "hotel": "harbourcove",
+    "hotelNote": "入住 14:00 后 / 退房 10:00 · 共 2 晚（10/5–10/7）\nHarbour Cove · 28-30 The Cove Road, Airlie Beach QLD 4802",
+    "hotelOk": true,
+    "warn": "⚠️ 布里斯班中转仅 1 小时 50 分，机票平台已自行标注「中转时间短」。两段同属维珍澳洲（VA321 → VA1117）、行李直达，但墨尔本段一旦延误就会连锁。下飞机直接走中转通道，不要在布里斯班闲逛。\n🚌 10/5 抵达 PPP 后优先找红色小巴 Airlie Airport Bus；上车前确认送到 Harbour Cove，并尽量当场登记 10/7 返回机场的接驳。\n⚠️ 昆士兰（布里斯班 / 普罗瑟派恩 / 艾尔利）不实行夏令时，全年 UTC+10，入境后时间会比墨尔本慢 1 小时。\n🚌 红色小巴先在到达厅 Shop 1 报到，不直接去停车区等车。",
+    "items": [
+      {
+        "t": "07:30",
+        "tz": "AEDT",
+        "ttl": "退房 · 前往墨尔本机场 T3",
+        "d": "酒店 11:00 退房，但我们 07:30 就走。维珍澳洲 VA321 在 T3，澳洲境内航班建议提前 2 小时到。",
+        "tags": [
+          "注意"
+        ],
+        "p": "melt3",
+        "tr": "车程约 30 分钟"
+      },
+      {
+        "t": "08:10",
+        "tz": "AEDT",
+        "ttl": "抵达 T3 · 值机 + 提前买午餐",
+        "d": "🧳 维珍澳洲 VA321 / VA1117 行李额（每人）：1 件个人物品 45×33×20cm（放座位下方）+ 1 件手提行李约 18 寸 ≤8kg + 1 件托运行李约 24 寸 ≤23kg。\n两段同属维珍澳洲，行李直达普罗瑟派恩。两段航班都无餐食，布里斯班转机仅 1 小时 50 分；在墨尔本 T3 安检后买三明治 / 沙拉、水和零食作为午餐，不在布里斯班排队。",
+        "tags": [
+          "注意"
+        ],
+        "p": "melt3"
+      },
+      {
+        "t": "10:10",
+        "tz": "AEDT",
+        "ttl": "VA321 墨尔本 T3 → 布里斯班",
+        "d": "波音 737，无餐食。飞行约 2 小时 10 分。\n⏰ 墨尔本 UTC+11 / 布里斯班 UTC+10，抵达时布里斯班时间 11:20。",
+        "tags": [
+          "航班"
+        ],
+        "p": "melt3",
+        "tr": "约 2 小时 10 分"
+      },
+      {
+        "t": "11:20",
+        "tz": "AEST",
+        "ttl": "抵达布里斯班 · 中转",
+        "d": "中转 1 小时 50 分，行李直达，无需重新托运。\n⚠️ 在国内航站楼按屏幕指示前往续程登机口，不要前往国际航站楼。",
+        "tags": [
+          "航班",
+          "注意"
+        ],
+        "p": "bne"
+      },
+      {
+        "t": "13:10",
+        "tz": "AEST",
+        "ttl": "VA1117 布里斯班 → 普罗瑟派恩 PPP",
+        "d": "波音 737，无餐食。飞行约 1 小时 50 分。",
+        "tags": [
+          "航班"
+        ],
+        "p": "ppp",
+        "tr": "中转 1 小时 50 分"
+      },
+      {
+        "t": "15:00",
+        "tz": "AEST",
+        "ttl": "抵达 PPP · 优先找红色小巴",
+        "d": "落地先到到达厅 Shop 1（2 号行李转盘对面）Airlie Airport Bus 柜台报到，再等行李；按工作人员指示乘红色小巴。上车前确认送到 Harbour Cove，并当场登记 10/07 返程时间与集合点。若满员或找不到柜台，询问机场服务台或改乘出租车。",
+        "tags": [
+          "航班",
+          "注意"
+        ],
+        "p": "ppp"
+      },
+      {
+        "t": "15:40",
+        "tz": "AEST",
+        "ttl": "Airlie Airport Bus → 艾尔利海滩",
+        "d": "机场到艾尔利海滩约 40 分钟，下车点确认 Harbour Cove。若已登记返程，把 10/7 的集合地点、接载时间和联系方式截图保存。",
+        "tags": [
+          "导航",
+          "注意"
+        ],
+        "p": "harbourcove",
+        "tr": "车程约 40 分钟"
+      },
+      {
+        "id": "d5-grocery",
+        "t": "16:40",
+        "tz": "AEST",
+        "ttl": "晚餐前采购 · 早餐、水与出海零食",
+        "d": "到镇上、酒店放好行李后先采购，预留约 30 分钟。10/5 为昆士兰公共假日，先请酒店核对附近主街超市营业情况；如超市已关门，改向酒店询问仍营业的便利店，不拖到晚餐后。若接驳延误，优先采购并缩短泄湖停留。",
+        "tags": [
+          "注意"
+        ],
+        "tr": "就近采购；店铺以当天营业情况为准"
+      },
+      {
+        "t": "17:20",
+        "tz": "AEST",
+        "ttl": "艾尔利海滩泄湖 · 傍晚散步",
+        "d": "采购完成后再逛免费的海边人造泳池与滨海步道。若购物较晚，缩短停留，保留前往晚餐的时间。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "lagoon",
+        "tr": "步行约 10 分钟"
+      },
+      {
+        "t": "18:45",
+        "tz": "AEST",
+        "ttl": "晚餐 · Coral Sea Pavilion（建议预约）",
+        "d": "面向珊瑚海的露天餐厅。两人可选当日鲜鱼、海鲜主菜与配菜共享，约 AUD 90–150（不含酒水）；公共假日附加费以餐厅为准。早餐、饮用水和出海备用零食已安排在晚餐前采购。",
+        "tags": [
+          "介绍",
+          "需提前订"
+        ],
+        "p": "pavilion",
+        "tr": "从泄湖步行约 12–15 分钟"
+      }
+    ]
+  },
+  {
+    "n": 6,
+    "date": "2026-10-06",
+    "wd": "周二",
+    "city": "圣灵群岛 · 出海日",
+    "tz": "Australia/Brisbane",
+    "title": "Ocean Rafting 南线 · 白天堂沙滩 + 希尔湾",
+    "hotel": "harbourcove",
+    "hotelNote": "同 Harbour Cove 第 2 晚",
+    "hotelOk": true,
+    "warn": "🎫 Ocean Rafting Fly + Raft 延长日套餐已确认（2 人）：10/06 Southern Lights 南线，08:45 在 Harbour Cove 酒店门口车道接载。\n🚫 两人都不参加浮潜：登船时主动告诉船员；到浮潜停靠点后按安排留在船上休息观景，不下水。\n⚠️ 至少提前 24 小时完成线上 check-in；出发前一日 16:00 前向运营商提供可联系手机号。Ocean Rafting：+61 7 4946 6848。\n📝 预订确认不等于线上登记完成：分别完成 D6/D7 check-in，并至少提前 48 小时重确认接载；建议 10/03 晚前联系运营商，避免 D4 跟团和 D5 航班期间忙乱。酒店接载按凭证，海上时刻/停靠点按船员安排。留船安排尚需运营商确认。",
+    "items": [
+      {
+        "t": "08:40",
+        "tz": "AEST",
+        "ttl": "酒店门口集合 · 南线接驳（已确认）",
+        "d": "08:45 在 Harbour Cove 酒店门口车道接载；提前 5 分钟等候，认准 Ocean Rafting 标识车辆。带上电子凭证、帽子、防晒与饮用水。\n⚠️ 登船时说明两人都不浮潜；迟到不等人。",
+        "tags": [
+          "已确认",
+          "注意"
+        ],
+        "p": "harbourcove"
+      },
+      {
+        "id": "d6-marina",
+        "t": "09:00",
+        "tz": "AEST",
+        "ttl": "Coral Sea Marina North · 报到（参考）",
+        "d": "酒店接驳后到 Ocean Rafting 北区柜台（Sorrento 旁）报到。官网常规 09:00 check-in；实际抵达及手续按接驳人员指示，不自行赶去另一座码头。",
+        "tags": [
+          "注意"
+        ],
+        "p": "coralsea"
+      },
+      {
+        "id": "d6-departure",
+        "t": "10:00",
+        "tz": "AEST",
+        "ttl": "Southern Lights 南线出发（官网参考）",
+        "d": "官网常规 10:00 出发、约 16:30 返回 Coral Sea Marina North。海上路线、顺序和停靠点受天气潮汐影响，以运营商当天通知为准。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "coralsea"
+      },
+      {
+        "id": "d6-whitehaven",
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "★ 白天堂沙滩 Whitehaven Beach",
+        "d": "白沙滩观景拍照；帽子、防晒和饮水必备，不带走沙子。抵达时刻及游览顺序听船员安排。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "whitehaven"
+      },
+      {
+        "id": "d6-hillinlet",
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "★ 希尔湾观景台 Hill Inlet",
+        "d": "按当日路线安排步行到观景台；不保证固定到达时刻或沙纹景观。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "hillinlet"
+      },
+      {
+        "id": "d6-lunch",
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "沙滩 / 船上午餐（按当日安排）",
+        "d": "餐食是否包含及供应安排以套餐凭证和运营商确认为准；备饮水和少量零食。",
+        "tags": [
+          "注意"
+        ]
+      },
+      {
+        "id": "d6-no-snorkel",
+        "t": "--:--",
+        "tz": "AEST",
+        "ttl": "浮潜停靠期间 · 船上休息观景（不浮潜）",
+        "d": "两人都不参加浮潜；提前向运营商确认留船方案，登船时主动告诉船员，按安排待在安全区域。停靠点由船员决定，不把蝠鲼湾作为固定必到点。",
+        "tags": [
+          "待确认",
+          "注意"
+        ]
+      },
+      {
+        "id": "d6-return",
+        "t": "16:30",
+        "tz": "AEST",
+        "ttl": "返回 Coral Sea Marina North（参考）",
+        "d": "官网常规返港时间约 16:30，受天气路况影响；按工作人员指示乘接驳回酒店，不前往 Port of Airlie。",
+        "tags": [
+          "注意"
+        ],
+        "p": "coralsea"
+      },
+      {
+        "id": "d6-rest",
+        "t": "17:00",
+        "tz": "AEST",
+        "ttl": "回酒店 · 冲洗休整（弹性）",
+        "d": "返港后回 Harbour Cove 冲洗休息，若返港延误可缩短休整或改吃酒店附近外带。",
+        "tags": [
+          "注意"
+        ],
+        "p": "harbourcove"
+      },
+      {
+        "t": "18:30",
+        "tz": "AEST",
+        "ttl": "晚餐 · The Deck（20:00 前结束）",
+        "d": "出海回酒店冲洗后，去泄湖旁的 The Deck 吃披萨、海鲜或现代澳洲菜，两人约 AUD 65–100。官网当前周二营业到 20:00，建议 18:30 前到、不要拖到最后点单。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "thedeck",
+        "tr": "从 Harbour Cove 步行约 20–25 分钟，出发前看实际导航；累了打车"
+      }
+    ]
+  },
+  {
+    "n": 7,
+    "date": "2026-10-07",
+    "wd": "周三",
+    "city": "圣灵群岛 → 悉尼",
+    "tz": "Australia/Sydney",
+    "title": "心形礁观光飞机 · 傍晚飞悉尼",
+    "hotel": "grace",
+    "hotelNote": "入住 15:00 / 退房 11:00 · 共 3 晚（10/7–10/10）\nThe Grace Hotel · 77 York St, Sydney NSW 2000 · 早餐 AUD 39/人（不含在房费内）",
+    "hotelOk": true,
+    "warn": "🎫 Fly + Raft 延长日观光飞机已确认（2 人）：11:00 在 Harbour Cove 酒店门口车道接载，11:30–12:30 飞行；至少提前 24 小时完成线上 check-in。\n🌊 心形礁与沙纹观感受潮汐、光线和天气影响；未核实的潮汐分钟表已移除，不保证拍摄效果。\n🧳 捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。\n⚠️ 廉航称重严格，超重 / 超尺寸在机场补票很贵，装箱前先称一下。\n⚠️ 今晚 22:30 才到酒店，需提前告知酒店会晚到。\n🧳 寄存、飞行接驳返回点及机场小巴时间均待商家确认，下面午餐/取箱/到机场为计划，不是接载凭证。",
+    "items": [
+      {
+        "t": "10:00",
+        "tz": "AEST",
+        "ttl": "退房 · 行李寄存（待酒店确认）",
+        "d": "退房后优先请 Harbour Cove 保管两只大箱至约 14:15；护照、手机、相机、充电宝与药品随身。若酒店不能寄存，提前联系 Ocean Rafting 确认机场储物柜尺寸及接驳车能否携带大箱。 联系酒店确认取箱时有人在场；没有酒店回复前不把寄存当作已安排。",
+        "tags": [
+          "待确认",
+          "注意"
+        ],
+        "p": "harbourcove"
+      },
+      {
+        "t": "10:55",
+        "tz": "AEST",
+        "ttl": "酒店门口集合 · 观光飞机接驳（已确认）",
+        "d": "11:00 在 Harbour Cove 酒店门口车道接载；提前 5 分钟等候，认准 Ocean Rafting 标识车辆。",
+        "tags": [
+          "已确认",
+          "注意"
+        ],
+        "p": "harbourcove"
+      },
+      {
+        "t": "11:30",
+        "tz": "AEST",
+        "ttl": "★ 60 分钟观光飞机 · 心形礁（已确认）",
+        "d": "实际飞行 11:30–12:30，飞越白天堂沙滩、Hill Inlet 与大堡礁，看天然心形珊瑚礁。座位按重量分配。\n📷 窗上会有反光，贴着玻璃拍、关掉闪光灯。",
+        "tags": [
+          "已确认",
+          "介绍"
+        ],
+        "p": "heartreef"
+      },
+      {
+        "t": "12:30",
+        "tz": "AEST",
+        "ttl": "降落 · 接驳返回艾尔利海滩",
+        "d": "12:30 为凭证飞行结束时间。返程接驳是否送回 Harbour Cove、具体下车点与抵达时间待 Ocean Rafting 确认，不假设必定送回酒店。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "harbourcove",
+        "tr": "约 15–30 分钟"
+      },
+      {
+        "t": "13:10",
+        "tz": "AEST",
+        "ttl": "午餐 · The Deck + 外带晚餐",
+        "d": "若返程接驳时间允许，在 The Deck 吃轻食或披萨，两人约 AUD 50–80；最晚 14:00 结账仅为计划。以已确认的机场车接载时间倒排午餐和取箱；晚了改外带，不为堂食误车。另备 JQ839 晚餐，航班无餐食。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "thedeck",
+        "tr": "步行约 8 分钟"
+      },
+      {
+        "t": "14:15",
+        "tz": "AEST",
+        "ttl": "取行李 · 乘红色小巴前往 PPP（时间待确认）",
+        "d": "14:15 取箱、14:30 前离镇是预留缓冲的计划，不是车票确认。按 10/5 登记后运营商最终发来的时间地点等候；前一晚再次核对，午餐服从接载时间。若接驳未确认或未出现，立即改乘出租车。",
+        "tags": [
+          "注意"
+        ],
+        "p": "ppp",
+        "tr": "车程约 40 分钟"
+      },
+      {
+        "t": "15:10",
+        "tz": "AEST",
+        "ttl": "抵达 PPP 机场 · 捷星 JQ839 值机",
+        "d": "捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。\n15:10 为计划到达时间，以已确认接驳安排更新；出发前称重。",
+        "tags": [
+          "航班",
+          "注意"
+        ],
+        "p": "ppp"
+      },
+      {
+        "t": "17:50",
+        "tz": "AEST",
+        "ttl": "JQ839 普罗瑟派恩 → 悉尼 T2",
+        "d": "空客 320，无餐食。飞行约 2 小时 25 分。\n⏰ 昆士兰 UTC+10 / 悉尼 UTC+11，抵达时悉尼时间 21:15。",
+        "tags": [
+          "航班"
+        ],
+        "p": "sydt2",
+        "tr": "约 2 小时 25 分"
+      },
+      {
+        "t": "21:15",
+        "tz": "AEDT",
+        "ttl": "抵达悉尼 T2 · 前往市区",
+        "d": "机场快线 Train 到 Central 约 13 分钟，或打车约 25 分钟。",
+        "tags": [
+          "导航"
+        ],
+        "p": "grace"
+      },
+      {
+        "t": "22:30",
+        "tz": "AEDT",
+        "ttl": "入住 The Grace Hotel",
+        "d": "77 York St，悉尼 CBD。今天到此为止，早点休息。",
+        "tags": [
+          "注意"
+        ],
+        "p": "grace",
+        "tr": "车程约 25 分钟"
+      }
+    ]
+  },
+  {
+    "n": 8,
+    "date": "2026-10-08",
+    "wd": "周四",
+    "city": "悉尼 · 市中心步行一日",
+    "tz": "Australia/Sydney",
+    "title": "悉尼步行一日游 · 含歌剧院中文讲解",
+    "hotel": "grace",
+    "hotelNote": "同 The Grace Hotel 第 2 晚",
+    "hotelOk": true,
+    "warn": "🎫 悉尼歌剧院中文讲解团 14:30 已出票（2 人）。必须 14:15 前到 Welcome Centre（下层大厅，Winnie's 旁），迟到不补、不退费。\n⚠️ 上午的 QVB / 海德公园 / 圣玛丽大教堂 / 新州美术馆全部免费，节奏可以自己掌握。",
+    "items": [
+      {
+        "id": "d8-fruitezy-optional",
+        "optional": true,
+        "t": "07:15",
+        "tz": "AEDT",
+        "ttl": "可选早起支线 · Fruitezy 果汁 / 新鱼市场",
+        "d": "前晚约 22:30 入住，睡眠优先，不设为必到。若精神好：07:15 酒店打车 → 约 07:30–08:05 鱼市场 C2 果汁 → 打车返回酒店，预留至 08:45；09:00 再出发去 QVB。店铺营业和实际车程出发前核对；起晚直接跳过。",
+        "tags": [
+          "可选",
+          "介绍"
+        ],
+        "p": "fruitezy"
+      },
+      {
+        "t": "09:00",
+        "tz": "AEDT",
+        "ttl": "酒店出发 · 步行进 CBD",
+        "d": "从 The Grace Hotel（77 York St）向南前往 QVB，步行约 10–15 分钟；不向北绕行。早晨鱼市场是可选往返支线，未去也不影响主线。",
+        "tags": [
+          "导航"
+        ],
+        "p": "qvb"
+      },
+      {
+        "t": "09:15",
+        "tz": "AEDT",
+        "ttl": "★ 维多利亚女王大厦 QVB（免费）",
+        "d": "1898 年罗马式商场，中央大吊钟与彩色玻璃穹顶，整点有机械钟表演。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "qvb",
+        "tr": "步行约 6 分钟"
+      },
+      {
+        "t": "09:50",
+        "tz": "AEDT",
+        "ttl": "海德公园 Hyde Park（免费）",
+        "d": "市中心最大的绿地，无花果树大道 + Archibald 喷泉。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "hydepark",
+        "tr": "步行约 5 分钟"
+      },
+      {
+        "t": "10:20",
+        "tz": "AEDT",
+        "ttl": "圣玛丽大教堂 St Mary's Cathedral（免费）",
+        "d": "澳洲最大的哥特复兴式教堂，砂岩立面 + 彩色玻璃，就在海德公园对面。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "stmary",
+        "tr": "步行约 3 分钟"
+      },
+      {
+        "t": "11:00",
+        "tz": "AEDT",
+        "ttl": "新南威尔士州美术馆（常设展免费）",
+        "d": "原住民艺术与澳洲当代艺术收藏很强。特展另购。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "artgallery",
+        "tr": "步行约 10 分钟"
+      },
+      {
+        "t": "11:50",
+        "tz": "AEDT",
+        "ttl": "午餐 · The Gallery Café（美术馆内）",
+        "d": "直接在 Naala Nura 馆内吃沙拉、三明治或季节轻食，两人约 AUD 40–70。11:50 左右入座、12:30 前离开；若排队就去馆内 Kiosk 外带，确保 14:15 前到歌剧院 Welcome Centre。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "gallerycafe",
+        "tr": "馆内用餐约 40 分钟"
+      },
+      {
+        "t": "12:40",
+        "tz": "AEDT",
+        "ttl": "穿过皇家植物园（免费）",
+        "d": "海滨步道风景极好，一路缓坡走到麦考利夫人座椅。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "botanic",
+        "tr": "步行约 20 分钟"
+      },
+      {
+        "t": "13:10",
+        "tz": "AEDT",
+        "ttl": "★ 麦考利夫人座椅",
+        "d": "悉尼最经典机位：一把石头椅子，正对歌剧院与海港大桥同框。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "macquaries",
+        "tr": "步行约 8 分钟"
+      },
+      {
+        "t": "13:30",
+        "tz": "AEDT",
+        "ttl": "悉尼歌剧院外观 · 台阶拍照",
+        "d": "近距离看白帆瓷砖纹理。站在台阶上仰拍是最经典角度。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "operahouse",
+        "tr": "步行约 15 分钟"
+      },
+      {
+        "t": "14:15",
+        "tz": "AEDT",
+        "ttl": "★ 歌剧院 Welcome Centre 集合",
+        "d": "下层大厅（Lower Concourse），Winnie's 餐厅旁。\n⚠️ 务必 14:15 前到。大于 A4 的包需在 Welcome Centre 寄存，行李箱不能寄存。",
+        "tags": [
+          "需提前订",
+          "注意"
+        ],
+        "p": "welcome",
+        "tr": "步行约 3 分钟"
+      },
+      {
+        "t": "14:30",
+        "tz": "AEDT",
+        "ttl": "★ 悉尼歌剧院 1 小时中文讲解团",
+        "d": "全程约 1 小时，含多达 300 级台阶的步行路线，穿好走的鞋。\n⚠️ 迟到无法加入、不退费。咨询电话 +61 2 9250 7250。",
+        "tags": [
+          "需提前订",
+          "介绍"
+        ],
+        "p": "operahouse"
+      },
+      {
+        "t": "16:10",
+        "tz": "AEDT",
+        "ttl": "可选 · BridgeMuseum 东南桥塔",
+        "d": "歌剧院约 15:30 结束后预留 40 分钟离场和步行，从 Cumberland Street（Glenmore 对面）电梯/楼梯上桥，沿人行道向北约 300 米入馆。成人网上 AUD 39.95 起，现场 AUD 49.95；建议预留约 60 分钟（官网 45–90 分钟）。周四常规 17:00 最后入场，以官网/购票页为准。晚了或累了直接跳过，改逛岩石区，不赶已付费歌剧院。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "hbrbridge",
+        "tr": "约 40 分钟离场 + 步行缓冲",
+        "optional": true
+      },
+      {
+        "t": "17:35",
+        "tz": "AEDT",
+        "ttl": "可选 · 天文台山 Observatory Hill",
+        "d": "桥塔结束后时间和体力允许再去；若桥塔游览超过 17:10，跳过这里，直接去岩石区及晚餐。不保证赶上特定日落时刻。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "observatory",
+        "tr": "步行预留约 25 分钟",
+        "optional": true
+      },
+      {
+        "t": "18:00",
+        "tz": "AEDT",
+        "ttl": "岩石区 The Rocks",
+        "d": "悉尼最老街区，石板路与老酒馆。周四没有市集（周末才有），但老街氛围仍在。 仅短逛约 15 分钟，18:30 晚餐优先；未去桥塔则有更充裕时间。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "rocks",
+        "tr": "步行约 12 分钟"
+      },
+      {
+        "t": "18:30",
+        "tz": "AEDT",
+        "ttl": "晚餐 · The Glenmore 屋顶酒馆（建议预约）",
+        "d": "岩石区行程终点的老酒馆，屋顶可看海港。两人点酒馆主菜或汉堡约 AUD 60–100（不含酒水）；天气好订屋顶位，天气差坐室内。",
+        "tags": [
+          "介绍",
+          "需提前订"
+        ],
+        "p": "glenmore"
+      }
+    ]
+  },
+  {
+    "n": 9,
+    "date": "2026-10-09",
+    "wd": "周五",
+    "city": "悉尼 · 塔龙加 / 邦迪 → 库吉",
+    "tz": "Australia/Sydney",
+    "title": "塔龙加动物园 + 邦迪→库吉海岸步道",
+    "hotel": "grace",
+    "hotelNote": "同 The Grace Hotel 第 3 晚",
+    "hotelOk": true,
+    "warn": "⚠️ 13:30 离园，按实时渡轮/公交前往邦迪，目标 15:30 开始步道。全程约 2.5–3 小时，争取 18:30 前结束。\n⚠️ 若 16:00 仍未出发、疲劳或天气不佳，改走 Bondi–Bronte 短段，再搭车去 Coogee；不为走完全程摸黑赶路。晚餐为约 19:00 弹性安排。\n⚠️ 塔龙加缆车暂停运营，官方预计 2027 年底重开，本次不安排。",
+    "items": [
+      {
+        "t": "08:30",
+        "tz": "AEDT",
+        "ttl": "酒店出发 · 步行到环形码头",
+        "d": "从酒店走到 Circular Quay 约 15 分钟，也可以坐一站火车。",
+        "tags": [
+          "导航"
+        ],
+        "p": "circularquay"
+      },
+      {
+        "t": "09:00",
+        "tz": "AEDT",
+        "ttl": "渡轮 Circular Quay → Taronga Zoo",
+        "d": "在 Circular Quay 按当日屏幕找 Taronga Zoo 渡轮，航程约 12 分钟，不把固定泊位当保证。到码头后按现场指示步行或乘可用巴士进园，额外留进园缓冲；没有缆车。",
+        "tags": [
+          "导航"
+        ],
+        "p": "taronga",
+        "tr": "渡轮约 12 分钟"
+      },
+      {
+        "t": "09:30",
+        "tz": "AEDT",
+        "ttl": "★ 塔龙加动物园（约 AUD 55/人）",
+        "d": "长颈鹿展区可看悉尼港天际线。Sky Safari 已停运，本次不能乘缆车；到园后按现场指示进园。门票按 AUD 55/人暂估，实际以购票日期价格为准。建议线上预购。",
+        "tags": [
+          "需提前订",
+          "介绍"
+        ],
+        "p": "taronga"
+      },
+      {
+        "t": "12:15",
+        "tz": "AEDT",
+        "ttl": "午餐 · Taronga Food Market（快速吃）",
+        "d": "园区中央的 Food Market 10:00–16:00 营业，有 grab-and-go 与热食。两人约 AUD 35–60；12:45 前吃完继续逛，最迟 13:30 离园。想坐下看港景可选 Saltwater Bistro，但周五 walk-in 等位可能压缩行程。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "taronga"
+      },
+      {
+        "t": "13:30",
+        "tz": "AEDT",
+        "ttl": "离园 · 渡轮回环形码头",
+        "d": "13:30 开始离园，预留走到码头和等船的时间；若渡轮延误，缩短邦迪拍照并采用短段海岸步道。",
+        "tags": [
+          "注意"
+        ],
+        "p": "circularquay",
+        "tr": "渡轮约 12 分钟"
+      },
+      {
+        "t": "14:15",
+        "tz": "AEDT",
+        "ttl": "转车前往邦迪海滩",
+        "d": "环形码头坐火车到 Bondi Junction 再转公交，全程约 45 分钟。",
+        "tags": [
+          "导航"
+        ],
+        "p": "bondi",
+        "tr": "约 45 分钟"
+      },
+      {
+        "t": "15:00",
+        "tz": "AEDT",
+        "ttl": "★ 邦迪海滩 + Bondi Icebergs 海边泳池",
+        "d": "澳洲最有名的海滩，Icebergs 是建在海边岩崖上的海水泳池，出片率极高。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "bondi"
+      },
+      {
+        "t": "15:30",
+        "tz": "AEDT",
+        "ttl": "★ Bondi → Coogee 海岸步道",
+        "d": "全程约 6 公里，含拍照预留 2.5–3 小时，争取 18:00–18:30 抵达 Coogee。16:00 仍未开始或体力不足时，只走 Bondi–Bronte，再搭车去 Coogee。不承诺固定日落分钟数，按天气和现场光线提前退出，不走黑路。",
+        "tags": [
+          "介绍",
+          "注意"
+        ],
+        "p": "coogee",
+        "tr": "步行约 3 小时"
+      },
+      {
+        "t": "19:00",
+        "tz": "AEDT",
+        "ttl": "晚餐 · Coogee Pavilion Ground Floor",
+        "d": "就在步道终点，楼下可 walk-in。两人可点木火披萨、汉堡或海鲜共享，约 AUD 65–110（不含酒水）；若步道延误，优先楼下快速餐，不等楼上座位。",
+        "tags": [
+          "介绍"
+        ],
+        "p": "coogeepav"
+      },
+      {
+        "t": "20:30",
+        "tz": "AEDT",
+        "ttl": "回酒店 · 收拾行李",
+        "d": "明天 08:00 退房，今晚把行李收完、充电宝充满。",
+        "tags": [
+          "注意"
+        ],
+        "p": "grace",
+        "tr": "车程约 30 分钟"
+      }
+    ]
+  },
+  {
+    "n": 10,
+    "date": "2026-10-10",
+    "wd": "周六",
+    "city": "悉尼 → 厦门 → 上海",
+    "tz": "Asia/Shanghai",
+    "title": "返程 · 飞回上海",
+    "hotel": null,
+    "hotelNote": "今晚 22:40 抵上海虹桥 T1",
+    "warn": "⚠️ 酒店退房时间 11:00，但国际航班 12:25 起飞、建议 09:25 前到机场 —— 两者对不上。方案：08:00 直接退房（不住到 11:00），08:30 出发去机场。\n🧾 TRS：离境前 60 天内，同一 ABN 商家合资格商品含税合计至少 AUD 300；保留合规税务发票，不以支付卡判断。商品、护照与登机牌需备查；液体/大件若需托运，先问 ABF 查验再托运，不能一律放随身行李。完整资格与办理要求以 ABF 为准。",
+    "items": [
+      {
+        "t": "08:00",
+        "tz": "AEDT",
+        "ttl": "退房 · The Grace Hotel",
+        "d": "⚠️ 不等 11:00，直接 08:00 退房，把行李全部带走。",
+        "tags": [
+          "注意"
+        ],
+        "p": "grace"
+      },
+      {
+        "t": "08:30",
+        "tz": "AEDT",
+        "ttl": "前往悉尼机场 T1",
+        "d": "机场快线 Train 从 Wynyard / Town Hall 到 International 站约 20 分钟，或打车约 25 分钟。",
+        "tags": [
+          "导航"
+        ],
+        "p": "syd",
+        "tr": "车程约 25 分钟"
+      },
+      {
+        "t": "09:25",
+        "tz": "AEDT",
+        "ttl": "抵达 T1 · 值机 + 退税",
+        "d": "国际航班建议提前 3 小时到达；TRS：离境前 60 天内，同一 ABN 商家合资格商品含税合计至少 AUD 300；保留合规税务发票，不以支付卡判断。商品、护照与登机牌需备查；液体/大件若需托运，先问 ABF 查验再托运，不能一律放随身行李。完整资格与办理要求以 ABF 为准。",
+        "tags": [
+          "航班",
+          "注意"
+        ],
+        "p": "syd"
+      },
+      {
+        "t": "12:25",
+        "tz": "AEDT",
+        "ttl": "MF802 悉尼 T1 → 厦门高崎 T3",
+        "d": "波音 787 宽体，含餐食。飞行约 9 小时 40 分。\n⏰ 悉尼 UTC+11 / 中国 UTC+8，抵达时中国时间 19:05。",
+        "tags": [
+          "航班"
+        ],
+        "p": "xmn"
+      },
+      {
+        "t": "19:05",
+        "tz": "CST",
+        "ttl": "抵达厦门高崎 T3 · 中转（衔接待确认）",
+        "d": "当前记录中转 1 小时 55 分，是否满足这张联程票的衔接要求，等待本人向厦航 95557 确认。航班暂不改动。行李直挂须在悉尼值机时落实；在厦门仍需办理入境及通程待检区手续，以航司指引为准。",
+        "tags": [
+          "航班",
+          "待确认",
+          "注意"
+        ],
+        "p": "xmn",
+        "tr": "中转 1 小时 55 分 · 待航司确认"
+      },
+      {
+        "t": "21:00",
+        "tz": "CST",
+        "ttl": "MF8517 厦门 T3 → 上海虹桥 T1",
+        "d": "波音 737-800，含点心。飞行约 1 小时 40 分。",
+        "tags": [
+          "航班"
+        ],
+        "p": "sha"
+      },
+      {
+        "t": "22:40",
+        "tz": "CST",
+        "ttl": "抵达上海虹桥 T1 · 到家",
+        "d": "行程结束。",
+        "tags": [
+          "航班"
+        ],
+        "p": "sha"
+      }
+    ]
+  }
 ];
 
 DAYS[9].warn = '✈️ 待确认（由本人联系）：厦门返程转机仅 115 分钟，请向厦航 95557 核实该联程票衔接及行李手续，暂不调整航班。\n' + DAYS[9].warn;
 
 const TRIP_FLOW = [
-  {d:1, title:'启程', stops:['虹桥机场','厦门中转','飞往墨尔本']},
-  {d:2, title:'抵达墨尔本 · 市区 + 购物', stops:['墨尔本机场','南十字星','酒店寄存','Higher Ground 午餐','Spencer 买 Swisse','Emporium 买 lululemon','拱廊街','咖啡巷','弗林德斯街 / 联邦广场','Asado 河畔晚餐','酒店入住']},
-  {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','Railway Café 午餐','考拉园','企鹅中心提前晚餐','企鹅归巢','回墨尔本']},
-  {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','Co-op 海鲜午餐','灯塔 / 纪念拱门','回墨尔本','Stalactites 晚餐']},
-  {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本 T3 备餐','布里斯班国内中转','PPP 机场','找红色 Airlie Airport Bus','登记 10/7 返程','酒店放行李','晚餐前采购','泄湖散步','Coral Sea Pavilion 晚餐']},
-  {d:6, title:'白天堂沙滩 · 希尔湾', stops:['酒店集合','珊瑚海码头','白天堂沙滩','希尔湾','船上午餐','蝠鲼湾船上观景（不浮潜）','The Deck 晚餐']},
-  {d:7, title:'心形礁 · 飞往悉尼', stops:['酒店退房','观光飞机','心形礁','The Deck 午餐 / 备晚餐','红色小巴到 PPP','悉尼机场','Grace Hotel']},
-  {d:8, title:'悉尼市中心步行', stops:['The Grace','QVB','海德公园','圣玛丽大教堂','州美术馆 / 馆内午餐','皇家植物园','歌剧院讲解','海港大桥 / 岩石区','Glenmore 晚餐']},
-  {d:9, title:'塔龙加 · 邦迪到库吉', stops:['The Grace','环形码头','塔龙加动物园 / Food Market','邦迪海滩','Bondi → Coogee','Coogee Pavilion 晚餐','回酒店']},
-  {d:10, title:'返程回上海', stops:['Grace Hotel 退房','悉尼机场','厦门中转','上海虹桥','到家']}
+  {
+    "d": 1,
+    "title": "启程",
+    "stops": [
+      "虹桥机场",
+      "厦门中转",
+      "飞往墨尔本"
+    ]
+  },
+  {
+    "d": 2,
+    "title": "抵达墨尔本 · 市区 + 购物",
+    "stops": [
+      "墨尔本机场",
+      "南十字星",
+      "酒店寄存",
+      "Higher Ground 午餐",
+      "Spencer 买 Swisse",
+      "Emporium 买 lululemon",
+      "拱廊街",
+      "咖啡巷",
+      "弗林德斯街 / 联邦广场",
+      "Asado 河畔晚餐",
+      "酒店入住"
+    ]
+  },
+  {
+    "d": 3,
+    "title": "普芬比利 · 企鹅岛",
+    "stops": [
+      "601 Lonsdale 集合",
+      "布莱顿小屋",
+      "帕芬比利小火车",
+      "Railway Café 午餐",
+      "考拉园",
+      "企鹅中心提前晚餐",
+      "企鹅归巢",
+      "回墨尔本"
+    ]
+  },
+  {
+    "d": 4,
+    "title": "大洋路一日游",
+    "stops": [
+      "300 Spencer 上车",
+      "十二门徒",
+      "洛克阿德大峡谷",
+      "肯尼特河考拉",
+      "Co-op 海鲜午餐",
+      "灯塔 / 纪念拱门",
+      "回墨尔本",
+      "Stalactites 晚餐"
+    ]
+  },
+  {
+    "d": 5,
+    "title": "飞往圣灵群岛",
+    "stops": [
+      "Dorsett 退房",
+      "墨尔本 T3 备餐",
+      "布里斯班国内中转",
+      "PPP 机场",
+      "Airlie Airport Bus 到达厅柜台报到",
+      "登记 10/7 返程",
+      "酒店放行李",
+      "晚餐前采购",
+      "泄湖散步",
+      "Coral Sea Pavilion 晚餐"
+    ]
+  },
+  {
+    "d": 6,
+    "title": "白天堂沙滩 · 希尔湾",
+    "stops": [
+      "08:40 酒店集合",
+      "08:45 接载",
+      "Coral Sea Marina North 报到",
+      "10:00 出发（参考）",
+      "白天堂 / 希尔湾（顺序待船员安排）",
+      "午餐 / 留船观景（不浮潜）",
+      "约 16:30 原码头返港",
+      "酒店休整",
+      "The Deck 晚餐"
+    ]
+  },
+  {
+    "d": 7,
+    "title": "心形礁 · 飞往悉尼",
+    "stops": [
+      "退房 / 寄存待酒店确认",
+      "11:00 酒店接载",
+      "11:30–12:30 心形礁飞行",
+      "返程接驳待确认",
+      "有时间才堂食 / 外带",
+      "取箱 / 小巴接载待确认",
+      "PPP → 悉尼 T2",
+      "Grace Hotel"
+    ]
+  },
+  {
+    "d": 8,
+    "title": "悉尼市中心步行",
+    "stops": [
+      "可选：Fruitezy → 回酒店",
+      "09:00 The Grace",
+      "QVB",
+      "海德公园 / 大教堂",
+      "美术馆 / 午餐",
+      "植物园",
+      "14:15 歌剧院集合",
+      "14:30 中文讲解",
+      "16:10 可选 BridgeMuseum",
+      "可选天文台山 / 岩石区",
+      "18:30 Glenmore 晚餐"
+    ]
+  },
+  {
+    "d": 9,
+    "title": "塔龙加 · 邦迪到库吉",
+    "stops": [
+      "The Grace",
+      "环形码头 → 渡轮",
+      "塔龙加 / 午餐（无缆车）",
+      "13:30 离园 → 渡轮返环形码头",
+      "邦迪",
+      "15:30 步道（晚到改 Bronte 短段）",
+      "约 19:00 Coogee 晚餐",
+      "回酒店"
+    ]
+  },
+  {
+    "d": 10,
+    "title": "返程回上海",
+    "stops": [
+      "Grace Hotel 退房",
+      "悉尼机场",
+      "厦门中转",
+      "上海虹桥",
+      "到家"
+    ]
+  }
 ];
 function renderTripFlow(){
   const box = document.querySelector('#tripFlow');
@@ -1686,7 +2892,7 @@ const TICKETS = [
   ['航段 3','JQ839 · 10/07 17:50 普罗瑟派恩 PPP → 21:15 悉尼 T2（捷星，A320，无餐食）'],
   ['总价','¥ 6,882（2 人）'],
   ['行李 · 维珍澳洲','每人：个人物品 45×33×20cm（座位下方）+ 手提约 18 寸 ≤8kg + 托运约 24 寸 ≤23kg'],
-  ['行李 · 捷星 JQ839','每人：个人物品（座位下方）+ 手提约 20 寸 + 托运约 32 寸 ≤25kg'],
+  ['行李 · 捷星 JQ839',"捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。"],
   ['PPP 接驳','10/05 落地后优先找红色 Airlie Airport Bus，并尽量当场登记 10/07 返回机场的接驳；出租车作为备选'],
   ['备注','⚠️ 廉航称重严格，超重 / 超尺寸在机场补票很贵，出发前先称箱子']
 ]},
@@ -1703,7 +2909,7 @@ const TICKETS = [
   ['D6 南线','10/06 08:45 · Harbour Cove 酒店门口车道接载；提前 5 分钟等候'],
   ['D7 观光飞机','10/07 11:00 · Harbour Cove 酒店门口车道接载；11:30–12:30 飞行'],
   ['运营商','Ocean Rafting · +61 7 4946 6848'],
-  ['登机手续','至少提前 24 小时完成线上 check-in；出发前一日 16:00 前提供可联系手机号'],
+  ['出发手续（待完成）','D6 与 D7 分别至少提前 24 小时线上 check-in；另至少提前 48 小时重确认接载，各活动前一日 16:00 前提供可接通手机号。建议提前一起处理；预订确认不等于手续完成'],
   ['备注','认准 Ocean Rafting 标识车辆；实际安排仍可能受天气影响']
 ]},
 {t:'🎫 墨尔本大洋路中文一日游（10/04）',ok:true,rows:[
@@ -1765,39 +2971,175 @@ const PHOTO_ORDER = (() => {
 const HOTEL_POI_KEYS = ['dorsett','harbourcove','grace'];
 
 const TODOS = [
- {t:'普芬比利一日游两张独立成人凭证均已确认（2 人）',u:false,done:true},
- {id:'great-ocean-driver',t:'10/03 澳洲时间 20:00 前查收大洋路司机短信，确认 10/04 在 300 Spencer Street 的具体出发时间、司机姓名、电话和车牌号',u:true},
- {t:'大洋路一日游准备 AUD 10 现金司导服务费（AUD 5/人）、两人自理餐费和防风外套',u:false},
- {t:'Ocean Rafting Fly + Raft 延长日已确认（2 人）：D6 08:45、D7 11:00 均在 Harbour Cove 酒店门口车道接载',u:false,done:true},
- {t:'D7 固定翼观光飞机 11:30–12:30 已确认；至少提前 24 小时完成线上 check-in',u:false,done:true},
- {id:'harbour-luggage',t:'确认 Harbour Cove 10/07 退房后能否寄存两只大箱至约 14:15；若不能，联系 Ocean Rafting 确认机场储物柜尺寸与大箱接驳',u:true},
- {t:'按各段行李额装箱：维珍托运 ≤23kg（24 寸）、捷星托运 ≤25kg（32 寸），出发前称重',u:false},
- {id:'ppp-return-bus',t:'10/05 抵达 PPP 后优先找红色 Airlie Airport Bus；确认送到 Harbour Cove，并当场登记 10/07 返程时间与集合点',u:true},
- {t:'两人澳洲访客签证（600 类·旅游）已获批：多次入境，最迟 2029/08/05 前入境，每次最多停留 3 个月；条件 8101 不得工作、8201 学习最多 3 个月、8503 不得境内续签；护照有效期均超过 6 个月',u:false,done:true},
- {t:'两人众安无忧保境外旅行险已购买（保障期 10/01–10/10；高风险活动仍以条款及活动条件为准）',u:false,done:true},
- {t:'确认手机国际漫游或落地买澳洲电话卡（推荐 Optus / Telstra 预付卡）',u:false},
- {t:'澳标转换插头（Type I）× 2 已购买',u:false,done:true},
- {t:'充电宝出发前充满并随身携带，不托运',u:false},
- {t:'下载离线地图 + 把本页添加到手机主屏幕',u:false},
- {t:'已兑换 AUD 500 现金（含大洋路 AUD 10 司导服务费备用）',u:false,done:true},
- {t:'把机票、酒店、门票的电子凭证截图存入手机相册（断网可看）',u:false},
- {t:'检查信用卡境外交易是否需提前开通 / 通知银行',u:false},
- {t:'准备防风外套（菲利普岛企鹅归巢靠海，晚上很冷）',u:false},
- {t:'D6 两人不浮潜：登船时告知船员；准备帽子、海洋友好型防晒霜、饮用水和防水袋',u:false},
- {id:'rafting-reconfirm',t:'10/06 出海前 24 小时致电 0086 1817 4418 071 确认集合时间与码头',u:true},
- {id:'xmn-return-connection',t:'待本人确认：向厦航 95557 核实 10/10 MF802 19:05 抵厦门 → MF8517 21:00 起飞的 115 分钟衔接、最新航班时刻、行李直挂与入境中转流程；暂不改票',u:true},
- {t:'歌剧院 AUD 100 已按汇率 4.75 折算为 ¥475，并计入人民币预算',u:false,done:true}
+  {
+    "t": "普芬比利一日游两张独立成人凭证均已确认（2 人）",
+    "u": false,
+    "done": true
+  },
+  {
+    "id": "great-ocean-driver",
+    "t": "10/03 澳洲时间 20:00 前查收大洋路司机短信，确认 10/04 在 300 Spencer Street 的具体出发时间、司机姓名、电话和车牌号",
+    "u": true
+  },
+  {
+    "t": "大洋路一日游准备 AUD 10 现金司导服务费（AUD 5/人）、两人自理餐费和防风外套",
+    "u": false
+  },
+  {
+    "t": "Ocean Rafting Fly + Raft 延长日已确认（2 人）：D6 08:45、D7 11:00 均在 Harbour Cove 酒店门口车道接载",
+    "u": false,
+    "done": true
+  },
+  {
+    "t": "D7 固定翼观光飞机 11:30–12:30 预订已确认（不代表线上登记已完成）",
+    "u": false,
+    "done": true
+  },
+  {
+    "id": "harbour-luggage",
+    "t": "确认 Harbour Cove 10/07 退房后能否寄存两只大箱至约 14:15；若不能，联系 Ocean Rafting 确认机场储物柜尺寸与大箱接驳",
+    "u": true
+  },
+  {
+    "t": "按各段行李额装箱：维珍托运 ≤23kg（24 寸）、捷星托运 ≤25kg（32 寸），出发前称重",
+    "u": false
+  },
+  {
+    "id": "ppp-return-bus",
+    "t": "10/05 抵达 PPP 后优先找红色 Airlie Airport Bus；确认送到 Harbour Cove，并当场登记 10/07 返程时间与集合点",
+    "u": true
+  },
+  {
+    "t": "两人澳洲访客签证（600 类·旅游）已获批：多次入境，最迟 2029/08/05 前入境，每次最多停留 3 个月；条件 8101 不得工作、8201 学习最多 3 个月、8503 不得境内续签；护照有效期均超过 6 个月",
+    "u": false,
+    "done": true
+  },
+  {
+    "t": "两人众安无忧保境外旅行险已购买（保障期 10/01–10/10；高风险活动仍以条款及活动条件为准）",
+    "u": false,
+    "done": true
+  },
+  {
+    "t": "确认手机国际漫游或落地买澳洲电话卡（推荐 Optus / Telstra 预付卡）",
+    "u": false
+  },
+  {
+    "t": "澳标转换插头（Type I）× 2 已购买",
+    "u": false,
+    "done": true
+  },
+  {
+    "t": "充电宝出发前充满并随身携带，不托运",
+    "u": false
+  },
+  {
+    "t": "下载离线地图 + 把本页添加到手机主屏幕",
+    "u": false
+  },
+  {
+    "t": "已兑换 AUD 500 现金（含大洋路 AUD 10 司导服务费备用）",
+    "u": false,
+    "done": true
+  },
+  {
+    "t": "把机票、酒店、门票的电子凭证截图存入手机相册（断网可看）",
+    "u": false
+  },
+  {
+    "t": "检查信用卡境外交易是否需提前开通 / 通知银行",
+    "u": false
+  },
+  {
+    "t": "准备防风外套（菲利普岛企鹅归巢靠海，晚上很冷）",
+    "u": false
+  },
+  {
+    "t": "D6 两人不浮潜：登船时告知船员；准备帽子、海洋友好型防晒霜、饮用水和防水袋",
+    "u": false
+  },
+  {
+    "id": "ocean-reconfirm-48h",
+    "t": "D6/D7 活动至少提前 48 小时向 Ocean Rafting（+61 7 4946 6848）重确认酒店接载与不浮潜留船安排；建议 10/03 晚前联系，未收到答复继续跟进",
+    "u": true
+  },
+  {
+    "id": "xmn-return-connection",
+    "t": "待本人确认：向厦航 95557 核实 10/10 MF802 19:05 抵厦门 → MF8517 21:00 起飞的 115 分钟衔接、最新航班时刻、行李直挂与入境中转流程；暂不改票",
+    "u": true
+  },
+  {
+    "t": "歌剧院 AUD 100 已按汇率 4.75 折算为 ¥475，并计入人民币预算",
+    "u": false,
+    "done": true
+  },
+  {
+    "id": "rafting-online",
+    "t": "D6 出海线上 check-in 待完成：至少提前 24 小时；建议 10/03 晚前处理，避免 10/04 跟团及 10/05 航班冲突",
+    "u": true
+  },
+  {
+    "id": "flight-online",
+    "t": "D7 观光飞机线上 check-in 待完成：至少提前 24 小时；建议与 D6 一起提前完成，10/06 白天在海上不方便操作",
+    "u": true
+  },
+  {
+    "id": "ocean-phone",
+    "t": "向 Ocean Rafting 提供可接通的澳洲/漫游手机号：各活动前一日 16:00 前完成（D6 为 10/05 AEST；D7 为 10/06 AEST）",
+    "u": true
+  },
+  {
+    "id": "flight-return-transfer",
+    "t": "确认 D7 飞行接驳下车位置和返回时间；与酒店取箱及 Airlie Airport Bus 最终接载表衔接，午餐服从接载安排",
+    "u": true
+  },
+  {
+    "id": "jetstar-cabin",
+    "t": "核实 JQ839 是否买了额外随身额度；否则按标准两件合计 7kg、主件 56×36×23cm 准备，托运 25kg 权益不变",
+    "u": true
+  }
 ];
 
 const TIPS = [
- {h:'时区与夏令时',b:'本次行程跨 3 个时区，且中途会切换一次：\n· 中国 CST 全年 UTC+8\n· 墨尔本 / 悉尼：10/4 凌晨 2:00 起进入夏令时，由 UTC+10 变为 UTC+11\n· 昆士兰（布里斯班、普罗瑟派恩、艾尔利海滩）全年 UTC+10，不调时\n\n所以 10/1–10/3 澳洲比中国快 2 小时，10/4 起快 3 小时。本页所有时刻已按各目的地当地时间标注。'},
- {h:'入境与海关',b:'· 澳洲对食品、种子、木制品、泥土制品查验极严，不确定就申报，申报不罚、瞒报罚款\n· 入境卡可在飞机上填，提前备一支笔\n· 现金超过 AUD 10,000 需申报\n· 常用药带原包装与英文说明，含麻黄碱类需留意'},
- {h:'交通卡',b:'· 墨尔本用 Myki 卡（市区有 Free Tram Zone，圈内电车免费）\n· 悉尼用 Opal 卡（周日有上限优惠，渡轮性价比极高）\n· 布里斯班用 Go Card\n· 两张卡都可在便利店购买与充值，手机也可直接刷 NFC'},
- {h:'驾驶与安全',b:'· 澳洲右侧通行，方向盘在右\n· 郊区公路弯道多、限速变化频繁，不建议在天黑后跑长途\n· 郊区夜间有袋鼠出没，日落后的路段要格外小心\n· 所有乘客必须系安全带，儿童须用安全座椅'},
- {h:'出海与海边安全',b:'· 本次 D6 两人不参加浮潜，登船时先告知船员；浮潜停靠期间按安排留在船上\n· 使用海洋友好型（Reef Safe）防晒霜，戴帽子并及时补水\n· 海边只在开放区域活动，听从船员与救生员指引\n· 白天堂沙滩的沙子禁止带走，海关会查'},
- {h:'天气与穿着',b:'· 墨尔本「一天四季」，早晚 11℃ 左右、中午可达 20℃，外套随时穿脱\n· 菲利普岛等海边夜间风大，体感温度远低于预报，务必带防风外套\n· 圣灵群岛 28℃ 且紫外线极强，防晒霜、帽子、墨镜必备\n· 澳洲紫外线指数常年偏高，即使是阴天也会晒伤'},
- {h:'支付与通讯',b:'· 澳洲基本无现金社会，Visa / Mastercard 通用，部分小店收 1.5% 刷卡附加费\n· 银联在大型商户可用，但不普遍\n· 提前开通手机国际漫游或落地买预付卡（Optus / Telstra 机场均有柜台）'},
- {h:'紧急电话',b:'· 报警 / 急救 / 消防：000（澳洲全境，免费）\n· 非紧急报警：131 444\n· 中国驻悉尼总领馆：+61 2 8595 8002\n· 中国驻墨尔本总领馆：+61 3 9822 0604\n· 悉尼歌剧院讲解团：+61 2 9250 7250'}
+  {
+    "h": "时区与夏令时",
+    "b": "中国全年 UTC+8；墨尔本和悉尼 10/1–10/3 为 UTC+10，10/4 凌晨 2:00 跳到 3:00 后为 UTC+11（快中国 3 小时）。昆士兰全年 UTC+10，始终快中国 2 小时，不实行夏令时。跨州航班按各自当地时间，不手动给全澳统一加一小时。"
+  },
+  {
+    "h": "入境与海关",
+    "b": "· 澳洲对食品、种子、木制品、泥土制品查验极严，不确定就申报，申报不罚、瞒报罚款\n· 入境卡可在飞机上填，提前备一支笔\n· 现金超过 AUD 10,000 需申报\n· 常用药带原包装与英文说明，含麻黄碱类需留意"
+  },
+  {
+    "h": "交通卡",
+    "b": "墨尔本 Free Tram Zone 范围内乘电车免费，出界前确认票务。Mobile myki 需要兼容 Android、NFC 和配置好的 Google Wallet；仅安装 GBox/Google Maps 不代表能刷交通，准备实体 myki/适用支付卡备用。\n悉尼可使用 Opal 或受支持的非接触银行卡；每人使用各自卡片/设备，同一行程进出用同一张卡或同一设备。\n布里斯班本次仅机场国内中转，不必为此购买 Go Card。具体支持方式和优惠以当地交通官网为准。"
+  },
+  {
+    "h": "驾驶与安全",
+    "b": "· 澳洲靠左通行，方向盘在右\n· 郊区公路弯道多、限速变化频繁，不建议在天黑后跑长途\n· 郊区夜间有袋鼠出没，日落后的路段要格外小心\n· 所有乘客必须系安全带，儿童须用安全座椅"
+  },
+  {
+    "h": "出海与海边安全",
+    "b": "· 本次 D6 两人不参加浮潜，登船时先告知船员；浮潜停靠期间按安排留在船上\n· 使用海洋友好型（Reef Safe）防晒霜，戴帽子并及时补水\n· 海边只在开放区域活动，听从船员与救生员指引\n· 白天堂沙滩的沙子禁止带走，海关会查"
+  },
+  {
+    "h": "天气与穿着",
+    "b": "· 墨尔本「一天四季」，早晚 11℃ 左右、中午可达 20℃，外套随时穿脱\n· 菲利普岛等海边夜间风大，体感温度远低于预报，务必带防风外套\n· 圣灵群岛 28℃ 且紫外线极强，防晒霜、帽子、墨镜必备\n· 澳洲紫外线指数常年偏高，即使是阴天也会晒伤"
+  },
+  {
+    "h": "支付与通讯",
+    "b": "· 澳洲基本无现金社会，Visa / Mastercard 通用，部分小店收 1.5% 刷卡附加费\n· 银联在大型商户可用，但不普遍\n· 提前开通手机国际漫游或落地买预付卡（Optus / Telstra 机场均有柜台）"
+  },
+  {
+    "h": "紧急电话",
+    "b": "· 报警 / 急救 / 消防：000（澳洲全境，免费）\n· 非紧急报警：131 444\n· 中国驻悉尼总领馆：+61 2 8595 8002\n· 中国驻墨尔本总领馆：+61 3 9822 0604\n· 悉尼歌剧院讲解团：+61 2 9250 7250"
+  },
+  {
+    "h": "购物退税 TRS",
+    "b": "TRS：离境前 60 天内，同一 ABN 商家合资格商品含税合计至少 AUD 300；保留合规税务发票，不以支付卡判断。商品、护照与登机牌需备查；液体/大件若需托运，先问 ABF 查验再托运，不能一律放随身行李。完整资格与办理要求以 ABF 为准。"
+  },
+  {
+    "h": "捷星随身行李",
+    "b": "捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。"
+  }
 ];
 
 /* ============================================================
@@ -1808,23 +3150,55 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;
 const OFFS = {'CST':8,'AEST':10,'AEDT':11};
 function toUTC(y, m, d, hh, mm, lab){ return Date.UTC(y, m, d, hh, mm) - (OFFS[lab] || 10) * 3600000; }
 function inRange(p){ return p.lng >= 110 && p.lng <= 156 && p.lat >= -45 && p.lat <= -8; }
-function navWeb(p){
+function navWeb(p, mode){
+  if(['whitehaven','hillinlet','heartreef','mantaray'].some(k => POIS[k] === p)) return 'https://www.google.com/maps/search/?api=1&query=' + mapDestination(p);
   return 'https://www.google.com/maps/dir/?api=1&destination=' + mapDestination(p)
-    + '&travelmode=driving&dir_action=navigate';
+    + '&travelmode=' + (mode || p.navMode || (p.kind === 'airport' ? 'driving' : 'walking')) + '&dir_action=navigate';
 }
 function mapDestination(p){ return p.mapQuery ? encodeURIComponent(p.mapQuery) : p.lat + ',' + p.lng; }
 function goSameTab(url){
   try{ window.location.assign(url); }
   catch(_){ try{ window.location.href = url; }catch(__){} }
 }
-function multiNav(keys){
+function multiNav(keys, mode = 'walking'){
+  if(keys.length > 5) throw new Error('请使用分段路线，每段最多五个地点');
   const pts = keys.map(k => POIS[k]).filter(Boolean);
   if(!pts.length) return '#';
-  if(pts.length === 1) return navWeb(pts[0]);
+  if(pts.length === 1) return navWeb(pts[0], mode);
   const o = pts[0], d = pts[pts.length - 1];
   const w = pts.slice(1, -1).map(p => p.mapQuery || p.lat + ',' + p.lng).join('|');
   return 'https://www.google.com/maps/dir/?api=1&origin=' + mapDestination(o) + '&destination=' + mapDestination(d)
-    + (w ? '&waypoints=' + encodeURIComponent(w) : '') + '&dir_action=navigate';
+    + (w ? '&waypoints=' + encodeURIComponent(w) : '') + '&travelmode=' + mode + '&dir_action=navigate';
+}
+
+/* Only consecutive duplicates are removed. Revisited hotels/piers remain in route order. */
+function dayRouteSections(day){
+  const sections = [];
+  function add(label, keys, mode='walking'){
+    keys = keys.filter((k,i) => POIS[k] && (!i || keys[i-1] !== k));
+    if(!keys.length) return;
+    if(keys.length===1){ sections.push({label,keys,mode}); return; }
+    for(let i=0;i<keys.length-1;i+=4) sections.push({label:label+(keys.length>5?' · 第 '+(i/4+1)+' 段':''),keys:keys.slice(i,i+5),mode});
+  }
+  if(day.n===1){add('虹桥机场定位',['sha'],'driving');add('厦门中转机场定位',['xmn'],'driving');}
+  else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
+  else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
+  else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
+  else if(day.n===9){add('酒店 → 渡轮码头',['grace','circularquay']);add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('回到环形码头 → 邦迪（公共交通）',['circularquay','bondi'],'transit');add('海岸步道（途中海岸标识为准）',['bondi','coogee']);add('晚餐',['coogee','coogeepav']);add('晚餐 → 酒店',['coogeepav','grace'],'transit');}
+  else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
+  else {
+    if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
+    const keys = day.items.filter(it=>it.p && !(day.n===8 && it.p==='fruitezy')).map(it=>it.p);
+    if(day.hotel && day.n!==2) keys.unshift(day.hotel);
+    if(day.hotel) keys.push(day.hotel);
+    if(day.n===2){add('机场 → 南十字星（按 SkyBus 安排）',keys.slice(0,2),'driving');add('市区游览',keys.slice(1));}
+    else add('当天陆路参考',keys,[3,4].includes(day.n)?'driving':'walking');
+  }
+  return sections;
+}
+function routeButtons(day,di){
+  return '<div class="note">分段导航：每段最多 3 个途经点；航班和海上段不作道路规划。跟团、接送按运营商安排；可选站可跳过。下方选段同步每日地图。</div><div class="minitools">'
+    + dayRouteSections(day).map((s,si)=>'<button type="button" class="btn" data-route-day="'+di+'" data-route-section="'+si+'">'+esc(s.label)+'</button>').join('')+'</div>';
 }
 
 /* 导航选择面板：Google 网页版 / 复制地址 / 出境易操作提示 */
@@ -1867,24 +3241,32 @@ function openNavChoice(ctx){
   closePOI();
   $('#navChoiceTitle').textContent = ctx.title || '前往目的地';
   $('#navChoiceDest').textContent = ctx.summary || '';
+  const navUrl=new URL(ctx.url);
+  $('#navModeLabel').hidden=!navUrl.pathname.includes('/dir/');
+  $('#navMode').value=navUrl.searchParams.get('travelmode') || 'walking';
   $('#navChoiceActions').style.display = '';
   $('#navChoiceTip').classList.remove('on');
   $('#navChoiceTip').innerHTML = '';
   $('#navChoiceMask').classList.add('on');
   setTimeout(() => { const b = $('#navChoiceSheet').querySelector('[data-nav-choice]'); if(b) b.focus(); }, 40);
 }
+$('#navMode').addEventListener('change',()=>{
+  if(!NAV_CHOICE) return;
+  const url=new URL(NAV_CHOICE.url); url.searchParams.set('travelmode',$('#navMode').value);
+  NAV_CHOICE.url=url.href;
+});
 function openNav(p, ev){
   if(ev){ ev.preventDefault(); ev.stopPropagation(); }
   openNavChoice({ title:p.n, summary:p.loc, url:navWeb(p), copy:poiCopyText(p), route:false });
   return false;
 }
-function openNavRoute(keys, ev){
+function openNavRoute(keys, ev, mode='walking', title='分段路线'){
   if(ev){ ev.preventDefault(); ev.stopPropagation(); }
   const pts = keys.map(k => POIS[k]).filter(Boolean);
   openNavChoice({
-    title:'全天多点路线',
+    title,
     summary:pts.map((p, i) => String.fromCharCode(65 + i) + ' · ' + p.n).join(' → '),
-    url:multiNav(keys), copy:routeCopyText(keys), route:true
+    url:multiNav(keys,mode), copy:routeCopyText(keys), route:true
   });
   return false;
 }
@@ -1893,13 +3275,28 @@ function openNavRoute(keys, ev){
 const EVENTS = [];
 DAYS.forEach((day, di) => {
   const ymd = day.date.split('-').map(Number);
+  let anchor = toUTC(ymd[0],ymd[1]-1,ymd[2],0,0,day.items[0].tz);
   day.items.forEach((it, ii) => {
-    if(it.t === '--:--') return;
+    if(it.t === '--:--'){
+      EVENTS.push({u:anchor,di,ii,day,it,tentative:true}); return;
+    }
     const hm = it.t.split(':').map(Number);
-    EVENTS.push({ u: toUTC(ymd[0], ymd[1] - 1, ymd[2], hm[0], hm[1], it.tz), di, ii, day, it });
+    anchor = toUTC(ymd[0], ymd[1] - 1, ymd[2], hm[0], hm[1], it.tz);
+    EVENTS.push({ u:anchor, di, ii, day, it });
   });
 });
 EVENTS.sort((a, b) => a.u - b.u);
+function dayEndUTC(day){
+  const [y,m,d]=day.date.split('-').map(Number);
+  const end = day.n===3 ? [23,0] : [23,59];
+  return toUTC(y,m-1,d,end[0],end[1],day.items.at(-1).tz);
+}
+function nextEventAt(nowMs){
+  const checked=readChecks('au26_ck_v2');
+  const pending=EVENTS.find(e=>e.tentative && e.u<=nowMs && nowMs<=dayEndUTC(e.day) && !checked[itemKey(e.day,e.it)]);
+  if(pending) return pending;
+  return EVENTS.find(e=>!e.tentative && e.u>nowMs);
+}
 
 /* ============================================================
    主题
@@ -2002,11 +3399,11 @@ function renderDayTimeboxes(nowMs){
     const i = +box.dataset.dayTime;
     const events = EVENTS.filter(e => e.di === i);
     const start = events.length ? events[0].u : Date.parse(DAYS[i].date + 'T00:00:00+10:00');
-    const end = events.length ? events[events.length - 1].u + 3600000 : start + 86400000;
+    const end = dayEndUTC(DAYS[i]);
     let target, label;
     if(nowMs < start){ target = start; label = '距 D' + DAYS[i].n + ' 开始'; }
-    else if(nowMs <= end){ target = end; label = '距 D' + DAYS[i].n + ' 行程结束'; }
-    else { target = nowMs; label = 'D' + DAYS[i].n + ' 已完成'; }
+    else if(nowMs <= end){ target = end; label = DAYS[i].n===3 ? '距 D3 预计返城（以实际为准）' : '距 D' + DAYS[i].n + ' 当地当天结束（非完成判定）'; }
+    else { target = nowMs; label = 'D' + DAYS[i].n + ' 计划时段已过 · 完成情况以实际打卡为准'; }
     let ms = Math.max(0, target - nowMs);
     const D = Math.floor(ms / 86400000); ms -= D * 86400000;
     const H = Math.floor(ms / 3600000); ms -= H * 3600000;
@@ -2035,38 +3432,38 @@ function renderNextEvent(nowMs, nx){
   const card = $('#nextEventCard');
   if(!card) return;
   if(!nx){
-    card.innerHTML = '<div class="next-event-icon">✓</div><div class="next-event-main"><div class="next-event-kicker">行程状态</div><div class="next-event-title">10 天行程已完成</div><div class="next-event-meta">可以在时间轴和照片墙中回顾本次旅程。</div></div>';
+    card.innerHTML = '<div class="next-event-icon">✓</div><div class="next-event-main"><div class="next-event-kicker">行程状态</div><div class="next-event-title">暂无后续定时项目</div><div class="next-event-meta">不代表已完成所有活动，请按当天时间轴和实际打卡确认。</div></div>';
     return;
   }
   const p = nx.it.p && POIS[nx.it.p] ? POIS[nx.it.p] : null;
-  const when = nx.day.date.slice(5).replace('-', '/') + ' · ' + nx.it.t + ' ' + nx.it.tz;
+  const when = nx.day.date.slice(5).replace('-', '/') + ' · ' + (nx.tentative ? '时间待定 · 按导游 / 船员安排，完成后可打卡' : nx.it.t + ' ' + nx.it.tz);
   const where = p ? '📍 ' + p.n : nx.day.city;
   card.innerHTML = '<div class="next-event-icon">⏭</div>'
-    + '<div class="next-event-main"><div class="next-event-kicker">下一项行程 · ' + durationText(nx.u - nowMs) + '</div>'
+    + '<div class="next-event-main"><div class="next-event-kicker">' + (nx.tentative ? '接下来待确认 · 顺序参考' : '下一项行程 · ' + durationText(nx.u - nowMs)) + '</div>'
     + '<div class="next-event-title">D' + nx.day.n + ' · ' + esc(nx.it.ttl) + '</div>'
     + '<div class="next-event-meta">' + esc(when) + ' · ' + esc(where) + '</div></div>'
     + '<button type="button" class="next-event-btn" data-next-jump="' + nx.di + '">查看当天</button>';
 }
 function tick(){
   const now = Date.now();
-  let nx = EVENTS.find(e => e.u > now);
+  let nx = nextEventAt(now);
   renderNextEvent(now, nx);
   let label = '';
   if(!nx){
     $('#cdD').textContent = '0'; $('#cdH').textContent = '0'; $('#cdM').textContent = '0'; $('#cdS').textContent = '0';
-    $('#cdState').textContent = '· 行程已结束';
-    $('#cdNext').innerHTML = '本次 10 天行程已全部完成。';
+    $('#cdState').textContent = '· 暂无后续定时项目';
+    $('#cdNext').innerHTML = '完成情况以实际行程和打卡为准。';
   }else{
-    let ms = nx.u - now;
+    let ms = Math.max(0,nx.u - now);
     const D = Math.floor(ms / 86400000); ms -= D * 86400000;
     const H = Math.floor(ms / 3600000); ms -= H * 3600000;
     const M = Math.floor(ms / 60000); ms -= M * 60000;
     const S = Math.floor(ms / 1000);
     $('#cdD').textContent = D; $('#cdH').textContent = H; $('#cdM').textContent = M; $('#cdS').textContent = S;
-    label = nx.di === 0 && nx.ii === 0 ? '· 距出发' : '· 距下一项';
+    label = nx.tentative ? '· 时间待定，不作倒计时' : nx.di === 0 && nx.ii === 0 ? '· 距出发' : '· 距下一项';
     $('#cdState').textContent = label;
     const md = nx.day.date.slice(5).replace('-', '/');
-    $('#cdNext').innerHTML = '<b>Day ' + nx.day.n + ' · ' + md + ' ' + nx.it.t + ' ' + nx.it.tz + '</b> → ' + esc(nx.it.ttl)
+    $('#cdNext').innerHTML = '<b>Day ' + nx.day.n + ' · ' + md + ' ' + (nx.tentative ? '时间待定 · 顺序参考' : nx.it.t + ' ' + nx.it.tz) + '</b> → ' + esc(nx.it.ttl)
       + '<br><span style="font-size:12px;opacity:.8">' + esc(nx.day.city) + '</span>';
   }
   renderClocks();
@@ -2228,18 +3625,18 @@ function visitRank(key){
 }
 function googleRouteKeys(){
   let keys;
-  if(mapMode === 'day' && mapDay != null) keys = dayKeys(DAYS[mapDay]);
+  if(mapMode === 'day' && mapDay != null) keys = dayGoogleRouteKeys(DAYS[mapDay]);
   else if(mapMode === 'region' && mapRegion){
     keys = REGIONS[mapRegion].keys.slice().sort((a, b) => visitRank(a) - visitRank(b));
   }else if(mapMode === 'all') keys = allUsedKeys();
-  else keys = dayKeys(DAYS[1]); /* 默认先展示抵达墨尔本当天，路线最直观 */
-  return keys.filter((k, i) => POIS[k] && inRange(POIS[k]) && keys.indexOf(k) === i).slice(0, 10);
+  else keys = dayGoogleRouteKeys(DAYS[1]);
+  return keys.filter(k => POIS[k] && inRange(POIS[k])).slice(0, 5);
 }
 function googleRouteLabel(){
   if(mapMode === 'day' && mapDay != null) return 'D' + DAYS[mapDay].n + ' · ' + DAYS[mapDay].title;
   if(mapMode === 'region' && mapRegion) return REGIONS[mapRegion].n;
-  if(mapMode === 'all') return '全部行程（按游玩顺序取前 10 站）';
-  return '默认路线 · D2 抵达墨尔本';
+  if(mapMode === 'all') return '全部行程地点预览（不连跨城公路）';
+  return '默认 · D2 第一段地面路线';
 }
 function renderGoogleRouteLegend(keys){
   const box = $('#gmRouteLegend'); if(!box) return;
@@ -2247,7 +3644,7 @@ function renderGoogleRouteLegend(keys){
     box.innerHTML = '<div class="gr-head">' + esc(googleRouteLabel()) + ' · 当天为跨境航班，Google 地图无可用的澳洲地面路线</div>';
     return;
   }
-  box.innerHTML = '<div class="gr-head">' + esc(googleRouteLabel()) + ' · A–J 对应地图路线标记，点名称看详情</div>'
+  box.innerHTML = '<div class="gr-head">' + esc(googleRouteLabel()) + ' · 地点列表；完整分段请看当天导航，地图标记以 Google 为准</div>'
     + '<div class="gr-list">' + keys.map((k, i) => '<button class="gr-item" data-poi="' + k + '"><b>'
       + String.fromCharCode(65 + i) + '</b>' + esc(POIS[k].n) + '</button>').join('') + '</div>';
 }
@@ -2257,28 +3654,26 @@ function googleEmbedURL(routeKeys){
   const view = mapMode === 'region' && mapRegion ? REGION_VIEWS[mapRegion] : null;
   const viewPart = view ? '&ll=' + view.lat + ',' + view.lng + '&z=' + view.z : '';
   if(pts.length === 1) return 'https://maps.google.com/maps?hl=zh-CN&q=' + mapDestination(pts[0]) + '&z=15&output=embed';
-  if(pts.length > 1){
+  if(pts.length > 1 && mapMode !== 'all' && mapMode !== 'region'){
     const dest = pts.slice(1).map(mapDestination).join('+to:');
     return 'https://maps.google.com/maps?hl=zh-CN' + viewPart + '&saddr=' + mapDestination(pts[0])
-      + '&daddr=' + dest + '&dirflg=d&output=embed';
+      + '&daddr=' + dest + '&dirflg=' + ((dayRouteSections(DAYS[mapDay == null ? 1 : mapDay]).find(s=>!s.label.startsWith('可选')) || {}).mode === 'walking' ? 'w' : 'd') + '&output=embed';
   }
+  if(pts.length) return 'https://maps.google.com/maps?hl=zh-CN&q='+mapDestination(pts[0])+viewPart+'&output=embed';
   return 'https://maps.google.com/maps?hl=zh-CN&ll=-26.2744,134.7751&z=4&output=embed';
 }
 /* 每天的 Google 地图只给实际地面行程规划道路，航班/游船不画伪公路线。 */
 function dayGoogleRouteKeys(day){
-  const keys = dayKeys(day).filter(k => POIS[k] && inRange(POIS[k]));
-  if(day.n === 5) return keys.filter(k => !['mel','melt3','bne'].includes(k)).slice(0, 10);
-  if(day.n === 6) return ['whitehaven'];
-  if(day.n === 7) return keys.filter(k => ['sydt2','grace'].includes(k));
-  return keys.slice(0, 10);
+  const sections=dayRouteSections(day);
+  return (sections.find(s=>!s.label.startsWith('可选')) || sections[0] || {keys:[]}).keys;
 }
-function dayGoogleURL(day){
-  const route = dayGoogleRouteKeys(day);
+function dayGoogleURL(day, section){
+  const route = section ? section.keys : dayGoogleRouteKeys(day);
   const pts = route.length ? route.map(k => POIS[k]) : dayKeys(day).map(k => POIS[k]).filter(Boolean);
   if(pts.length === 0) return '';
   if(route.length < 2) return 'https://maps.google.com/maps?hl=zh-CN&q=' + mapDestination(pts[0]) + '&z=12&output=embed';
   return 'https://maps.google.com/maps?hl=zh-CN&saddr=' + mapDestination(pts[0])
-    + '&daddr=' + pts.slice(1).map(mapDestination).join('+to:') + '&dirflg=d&output=embed';
+    + '&daddr=' + pts.slice(1).map(mapDestination).join('+to:') + '&dirflg=' + ((section || dayRouteSections(day).find(s=>!s.label.startsWith('可选')) || {}).mode === 'walking' ? 'w' : (section || {}).mode === 'transit' ? 'r' : 'd') + '&output=embed';
 }
 function updateGoogleMap(){
   const keys = googleRouteKeys();
@@ -2641,10 +4036,10 @@ const RESTAURANT_BOOKINGS = [
   {date:'10/02',time:'18:00',name:'Asado Southbank',note:'2 人 · 周五晚餐，建议锁定座位',level:'现在预订',url:'https://www.asado.melbourne/bookings',phone:'+61 3 9088 8600'},
   {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
   {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
-  {date:'10/07',time:'13:10',name:'The Deck Airlie Beach',note:'2 人 · 观光飞机后午餐，最晚 14:00 结账并取行李',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
+  {date:'10/07',time:'13:10',name:'The Deck Airlie Beach',note:'2 人 · 待接驳确认后再决定堂食；以机场车时间倒排，来不及改外带',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
   {date:'10/08',time:'18:30',name:'The Glenmore',note:'2 人 · 预订时选 Rooftop / 屋顶偏好',level:'现在预订',url:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',phone:'+61 2 9247 4794'},
   {date:'10/04',time:'约 20:30',name:'Stalactites',note:'2 人晚餐不接受预约；返城后直接 walk-in',level:'无需预订'},
-  {date:'10/09',time:'18:45',name:'Coogee Pavilion Ground Floor',note:'楼下采用 walk-in；走完海岸步道后直接到店',level:'现场排队'}
+  {date:'10/09',time:'约 19:00',name:'Coogee Pavilion Ground Floor',note:'楼下采用 walk-in；走完海岸步道后直接到店',level:'现场排队'}
 ];
 
 const FOOD_GROUPS = [
@@ -2664,12 +4059,12 @@ const FOOD_GROUPS = [
     {name:'The Deck · 披萨 / 海鲜 + 芒果百香果饮品',status:'已排 D6 / D7',must:'出海后选披萨或海鲜主菜；另点芒果、菠萝或百香果风味冷饮补充水分。',why:'不算“目的地级名菜”，胜在泄湖边、营业时间和航班衔接最稳，属于本次行程最实用的吃法。',timing:'D6 18:30 前到；D7 午餐 14:00 前结账并外带晚餐。',poi:'thedeck',url:'https://thedeckairliebeach.com.au/menu/',query:'Airlie Beach The Deck 必吃 tropical drink'}
   ]},
   {day:'D8',date:'10/08',icon:'🍹',place:'悉尼 · 新鱼市场 / 市中心',items:[
-    {name:'Fruitezy · 现场鲜榨果汁',status:'值得，但要早起',must:'两人点两种交换喝：一杯自选鲜榨（橙 + 百香果或按当季水果搭配），另一杯西瓜汁或甘蔗汁；想吃甜品可加少量巧克力水果。',why:'你看到的推荐靠谱。Fruitezy 是澳洲家庭经营果蔬店，官方鱼市场页面确认有现做果汁、甘蔗汁、smoothie 与水果甜品；新店在 C2，不再是旧 Bank Street 地址。',timing:'推荐插入 D8：07:15 酒店打车 → 07:30–08:05 Fruitezy / 新鱼市场 → 08:05 打车回 QVB，约 08:30 抵达；原 09:15 QVB 不变。周四 Fruitezy 07:00–22:00。',poi:'fruitezy',url:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',query:'悉尼 Fruitezy 果汁 新鱼市场 C2 必喝',featured:true},
+    {name:'Fruitezy · 现场鲜榨果汁',status:'可选早起，睡眠优先',must:'两人点两种交换喝：一杯自选鲜榨（橙 + 百香果或按当季水果搭配），另一杯西瓜汁或甘蔗汁；想吃甜品可加少量巧克力水果。',why:'你看到的推荐靠谱。Fruitezy 是澳洲家庭经营果蔬店，官方鱼市场页面确认有现做果汁、甘蔗汁、smoothie 与水果甜品；新店在 C2，不再是旧 Bank Street 地址。',timing:'可选 D8 支线：07:15 酒店打车 → 约 07:30–08:05 Fruitezy → 打车返回酒店，预留至 08:45；09:00 主线出发去 QVB。前晚晚到，累了跳过；周四营业时刻以店铺当天为准。',poi:'fruitezy',url:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',query:'悉尼 Fruitezy 果汁 新鱼市场 C2 必喝',featured:true},
     {name:'新悉尼鱼市场 · 生蚝 / 当日海鲜',status:'顺路才吃',must:'若早晨吃得惯海鲜，可两人共享 3–6 只现开生蚝；否则只逛市场、喝果汁，不要为了“打卡”硬吃。',why:'2026 年启用的新市场本身值得看，但 D8 后面还有满天步行和已出票的歌剧院讲解，早餐不宜过量。',timing:'市场位于 1 Bridge Road, Glebe，每日 07:00–22:00；各海鲜店营业时间不同。',poi:'fishmarket',url:'https://www.sydneyfishmarket.com.au/plan-your-visit/',query:'悉尼 新鱼市场 2026 生蚝 必吃'}
   ]},
   {day:'D8–D9',date:'10/08–10/09',icon:'🍺',place:'悉尼港 · 库吉海岸',items:[
     {name:'澳洲酒馆餐 + 本地啤酒 / 姜汁啤酒',status:'D8 晚餐',must:'The Glenmore 点一份酒馆主菜或汉堡；饮品可问 NSW 精酿，或选无酒精 ginger beer。',why:'屋顶看海港的体验比追“全网第一名”餐厅更贴合这天路线，也是澳洲 pub culture 的轻松版本。',timing:'D8 18:30，天气好订屋顶位；风大或下雨就坐室内。',poi:'glenmore',query:'The Glenmore Sydney rooftop pub food local beer'},
-    {name:'Coogee Pavilion · 木火披萨 / 海鲜',status:'D9 已排入',must:'两人共享木火披萨，再配一份海鲜或沙拉；饮品选澳洲 cider / ginger beer。',why:'走完 6 公里海岸步道后就在终点吃，不需要再转场，实际体验会比远距离追网红餐厅更好。',timing:'D9 18:45，楼下 Ground Floor 可 walk-in；若步道延误就选快速餐，不等楼上座位。',poi:'coogeepav',url:'https://merivale.com/venues/coogeepavilion/',query:'Coogee Pavilion ground floor 必吃 pizza seafood'}
+    {name:'Coogee Pavilion · 木火披萨 / 海鲜',status:'D9 已排入',must:'两人共享木火披萨，再配一份海鲜或沙拉；饮品选澳洲 cider / ginger beer。',why:'走完 6 公里海岸步道后就在终点吃，不需要再转场，实际体验会比远距离追网红餐厅更好。',timing:'D9 约 19:00，楼下 Ground Floor 可 walk-in；若步道延误就选快速餐，不等楼上座位。',poi:'coogeepav',url:'https://merivale.com/venues/coogeepavilion/',query:'Coogee Pavilion ground floor 必吃 pizza seafood'}
   ]}
 ];
 
@@ -2694,7 +4089,7 @@ function bookingRowHTML(item){
 function renderFood(){
   $('#sectFood').innerHTML = '<h2 style="font-size:17px;margin:22px 0 4px">🍴 当地特色 · 必吃必喝</h2>'
     + '<div class="sub">按实际路线与时间筛选；“当地特色”不等于每家都要吃，两人共享能尝到更多，也更适合后续步行。</div>'
-    + '<section class="card food-verdict"><h3>Fruitezy：值得喝，安排在 D8 早晨最合理</h3><p>官方最新资料确认它已搬入 <b>新悉尼鱼市场 Shop C2</b>，地址是 1 Bridge Road, Glebe。D8 周四 07:00 开门；早起约 1 小时打车往返，可以不删掉 QVB、歌剧院和岩石区。D9 行程已经很满，不建议再绕去鱼市场。</p><div class="food-plan">'
+    + '<section class="card food-verdict"><h3>Fruitezy：D8 可选早起支线，不牺牲睡眠</h3><p>官方最新资料确认它已搬入 <b>新悉尼鱼市场 Shop C2</b>，地址是 1 Bridge Road, Glebe。D8 若休息充分，可按时间轴 07:15 出发、08:45 前回酒店；前晚晚到，起晚直接跳过，不影响主线。D9 行程已经很满，不建议再绕去鱼市场。</p><div class="food-plan">'
     + '<div class="food-plan-step"><b>07:15</b>The Grace 打车出发</div><div class="food-plan-step"><b>07:30–08:05</b>果汁 + 快逛新鱼市场</div><div class="food-plan-step"><b>08:05</b>打车返回市中心</div><div class="food-plan-step"><b>09:15</b>原计划 QVB 不变</div></div></section>'
     + '<section class="card booking-board"><div class="booking-board-head"><div><h3>📌 餐厅预订清单</h3><p>日期和时间按本手册行程填写；点击后在官方页面选择 2 人并完成确认。</p></div><span class="booking-count">5 家 · 6 个时段</span></div><div class="booking-list">' + RESTAURANT_BOOKINGS.map(bookingRowHTML).join('') + '</div></section>'
     + FOOD_GROUPS.map((group, gi) => '<section class="food-day"><div class="food-day-head"><div class="food-day-icon" aria-hidden="true">' + group.icon + '</div><div><h3>' + esc(group.day) + ' · ' + esc(group.place) + '</h3><p>' + esc(group.date) + ' · 按游玩顺序选择</p></div></div><div class="food-grid">' + group.items.map((item, ii) => foodItemHTML(item, gi, ii)).join('') + '</div></section>').join('')
@@ -2763,6 +4158,17 @@ function handleXhsClick(e){
 }
 document.addEventListener('click', handleXhsClick);
 document.addEventListener('click', function(e){
+  const routeLink=e.target.closest('[data-route-day]');
+  if(routeLink){
+    const di=+routeLink.dataset.routeDay, day=DAYS[di];
+    const section=dayRouteSections(day)[+routeLink.dataset.routeSection];
+    if(section){
+      const frame=document.querySelector('[data-gday="'+di+'"]');
+      if(frame) frame.src=dayGoogleURL(day,section);
+      openNavRoute(section.keys,e,section.mode,section.label);
+    }
+    return;
+  }
   const poiLink = e.target.closest('[data-nav-poi]');
   if(poiLink){
     const p = POIS[poiLink.dataset.navPoi];
@@ -2772,7 +4178,7 @@ document.addEventListener('click', function(e){
   const dayLink = e.target.closest('[data-nav-day]');
   if(dayLink){
     const d = DAYS[+dayLink.dataset.navDay];
-    if(d) openNavRoute(dayKeys(d), e);
+    if(d){ const s=dayRouteSections(d)[0]; if(s) openNavRoute(s.keys,e,s.mode,s.label); }
     return;
   }
   const foodLink = e.target.closest('[data-food-nav]');
@@ -2806,13 +4212,13 @@ $('#navChoiceActions').addEventListener('click', async function(e){
   const copied = await copyPlainText(ctx.copy);
   if(choice === 'copy'){
     closeNavChoice();
-    showToast(copied ? (ctx.route ? '全天路线已复制' : '地址已复制') : '复制失败，请长按地址手动复制');
+    showToast(copied ? (ctx.route ? '本段路线已复制' : '地址已复制') : '复制失败，请长按地址手动复制');
     return;
   }
   if(choice === 'chujing'){
     $('#navChoiceActions').style.display = 'none';
     const tip = $('#navChoiceTip');
-    tip.innerHTML = '<b>' + (copied ? (ctx.route ? '全天路线已按顺序复制' : '地址已复制') : '自动复制失败，请长按上方地址复制') + '</b>'
+    tip.innerHTML = '<b>' + (copied ? (ctx.route ? '本段路线已按顺序复制' : '地址已复制') : '自动复制失败，请长按上方地址复制') + '</b>'
       + '<ol><li>打开“出境易”</li><li>打开其中的 Google Maps</li><li>在搜索框长按粘贴' + (ctx.route ? '；请按编号逐个添加途经点' : '并开始导航') + '</li></ol>'
       + '<button type="button" class="nav-choice-done">知道了</button>';
     tip.classList.add('on');
@@ -2837,7 +4243,7 @@ function readChecks(key){
 let CK = readChecks('au26_ck_v2');
 function saveCK(){ try{ localStorage.setItem('au26_ck_v2', JSON.stringify(CK)); }catch(e){} }
 function itemKey(d,it){ return d.date + ':' + encodeURIComponent(it.id || it.ttl); }
-function dayCounted(d){ return d.items.filter(it => it.t !== '--:--'); }
+function dayCounted(d){ return d.items.filter(it => !it.optional); }
 
 function itemHTML(d, di, it, ii){
   const id = itemKey(d,it);
@@ -2883,10 +4289,7 @@ function dayHTML(d, i){
   const progTxt = showProg ? done + '/' + counted.length : '待定';
   const route = dayGoogleRouteKeys(d);
   const dayPlaces = dayKeys(d).filter(k => POIS[k]);
-  const routeNote = d.n === 1 || d.n === 10 ? '本日含航班；Google 地图只显示地点或澳洲地面段，航线请看时间轴。'
-    : d.n === 6 ? '本日出海，Google 地图定位白天堂沙滩；海上没有公路路线，点下方地点可分别查看。'
-    : d.n === 5 || d.n === 7 ? '本日含航班；Google 地图只规划落地后的地面段，其他地点可在下方单独打开。'
-    : '按当天游玩顺序显示 Google 地面路线；地点名可点开详情与导航。';
+  const routeNote = '默认显示首个非可选地面段；点击下方分段按钮切换地图。飞机、渡轮和海上段按时间轴，不连接成公路；地点按钮可单独定位。';
   const offlineMap = dayGoogleRouteKeys(d).length || dayKeys(d).some(k => POIS[k] && inRange(POIS[k]))
     ? '<svg class="dmap" data-d="' + i + '" viewBox="0 0 820 640"></svg>'
     : '<div class="note" style="margin:10px">✈️ 本日为中国境内 / 国际航段，无澳洲当地离线路线。</div>';
@@ -2895,7 +4298,7 @@ function dayHTML(d, i){
     + offlineMap
     + '<div class="daymap-note">' + esc(routeNote) + '</div>'
     + '<div class="daymap-places">' + dayPlaces.map((k, j) => '<button data-poi="' + k + '">'
-      + (route.includes(k) ? String.fromCharCode(65 + route.indexOf(k)) + ' · ' : '') + esc(POIS[k].n) + '</button>').join('') + '</div></div>';
+      + esc(POIS[k].n) + '</button>').join('') + '</div></div>';
   const navKeys = dayKeys(d);
   const hotelP = d.hotel && POIS[d.hotel] ? POIS[d.hotel] : null;
   return '<div class="day open" data-day="' + i + '">'
@@ -2910,9 +4313,9 @@ function dayHTML(d, i){
     + (d.warn ? '<div class="warnbox"><b>风险提示</b><div style="margin-top:5px">' + esc(d.warn) + '</div></div>' : '')
     + mapPart
     + '<div class="minitools">'
-    + '<a class="btn" href="' + multiNav(navKeys) + '" data-nav-day="' + i + '">🧭 全天路线与导航</a>'
     + '<button class="btn" data-jump="' + i + '">🗺️ 在主地图放大这天</button>'
     + '</div>'
+    + routeButtons(d,i)
     + '<div class="tl">' + d.items.map((it, ii) => itemHTML(d, i, it, ii)).join('') + '</div>'
     + (hotelP
       ? '<div class="hotel-box"><div class="hb-t">🏨 ' + esc(hotelP.n) + (d.hotelOk ? ' <span class="badge ok">已确认</span>' : ' <span class="badge tbd">待确认</span>') + '</div>'
@@ -3072,6 +4475,8 @@ $('#sectHotels').innerHTML =
    ============================================================ */
 $('#todoList').innerHTML = TODOS.map(t => '<li class="' + (t.done ? 'ok' : (t.u ? 'urg' : '')) + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
 $('#tipsBox').innerHTML = TIPS.map(t => '<details class="tip-fold" open><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
+$('#tipsBox').insertAdjacentHTML('beforeend', "<details class=\"tip-fold\" open><summary>官方核对依据 · 2026/09/28</summary><p>动态信息可能变化；已确认凭证及运营商最新通知优先。以下为公开资料，不含个人订单。</p><div class=\"minitools\"><a class=\"btn\" href=\"https://developers.google.com/maps/documentation/urls/get-started\" target=\"_blank\" rel=\"noopener noreferrer\">Google 路线限制 ↗</a><a class=\"btn\" href=\"https://harbourcove.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Harbour Cove 地址 ↗</a><a class=\"btn\" href=\"https://moonlitsanctuary.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Moonlit 地址 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/tours/southern-lights/\" target=\"_blank\" rel=\"noopener noreferrer\">出海时间与重确认 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/contact-us/\" target=\"_blank\" rel=\"noopener noreferrer\">出海码头 ↗</a><a class=\"btn\" href=\"https://www.bridgemuseum.com.au/plan-your-visit\" target=\"_blank\" rel=\"noopener noreferrer\">桥塔票价与入口 ↗</a><a class=\"btn\" href=\"https://www.jetstar.com/sg/en/flights/baggage/carry-on-baggage\" target=\"_blank\" rel=\"noopener noreferrer\">捷星手提行李 ↗</a><a class=\"btn\" href=\"https://www.taronga.org.au/about/newsroom/media-releases/construction-set-to-take-off-for-tarongas-beloved-sky-safari\" target=\"_blank\" rel=\"noopener noreferrer\">Taronga 缆车状态 ↗</a><a class=\"btn\" href=\"https://www.abf.gov.au/entering-and-leaving-australia/tourist-refund-scheme/information-for-retailers\" target=\"_blank\" rel=\"noopener noreferrer\">TRS 完整条件 ↗</a><a class=\"btn\" href=\"https://airportbuswhitsundays.com.au/\" target=\"_blank\" rel=\"noopener noreferrer\">机场小巴 ↗</a><a class=\"btn\" href=\"https://transport.vic.gov.au/tickets-and-payments/myki/myki-types/mobile-myki\" target=\"_blank\" rel=\"noopener noreferrer\">Mobile myki ↗</a></div></details>");
+
 
 /* 首页出发前确认卡：只取标记为紧急的待办，并在本设备保存确认状态 */
 let PF = readChecks('au26_preflight_v2');
@@ -3120,7 +4525,7 @@ const BUDGET = {
  ],
  est:[
   {n:'塔龙加动物园门票',v:'AUD 55 / 人',aud:110,d:'2 人预算 AUD 110 ≈ ¥522.50 · 估价，购票时核价'},
-  {n:'海港大桥 Pylon 观景台（可选）',v:'AUD 25 / 人',aud:50,optional:true,d:'2 人预算 AUD 50 ≈ ¥237.50 · 沿用原估价，购票时核价；不去则不计'},
+  {n:'BridgeMuseum 东南桥塔（可选）',v:'网上 AUD 39.95 / 人起',aud:79.90,optional:true,d:'2 人网上起价 AUD 79.90 ≈ ¥379.53 · 现场 AUD 49.95 / 人；2026/09/28 核价，实际按结算，不去则不计'},
   {n:'大洋路司导服务费',v:'AUD 5 / 人',aud:10,d:'2 人 AUD 10 ≈ ¥47.50 · 已计入基础预估；从已兑换现金支付，不重复计算换汇'},
   {n:'餐饮',v:'¥250–400 / 人 / 天',low:4500,high:7200,d:'9 天 × 2 人 ≈ ¥4,500–7,200'},
   {n:'当地交通 / 购物 / 其他杂项',v:'待补金额',d:'机场接驳、渡轮、机场快线、SkyBus、购物及附加费等暂未计入'},
@@ -3275,25 +4680,29 @@ const offlineStatus = document.getElementById('offlineReady');
 const offlineRetry = document.getElementById('offlineRetry');
 let offlineRegistration, offlineRequest = 0;
 function showOfflineStatus(text){ if(offlineStatus) offlineStatus.textContent = text; }
-function checkOfflineResources(){
+function checkOfflineResources(repair = false){
   const worker = offlineRegistration && offlineRegistration.active;
   if(!worker || typeof MessageChannel === 'undefined'){
     showOfflineStatus('正在准备离线资源，请保持联网，完成后会显示“离线已就绪”。'); return;
   }
   const request = ++offlineRequest, channel = new MessageChannel();
+  if(repair){offlineRetry.disabled=true;showOfflineStatus('正在检查并补下载缺失资源，请保持联网……');}
   const timer = setTimeout(() => {
     channel.port1.close();
-    if(request === offlineRequest) showOfflineStatus('尚未确认离线完整性，请保持联网并点击重试。');
-  },10000);
+    if(request === offlineRequest){offlineRetry.disabled=false;showOfflineStatus('离线检查超时，下载可能仍在继续；保持联网后重试。');}
+  },repair ? 60000 : 10000);
   channel.port1.onmessage = event => {
-    clearTimeout(timer); channel.port1.close();
     if(request !== offlineRequest) return;
     const info = event.data || {};
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v36' && info.photos === 14
+    if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
+    clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v37' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
-      : '离线资源未完整下载或版本待更新，请联网后重试。');
+      : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
+      : info.version !== 'au-trip-photo-v37' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
-  worker.postMessage({type:'OFFLINE_STATUS'},[channel.port2]);
+  worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
 }
 function trackOfflineInstall(reg){
   if(!reg.installing){ checkOfflineResources(); return; }
@@ -3312,11 +4721,12 @@ if('serviceWorker' in navigator && location.protocol !== 'file:'){
       trackOfflineInstall(reg);
     }).catch(() => showOfflineStatus('离线下载不可用，请检查网络或浏览器设置后刷新。'));
   });
-  navigator.serviceWorker.addEventListener('controllerchange', checkOfflineResources);
+  navigator.serviceWorker.addEventListener('controllerchange', () => checkOfflineResources());
   offlineRetry.addEventListener('click',async () => {
     if(!offlineRegistration){ location.reload(); return; }
-    try{ await offlineRegistration.update(); trackOfflineInstall(offlineRegistration); }
-    catch(e){ checkOfflineResources(); }
+    try{ await offlineRegistration.update(); }catch(e){}
+    if(offlineRegistration.installing) trackOfflineInstall(offlineRegistration);
+    else checkOfflineResources(true);
   });
 }else{
   showOfflineStatus('当前本地预览或浏览器不支持离线缓存，请用支持此功能的浏览器打开公开网址。');

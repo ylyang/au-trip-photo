@@ -19,7 +19,7 @@ test('D6 and D7 reflect the confirmed Ocean Rafting pickup and flight schedule',
 
 test('D6 clearly records that both travellers will not snorkel', () => {
   assert.match(html, /两人都不参加浮潜/);
-  assert.match(html, /蝠鲼湾停靠 · 船上休息观景（不浮潜）/);
+  assert.match(html, /浮潜停靠期间 · 船上休息观景（不浮潜）/);
   assert.match(html, /登船时主动告诉船员/);
   assert.doesNotMatch(html, /title:'Ocean Rafting 南线 · 白天堂沙滩 \+ 浮潜'/);
 });
@@ -37,6 +37,7 @@ test('PPP transfers prioritize the red Airlie Airport Bus in both directions', (
   assert.match(html, /若接驳未确认或未出现，立即改乘出租车/);
 });
 
-test('public page does not expose personal order identifiers from screenshots', () => {
-  assert.doesNotMatch(html, /YJN775957|KCN103052|FRS0610|FRS0710|18753575672/);
+test('public page excludes personal booking identifiers and management tokens', () => {
+  assert.doesNotMatch(html, /\b(?:YJN|KCN)\d{6,}\b|FRS\d{4}-\d+|[?&]token=[A-Za-z0-9%]{20,}/);
+  assert.doesNotMatch(html, /(?<!\d)1[3-9]\d{9}(?!\d)/);
 });

@@ -18,7 +18,7 @@ for(const item of [
 }
 
 assert.ok(html.includes("loc:'Shop C2, Sydney Fish Market, 1 Bridge Rd, Glebe NSW 2037'"), 'Fruitezy must use its current 2026 location');
-assert.ok(html.includes('周四 Fruitezy 07:00–22:00'), 'D8 recommendation must include verified Thursday hours');
+assert.ok(html.includes('D8 周四营业 07:00–22:00'), 'D8 recommendation must include verified Thursday hours');
 assert.ok(html.includes('07:15 酒店打车'), 'Fruitezy must have a route-safe insertion plan');
 assert.ok(html.includes('data-food-nav='), 'food cards must use the navigation choice flow');
 assert.ok(html.includes('xhsActionButtonsHTML(item.query'), 'food cards must reuse tested Xiaohongshu actions');
