@@ -17,6 +17,13 @@ test('D6 and D7 reflect the confirmed Ocean Rafting pickup and flight schedule',
   assert.doesNotMatch(html, /珊瑚海码头 · 观光飞机 check-in/);
 });
 
+test('D6 clearly records that both travellers will not snorkel', () => {
+  assert.match(html, /两人都不参加浮潜/);
+  assert.match(html, /蝠鲼湾停靠 · 船上休息观景（不浮潜）/);
+  assert.match(html, /登船时主动告诉船员/);
+  assert.doesNotMatch(html, /title:'Ocean Rafting 南线 · 白天堂沙滩 \+ 浮潜'/);
+});
+
 test('D7 luggage storage remains clearly marked as unconfirmed', () => {
   assert.match(html, /退房 · 行李寄存（待酒店确认）/);
   assert.match(html, /确认 Harbour Cove 10\/07 退房后能否寄存两只大箱/);
