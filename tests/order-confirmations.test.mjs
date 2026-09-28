@@ -29,6 +29,14 @@ test('D7 luggage storage remains clearly marked as unconfirmed', () => {
   assert.match(html, /确认 Harbour Cove 10\/07 退房后能否寄存两只大箱/);
 });
 
+test('PPP transfers prioritize the red Airlie Airport Bus in both directions', () => {
+  assert.match(html, /抵达 PPP · 优先找红色小巴/);
+  assert.match(html, /Airlie Airport Bus → 艾尔利海滩/);
+  assert.match(html, /乘红色小巴前往 PPP/);
+  assert.match(html, /当场登记 10\/07 返程时间与集合点/);
+  assert.match(html, /若接驳未确认或未出现，立即改乘出租车/);
+});
+
 test('public page does not expose personal order identifiers from screenshots', () => {
   assert.doesNotMatch(html, /YJN775957|KCN103052|FRS0610|FRS0710|18753575672/);
 });
