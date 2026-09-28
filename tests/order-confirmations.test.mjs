@@ -1,0 +1,27 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+test('D3 shows both confirmed adult vouchers and the actual pickup time', () => {
+  assert.match(html, /两张独立成人凭证均已确认/);
+  assert.match(html, /08:15 接载 · 601 Lonsdale Street/);
+  assert.match(html, /¥ 2,381\.40（2 人合计）/);
+});
+
+test('D6 and D7 reflect the confirmed Ocean Rafting pickup and flight schedule', () => {
+  assert.match(html, /10\/06 08:45 · Harbour Cove 酒店门口车道接载/);
+  assert.match(html, /10\/07 11:00 · Harbour Cove 酒店门口车道接载；11:30–12:30 飞行/);
+  assert.match(html, /实际飞行 11:30–12:30/);
+  assert.doesNotMatch(html, /珊瑚海码头 · 观光飞机 check-in/);
+});
+
+test('D7 luggage storage remains clearly marked as unconfirmed', () => {
+  assert.match(html, /退房 · 行李寄存（待酒店确认）/);
+  assert.match(html, /确认 Harbour Cove 10\/07 退房后能否寄存两只大箱/);
+});
+
+test('public page does not expose personal order identifiers from screenshots', () => {
+  assert.doesNotMatch(html, /YJN775957|KCN103052|FRS0610|FRS0710|18753575672/);
+});
