@@ -33,5 +33,16 @@ for(const officialHost of [
 
 assert.match(html, /xhsActionButtonsHTML\(item\.query/, 'each item must reuse the tested Xiaohongshu action flow');
 assert.match(html, /沙、珊瑚、贝壳与动植物不要带走/, 'natural-site protection reminder must be visible');
+assert.match(html, /实物参考 · 现场款式为准/, 'product photos must be labelled as visual references');
+assert.match(html, /loading="lazy" decoding="async"/, 'souvenir photos must load lazily');
 
-console.log('PASS: souvenir page covers every trip region, official sources, Xiaohongshu actions, and protection guidance.');
+const photoPaths = [...html.matchAll(/photo:'(assets\/souvenirs\/[^']+)'/g)].map(match => match[1]);
+assert.equal(photoPaths.length, 14, 'every souvenir recommendation must have a product photo');
+assert.equal(new Set(photoPaths).size, photoPaths.length, 'souvenir cards should not reuse the same photo');
+for(const photoPath of photoPaths){
+  const photoUrl = new URL(`../${photoPath}`, import.meta.url);
+  assert.ok(fs.existsSync(photoUrl), `missing souvenir photo: ${photoPath}`);
+  assert.ok(fs.statSync(photoUrl).size < 100_000, `souvenir photo should be mobile-friendly: ${photoPath}`);
+}
+
+console.log('PASS: souvenir page covers every trip region with optimized real-product photos, sources, Xiaohongshu actions, and protection guidance.');

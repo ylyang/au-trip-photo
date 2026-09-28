@@ -558,6 +558,12 @@ body.pwa-guide-open{overflow:hidden}
 .souvenir-day-head p{margin-top:2px;color:var(--muted);font-size:12px}
 .souvenir-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .souvenir-card{display:flex;flex-direction:column;min-width:0;padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 6px 18px rgba(var(--shadow-ink-rgb),.05)}
+.souvenir-photo-wrap{position:relative;margin:-13px -13px 12px;overflow:hidden;border-radius:13px 13px 0 0;background:var(--surface2);aspect-ratio:16/10}
+.souvenir-photo{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.souvenir-card:hover .souvenir-photo{transform:scale(1.025)}
+.souvenir-photo-note{position:absolute;left:8px;bottom:8px;border-radius:999px;padding:4px 8px;background:rgba(22,30,34,.76);color:#fff;font-size:10px;font-weight:750;line-height:1;backdrop-filter:blur(6px)}
+.souvenir-photo-source{position:absolute;right:8px;bottom:8px;border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.9);color:#314047;font-size:10px;font-weight:750;line-height:1;text-decoration:none}
+.souvenir-photo-source:hover{background:#fff;color:var(--brand)}
 .souvenir-card-top{display:flex;align-items:flex-start;gap:9px}
 .souvenir-icon{flex:0 0 auto;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--surface2);font-size:19px}
 .souvenir-card h4{font-size:14px;line-height:1.4}
@@ -2558,35 +2564,36 @@ function xhsInspirationHTML(key){
    ============================================================ */
 const SOUVENIRS = [
   {day:'D2',date:'10/02',place:'墨尔本市中心',items:[
-    {icon:'🍫',name:'Koko Black 巧克力 / 热巧克力粉',label:'最适合送人',why:'品牌从墨尔本皇家拱廊起步，城市辨识度比通用袋鼠纪念品更强；小盒装轻便、好分送。',where:'逛 CBD 拱廊时顺路去附近门店，出发前用官网门店页确认营业状态。',budget:'约 AUD 15–45，以店内为准',url:'https://www.kokoblack.com/pages/store-locator',query:'墨尔本 Koko Black 巧克力 伴手礼'},
-    {icon:'🚋',name:'墨尔本电车 / 巷弄插画小物',label:'轻便有城市感',why:'优先选本地设计师的明信片、珐琅徽章、茶巾或小幅版画，比批量生产的“澳洲通用款”更值得留。',where:'CBD 独立设计店、博物馆商店或拱廊店铺；看到作者与产地标注再买。',budget:'参考 AUD 5–30',query:'墨尔本 电车 文创 纪念品 本地设计'}
+    {icon:'🍫',name:'Koko Black 巧克力 / 热巧克力粉',label:'最适合送人',why:'品牌从墨尔本皇家拱廊起步，城市辨识度比通用袋鼠纪念品更强；小盒装轻便、好分送。',where:'逛 CBD 拱廊时顺路去附近门店，出发前用官网门店页确认营业状态。',budget:'约 AUD 15–45，以店内为准',url:'https://www.kokoblack.com/pages/store-locator',query:'墨尔本 Koko Black 巧克力 伴手礼',photo:'assets/souvenirs/koko-black.webp',photoAlt:'Koko Black 巧克力与热巧克力礼盒实物',photoSource:'https://www.kokoblack.com/products/get-cosy-with-koko-hamper'},
+    {icon:'🚋',name:'墨尔本电车 / 巷弄插画小物',label:'轻便有城市感',why:'优先选本地设计师的明信片、珐琅徽章、茶巾或小幅版画，比批量生产的“澳洲通用款”更值得留。',where:'CBD 独立设计店、博物馆商店或拱廊店铺；看到作者与产地标注再买。',budget:'参考 AUD 5–30',query:'墨尔本 电车 文创 纪念品 本地设计',photo:'assets/souvenirs/melbourne-tram.webp',photoAlt:'墨尔本电车图案茶巾实物',photoSource:'https://www.happydaypeople.com.au/shop-7oRLU/tea-towels'}
   ]},
   {day:'D3',date:'10/03',place:'普芬比利蒸汽火车 · 菲利普岛',items:[
-    {icon:'🚂',name:'普芬比利铁路徽章 / 明信片',label:'铁路迷首选',why:'Lakeside Visitor Centre 的官方礼品店有铁路纪念品，也有丹德农山脉本地设计和手作产品。',where:'Lakeside Visitor Centre，当天乘车途中直接买，不必额外绕路。',budget:'优先小件，价格以现场为准',url:'https://puffingbillyrailway.org.au/lakeside-visitor-centre/visitor-centre-activities/',query:'普芬比利 蒸汽火车 纪念品 礼品店'},
-    {icon:'🐧',name:'小企鹅徽章 / 玩偶 / 明信片',label:'菲利普岛代表',why:'选企鹅归巢景区官方商店的小企鹅主题小物；照片不能拍的夜间体验，用一枚徽章或明信片来留念正合适。',where:'Penguin Parade / Nature Parks 官方商店，观赏前后购买。',budget:'小件优先，减少行李体积',url:'https://www.penguins.org.au/',query:'菲利普岛 企鹅归巢 纪念品 商店'}
+    {icon:'🚂',name:'普芬比利铁路徽章 / 明信片',label:'铁路迷首选',why:'Lakeside Visitor Centre 的官方礼品店有铁路纪念品，也有丹德农山脉本地设计和手作产品。',where:'Lakeside Visitor Centre，当天乘车途中直接买，不必额外绕路。',budget:'优先小件，价格以现场为准',url:'https://puffingbillyrailway.org.au/lakeside-visitor-centre/visitor-centre-activities/',query:'普芬比利 蒸汽火车 纪念品 礼品店',photo:'assets/souvenirs/puffing-billy.webp',photoAlt:'普芬比利铁路纪念磁贴实物',photoSource:'https://www.scancolor.com.au/products/puffing-billy-licence-plate'},
+    {icon:'🐧',name:'小企鹅徽章 / 玩偶 / 明信片',label:'菲利普岛代表',why:'选企鹅归巢景区官方商店的小企鹅主题小物；照片不能拍的夜间体验，用一枚徽章或明信片来留念正合适。',where:'Penguin Parade / Nature Parks 官方商店，观赏前后购买。',budget:'小件优先，减少行李体积',url:'https://www.penguins.org.au/',query:'菲利普岛 企鹅归巢 纪念品 商店',photo:'assets/souvenirs/phillip-penguin.webp',photoAlt:'菲利普岛企鹅玩偶与纪念品商店实拍',photoSource:'https://www.kkday.com/en/product/123307-phillip-island-wildlife-park-and-penguin-parade-day-tour-melbourne-victoria'}
   ]},
   {day:'D4',date:'10/04',place:'大洋路 · 阿波罗湾',items:[
-    {icon:'🎨',name:'本地艺术家海岸版画 / 卡片',label:'最有大洋路味道',why:'Coast Apollo Bay 展示当地艺术家 Heather Williams 的画作与印刷品，小幅画、卡片更适合带回国。',where:'Coast Apollo Bay，在阿波罗湾午餐停留时看；不为购物压缩十二门徒时间。',budget:'卡片和小幅印刷品优先',url:'https://visitgreatoceanroad.org.au/attractions/coast-apollo-bay/',query:'Apollo Bay Coast gallery 纪念品 大洋路'},
-    {icon:'🏡',name:'澳洲制造的小家居 / 海岸小物',label:'避开通用货',why:'Hawkeye Homewares 主打澳洲制造的家居和礼品；挑杯垫、茶巾等扁平耐带的小件。',where:'147 Great Ocean Road, Apollo Bay；午餐附近顺路才去。',budget:'参考 AUD 10–50',url:'https://visitgreatoceanroad.org.au/attractions/hawkeye-homewares/',query:'Apollo Bay Hawkeye Homewares 澳洲制造 纪念品'},
-    {icon:'🍬',name:'Great Ocean Road Rock 糖 / 澳洲动物巧克力',label:'可食用伴手礼',why:'比大型摆件好装，也适合分送；购买前看保质期、配料和外包装是否完整。',where:'Sweet View，39 Great Ocean Road, Apollo Bay。',budget:'少量购买，避免高温融化',url:'https://sweetview.com.au/',query:'Apollo Bay Sweet View Great Ocean Road rock candy'}
+    {icon:'🎨',name:'本地艺术家海岸版画 / 卡片',label:'最有大洋路味道',why:'Coast Apollo Bay 展示当地艺术家 Heather Williams 的画作与印刷品，小幅画、卡片更适合带回国。',where:'Coast Apollo Bay，在阿波罗湾午餐停留时看；不为购物压缩十二门徒时间。',budget:'卡片和小幅印刷品优先',url:'https://visitgreatoceanroad.org.au/attractions/coast-apollo-bay/',query:'Apollo Bay Coast gallery 纪念品 大洋路',photo:'assets/souvenirs/apollo-art.webp',photoAlt:'Apollo Bay 海岸艺术版画实物',photoSource:'https://brittanymarch.com.au/products/soft-pastel-landscape-apollo-bay'},
+    {icon:'🏡',name:'澳洲制造的小家居 / 海岸小物',label:'避开通用货',why:'Hawkeye Homewares 主打澳洲制造的家居和礼品；挑杯垫、茶巾等扁平耐带的小件。',where:'147 Great Ocean Road, Apollo Bay；午餐附近顺路才去。',budget:'参考 AUD 10–50',url:'https://visitgreatoceanroad.org.au/attractions/hawkeye-homewares/',query:'Apollo Bay Hawkeye Homewares 澳洲制造 纪念品',photo:'assets/souvenirs/apollo-homewares.webp',photoAlt:'澳洲制造杯子与小家居纪念品实物',photoSource:'https://www.e3products.com.au/shop-souvenirs/fsc-timber-magnet-circle-apollo-bay'},
+    {icon:'🍬',name:'Great Ocean Road Rock 糖 / 澳洲动物巧克力',label:'可食用伴手礼',why:'比大型摆件好装，也适合分送；购买前看保质期、配料和外包装是否完整。',where:'Sweet View，39 Great Ocean Road, Apollo Bay。',budget:'少量购买，避免高温融化',url:'https://sweetview.com.au/',query:'Apollo Bay Sweet View Great Ocean Road rock candy',photo:'assets/souvenirs/apollo-candy.webp',photoAlt:'澳洲制造 Rock Candy 糖果罐实物',photoSource:'https://www.littlegiftbox.com.au/product-page/Ogilvie-and-co-salted-caramel-rock-candy'}
   ]},
   {day:'D5–D7',date:'10/05–10/07',place:'艾尔利海滩 · 圣灵群岛',items:[
-    {icon:'🧲',name:'心形礁 / 白天堂沙滩手工冰箱贴',label:'小红书近期热门',why:'“艾尔利老奶奶手工冰箱贴”、心形礁图案在近期旅行分享里反复出现；看到做工好的手工款可收一枚，不必专程追店。',where:'艾尔利镇中心或 Port of Airlie 周边纪念品店，比较做工与价格后再买。',budget:'只买 1–2 枚，避免为热门款溢价',query:'艾尔利海滩 老奶奶 手工冰箱贴 心形礁'},
-    {icon:'🪸',name:'圣灵群岛航拍卡 / 丝巾 / 海洋首饰',label:'当地艺术作品',why:'Above and Below Gallery 以圣灵群岛和大堡礁航拍作品为主，也有澳洲制作的海洋首饰与限量丝巾。',where:'Shop 12a, Port of Airlie Marina；从码头经过时顺路看。',budget:'明信片最轻；大幅作品可询问邮寄',url:'https://www.tourismwhitsundays.com.au/products/above-and-below-gallery',query:'Airlie Beach Above and Below Gallery 纪念品'}
+    {icon:'🧲',name:'心形礁 / 白天堂沙滩手工冰箱贴',label:'小红书近期热门',why:'“艾尔利老奶奶手工冰箱贴”、心形礁图案在近期旅行分享里反复出现；看到做工好的手工款可收一枚，不必专程追店。',where:'艾尔利镇中心或 Port of Airlie 周边纪念品店，比较做工与价格后再买。',budget:'只买 1–2 枚，避免为热门款溢价',query:'艾尔利海滩 老奶奶 手工冰箱贴 心形礁',photo:'assets/souvenirs/airlie-magnet.webp',photoAlt:'艾尔利海滩手工帆船冰箱贴实物',photoSource:'https://beachbookboutique.com.au/products/jadini-airlie-beach-fridge-magnets-locally-made'},
+    {icon:'🪸',name:'圣灵群岛航拍卡 / 丝巾 / 海洋首饰',label:'当地艺术作品',why:'Above and Below Gallery 以圣灵群岛和大堡礁航拍作品为主，也有澳洲制作的海洋首饰与限量丝巾。',where:'Shop 12a, Port of Airlie Marina；从码头经过时顺路看。',budget:'明信片最轻；大幅作品可询问邮寄',url:'https://www.tourismwhitsundays.com.au/products/above-and-below-gallery',query:'Airlie Beach Above and Below Gallery 纪念品',photo:'assets/souvenirs/airlie-gallery.webp',photoAlt:'Above and Below Gallery 航拍作品、丝巾与海洋小物实拍',photoSource:'https://aboveandbelowgallery.com.au/pages/lookbook-prints-at-home-2024'}
   ]},
   {day:'D8',date:'10/08',place:'悉尼歌剧院 · 岩石区',items:[
-    {icon:'🎭',name:'歌剧院官方设计小物',label:'悉尼经典',why:'优先钥匙扣、明信片、茶巾等实用小件。官方商店有本地及原住民艺术家作品，比街边仿款更有出处。',where:'Sydney Opera House Shop，参观歌剧院时直接买。',budget:'小物约 AUD 15 起，以官网/店内为准',url:'https://sydneyoperahouseshop.com/',query:'悉尼歌剧院 官方商店 纪念品'},
-    {icon:'🖍️',name:'Squidinki 悉尼插画茶巾 / 杯垫',label:'设计感更强',why:'用幽默插画呈现悉尼地标，茶巾、杯垫、笔记本都比大摆件好带。',where:'85 George Street, The Rocks；逛岩石区时顺路。',budget:'按用途挑一件即可',url:'https://www.therocks.com/shop/squidinki',query:'悉尼 The Rocks Squidinki 纪念品'}
+    {icon:'🎭',name:'歌剧院官方设计小物',label:'悉尼经典',why:'优先钥匙扣、明信片、茶巾等实用小件。官方商店有本地及原住民艺术家作品，比街边仿款更有出处。',where:'Sydney Opera House Shop，参观歌剧院时直接买。',budget:'小物约 AUD 15 起，以官网/店内为准',url:'https://sydneyoperahouseshop.com/',query:'悉尼歌剧院 官方商店 纪念品',photo:'assets/souvenirs/opera-teatowel.webp',photoAlt:'悉尼歌剧院官方艺术家联名茶巾实物',photoSource:'https://sydneyoperahouseshop.com/products/sydney-opera-house-tea-towel-by-megan-pelham'},
+    {icon:'🖍️',name:'Squidinki 悉尼插画茶巾 / 杯垫',label:'设计感更强',why:'用幽默插画呈现悉尼地标，茶巾、杯垫、笔记本都比大摆件好带。',where:'85 George Street, The Rocks；逛岩石区时顺路。',budget:'按用途挑一件即可',url:'https://www.therocks.com/shop/squidinki',query:'悉尼 The Rocks Squidinki 纪念品',photo:'assets/souvenirs/squidinki-coasters.webp',photoAlt:'Squidinki 悉尼海港插画杯垫套装实物',photoSource:'https://squidinki.com/products/coaster-sets-sydney-harbour-collection'}
   ]},
   {day:'D9',date:'10/09',place:'塔龙加动物园 · 邦迪海滩',items:[
-    {icon:'🐨',name:'Zoo Pinz / 环保考拉玩偶',label:'动物园限定感',why:'徽章体积最小；若想买玩偶，可优先看官方 Eco 系列。官方在线店当前 Zoo Pinz 约 AUD 10.95、Eco 考拉约 AUD 24.95，现场以标价为准。',where:'Top Shop 选择最多；坐船离开可看 Lower Shop。',budget:'约 AUD 11–25',url:'https://www.taronga.org.au/sydney-zoo/plan/visitor-information/shop-taronga',query:'Taronga Zoo 纪念品 Zoo Pinz 考拉 玩偶'},
-    {icon:'🌊',name:'Aquabumps 邦迪摄影明信片 / 小幅作品',label:'海岸线记忆',why:'当地摄影作品比普通“Bondi”字样商品更耐看；大幅作品不便携时可选小尺寸或咨询邮寄。',where:'64 Hall Street, Bondi Beach，海滩行程附近。',budget:'先看小幅与书册，避免挤占行李',url:'https://www.aquabumps.com/contact-us/',query:'Bondi Beach Aquabumps Gallery 纪念品'},
-    {icon:'🌡️',name:'悉尼变色冰箱贴',label:'小红书热门备选',why:'近期分享里热度较高，但款式和售价差异大；只在顺路遇到且做工满意时买，不专程绕路。',where:'岩石区、Circular Quay 或 Bondi 的正规纪念品店。',budget:'先比两家再决定',query:'悉尼 变色冰箱贴 纪念品'}
+    {icon:'🐨',name:'Zoo Pinz / 环保考拉玩偶',label:'动物园限定感',why:'徽章体积最小；若想买玩偶，可优先看官方 Eco 系列。官方在线店当前 Zoo Pinz 约 AUD 10.95、Eco 考拉约 AUD 24.95，现场以标价为准。',where:'Top Shop 选择最多；坐船离开可看 Lower Shop。',budget:'约 AUD 11–25',url:'https://www.taronga.org.au/sydney-zoo/plan/visitor-information/shop-taronga',query:'Taronga Zoo 纪念品 Zoo Pinz 考拉 玩偶',photo:'assets/souvenirs/taronga-pinz.webp',photoAlt:'Taronga Zoo 考拉 Zoo Pinz 徽章实物',photoSource:'https://zooshop.taronga.org.au/products/koala-zoopinz'},
+    {icon:'🌊',name:'Aquabumps 邦迪摄影明信片 / 小幅作品',label:'海岸线记忆',why:'当地摄影作品比普通“Bondi”字样商品更耐看；大幅作品不便携时可选小尺寸或咨询邮寄。',where:'64 Hall Street, Bondi Beach，海滩行程附近。',budget:'先看小幅与书册，避免挤占行李',url:'https://www.aquabumps.com/contact-us/',query:'Bondi Beach Aquabumps Gallery 纪念品',photo:'assets/souvenirs/aquabumps-book.webp',photoAlt:'Aquabumps A Day at Bondi 摄影书实物',photoSource:'https://www.lawsons.com.au/auction-lot/aquabumps-a-day-at-bondi-by-eugene-tan_59F4BF9B65'},
+    {icon:'🌡️',name:'悉尼变色冰箱贴',label:'小红书热门备选',why:'近期分享里热度较高，但款式和售价差异大；只在顺路遇到且做工满意时买，不专程绕路。',where:'岩石区、Circular Quay 或 Bondi 的正规纪念品店。',budget:'先比两家再决定',query:'悉尼 变色冰箱贴 纪念品',photo:'assets/souvenirs/sydney-magnet.webp',photoAlt:'悉尼歌剧院与海港大桥纪念冰箱贴实物',photoSource:'https://m.ilovehyggelife.com/product/1878/'}
   ]}
 ];
 
 function souvenirItemHTML(item){
-  return '<article class="souvenir-card"><div class="souvenir-card-top"><div class="souvenir-icon" aria-hidden="true">' + item.icon + '</div><div><h4>' + esc(item.name) + '</h4><span class="souvenir-label">' + esc(item.label) + '</span></div></div>'
+  const photo = item.photo ? '<div class="souvenir-photo-wrap"><img class="souvenir-photo" src="' + esc(item.photo) + '" alt="' + esc(item.photoAlt || item.name) + '" loading="lazy" decoding="async"><span class="souvenir-photo-note">实物参考 · 现场款式为准</span>' + (item.photoSource ? '<a class="souvenir-photo-source" href="' + esc(item.photoSource) + '" target="_blank" rel="noopener noreferrer" aria-label="查看图片来源">图片来源 ↗</a>' : '') + '</div>' : '';
+  return '<article class="souvenir-card">' + photo + '<div class="souvenir-card-top"><div class="souvenir-icon" aria-hidden="true">' + item.icon + '</div><div><h4>' + esc(item.name) + '</h4><span class="souvenir-label">' + esc(item.label) + '</span></div></div>'
     + '<p>' + esc(item.why) + '</p><div class="souvenir-meta"><div><b>哪里买：</b>' + esc(item.where) + '</div><div><b>购买建议：</b>' + esc(item.budget) + '</div></div>'
     + '<div class="souvenir-links">' + (item.url ? '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">官网 / 商店 ↗</a>' : '')
     + xhsActionButtonsHTML(item.query, '小红书参考 ↗') + '</div></article>';
@@ -2600,7 +2607,7 @@ function renderSouvenirs(){
     + '<div class="souvenir-rule"><b>控制数量</b>每个地区挑 1 件代表物即可；保留收据，易碎品随身携带。</div></div></section>'
     + SOUVENIRS.map(group => '<section class="souvenir-day"><div class="souvenir-day-head"><div class="souvenir-day-badge">' + esc(group.day) + '<br>' + esc(group.date) + '</div><div><h3>' + esc(group.place) + '</h3><p>按当天路线顺手购买</p></div></div><div class="souvenir-grid">' + group.items.map(souvenirItemHTML).join('') + '</div></section>').join('')
     + '<div class="souvenir-warning"><b>自然保护提醒：</b>白天堂沙滩、海岛和国家公园里的沙、珊瑚、贝壳与动植物不要带走；只购买正规商店出售的成品。食品、木制品和天然材料入境中国前请再次核对海关要求并如实申报。</div>'
-    + '<p class="hint">资料与店铺信息核对于 2026-09-27；小红书入口使用搜索词，避免单篇笔记失效。</p>';
+    + '<p class="hint">资料与商品图片核对于 2026-09-28；图片用于辨认品类，库存、包装与现场款式可能不同。小红书入口使用搜索词，避免单篇笔记失效。</p>';
 }
 renderSouvenirs();
 
