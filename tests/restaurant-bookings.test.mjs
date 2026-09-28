@@ -5,6 +5,9 @@ const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
 assert.match(html, /const RESTAURANT_BOOKINGS = \[/, 'booking checklist data must exist');
 assert.match(html, /餐厅预订清单/, 'booking checklist must be visible in the food section');
+assert.match(html, /Higher Ground',note:'2 人 · 订位已确认/, 'Higher Ground must be marked confirmed');
+assert.match(html, /time:'12:15–13:45'[^\n]*Higher Ground/, 'Higher Ground confirmed booking time must be shown');
+assert.match(html, /booking-action confirmed/, 'confirmed bookings need a distinct non-action state');
 
 for(const provider of [
   'sevenrooms.com/explore/higherground/reservations',

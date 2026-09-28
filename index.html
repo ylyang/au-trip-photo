@@ -615,6 +615,7 @@ body.pwa-guide-open{overflow:hidden}
 .booking-main a{color:var(--brand);font-weight:700;text-decoration:none}
 .booking-action{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border:1px solid var(--brand);border-radius:999px;padding:6px 10px;background:var(--brand);color:var(--on-brand);font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap}
 .booking-action.secondary{background:var(--surface);color:var(--brand)}
+.booking-action.confirmed{border-color:#2f8f67;background:#e8f7ef;color:#176645;cursor:default}
 .booking-action.walkin{border-color:var(--line);background:var(--surface2);color:var(--muted);cursor:default}
 .booking-detail{margin-top:7px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-size:12px;line-height:1.55;color:var(--muted)}
 .booking-detail a{display:inline-flex;margin-left:6px;border-radius:999px;padding:3px 8px;background:var(--brand);color:var(--on-brand);font-weight:700;text-decoration:none}
@@ -965,7 +966,7 @@ const POIS = {
     r:'离酒店和南十字星都近，挑高 15 米的旧电站空间很有墨尔本气氛，落地第一餐无需绕路。',
     hl:['招牌辣味炒蛋 Chilli Scrambled Eggs','Avocado Pretzel','Blueberry & Ricotta Hotcakes'],
     tip:['周五通常 07:00–17:00 营业，建议提前订位','两人可选一甜一咸共享，人均约 AUD 25–40，以当日菜单为准','若现场等位超过 20 分钟，改在 Spencer Outlet Centre 附近简餐，避免耽误购物'],
-    ph:['旧电站挑高大厅','楼梯与拱窗构图'],xq:'墨尔本 Higher Ground brunch 必吃',web:'https://highergroundmelbourne.com.au/',book:'https://www.sevenrooms.com/explore/higherground/reservations/create/search',bookNote:'官网明确建议预约；D2 10/02 12:00 · 2 人',kind:'food'},
+    ph:['旧电站挑高大厅','楼梯与拱窗构图'],xq:'墨尔本 Higher Ground brunch 必吃',web:'https://highergroundmelbourne.com.au/',book:'https://www.sevenrooms.com/explore/higherground/reservations/create/search',bookNote:'已预订；D2 10/02 12:15–13:45 · 2 人',kind:'food'},
   asado:{n:'Asado · Southbank',loc:'6 Riverside Quay, Southbank VIC 3006',lat:-37.8209861,lng:144.9639956,
     r:'从联邦广场步行过河即到，阿根廷炭火菜适合两人分享，吃完可沿雅拉河看夜景。',
     hl:['Beef Empanada 牛肉馅饼','Provoleta 烤奶酪','炭烤鸡或牛小排','Papas Bravas 炸土豆'],
@@ -1464,7 +1465,7 @@ const DAYS = [
   {t:'09:35',tz:'AEST',ttl:'抵达墨尔本图拉马莱恩机场 T2',d:'入境 + 取行李 + 买手机卡，预计 10:45 出关。\n⚠️ 澳洲入境卡提前填好：食品、种子、木制品、药品必须申报，宁可多申报。',tags:['航班','注意'],p:'mel'},
   {t:'10:50',tz:'AEST',ttl:'SkyBus 机场 → 南十字星车站',d:'直达市区，车程约 25 分钟，单程约 AUD 24/人。',tags:['导航'],p:'southern',tr:'约 25 分钟'},
   {t:'11:30',tz:'AEST',ttl:'酒店寄存行李 · 轻装出发',d:'Dorsett 入住时间 15:00，先把行李寄存在前台。',tags:['注意'],p:'dorsett',tr:'步行约 10 分钟'},
-  {t:'12:00',tz:'AEST',ttl:'午餐 · Higher Ground（建议预约）',d:'从酒店步行约 5 分钟。两人可点一份辣味炒蛋或牛油果椒盐卷饼，再共享一份蓝莓乳清干酪热香饼；人均约 AUD 25–40。若等位超过 20 分钟就启用附近简餐备选，别耽误后面的购物。',tags:['介绍','需提前订'],p:'higherground',tr:'步行约 5 分钟'},
+  {t:'12:15',tz:'AEST',ttl:'午餐 · Higher Ground（已预订）',d:'订位时间 12:15–13:45，2 人。从酒店步行约 5 分钟，建议提前 10 分钟到店。可点一份辣味炒蛋或牛油果椒盐卷饼，再共享一份蓝莓乳清干酪热香饼；人均约 AUD 25–40。',tags:['介绍','已确认'],p:'higherground',tr:'步行约 5 分钟'},
   {t:'12:50',tz:'AEST',ttl:'★ Chemist Warehouse 买 Swisse',d:'去 Spencer Outlet Centre 门店，靠近南十字星与酒店。优先看半价促销和每粒单价；当天以门店价格与库存为准。',tags:['介绍','注意'],p:'cwspencer',tr:'步行约 8–12 分钟'},
   {t:'13:30',tz:'AEST',ttl:'★ lululemon Emporium 选购',d:'只买 1–2 件直接逛市中心正价店更划算，无需承担 Moorabbin 往返车费。先看目标款式，再留意店内折扣区。',tags:['介绍'],p:'luluemporium',tr:'免费电车 / 步行约 15 分钟'},
   {t:'14:20',tz:'AEST',ttl:'皇家拱廊 + 布洛克拱廊',d:'两条 19 世纪拱廊街相邻，看马赛克地砖与彩色玻璃穹顶。',tags:['介绍'],p:'blockarcade',tr:'步行约 6 分钟'},
@@ -2604,7 +2605,7 @@ function renderSouvenirs(){
 renderSouvenirs();
 
 const RESTAURANT_BOOKINGS = [
-  {date:'10/02',time:'12:00',name:'Higher Ground',note:'2 人 · 官网明确“强烈建议预约”',level:'现在预订',url:'https://www.sevenrooms.com/explore/higherground/reservations/create/search',phone:'+61 3 8899 6219'},
+  {date:'10/02',time:'12:15–13:45',name:'Higher Ground',note:'2 人 · 订位已确认；如需改动请查看确认邮件或致电餐厅',level:'已预订 ✓',confirmed:true,phone:'+61 3 8899 6219'},
   {date:'10/02',time:'18:00',name:'Asado Southbank',note:'2 人 · 周五晚餐，建议锁定座位',level:'现在预订',url:'https://www.asado.melbourne/bookings',phone:'+61 3 9088 8600'},
   {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
   {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
@@ -2616,7 +2617,7 @@ const RESTAURANT_BOOKINGS = [
 
 const FOOD_GROUPS = [
   {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
-    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已排入 12:00',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'酒店寄存后步行约 5 分钟；若等位超过 20 分钟就启用附近简餐，不影响后续购物。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
+    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已预订 12:15',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'订位 12:15–13:45，2 人；酒店寄存后步行约 5 分钟，建议提前 10 分钟到店。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
     {name:'Queen Victoria Market · Borek + Market Lane Coffee',status:'时间宽裕再加',must:'两人共享一只 Borek，配一杯外带咖啡；不要各点一份。',why:'维州官方美食路线直接推荐市场入口的 Borek 与 Market Lane Coffee，是比通用网红甜品更有墨尔本日常感的组合。',timing:'D2 周五市场 06:00–15:00。只有酒店寄存很顺、11:00 前能到时才去；11:25 还没买到就放弃，以免影响 Higher Ground。',poi:'qvmarket',url:'https://www.visitmelbourne.com/regions/melbourne/see-and-do/itineraries/48-hour-itinerary-food',query:'Queen Victoria Market Borek Market Lane Coffee 必吃'}
   ]},
   {day:'D3',date:'10/03',icon:'🥧',place:'普芬比利 · 菲利普岛',items:[
@@ -2651,7 +2652,9 @@ function foodItemHTML(item, gi, ii){
 }
 function bookingRowHTML(item){
   const phone = item.phone ? '；无空位可致电 <a href="tel:' + item.phone.replace(/[^+\d]/g,'') + '">' + esc(item.phone) + '</a>' : '';
-  const action = item.url
+  const action = item.confirmed
+    ? '<span class="booking-action confirmed">' + esc(item.level) + '</span>'
+    : item.url
     ? '<a class="booking-action' + (item.level === '建议预订' ? ' secondary' : '') + '" href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">' + esc(item.level) + ' ↗</a>'
     : '<span class="booking-action walkin">' + esc(item.level) + '</span>';
   return '<div class="booking-row"><div class="booking-when">' + esc(item.date) + '<br>' + esc(item.time) + '</div><div class="booking-main"><b>' + esc(item.name) + '</b><span>' + esc(item.note) + phone + '</span></div>' + action + '</div>';
