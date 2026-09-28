@@ -601,6 +601,24 @@ body.pwa-guide-open{overflow:hidden}
 .food-actions>a:hover{border-color:var(--brand);background:var(--brand-soft)}
 .food-actions .xhs-actions{justify-content:flex-start}
 .food-note{margin-top:14px;padding:11px 13px;border-radius:12px;background:var(--surface2);font-size:12px;line-height:1.65;color:var(--muted)}
+.booking-board{padding:0;overflow:hidden}
+.booking-board-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px;background:linear-gradient(135deg,var(--brand-soft),var(--surface))}
+.booking-board-head h3{font-size:16px;line-height:1.4}
+.booking-board-head p{margin-top:3px;color:var(--muted);font-size:12px;line-height:1.5}
+.booking-count{flex:0 0 auto;border-radius:999px;padding:5px 9px;background:var(--brand);color:var(--on-brand);font-size:11px;font-weight:800}
+.booking-list{display:grid}
+.booking-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 14px;border-top:1px solid var(--line)}
+.booking-when{font-size:11.5px;color:var(--brand);font-weight:800;font-variant-numeric:tabular-nums;line-height:1.45}
+.booking-main{min-width:0}
+.booking-main b{display:block;font-size:13px;line-height:1.4}
+.booking-main span{display:block;margin-top:2px;color:var(--muted);font-size:11.5px;line-height:1.45}
+.booking-main a{color:var(--brand);font-weight:700;text-decoration:none}
+.booking-action{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border:1px solid var(--brand);border-radius:999px;padding:6px 10px;background:var(--brand);color:var(--on-brand);font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap}
+.booking-action.secondary{background:var(--surface);color:var(--brand)}
+.booking-action.walkin{border-color:var(--line);background:var(--surface2);color:var(--muted);cursor:default}
+.booking-detail{margin-top:7px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-size:12px;line-height:1.55;color:var(--muted)}
+.booking-detail a{display:inline-flex;margin-left:6px;border-radius:999px;padding:3px 8px;background:var(--brand);color:var(--on-brand);font-weight:700;text-decoration:none}
+@media(max-width:520px){.booking-row{grid-template-columns:70px minmax(0,1fr)}.booking-row>.booking-action{grid-column:2;justify-self:start}.booking-board-head{align-items:center}}
 @media(max-width:620px){.food-plan{grid-template-columns:repeat(2,minmax(0,1fr))}.food-grid{grid-template-columns:1fr}.food-verdict:after{font-size:66px}}
 
 :root{
@@ -947,12 +965,12 @@ const POIS = {
     r:'离酒店和南十字星都近，挑高 15 米的旧电站空间很有墨尔本气氛，落地第一餐无需绕路。',
     hl:['招牌辣味炒蛋 Chilli Scrambled Eggs','Avocado Pretzel','Blueberry & Ricotta Hotcakes'],
     tip:['周五通常 07:00–17:00 营业，建议提前订位','两人可选一甜一咸共享，人均约 AUD 25–40，以当日菜单为准','若现场等位超过 20 分钟，改在 Spencer Outlet Centre 附近简餐，避免耽误购物'],
-    ph:['旧电站挑高大厅','楼梯与拱窗构图'],xq:'墨尔本 Higher Ground brunch 必吃',kind:'food'},
+    ph:['旧电站挑高大厅','楼梯与拱窗构图'],xq:'墨尔本 Higher Ground brunch 必吃',web:'https://highergroundmelbourne.com.au/',book:'https://www.sevenrooms.com/explore/higherground/reservations/create/search',bookNote:'官网明确建议预约；D2 10/02 12:00 · 2 人',kind:'food'},
   asado:{n:'Asado · Southbank',loc:'6 Riverside Quay, Southbank VIC 3006',lat:-37.8209861,lng:144.9639956,
     r:'从联邦广场步行过河即到，阿根廷炭火菜适合两人分享，吃完可沿雅拉河看夜景。',
     hl:['Beef Empanada 牛肉馅饼','Provoleta 烤奶酪','炭烤鸡或牛小排','Papas Bravas 炸土豆'],
     tip:['周五通常 12:00–23:30 营业，建议提前订位','两人建议点 2 个馅饼 + 烤奶酪 + 一份主菜 + 一份配菜，约 AUD 110–150，不含酒水','想控制预算可单点共享，不必选每人 AUD 105 的套餐；菜单与价格以到店为准','偏爱牛排和河景可把 The Meat & Wine Co Southbank 作为较贵备选'],
-    ph:['开放式炭火厨房','Southbank 河畔夜景'],xq:'墨尔本 Southbank Asado 河景 晚餐',kind:'food'},
+    ph:['开放式炭火厨房','Southbank 河畔夜景'],xq:'墨尔本 Southbank Asado 河景 晚餐',web:'https://www.asado.melbourne/',book:'https://www.asado.melbourne/bookings',bookNote:'建议预约；D2 10/02 18:00 · 2 人',kind:'food'},
   luluemporium:{n:'lululemon · Emporium Melbourne',loc:'Tenancy G-031A / G-3032, 287 Lonsdale St, Melbourne VIC 3000',lat:-37.8128,lng:144.9632,
     r:'只购买一两件时，市中心门店比专程前往远郊 Outlet 更省总费用和时间，也更容易衔接当天步行路线。',
     hl:['10/2 周五通常营业至 21:00','位于 Emporium Melbourne，靠近皇家拱廊','款式和常用尺码通常比 Outlet 更完整'],
@@ -1040,7 +1058,7 @@ const POIS = {
     r:'大洋路返城时间浮动，选一家周日晚营业到午夜、两人可直接 walk-in 的市中心餐厅最稳。',
     hl:['Gyros / Souvlaki 希腊烤肉卷','炭烤肉类与希腊蘸酱','1978 年开业的墨尔本老店'],
     tip:['官网当前显示周日至周四 11:00–24:00','两人约 AUD 55–90，以当日菜单为准','若返城晚于 21:00 或太累，直接外带回酒店；先收拾次日航班行李'],
-    ph:['洞穴式天花板','希腊烤肉拼盘'],xq:'墨尔本 Stalactites 希腊餐厅 必吃',web:'https://www.stalactites.com.au/menu',kind:'food'},
+    ph:['洞穴式天花板','希腊烤肉拼盘'],xq:'墨尔本 Stalactites 希腊餐厅 必吃',web:'https://www.stalactites.com.au/menu',bookNote:'2 人晚餐不接受预约，直接 walk-in；返城晚也能灵活调整',kind:'food'},
 
     ppp:{n:'维特桑迪考斯特机场（普罗瑟派恩 PPP）',loc:'Whitsunday Coast Airport, Proserpine QLD 4800',lat:-20.4947,lng:148.5517,
     r:'圣灵群岛的空中门户，到艾尔利海滩约 30 分钟车程。',
@@ -1062,21 +1080,16 @@ const POIS = {
     hl:['游艇码头','出海 check-in 柜台'],
     tip:['出海当天提前 30 分钟 check-in','码头边有咖啡，等船时坐坐'],
     ph:['码头日落','游艇桅杆'],kind:'station'},
-  fishdvine:{n:'Fish D’Vine & Rum Bar · Airlie Beach',loc:'303 Shute Harbour Rd, Airlie Beach QLD 4802',lat:-20.2689,lng:148.7212933,
-    r:'艾尔利主街的海鲜老店，离泄湖和超市都近，第一晚吃完可顺路完成次日出海补给。',
-    hl:['当季海鲜与鱼类','海鲜拼盘 / Fish of the Day','店内 Rum Bar'],
-    tip:['官网当前显示 Rum Bar 每天 17:00 至深夜，餐厅座位建议预约','两人约 AUD 90–140，不含酒水，以当日菜单为准','用餐后去主街超市买水、早餐和出海备用零食'],
-    ph:['当季海鲜拼盘','Rum Bar 热带饮品'],xq:'艾尔利海滩 Fish Dvine 海鲜 餐厅',web:'https://www.fishdvine.com.au/',kind:'food'},
   pavilion:{n:'The Pavilion · Coral Sea Resort',loc:'25 Ocean View Ave, Airlie Beach QLD 4802',lat:-20.2637038,lng:148.7158495,
-    r:'面向珊瑚海的露天餐厅，主打时令食材、区域农产、海鲜与日落鸡尾酒，适合作为 D6 晚餐备选。',
+    r:'面向珊瑚海的露天餐厅，主打时令食材、区域农产、海鲜与日落鸡尾酒；已替代当前无法确认营业的 Fish D’Vine。',
     hl:['当日鲜鱼 / 海鲜','现代澳洲菜','热带鸡尾酒或无酒精特调'],
-    tip:['从 Harbour Cove 步行距离可控','繁忙时段建议预约','作为 The Deck 的景观型备选，二选一即可'],
-    ph:['海景露台','日落饮品'],xq:'Airlie Beach Coral Sea Pavilion 海鲜 日落 晚餐',web:'https://www.tourismwhitsundays.com.au/products/coral-sea-pavilion',kind:'food'},
+    tip:['D5 18:45 晚餐，从 Harbour Cove / 泄湖前往方便','官网明确建议繁忙时段预约','饭后再去主街超市补充早餐、水和出海零食'],
+    ph:['海景露台','日落饮品'],xq:'Airlie Beach Coral Sea Pavilion 海鲜 日落 晚餐',web:'https://coralsearesort.com/coral-sea-pavilion/',book:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',bookNote:'建议预约；D5 10/05 18:45 · 2 人',kind:'food'},
   thedeck:{n:'The Deck · Airlie Beach',loc:'277 Shute Harbour Rd, Airlie Beach QLD 4802',lat:-20.2684689,lng:148.7183793,
     r:'就在泄湖与海滨步道旁，出海后的傍晚不用再走远；也适合观光飞机后快速吃午餐。',
     hl:['现代澳洲菜与地中海风味','披萨、海鲜和轻食','露台可看海滨与溪流'],
     tip:['官网当前显示周日至周四 06:30–20:00，厨房可能提早收单','两人午餐约 AUD 50–80、晚餐约 AUD 65–100，以当日菜单为准','D6 建议 18:30 前到；D7 午餐最晚 13:30 结账，以免耽误取行李'],
-    ph:['海滨露台','艾尔利主街晚餐'],xq:'艾尔利海滩 The Deck 餐厅 推荐',web:'https://thedeckairliebeach.com.au/menu/',kind:'food'},
+    ph:['海滨露台','艾尔利主街晚餐'],xq:'艾尔利海滩 The Deck 餐厅 推荐',web:'https://thedeckairliebeach.com.au/menu/',book:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',bookNote:'D6 晚餐建议预约；D7 午餐可同时预订以保证航班衔接',kind:'food'},
   coralsea:{n:'珊瑚海码头 Coral Sea Marina',loc:'Airlie Beach QLD 4802',lat:-20.2760,lng:148.7000,
     r:'直升机观光与部分快艇团的出发地，设施新。',
     hl:['直升机起降坪','新码头区'],
@@ -1153,7 +1166,7 @@ const POIS = {
     r:'就在岩石区行程终点，屋顶露台能看悉尼港，吃完回酒店也顺路。',
     hl:['Rooftop 屋顶港景','澳洲酒馆经典菜','步行可到海港大桥与环形码头'],
     tip:['官网当前显示周日至周四 11:00–24:00','两人约 AUD 60–100，不含酒水，以当日菜单为准','屋顶位容易满，建议提前预约；天气不好可坐室内'],
-    ph:['屋顶看海港大桥','砂岩老酒馆外观'],xq:'悉尼 The Glenmore 岩石区 屋顶 餐厅',web:'https://www.theglenmore.com.au/',kind:'food'},
+    ph:['屋顶看海港大桥','砂岩老酒馆外观'],xq:'悉尼 The Glenmore 岩石区 屋顶 餐厅',web:'https://www.theglenmore.com.au/',book:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',bookNote:'建议预约并在备注中选 Rooftop；D8 10/08 18:30 · 2 人',kind:'food'},
   qvb:{n:'维多利亚女王大厦 QVB',loc:'455 George St, Sydney NSW 2000',lat:-33.8715,lng:151.2068,
     r:'1898 年的罗马式商场，彩色玻璃 + 吊钟，被称「全世界最美的购物中心」。',
     hl:['中央大吊钟','彩色玻璃穹顶','皇家钟 hourly 表演'],
@@ -1514,7 +1527,7 @@ const DAYS = [
   {t:'15:00',tz:'AEST',ttl:'抵达 PPP 维特桑迪考斯特机场',d:'小型机场，出站快。提前订好接驳或打车前往艾尔利海滩。',tags:['航班'],p:'ppp'},
   {t:'15:40',tz:'AEST',ttl:'接驳 → 艾尔利海滩 · 入住',d:'机场到艾尔利海滩约 40 分钟。入住 Harbour Cove（14:00 后可入住）。',tags:['导航'],p:'harbourcove',tr:'车程约 40 分钟'},
   {t:'17:00',tz:'AEST',ttl:'艾尔利海滩泄湖 · 看日落',d:'免费的海边人造泳池，看得到海又没有水母，傍晚人少还能看日落。',tags:['介绍'],p:'lagoon',tr:'步行约 10 分钟'},
-  {t:'18:45',tz:'AEST',ttl:'晚餐 · Fish D’Vine（建议预约）',d:'艾尔利主街海鲜老店。两人可选当日鲜鱼、海鲜主菜与配菜共享，约 AUD 90–140（不含酒水）。吃完顺路去主街超市买明天早餐、饮用水和出海备用零食。',tags:['介绍','需提前订'],p:'fishdvine',tr:'从泄湖步行约 5 分钟'}
+  {t:'18:45',tz:'AEST',ttl:'晚餐 · Coral Sea Pavilion（建议预约）',d:'面向珊瑚海的露天餐厅，已替代当前无法确认营业的 Fish D’Vine。两人可选当日鲜鱼、海鲜主菜与配菜共享，约 AUD 90–150（不含酒水）。吃完再去主街超市买明天早餐、饮用水和出海备用零食。',tags:['介绍','需提前订'],p:'pavilion',tr:'从泄湖步行约 12–15 分钟'}
  ]
 },
 {
@@ -1616,7 +1629,7 @@ const TRIP_FLOW = [
   {d:2, title:'抵达墨尔本 · 市区 + 购物', stops:['墨尔本机场','南十字星','酒店寄存','Higher Ground 午餐','Spencer 买 Swisse','Emporium 买 lululemon','拱廊街','咖啡巷','弗林德斯街 / 联邦广场','Asado 河畔晚餐','酒店入住']},
   {d:3, title:'普芬比利 · 企鹅岛', stops:['601 Lonsdale 集合','布莱顿小屋','帕芬比利小火车','Railway Café 午餐','考拉园','企鹅中心提前晚餐','企鹅归巢','回墨尔本']},
   {d:4, title:'大洋路一日游', stops:['300 Spencer 上车','十二门徒','洛克阿德大峡谷','肯尼特河考拉','Co-op 海鲜午餐','灯塔 / 纪念拱门','回墨尔本','Stalactites 晚餐']},
-  {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场备餐','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖','Fish D’Vine 晚餐']},
+  {d:5, title:'飞往圣灵群岛', stops:['Dorsett 退房','墨尔本机场备餐','布里斯班中转','PPP 机场','艾尔利海滩','入住 / 泄湖','Coral Sea Pavilion 晚餐']},
   {d:6, title:'白天堂沙滩 · 浮潜', stops:['酒店集合','珊瑚海码头','白天堂沙滩','希尔湾','船上午餐','蝠鲼湾浮潜','The Deck 晚餐']},
   {d:7, title:'心形礁 · 飞往悉尼', stops:['酒店退房','观光飞机','心形礁','The Deck 午餐 / 备晚餐','PPP 机场','悉尼机场','Grace Hotel']},
   {d:8, title:'悉尼市中心步行', stops:['The Grace','QVB','海德公园','圣玛丽大教堂','州美术馆 / 馆内午餐','皇家植物园','歌剧院讲解','海港大桥 / 岩石区','Glenmore 晚餐']},
@@ -2168,7 +2181,7 @@ const mapBox = $('#mapBox'), gmFrame = $('#gmFrame');
 let mapSource = 'google', googleMapStarted = false, googleProbeDone = false;
 const REGIONS = {
   mel:  { n:'墨尔本市内', keys:['mel','southern','dorsett','stalactites','chinatown','blockarcade','degraves','flinders','fedsquare','southbank','qvmarket','statelib','exhibition','hosier','brighton','puffing','moonlit','penguin','meet601'] },
-  whit: { n:'圣灵群岛', keys:['ppp','harbourcove','lagoon','fishdvine','thedeck','portofairlie','coralsea','whitehaven','hillinlet','heartreef','mantaray'] },
+  whit: { n:'圣灵群岛', keys:['ppp','harbourcove','lagoon','pavilion','thedeck','portofairlie','coralsea','whitehaven','hillinlet','heartreef','mantaray'] },
   syd:  { n:'悉尼市内', keys:['syd','grace','qvb','hydepark','stmary','artgallery','gallerycafe','circularquay','botanic','macquaries','operahouse','welcome','hbrbridge','observatory','rocks','glenmore','taronga','bondi','coogee','coogeepav'] }
 };
 const REGION_VIEWS = {
@@ -2590,6 +2603,17 @@ function renderSouvenirs(){
 }
 renderSouvenirs();
 
+const RESTAURANT_BOOKINGS = [
+  {date:'10/02',time:'12:00',name:'Higher Ground',note:'2 人 · 官网明确“强烈建议预约”',level:'现在预订',url:'https://www.sevenrooms.com/explore/higherground/reservations/create/search',phone:'+61 3 8899 6219'},
+  {date:'10/02',time:'18:00',name:'Asado Southbank',note:'2 人 · 周五晚餐，建议锁定座位',level:'现在预订',url:'https://www.asado.melbourne/bookings',phone:'+61 3 9088 8600'},
+  {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
+  {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
+  {date:'10/07',time:'12:20',name:'The Deck Airlie Beach',note:'2 人 · 午餐后赶飞机，订位能减少等候',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
+  {date:'10/08',time:'18:30',name:'The Glenmore',note:'2 人 · 预订时选 Rooftop / 屋顶偏好',level:'现在预订',url:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',phone:'+61 2 9247 4794'},
+  {date:'10/04',time:'约 20:30',name:'Stalactites',note:'2 人晚餐不接受预约；返城后直接 walk-in',level:'无需预订'},
+  {date:'10/09',time:'18:45',name:'Coogee Pavilion Ground Floor',note:'楼下采用 walk-in；走完海岸步道后直接到店',level:'现场排队'}
+];
+
 const FOOD_GROUPS = [
   {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
     {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已排入 12:00',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'酒店寄存后步行约 5 分钟；若等位超过 20 分钟就启用附近简餐，不影响后续购物。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
@@ -2603,8 +2627,7 @@ const FOOD_GROUPS = [
     {name:'Fishermen’s Co-op · 本地炸鱼薯条',status:'已排入午餐',must:'点当日鱼获 fish & chips；预算允许再问 Southern Rock Lobster，先确认价格和重量。',why:'当地渔船供应 Bass Strait 海鲜。2025 年起港口店改造，热食已转到 18 Pascoe Street，网页里的地址已按现状更新。',timing:'两人策略：先共享 1 只扇贝派，再共享 1 份炸鱼薯条/海鲜，既都尝到又不浪费。',poi:'apollocoop',url:'https://www.apollobayfishcoop.com.au/',query:'Apollo Bay Fishermens Co-op fish chips rock lobster'}
   ]},
   {day:'D5–D7',date:'10/05–10/07',icon:'🐟',place:'艾尔利海滩 · 圣灵群岛',items:[
-    {name:'Fish D’Vine · 当日鲜鱼 + 热带饮品',status:'已排入 D5 晚餐',must:'先问 catch of the day；有澳洲 Barramundi、Coral Trout 或 Moreton Bay Bug 时优先。饮品选热带 Rum cocktail；不喝酒可点芒果/百香果 mocktail。',why:'这里的“当地感”来自昆士兰海鲜、热带水果风味和 Rum Bar，而不是硬追某一道全年固定的网红菜。',timing:'D5 18:45，建议预约。两人共享一份海鲜主菜加配菜即可，现场鱼获和价格优先。',poi:'fishdvine',url:'https://www.fishdvine.com.au/',query:'艾尔利海滩 Fish Dvine 必吃 barramundi rum bar'},
-    {name:'The Pavilion · 海鲜 + 日落特调',status:'D6 晚餐备选',must:'当日鲜鱼或海鲜，配一杯 tropical cocktail / mocktail。',why:'面向珊瑚海，官方资料明确主打区域农产、时令食材、海鲜与手工鸡尾酒；景观比“特定网红菜”更值得。',timing:'D6 与 The Deck 二选一：出海后若体力还好、想认真看日落就订这里；累了仍按原计划去更近的 The Deck。',poi:'pavilion',url:'https://www.tourismwhitsundays.com.au/products/coral-sea-pavilion',query:'Airlie Beach Coral Sea Pavilion sunset seafood cocktail'},
+    {name:'The Pavilion · 海鲜 + 日落特调',status:'已排入 D5 晚餐',must:'先问 catch of the day；有澳洲 Barramundi、Coral Trout 或 Moreton Bay Bug 时优先，再配 tropical cocktail / mocktail。',why:'面向珊瑚海，官方资料明确主打区域农产、时令食材、海鲜与手工鸡尾酒；已替代目前无法确认继续营业的 Fish D’Vine。',timing:'D5 18:45，建议现在预订。两人共享一份海鲜主菜加配菜即可，现场鱼获和价格优先。',poi:'pavilion',url:'https://coralsearesort.com/coral-sea-pavilion/',query:'Airlie Beach Coral Sea Pavilion sunset seafood cocktail'},
     {name:'The Deck · 披萨 / 海鲜 + 芒果百香果饮品',status:'已排 D6 / D7',must:'出海后选披萨或海鲜主菜；另点芒果、菠萝或百香果风味冷饮补充水分。',why:'不算“目的地级名菜”，胜在泄湖边、营业时间和航班衔接最稳，属于本次行程最实用的吃法。',timing:'D6 18:30 前到；D7 午餐 13:30 前结账并外带晚餐。',poi:'thedeck',url:'https://thedeckairliebeach.com.au/menu/',query:'Airlie Beach The Deck 必吃 tropical drink'}
   ]},
   {day:'D8',date:'10/08',icon:'🍹',place:'悉尼 · 新鱼市场 / 市中心',items:[
@@ -2622,14 +2645,23 @@ function foodItemHTML(item, gi, ii){
   return '<article class="food-card' + (item.featured ? ' featured' : '') + '"><div class="food-card-head"><h4>' + esc(item.name) + '</h4><span class="food-status">' + esc(item.status) + '</span></div>'
     + '<div class="food-must"><b>建议点：</b>' + esc(item.must) + '</div><div class="food-reason">' + esc(item.why) + '</div><div class="food-timing"><b>怎么插入：</b>' + esc(item.timing) + '</div>'
     + '<div class="food-actions">' + (p ? '<a href="' + navWeb(p) + '" data-food-nav="' + gi + '_' + ii + '">选择导航方式</a>' : '')
+    + (p && p.book ? '<a href="' + esc(p.book) + '" target="_blank" rel="noopener noreferrer">预订餐厅 ↗</a>' : '')
     + (item.url ? '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">官方信息 ↗</a>' : '')
     + xhsActionButtonsHTML(item.query, '小红书参考 ↗') + '</div></article>';
+}
+function bookingRowHTML(item){
+  const phone = item.phone ? '；无空位可致电 <a href="tel:' + item.phone.replace(/[^+\d]/g,'') + '">' + esc(item.phone) + '</a>' : '';
+  const action = item.url
+    ? '<a class="booking-action' + (item.level === '建议预订' ? ' secondary' : '') + '" href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">' + esc(item.level) + ' ↗</a>'
+    : '<span class="booking-action walkin">' + esc(item.level) + '</span>';
+  return '<div class="booking-row"><div class="booking-when">' + esc(item.date) + '<br>' + esc(item.time) + '</div><div class="booking-main"><b>' + esc(item.name) + '</b><span>' + esc(item.note) + phone + '</span></div>' + action + '</div>';
 }
 function renderFood(){
   $('#sectFood').innerHTML = '<h2 style="font-size:17px;margin:22px 0 4px">🍴 当地特色 · 必吃必喝</h2>'
     + '<div class="sub">按实际路线与时间筛选；“当地特色”不等于每家都要吃，两人共享能尝到更多，也更适合后续步行。</div>'
     + '<section class="card food-verdict"><h3>Fruitezy：值得喝，安排在 D8 早晨最合理</h3><p>官方最新资料确认它已搬入 <b>新悉尼鱼市场 Shop C2</b>，地址是 1 Bridge Road, Glebe。D8 周四 07:00 开门；早起约 1 小时打车往返，可以不删掉 QVB、歌剧院和岩石区。D9 行程已经很满，不建议再绕去鱼市场。</p><div class="food-plan">'
     + '<div class="food-plan-step"><b>07:15</b>The Grace 打车出发</div><div class="food-plan-step"><b>07:30–08:05</b>果汁 + 快逛新鱼市场</div><div class="food-plan-step"><b>08:05</b>打车返回市中心</div><div class="food-plan-step"><b>09:15</b>原计划 QVB 不变</div></div></section>'
+    + '<section class="card booking-board"><div class="booking-board-head"><div><h3>📌 餐厅预订清单</h3><p>日期和时间按本手册行程填写；点击后在官方页面选择 2 人并完成确认。</p></div><span class="booking-count">5 家 · 6 个时段</span></div><div class="booking-list">' + RESTAURANT_BOOKINGS.map(bookingRowHTML).join('') + '</div></section>'
     + FOOD_GROUPS.map((group, gi) => '<section class="food-day"><div class="food-day-head"><div class="food-day-icon" aria-hidden="true">' + group.icon + '</div><div><h3>' + esc(group.day) + ' · ' + esc(group.place) + '</h3><p>' + esc(group.date) + ' · 按游玩顺序选择</p></div></div><div class="food-grid">' + group.items.map((item, ii) => foodItemHTML(item, gi, ii)).join('') + '</div></section>').join('')
     + '<div class="food-note"><b>点单原则：</b>海鲜先问“today’s catch”和时价；酒后不要下水或靠近悬崖；对贝类、坚果、乳制品过敏要主动说明。营业时间与菜单可能临时变化，页面已链接官方信息，出发当天再看一次。</div>'
     + '<p class="hint">店铺、搬迁与营业资料核对于 2026-09-27；小红书只作为口味热度参考。</p>';
@@ -2643,6 +2675,7 @@ function openPOI(key){
     + '<div style="font-size:12px;color:var(--muted);margin-bottom:6px">' + kindName + '</div>'
     + '<div class="sh-loc"><span>📍</span><span>' + esc(p.loc) + '</span><a href="' + navWeb(p) + '" data-nav-poi="' + key + '">导航</a></div>'
     + (p.web ? '<div class="sh-sec"><a class="xhs-open" href="' + esc(p.web) + '" target="_blank" rel="noopener noreferrer">查看官网 / 菜单 ↗</a></div>' : '')
+    + (p.book || p.bookNote ? '<div class="booking-detail"><b>订位：</b>' + esc(p.bookNote || '建议提前预约') + (p.book ? '<a href="' + esc(p.book) + '" target="_blank" rel="noopener noreferrer">打开预订页 ↗</a>' : '') + '</div>' : '')
     + dayListHTML(key)
     + '<div class="reason">「' + esc(p.r) + '」</div>'
     + '<div class="sh-sec"><h4>必看点</h4><ul>' + p.hl.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'

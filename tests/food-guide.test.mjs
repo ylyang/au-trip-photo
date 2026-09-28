@@ -10,7 +10,7 @@ assert.match(html, /food:'sectFood'/, 'section routing must include the food gui
 for(const item of [
   'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',
   'Apollo Bay Bakery · 扇贝派',
-  'Fish D’Vine · 当日鲜鱼 + 热带饮品',
+  'The Pavilion · 海鲜 + 日落特调',
   'Fruitezy · 现场鲜榨果汁',
   'Coogee Pavilion · 木火披萨 / 海鲜'
 ]){
