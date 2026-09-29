@@ -578,6 +578,12 @@ body.pwa-guide-open{overflow:hidden}
 .souvenir-photo-wrap{position:relative;margin:-13px -13px 12px;overflow:hidden;border-radius:13px 13px 0 0;background:var(--surface2);aspect-ratio:16/10}
 .souvenir-photo{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
 .souvenir-card:hover .souvenir-photo{transform:scale(1.025)}
+.souvenir-photo.contain{object-fit:contain;padding:10px}
+.shopping-option{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;margin:12px 0;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:12px;line-height:1.65;overflow-wrap:anywhere}
+.shopping-option img{display:block;width:104px;height:128px;object-fit:contain;background:var(--surface2);border-radius:8px}
+.shopping-option p{margin:4px 0;color:var(--muted)}
+.shopping-option a{display:inline-block;padding:5px 0;color:var(--brand);text-underline-offset:3px}
+@media(max-width:620px){.shopping-option{grid-template-columns:minmax(0,1fr)}.shopping-option img{width:100%;height:180px}}
 .souvenir-photo-note{position:absolute;left:8px;bottom:8px;border-radius:999px;padding:4px 8px;background:rgba(22,30,34,.76);color:#fff;font-size:10px;font-weight:750;line-height:1;backdrop-filter:blur(6px)}
 .souvenir-photo-source{position:absolute;right:8px;bottom:8px;border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.9);color:#314047;font-size:10px;font-weight:750;line-height:1;text-decoration:none}
 .souvenir-photo-source:hover{background:#fff;color:var(--brand)}
@@ -792,7 +798,7 @@ html[data-theme="dark"][data-palette="lemon"]{
     </div>
     <div class="preflight-list" id="preflightList"></div>
     <div class="preflight-foot">点击圆点可标记已确认，与“待办”中的预订清单在本设备同步；打开购票链接不会自动勾选。餐厅为建议预订，可选项目另见待办。勾选不代表商家确认或自动下单，状态不会上传或跨设备同步。</div>
-    <div class="preflight-foot"><span id="offlineReady" role="status">离线资源尚未检查：首次请联网打开，等候照片下载完成。</span> <button type="button" class="btn" id="offlineRetry">检查 / 重试离线下载</button><br>网页与 14 张纪念品照片会一起缓存，无需逐张打开。Google 地图、外部链接仍需联网；浏览器清理缓存后需要重新下载。</div>
+    <div class="preflight-foot"><span id="offlineReady" role="status">离线资源尚未检查：首次请联网打开，等候照片下载完成。</span> <button type="button" class="btn" id="offlineRetry">检查 / 重试离线下载</button><br>网页与 16 张纪念品照片会一起缓存，无需逐张打开。Google 地图、外部链接仍需联网；浏览器清理缓存后需要重新下载。</div>
   </div>
 
   <div class="card next-event-card" id="nextEventCard" aria-live="polite"></div>
@@ -986,7 +992,7 @@ const POIS = {
   blockarcade:{n:'布洛克拱廊 Block Arcade',loc:'282 Collins St, Melbourne VIC 3000',lat:-37.8170,lng:144.9653,
     r:'维多利亚时期最华丽的拱廊，马赛克地砖与彩色玻璃，出片率极高。',
     hl:['彩色玻璃穹顶','马赛克地砖','Hopetoun Tea Rooms 老牌茶室'],
-    tip:['Hopetoun 常排队，可外带','上午光线透过玻璃顶最好看'],
+    tip:['Hopetoun 常排队，可外带','上午光线透过玻璃顶最好看','可选逛 Essensorie：Block Arcade 3 号铺，先闻香再决定；与拱廊拍照共用短停时间，购物超时则跳过'],
     ph:['拱廊中段的穹顶','茶室橱窗'],kind:'sight'},
   southbank:{n:'雅拉河南岸 Southbank',loc:'Southbank Promenade, Melbourne VIC 3006',lat:-37.8210,lng:144.9640,
     r:'河边餐厅一条街，吃完饭沿河散步看墨尔本夜景，倒时差的第一晚不该太晚。',
@@ -1703,7 +1709,8 @@ const DAYS = [
         "t": "15:05",
         "tz": "AEST",
         "ttl": "皇家拱廊 + 布洛克拱廊（弹性短逛）",
-        "d": "两条 19 世纪拱廊街，看马赛克地砖与彩色玻璃穹顶。今天只作约 10 分钟短逛；若购物超时则略过，保留咖啡休息。",
+        "d": "两条 19 世纪拱廊街，看马赛克地砖与彩色玻璃穹顶。可选进布洛克拱廊 3 号铺 Essensorie 闻香，考虑薰衣草葡萄柚枕头香氛。与拱廊拍照共用约 10 分钟，不叠加购物时长；想进店则减少另一条拱廊的停留，排队或前面购物超时就跳过，保留 15:20 咖啡休息。无需预订，也不必购买。",
+        "shoppingRefs": ["essensorie"],
         "tags": [
           "介绍"
         ],
@@ -2134,7 +2141,8 @@ const DAYS = [
         "t": "16:40",
         "tz": "AEST",
         "ttl": "晚餐前采购 · 早餐、水与出海零食",
-        "d": "到镇上、酒店放好行李后先采购，预留约 30 分钟。10/5 为昆士兰公共假日，先请酒店核对附近主街超市营业情况；如超市已关门，改向酒店询问仍营业的便利店，不拖到晚餐后。若接驳延误，优先采购并缩短泄湖停留。",
+        "d": "到镇上、酒店放好行李后先采购，预留约 30 分钟。顺便找 Whittaker’s Coconut Block 椰子味牛奶巧克力 250g（绿色包装，新西兰品牌）；Coles / Woolworths 有商品页，但具体门店库存和价格以当天为准，不为找货绕路。10/5 为昆士兰公共假日，先请酒店核对附近主街超市营业情况；如超市已关门，改向酒店询问仍营业的便利店，不拖到晚餐后。若接驳延误，优先采购并缩短泄湖停留。",
+        "shoppingRefs": ["whittakers-coconut"],
         "tags": [
           "注意"
         ],
@@ -2822,7 +2830,7 @@ const TRIP_FLOW = [
       "Higher Ground 午餐",
       "Spencer 买 Swisse",
       "Emporium 买 lululemon",
-      "拱廊街",
+      "拱廊街 / 可选 Essensorie",
       "咖啡巷",
       "弗林德斯街 / 联邦广场",
       "Asado 河畔晚餐",
@@ -2868,7 +2876,7 @@ const TRIP_FLOW = [
       "Airlie Airport Bus 到达厅柜台报到",
       "登记 10/7 返程",
       "酒店放行李",
-      "晚餐前采购",
+      "晚餐前采购 / 可选椰子巧克力",
       "泄湖散步",
       "Coral Sea Pavilion 晚餐"
     ]
@@ -4094,6 +4102,7 @@ function xhsInspirationHTML(key){
    ============================================================ */
 const SOUVENIRS = [
   {day:'D2',date:'10/02',place:'墨尔本市中心',items:[
+    {id:'essensorie',icon:'🌿',name:'Essensorie 薰衣草葡萄柚枕头香氛',label:'可选 · 先闻香，不必购买',why:'墨尔本本地香氛，适合自用或送人。D2 15:05 逛拱廊时顺便看；与拍照共用短停时间，排队或购物超时则略过，不挤占咖啡休息。',where:'Shop 3, The Block Arcade, 282–284 Collins Street, Melbourne；无需预订，现场看营业与库存。',budget:'官网参考：50ml AUD 40（约 ¥190）；100ml AUD 70（约 ¥332.50），按 4.75 折算。可选消费，未计入已付费用。',url:'https://essensorie.com/products/lavender-grapefruit-pillow-perfume',query:'墨尔本 Essensorie 薰衣草 葡萄柚 枕头香氛',photo:'assets/souvenirs/essensorie-pillow.webp',photoFit:'contain',photoAlt:'Essensorie 薰衣草葡萄柚枕头香氛 50ml 与 100ml 官方实物图，非套装报价',photoSource:'https://essensorie.com/products/lavender-grapefruit-pillow-perfume'},
     {icon:'🍫',name:'Koko Black 巧克力 / 热巧克力粉',label:'最适合送人',why:'品牌从墨尔本皇家拱廊起步，城市辨识度比通用袋鼠纪念品更强；小盒装轻便、好分送。',where:'逛 CBD 拱廊时顺路去附近门店，出发前用官网门店页确认营业状态。',budget:'约 AUD 15–45，以店内为准',url:'https://www.kokoblack.com/pages/store-locator',query:'墨尔本 Koko Black 巧克力 伴手礼',photo:'assets/souvenirs/koko-black.webp',photoAlt:'Koko Black 巧克力与热巧克力礼盒实物',photoSource:'https://www.kokoblack.com/products/get-cosy-with-koko-hamper'},
     {icon:'🚋',name:'墨尔本电车 / 巷弄插画小物',label:'轻便有城市感',why:'优先选本地设计师的明信片、珐琅徽章、茶巾或小幅版画，比批量生产的“澳洲通用款”更值得留。',where:'CBD 独立设计店、博物馆商店或拱廊店铺；看到作者与产地标注再买。',budget:'参考 AUD 5–30',query:'墨尔本 电车 文创 纪念品 本地设计',photo:'assets/souvenirs/melbourne-tram.webp',photoAlt:'墨尔本电车图案茶巾实物',photoSource:'https://www.happydaypeople.com.au/shop-7oRLU/tea-towels'}
   ]},
@@ -4107,6 +4116,7 @@ const SOUVENIRS = [
     {icon:'🍬',name:'Great Ocean Road Rock 糖 / 澳洲动物巧克力',label:'可食用伴手礼',why:'比大型摆件好装，也适合分送；购买前看保质期、配料和外包装是否完整。',where:'Sweet View，39 Great Ocean Road, Apollo Bay。',budget:'少量购买，避免高温融化',url:'https://sweetview.com.au/',query:'Apollo Bay Sweet View Great Ocean Road rock candy',photo:'assets/souvenirs/apollo-candy.webp',photoAlt:'澳洲制造 Rock Candy 糖果罐实物',photoSource:'https://www.littlegiftbox.com.au/product-page/Ogilvie-and-co-salted-caramel-rock-candy'}
   ]},
   {day:'D5–D7',date:'10/05–10/07',place:'艾尔利海滩 · 圣灵群岛',items:[
+    {id:'whittakers-coconut',icon:'🥥',name:'Whittaker’s Coconut Block 椰子味巧克力 250g',label:'超市顺手买 · 新西兰品牌',why:'认绿色 Coconut Block 包装，是椰子味牛奶巧克力。D5 晚餐前采购时顺手找；旅途中其他 Coles / Woolworths 遇到也可买，不限定艾尔利、更不为找货绕路。避免在出海或海滩高温下久放。',where:'Coles / Woolworths 超市有该款商品页；艾尔利具体门店库存、节假日营业和促销以当天为准。',budget:'未锁定价格，现场比价；先买一板试口味，注意包装上的乳、大豆及其他过敏原信息。尚未购买，未计入已付费用。',url:'https://www.woolworths.com.au/shop/productdetails/266879/whittaker-s-block-coconut-33-cocoa',query:'Whittakers 椰子 巧克力 澳洲 超市',photo:'assets/souvenirs/whittakers-coconut.webp',photoFit:'contain',photoAlt:'Whittaker’s 绿色包装 Coconut Block 椰子味牛奶巧克力 250g 官方实物',photoSource:'https://www.whittakers.co.nz/en_WW/products/coconut'},
     {icon:'🧲',name:'心形礁 / 白天堂沙滩手工冰箱贴',label:'小红书近期热门',why:'“艾尔利老奶奶手工冰箱贴”、心形礁图案在近期旅行分享里反复出现；看到做工好的手工款可收一枚，不必专程追店。',where:'艾尔利镇中心或 Port of Airlie 周边纪念品店，比较做工与价格后再买。',budget:'只买 1–2 枚，避免为热门款溢价',query:'艾尔利海滩 老奶奶 手工冰箱贴 心形礁',photo:'assets/souvenirs/airlie-magnet.webp',photoAlt:'艾尔利海滩手工帆船冰箱贴实物',photoSource:'https://beachbookboutique.com.au/products/jadini-airlie-beach-fridge-magnets-locally-made'},
     {icon:'🪸',name:'圣灵群岛航拍卡 / 丝巾 / 海洋首饰',label:'当地艺术作品',why:'Above and Below Gallery 以圣灵群岛和大堡礁航拍作品为主，也有澳洲制作的海洋首饰与限量丝巾。',where:'Shop 12a, Port of Airlie Marina；从码头经过时顺路看。',budget:'明信片最轻；大幅作品可询问邮寄',url:'https://www.tourismwhitsundays.com.au/products/above-and-below-gallery',query:'Airlie Beach Above and Below Gallery 纪念品',photo:'assets/souvenirs/airlie-gallery.webp',photoAlt:'Above and Below Gallery 航拍作品、丝巾与海洋小物实拍',photoSource:'https://aboveandbelowgallery.com.au/pages/lookbook-prints-at-home-2024'}
   ]},
@@ -4121,8 +4131,12 @@ const SOUVENIRS = [
   ]}
 ];
 
+function shoppingOptionHTML(id){
+  const item=SOUVENIRS.flatMap(group=>group.items).find(item=>item.id===id);if(!item)return '';
+  return '<aside class="shopping-option" data-shopping-option="'+esc(id)+'"><img src="'+esc(item.photo)+'" alt="'+esc(item.photoAlt)+'" width="104" height="128" loading="lazy" decoding="async"><div><b>'+esc(item.name)+'</b><span class="souvenir-label">'+esc(item.label)+'</span><p>'+esc(item.where)+'</p><p>'+esc(item.budget)+'</p><a href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer">查看商品 / 库存参考 ↗</a> · <a href="'+esc(item.photoSource)+'" target="_blank" rel="noopener noreferrer">官方实物图来源 ↗</a></div></aside>';
+}
 function souvenirItemHTML(item){
-  const photo = item.photo ? '<div class="souvenir-photo-wrap"><img class="souvenir-photo" src="' + esc(item.photo) + '" alt="' + esc(item.photoAlt || item.name) + '" loading="lazy" decoding="async"><span class="souvenir-photo-note">实物参考 · 现场款式为准</span>' + (item.photoSource ? '<a class="souvenir-photo-source" href="' + esc(item.photoSource) + '" target="_blank" rel="noopener noreferrer" aria-label="查看图片来源">图片来源 ↗</a>' : '') + '</div>' : '';
+  const photo = item.photo ? '<div class="souvenir-photo-wrap"><img class="souvenir-photo' + (item.photoFit === 'contain' ? ' contain' : '') + '" src="' + esc(item.photo) + '" alt="' + esc(item.photoAlt || item.name) + '" loading="lazy" decoding="async"><span class="souvenir-photo-note">实物参考 · 现场款式为准</span>' + (item.photoSource ? '<a class="souvenir-photo-source" href="' + esc(item.photoSource) + '" target="_blank" rel="noopener noreferrer" aria-label="查看图片来源">图片来源 ↗</a>' : '') + '</div>' : '';
   return '<article class="souvenir-card">' + photo + '<div class="souvenir-card-top"><div class="souvenir-icon" aria-hidden="true">' + item.icon + '</div><div><h4>' + esc(item.name) + '</h4><span class="souvenir-label">' + esc(item.label) + '</span></div></div>'
     + '<p>' + esc(item.why) + '</p><div class="souvenir-meta"><div><b>哪里买：</b>' + esc(item.where) + '</div><div><b>购买建议：</b>' + esc(item.budget) + '</div></div>'
     + '<div class="souvenir-links">' + (item.url ? '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">官网 / 商店 ↗</a>' : '')
@@ -4253,6 +4267,7 @@ function openPOI(key){
     + (p.web ? '<div class="sh-sec"><a class="xhs-open" href="' + esc(p.web) + '" target="_blank" rel="noopener noreferrer">查看官网 / 菜单 ↗</a></div>' : '')
     + (p.book || p.bookNote ? '<div class="booking-detail"><b>订位：</b>' + esc(p.bookNote || '建议提前预约') + (p.book ? '<a href="' + esc(p.book) + '" target="_blank" rel="noopener noreferrer">打开预订页 ↗</a>' : '') + '</div>' : '')
     + toiletHTML(key)
+    + (key==='blockarcade' ? shoppingOptionHTML('essensorie') : '')
     + dayListHTML(key)
     + '<div class="reason">「' + esc(p.r) + '」</div>'
     + '<div class="sh-sec"><h4>必看点</h4><ul>' + p.hl.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
@@ -4453,6 +4468,7 @@ function itemHTML(d, di, it, ii){
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
+    + (it.shoppingRefs || []).map(shoppingOptionHTML).join('')
     + (it.zooRoute ? zooRouteHTML() : '')
     + placeLink
     + (poi ? toiletHTML(it.p) : '')
@@ -4983,17 +4999,17 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v50' && info.photos === 14
-      ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v51' && info.photos === 16
+      ? '离线已就绪：网页与全部 16 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v50' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v51' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
 }
 function trackOfflineInstall(reg){
   if(!reg.installing){ checkOfflineResources(); return; }
-  showOfflineStatus('正在下载网页与 14 张纪念品照片，请保持联网……');
+  showOfflineStatus('正在下载网页与 16 张纪念品照片，请保持联网……');
   const worker = reg.installing;
   worker.addEventListener('statechange',() => {
     if(worker.state === 'activated') checkOfflineResources();

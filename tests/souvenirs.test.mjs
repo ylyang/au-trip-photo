@@ -37,7 +37,7 @@ assert.match(html, /实物参考 · 现场款式为准/, 'product photos must be
 assert.match(html, /loading="lazy" decoding="async"/, 'souvenir photos must load lazily');
 
 const photoPaths = [...html.matchAll(/photo:'(assets\/souvenirs\/[^']+)'/g)].map(match => match[1]);
-assert.equal(photoPaths.length, 14, 'every souvenir recommendation must have a product photo');
+assert.equal(photoPaths.length, 16, 'every souvenir recommendation must have a product photo');
 assert.equal(new Set(photoPaths).size, photoPaths.length, 'souvenir cards should not reuse the same photo');
 for(const photoPath of photoPaths){
   const photoUrl = new URL(`../${photoPath}`, import.meta.url);
