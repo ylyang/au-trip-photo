@@ -778,11 +778,11 @@ html[data-theme="dark"][data-palette="lemon"]{
   <!-- ===== 2. 出发前确认 / 下一项 ===== -->
   <div class="card preflight-card" id="preflightCard" aria-labelledby="preflightTitle">
     <div class="preflight-head">
-      <div><div class="preflight-kicker">出发前检查</div><div class="card-title" id="preflightTitle">⚠️ 必须确认事项</div></div>
+      <div><div class="preflight-kicker">出发前检查</div><div class="card-title" id="preflightTitle">⚠️ 预订与重要确认事项</div></div>
       <span class="preflight-count" id="preflightCount" aria-live="polite">--</span>
     </div>
     <div class="preflight-list" id="preflightList"></div>
-    <div class="preflight-foot">点击圆点可标记已确认；状态保存在当前设备，不会上传到公开网页。</div>
+    <div class="preflight-foot">点击圆点可标记已确认，与“待办”中的预订清单在本设备同步；打开购票链接不会自动勾选。餐厅为建议预订，可选项目另见待办。勾选不代表商家确认或自动下单，状态不会上传或跨设备同步。</div>
     <div class="preflight-foot"><span id="offlineReady" role="status">离线资源尚未检查：首次请联网打开，等候照片下载完成。</span> <button type="button" class="btn" id="offlineRetry">检查 / 重试离线下载</button><br>网页与 14 张纪念品照片会一起缓存，无需逐张打开。Google 地图、外部链接仍需联网；浏览器清理缓存后需要重新下载。</div>
   </div>
 
@@ -4072,7 +4072,7 @@ const BOOKING_TASKS = [
     level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
   })),
   {id:'taronga-ticket',date:'10/09',time:'D9 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人。约 3 小时精华游，14:00 海狮活动含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
-  {id:'ppp-shuttle-booking',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
+{id:'ppp-shuttle-booking',preflightId:'ppp-return-bus',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
   {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
   {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
   ...TICKETS.filter(t=>t.t.startsWith('✈️') || t.t.startsWith('🎫')).map(t=>({
@@ -4088,7 +4088,7 @@ function renderBookingTodos(){
   box.innerHTML='<div class="card"><div class="card-title">📌 全部预订待办</div><p class="sub">按当前行程汇总餐厅、门票、交通、活动和住宿。日期/时间为当地时间，默认 2 人。这里只整理事项，不会自动下单；完成后告诉我，我会同步更新。<br>待预订 '+counts('pending')+' 项 · 可选 / 先确认再订 '+counts('conditional')+' 项 · 已预订 '+counts('confirmed')+' 项。</p></div>'
     + [['pending','待预订 / 待登记'],['conditional','可选 / 先确认再订'],['confirmed','已预订 · 不要重复购买']].map(([group,title])=>
       '<details class="card fold-card booking-board" open data-booking-group="'+group+'"><summary class="tk-h">'+title+'<span class="booking-count">'+counts(group)+' 项</span></summary><div class="booking-list">'
-      + BOOKING_TASKS.filter(b=>b.group===group).sort((a,b)=>a.date.localeCompare(b.date)).map(b=>'<div data-booking-id="'+esc(b.id)+'">'+bookingRowHTML(b)+'</div>').join('')+'</div></details>').join('')
+      + BOOKING_TASKS.filter(b=>b.group===group).sort((a,b)=>a.date.localeCompare(b.date)).map(b=>'<div data-booking-id="'+esc(b.id)+'">'+bookingRowHTML(b)+(group==='pending'?'<button type="button" class="btn" data-preflight-toggle="'+esc(bookingPreflightKey(b))+'" aria-pressed="'+!!PF[bookingPreflightKey(b)]+'">'+(PF[bookingPreflightKey(b)]?'✓ 本设备已确认 · 取消':'○ 标记本设备已确认')+'</button>':'')+'</div>').join('')+'</div></details>').join('')
     + '<p class="note">无需订位：Stalactites（2 人晚餐）、Coogee 海边快速午餐等现场就餐项目，不列为待预订。海狮活动含在塔龙加入场票内，不重复购买。BridgeClimb、悉尼塔等仅作地点介绍、未安排的项目不额外加入；选择加项后再确认时间与预订。已购票不等于已完成出发手续，请继续检查下方待办。</p>';
 }
 
@@ -4644,37 +4644,53 @@ $('#sectHotels').innerHTML =
 /* ============================================================
    待办 / 贴士
    ============================================================ */
-renderBookingTodos();
 $('#todoList').innerHTML = TODOS.filter(t => !t.done || !/^(普芬比利一日游|Ocean Rafting Fly|D7 固定翼)/.test(t.t)).map(t => '<li class="' + (t.done ? 'ok' : (t.u ? 'urg' : '')) + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
 $('#tipsBox').innerHTML = TIPS.map(t => '<details class="tip-fold" open><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
 $('#tipsBox').insertAdjacentHTML('beforeend', "<details class=\"tip-fold\" open><summary>官方核对依据 · 2026/09/28</summary><p>动态信息可能变化；已确认凭证及运营商最新通知优先。以下为公开资料，不含个人订单。</p><div class=\"minitools\"><a class=\"btn\" href=\"https://developers.google.com/maps/documentation/urls/get-started\" target=\"_blank\" rel=\"noopener noreferrer\">Google 路线限制 ↗</a><a class=\"btn\" href=\"https://harbourcove.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Harbour Cove 地址 ↗</a><a class=\"btn\" href=\"https://moonlitsanctuary.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Moonlit 地址 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/tours/southern-lights/\" target=\"_blank\" rel=\"noopener noreferrer\">出海时间与重确认 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/contact-us/\" target=\"_blank\" rel=\"noopener noreferrer\">出海码头 ↗</a><a class=\"btn\" href=\"https://www.bridgemuseum.com.au/plan-your-visit\" target=\"_blank\" rel=\"noopener noreferrer\">桥塔票价与入口 ↗</a><a class=\"btn\" href=\"https://www.jetstar.com/sg/en/flights/baggage/carry-on-baggage\" target=\"_blank\" rel=\"noopener noreferrer\">捷星手提行李 ↗</a><a class=\"btn\" href=\"https://www.taronga.org.au/about/newsroom/media-releases/construction-set-to-take-off-for-tarongas-beloved-sky-safari\" target=\"_blank\" rel=\"noopener noreferrer\">Taronga 缆车状态 ↗</a><a class=\"btn\" href=\"https://www.abf.gov.au/entering-and-leaving-australia/tourist-refund-scheme/information-for-retailers\" target=\"_blank\" rel=\"noopener noreferrer\">TRS 完整条件 ↗</a><a class=\"btn\" href=\"https://airportbuswhitsundays.com.au/\" target=\"_blank\" rel=\"noopener noreferrer\">机场小巴 ↗</a><a class=\"btn\" href=\"https://transport.vic.gov.au/tickets-and-payments/myki/myki-types/mobile-myki\" target=\"_blank\" rel=\"noopener noreferrer\">Mobile myki ↗</a></div></details>");
 
 
-/* 首页出发前确认卡：只取标记为紧急的待办，并在本设备保存确认状态 */
+/* 首页与预订清单共用事项 ID / 本设备确认状态，不把手动勾选当作商家确认。 */
 let PF = readChecks('au26_preflight_v2');
 const legacyChecks = Object.values(readChecks('au26_preflight')).some(Boolean) || Object.values(readChecks('au26_ck')).some(Boolean);
 function preflightKey(t){ return t.id || 'task:' + encodeURIComponent(t.t); }
+function bookingPreflightKey(b){ return b.preflightId || b.id; }
+function preflightTasks(){
+  const urgent=TODOS.filter(t=>t.u);
+  const seen=new Set(urgent.map(preflightKey));
+  const bookings=BOOKING_TASKS.filter(b=>b.group==='pending').map(b=>({
+    id:bookingPreflightKey(b),u:true,url:b.url,
+    t:b.date+' · '+b.name+' · '+b.time+' · '+(b.category==='餐厅'?'建议预订；如不去请确认替代安排':'提前购票 / 确认预订')
+  }));
+  return [...bookings.filter(t=>!seen.has(t.id)),...urgent];
+}
 function savePF(){ try{ localStorage.setItem('au26_preflight_v2', JSON.stringify(PF)); }catch(e){} }
 function renderPreflight(){
   const list = $('#preflightList'), count = $('#preflightCount');
   if(!list || !count) return;
-  const must = TODOS.filter(t => t.u);
+  const must = preflightTasks();
   const done = must.filter(t => !!PF[preflightKey(t)]).length;
   count.textContent = done + '/' + must.length + ' 已确认';
   count.classList.toggle('all-done', done === must.length);
   list.innerHTML = (legacyChecks && done < must.length ? '<p class="note">旧版待办/打卡按序号保存，无法可靠对应更新后的事项。旧数据已保留，请重新确认；新版按事项标识保存，不受排序影响。</p>' : '')
     + must.map(t => { const id = preflightKey(t); return '<div class="preflight-item' + (PF[id] ? ' done' : '') + '" data-preflight="' + esc(id) + '">'
     + '<button type="button" class="preflight-check" aria-label="' + (PF[id] ? '取消确认' : '标记已确认') + '">' + (PF[id] ? '✓' : '○') + '</button>'
-    + '<div class="preflight-text">' + esc(t.t) + '</div></div>'; }).join('');
+    + '<div class="preflight-text">' + esc(t.t) + (t.url?' <a class="btn" href="'+esc(t.url)+'" target="_blank" rel="noopener noreferrer">打开预订 / 购票页 ↗</a>':'') + '</div></div>'; }).join('');
 }
+renderBookingTodos();
 renderPreflight();
-$('#preflightList').addEventListener('click', e => {
-  const row = e.target.closest('[data-preflight]');
-  if(!row) return;
-  const i = row.dataset.preflight;
+function togglePreflight(i){
   PF[i] = !PF[i];
   savePF();
   renderPreflight();
+  renderBookingTodos();
+}
+$('#preflightList').addEventListener('click', e => {
+  const button=e.target.closest('.preflight-check');
+  if(button) togglePreflight(button.closest('[data-preflight]').dataset.preflight);
+});
+$('#bookingTodos').addEventListener('click', e => {
+  const button=e.target.closest('[data-preflight-toggle]');
+  if(button) togglePreflight(button.dataset.preflightToggle);
 });
 
 /* ============================================================
@@ -4868,10 +4884,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v48' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v49' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v48' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v49' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
