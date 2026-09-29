@@ -22,7 +22,7 @@
       <label class="label" for="password">票据库密码</label>
       <div class="passrow"><input id="password" type="password" autocomplete="current-password" placeholder="输入你设置的密码"><button id="unlock" class="primary" type="button">解锁票据</button></div>
       <div id="lockStatus" class="status" role="status">正在查找加密票据包…</div>
-      <div class="help">还没有加密包？先打开<a href="ticket-vault-builder.html">本机加密工具</a>，选择票据并输入密码，下载 <b>tickets.enc.json</b>，再在这里导入。密码不要发给任何人。</div>
+      <div class="help">票据库支持跨设备访问：网站目录中的 <b>tickets.enc.json</b> 会自动载入，任何手机、平板或电脑打开本页后输入同一个密码即可解锁。若页面提示没有加密包，请先打开<a href="ticket-vault-builder.html">本机加密工具</a>生成密文包，再将它发布到网站目录；密码不要发给任何人。</div>
       <label class="label" for="packageFile">导入加密票据包</label>
       <input id="packageFile" type="file" accept="application/json,.json">
     </div>
@@ -30,7 +30,7 @@
   <section id="vaultView" class="hidden">
     <div class="vault-head"><div><div class="eyebrow">UNLOCKED ON THIS DEVICE</div><h2>我的旅行票据</h2><p id="fileCount"></p></div><button id="lock" class="secondary" type="button">立即锁定</button></div>
     <div id="filters" class="filters"></div><div id="fileGroups"></div>
-    <p class="vault-note">文件已在本机解密；锁定、关闭标签页或刷新页面后，预览链接会失效。公开仓库只应存放加密包，不要上传原始票据。</p>
+    <p class="vault-note">文件已在本机解密；锁定、关闭标签页或刷新页面后，预览链接会失效。公开仓库只存放密文包，原始票据不会上传。</p>
   </section>
   <p class="locked-foot">AES-GCM 256 位加密 · PBKDF2-SHA-256 · 密码不会写入网址、源码或本地存储</p>
 </main>
