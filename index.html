@@ -4404,17 +4404,6 @@ const DAY_TRANSIT = {
   ]
 };
 
-function transportPlanHTML(d){
-  const legs = DAY_TRANSIT[d.n] || [];
-  if(!legs.length) return '';
-  return '<details class="transport-plan" open><summary>🚦 交通方式与预订清单</summary>'
-    + '<div class="transport-plan-note">按当天游玩顺序列出；“当天决定”不代表已叫车，“需确认 / 预订”请放入待办并以订单或运营商通知为准。</div>'
-    + '<div class="transport-legs">' + legs.map(l => '<div class="transport-leg">'
-      + '<span class="transport-place">' + esc(l.from) + '</span><span class="transport-arrow">→</span><span class="transport-place">' + esc(l.to) + '</span>'
-      + '<span class="transport-mode"><b>' + esc(l.mode) + '</b><small>' + esc(l.note) + '</small></span>'
-      + '<span class="transport-status ' + esc(l.kind) + '">' + esc(l.label) + '</span></div>').join('') + '</div></details>';
-}
-
 function dayHTML(d, i){
   const counted = dayCounted(d);
   const done = counted.filter(it => CK[itemKey(d,it)]).length;
