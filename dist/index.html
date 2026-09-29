@@ -414,6 +414,15 @@ body.pwa-guide-open{overflow:hidden}
 .it-title .placelink{cursor:pointer}
 .it-title .placelink:hover{color:var(--brand)}
 .it-desc{font-size:13px;color:var(--muted);margin-top:3px;white-space:pre-line}
+.toilet-note{margin:10px 0;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.toilet-note b{font-size:12.5px}
+.toilet-note p,.day-toilet-plan p{margin:5px 0}
+.toilet-note[data-toilet-status="unknown"]{border-style:dashed}
+.toilet-links{display:flex;flex-wrap:wrap;gap:3px 14px;margin-top:5px}
+.toilet-links a{display:inline-flex;align-items:center;min-height:32px;color:var(--brand);text-decoration:underline;text-underline-offset:3px;font-size:12px}
+.day-toilet-plan{margin:14px 0;padding:14px 16px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.day-toilet-plan h4{margin:0;font-size:14px}
+.day-toilet-plan small{display:block;margin-top:7px;color:var(--muted);font-size:11px}
 .item-place{font-size:12px;color:var(--brand);margin-top:6px}
 .item-place .placelink{cursor:pointer}
 .item-place .placelink:hover{text-decoration:underline}
@@ -1466,6 +1475,93 @@ function setPalette(name, persist){
   document.querySelectorAll('.day-badge').forEach((badge, i) => { badge.style.background = DC[i % DC.length]; });
   refreshThemeColor();
   if(paletteSwitchReady){ repaintMain(); renderDayMaps(); }
+}
+
+/* Toilets: verified facilities are separate from nearby options and unverified access. */
+const TOILET_CHECKED = '2026-09-29';
+const TOILET_SOURCES = {
+  railway:['小火车官方无障碍指南','https://puffingbillyrailway.org.au/visit-us/accessibility/'],
+  penguin:['企鹅归巢官方施工公告','https://www.penguins.org.au/penguin-parade-upgrades/'],
+  moonlit:['Moonlit 官方设施','https://moonlitsanctuary.com.au/visit/accessibility/'],
+  brighton:['Bayside 官方海滩管理资料','https://www.bayside.vic.gov.au/sites/default/files/2024-06/Dendy%20Beach%20VMP%20-%20FINAL%20-%20JUNE%202024.PDF'],
+  apostles:['Parks Victoria 游客指南','https://www.parks.vic.gov.au/-/media/project/pv/main/parks/documents/visitor-guides-and-publications/port-campbell-national-park/port-campbell-national-park-and-bay-of-islands-coastal-park-visitor-guide.pdf'],
+  rafting:['Ocean Rafting 官方厕所说明','https://oceanrafting.com.au/about-us/faqs/'],
+  whitehaven:['昆士兰国家公园设施','https://parks.qld.gov.au/parks/whitsunday-islands/attractions/whitehaven-beach-day-use-area'],
+  lagoon:['Whitsunday 市政海滨设施','https://www.whitsundayrc.qld.gov.au/downloads/file/229/airlie-beach-foreshore-land-management-plan'],
+  bondi:['Waverley 官方邦迪设施','https://www.waverley.nsw.gov.au/community/disability_inclusion/access_bondi'],
+  beaches:['Waverley 官方沿海设施','https://www.waverley.nsw.gov.au/recreation/beaches_and_coast/our_beaches'],
+  bronte:['Bronte 公园厕所与时间','https://www.waverley.nsw.gov.au/recreation/parks_and_reserves/bronte_park'],
+  clovelly:['Randwick 官方 Clovelly 设施','https://www.randwick.nsw.gov.au/facilities-and-recreation/beaches-and-coast/beachside-areas/clovelly-beachside-area'],
+  coogee:['Randwick 官方 Coogee 公园设施','https://www.randwick.nsw.gov.au/about-us/news/news-items/2022/november/the-best-bbq-spots'],
+  taronga:['塔龙加官方设施和地图','https://www.taronga.org.au/sydney-zoo/plan/visitor-information'],
+  opera:['歌剧院官方洗手间位置','https://www.sydneyoperahouse.com/visit/getting-here/map-of-the-sydney-opera-house'],
+  botanic:['植物园官方厕所设施位置','https://www.botanicgardens.org.au/facility/toilets-including-accessible-mrs-macquaries-road'],
+  fed:['联邦广场官方设施与地图','https://fedsquare.com/getting-here'],
+  qvb:['QVB 官方厕所楼层','https://www.qvb.com.au/centre-info/accessible-services'],
+  sydney:['悉尼市政府公厕目录','https://www.cityofsydney.nsw.gov.au/public-health-safety-programs/public-toilets']
+};
+const TOILET_INFO = {};
+function setToilets(keys,status,label,note,source,query){
+  keys.split(' ').forEach(key=>{TOILET_INFO[key]={status,label,note,source,query};});
+}
+setToilets('fedsquare','public','有公共厕所','广场及 Atrium 内有设施，按现场 Toilets 指示寻找；不保证全天开放。','fed','Federation Square public toilets Melbourne');
+setToilets('flinders hosier stpaul degraves','nearby','附近有公共厕所','此拍照点本身的厕所未逐一确认，可到联邦广场 / Atrium 使用公共设施；车站付费区与教堂内部不作保证。','fed','Federation Square public toilets Melbourne');
+setToilets('brighton','public','有公共厕所','Dendy Beach Pavilion 海滩配套设施；彩虹小屋本身不是厕所，上团车前先解决。','brighton','Dendy Beach Pavilion public toilets Brighton');
+setToilets('puffing','limited','车站有；火车上没有','Belgrave / Lakeside 车站及 Lakeside Visitor Centre 有厕所；务必在上车前使用，不要等到车上。','railway','Puffing Billy Belgrave Station toilets');
+setToilets('moonlit','ticketed','园区内有厕所','咖啡厅 / 礼品店建筑、游客中心附近有设施。按园区入场规则使用，不视为街边免费公厕。','moonlit','Moonlit Sanctuary visitor centre toilets');
+setToilets('penguin','limited','有厕所；栈道厕所在施工','先使用 Visitor Centre 或 Bus Carpark 厕所。栈道厕所施工预计至 2027 年 2 月，10/03 不依赖看台途中厕所；去地下观赏台前先上。','penguin','Penguin Parade Visitor Centre toilets');
+setToilets('meet601 gorpickup','unknown','集合点厕所未核实','这是街边上车点，不保证相邻酒店允许非住客借用；出发前在 Dorsett 房间先上厕所，提前问导游下一次休息站。');
+setToilets('twelveapostles','public','游客服务区有厕所','十二门徒 kiosk / 游客停车服务区有公共及无障碍厕所；先上再去观景步道，不把海边观景平台当厕所位置。','apostles','Twelve Apostles visitor centre toilets');
+setToilets('lochard','unknown','现场厕所未核实','不要把十二门徒游客区厕所误当作峡谷现场设施。优先在上一站解决，或请导游安排镇上休息；不自行离团找厕所。');
+setToilets('kennettriver','unknown','开放位置待核实','当地厕所与停车设施有调整项目，未确认你们停车点可用的具体设施；到站先问导游，不把营地厕所视为公众可用。');
+setToilets('apollobay apollocoop apollobakery','unknown','公共点位待核实','午餐镇是如厕休息机会：请导游指认当前开放的镇内公厕；餐厅 / 面包店能否借用须问店员，不保证购买外带即可使用。');
+setToilets('splitpoint gorarch','unknown','现场厕所未核实','灯塔与纪念拱门多为短停拍照，不保证停车点有公厕；在午餐镇或导游指定休息站提前使用。');
+setToilets('coralsea','public','码头有厕所','Ocean Rafting 官方确认 Coral Sea Marina 有厕所；报到时让工作人员指路，上船前使用。不要误入需门禁的泊位住客淋浴区。','rafting','Coral Sea Marina North public toilets');
+setToilets('whitehaven','public','南端日用区有厕所','南端 day-use area 有非冲水厕所，不是在整段沙滩上都有。南线到南端时向船员问清上岸位置；不要把这里的设施当作希尔湾附近厕所。','whitehaven','Whitehaven Beach southern end day use toilets');
+setToilets('hillinlet','public','游览区有厕所','Ocean Rafting 官方确认 Hill Inlet Lookout 游览区有厕所；上岸先请船员指认位置，不能保证每个观景平台旁都有。','rafting','Hill Inlet Lookout toilets');
+setToilets('mantaray','limited','海上停靠，船厕不保证','不能依赖岸上公厕。官方说明艾尔利船队 8 艘中 6 艘有厕所，行驶中不能用；你们当天船只配置须问船员，优先利用码头和上岸点。','rafting');
+setToilets('heartreef','limited','先在登机前如厕','这是 60 分钟空中观光，不是在心形礁落地游览。机上厕所配置未核实，不依赖飞行途中；酒店出发前先上，报到时询问机场洗手间。');
+setToilets('lagoon','public','海滨休闲区有厕所','泄湖 / 海滨公共配套区有厕所，按现场指示和开放情况使用；没有核实 24 小时开放。','lagoon','Airlie Beach Lagoon public toilets');
+setToilets('qvb','venue','商场内有厕所','官方列有 Lower Ground 近保安室及 Level 1 的无障碍 / ambulant 厕所，按导视寻找；只在可进入楼层的开放时段使用。','qvb','Queen Victoria Building toilets Sydney');
+setToilets('operahouse welcome','public','Lower Concourse 有厕所','歌剧院官方列明 Lower Concourse、Main Box Office 及 Western Foyers 洗手间；优先在 14:15 集合前用 Lower Concourse，不要迟到。室内区域受开放时间限制。','opera','Sydney Opera House Lower Concourse toilets');
+setToilets('botanic','public','园区有公共厕所','官方设施表列有 Mrs Macquaries Road 附近厕所；进园按地图找设施，不能假设沿海每段都有。','botanic','Mrs Macquaries Road public toilets Sydney');
+setToilets('macquaries','nearby','附近有厕所，座椅处不保证','官方列有 Mrs Macquaries Road 附近公共厕所；这是附近设施，不是座椅拍照点本身，按官方地图核对位置。','botanic','Mrs Macquaries Road public toilets Sydney');
+setToilets('observatory rocks','nearby','附近有公共厕所','悉尼市政府列出 Watson Road、Observatory Hill 附近厕所；在山下按地图找，不保证山顶草坪或每条岩石区小巷都有。','sydney','Watson Road public toilets Observatory Hill');
+setToilets('bondi','public','海滩有公共厕所','Bondi Pavilion 地面层及 North Bondi amenities 有厕所；你们拍 Icebergs 外观后，开始海岸步道前先用公共设施。Icebergs 内部不视为免费公厕。','bondi','Bondi Pavilion public toilets');
+setToilets('coogee','public','海滩及步道沿线分段有','终点 Goldstein Reserve / Coogee Beach 公共厕所；沿途可在 Tamarama、Bronte、Clovelly 休息，不是全程连续有厕所。打车去动物园前再上一次。','coogee','Goldstein Reserve public toilets Coogee');
+setToilets('taronga','ticketed','入园后有厕所','园内多处洗手间见官方 Zoo Map；入园后先上，再去海狮场地等候。离园前再用一次，不能保证下山码头或每班船都有可用厕所。','taronga','Taronga Zoo toilets');
+function toiletInfo(key){
+  if(TOILET_INFO[key]) return TOILET_INFO[key];
+  const p=POIS[key]||{};
+  if(p.kind==='hotel') return {status:'private',label:'住客设施；不是公共厕所',note:'入住期间可用房间卫生间；退房后或非住客能否用大堂设施请询问前台。当天长时间在外前先在房间解决。'};
+  if(p.kind==='food') return {status:'unknown',label:'店内借用待确认，非公共厕所',note:'未逐店核实顾客厕所及借用条件；到店问服务员，不保证外带顾客或非顾客可用。'};
+  if(p.kind==='airport') return {status:'venue',label:'航站楼卫生间，点位现场确认',note:'航站楼内按 Toilets / Restrooms 标识使用；具体楼层与安检内外位置未逐一核实。值机后、登机前各留一次时间。'};
+  if(p.kind==='shop') return {status:'unknown',label:'店内 / 商场厕所待核实',note:'店铺不等于公共厕所。先向商场服务台或店员询问楼层、是否需消费及营业时间。'};
+  return {status:'unknown',label:'公共厕所未核实',note:'未找到足够可靠的本点位开放资料；这不代表一定没有。不要作为唯一如厕点，可查官方厕所地图并到场确认。'};
+}
+function toiletSourceHTML(key){const s=TOILET_SOURCES[key];return s?'<a href="'+esc(s[1])+'" target="_blank" rel="noopener noreferrer">'+esc(s[0])+' ↗</a>':'';}
+function toiletHTML(key){
+  const p=POIS[key];if(!p)return '';
+  const t=toiletInfo(key),q=t.query||('public toilets near '+p.n+' '+p.loc);
+  const lookup=['heartreef','mantaray'].includes(key)?'':'<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(q)+'" target="_blank" rel="noopener noreferrer">地图查找厕所 ↗</a>';
+  return '<aside class="toilet-note" data-toilet-poi="'+esc(key)+'" data-toilet-status="'+t.status+'"><b>🚻 '+esc(t.label)+'</b><p>'+esc(t.note)+'</p><div class="toilet-links">'+toiletSourceHTML(t.source)+lookup+'</div></aside>';
+}
+const DAY_TOILET_PLANS = {
+  1:'虹桥值机后先上厕所；厦门国内转国际办理手续后、登机前再上。不要等登机排队时才离开队伍。',
+  2:'机场 / 酒店寄存时先确认可用卫生间；购物店铺不保证提供厕所。下午可把联邦广场作为已核实的公共厕所补给点。',
+  3:'酒店出发前 → Belgrave 上火车前 → Lakeside → Moonlit → 企鹅游客中心。小火车车上无厕所；企鹅栈道厕所施工预计至 2027 年 2 月，先在游客中心或巴士停车场上，再去地下观赏台。团车厕所未确认，每次长途上车前问导游下一次休息点。',
+  4:'酒店集合前先上；每次休息站都利用。十二门徒游客服务区已确认有厕所；峡谷、纪念拱门等短停点未核实，不要等到最后才找。午餐镇让导游指认开放公厕，团车厕所不作保证。',
+  5:'墨尔本值机后 → 布里斯班转机期间（不耽误登机）→ PPP 上小巴前 → 酒店。机场小巴厕所未确认，约 40 分钟车程前先解决；傍晚泄湖有公共设施。',
+  6:'酒店出发前 → Coral Sea Marina 上船前 → 希尔湾上岸 → 白天堂南端 → 返港。官方说艾尔利 8 艘船中 6 艘有厕所，行驶中不能用；当天问船员是哪艘船，别把“船队有”当作“本船有”。',
+  7:'酒店退房前 → 11:00 接载前向前台问可用设施 → 机场报到时 → 取箱后去 PPP。60 分钟观光飞行不依赖机上厕所；返程小巴前、JQ839 登机前再留如厕时间。',
+  8:'上午商场 / 美术馆先问设施 → 植物园官方厕所点 → 歌剧院 Lower Concourse（14:15 集合前）→ 岩石区 / 天文台附近 Watson Road。桥塔内部厕所未核实，登塔前先解决。',
+  9:'酒店出发前 → Bondi Pavilion → Tamarama → Bronte → Clovelly → Coogee Goldstein Reserve → 打车前 → 动物园入园及离园前。沿海每段都有间隔，先看地图，不等到悬崖步道中段才找。',
+  10:'酒店退房前 → 悉尼 T1 值机 / 安检后 → 厦门办理转机手续后。转机仅 115 分钟，优先办手续并确认登机口，再在附近如厕。'
+};
+function dayToiletHTML(d){
+  const refs={3:['railway','penguin','moonlit'],4:['apostles'],6:['rafting','whitehaven'],8:['qvb','opera','botanic'],9:['bondi','beaches','bronte','clovelly','coogee','taronga']};
+  const coastal=d.n===9?'<p><b>沿途位置：</b>Bondi Pavilion 地面层 → Tamarama Park 配套区 → Bronte Park 南 / 北端（官方列 06:30 至日落）→ Clovelly Beach 配套区 → Coogee 海滩后的 Goldstein Reserve。海狮活动开始前先上厕所，再入座等候。</p>':'';
+  return '<section class="day-toilet-plan" data-day-toilets="'+d.n+'"><h4>🚻 今天的如厕安排</h4><p>'+esc(DAY_TOILET_PLANS[d.n])+'</p>'+coastal+'<div class="toilet-links">'+(refs[d.n]||[]).map(toiletSourceHTML).join('')+'<a href="https://toiletmap.gov.au/" target="_blank" rel="noopener noreferrer">澳洲官方公共厕所地图 ↗</a></div><small>资料核对 '+TOILET_CHECKED+'；有设施不等于全天开放。纸巾、洗手液与临时关闭以现场为准；地图和官网需联网，未核实不代表一定没有。</small></section>';
 }
 
 const DAYS = [
@@ -4156,6 +4252,7 @@ function openPOI(key){
     + '<div class="sh-loc"><span>📍</span><span>' + esc(p.loc) + '</span><a href="' + navWeb(p) + '" data-nav-poi="' + key + '">导航</a></div>'
     + (p.web ? '<div class="sh-sec"><a class="xhs-open" href="' + esc(p.web) + '" target="_blank" rel="noopener noreferrer">查看官网 / 菜单 ↗</a></div>' : '')
     + (p.book || p.bookNote ? '<div class="booking-detail"><b>订位：</b>' + esc(p.bookNote || '建议提前预约') + (p.book ? '<a href="' + esc(p.book) + '" target="_blank" rel="noopener noreferrer">打开预订页 ↗</a>' : '') + '</div>' : '')
+    + toiletHTML(key)
     + dayListHTML(key)
     + '<div class="reason">「' + esc(p.r) + '」</div>'
     + '<div class="sh-sec"><h4>必看点</h4><ul>' + p.hl.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
@@ -4358,6 +4455,7 @@ function itemHTML(d, di, it, ii){
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
     + (it.zooRoute ? zooRouteHTML() : '')
     + placeLink
+    + (poi ? toiletHTML(it.p) : '')
     + (tags ? '<div class="tags">' + tags + '</div>' : '')
     + '</div>'
     + '<button class="ck' + (on ? ' on' : '') + '" data-ck="' + id + '">' + (on ? '✓ 已打卡' : '○ 打卡') + '</button>'
@@ -4487,6 +4585,7 @@ function dayHTML(d, i){
     + '<button class="btn" data-jump="' + i + '">🗺️ 在主地图放大这天</button>'
     + '</div>'
     + routeButtons(d,i)
+    + dayToiletHTML(d)
     + '<div class="tl">' + d.items.map((it, ii) => itemHTML(d, i, it, ii)).join('') + '</div>'
     + (hotelP
       ? '<div class="hotel-box"><div class="hb-t">🏨 ' + esc(hotelP.n) + (d.hotelOk ? ' <span class="badge ok">已确认</span>' : ' <span class="badge tbd">待确认</span>') + '</div>'
@@ -4884,10 +4983,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v49' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v50' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v49' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v50' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
