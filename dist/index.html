@@ -2769,9 +2769,9 @@ const DAYS = [
         "t": "13:10",
         "tz": "AEDT",
         "ttl": "★ 塔龙加动物园 · 约 3 小时",
-        "d": "13:10–16:15 精华游，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间是我们的计划，非官方导览时刻。门票按 AUD 55/人暂估，实际看官网；2 人门票仍待购买。",
+        "d": "2 人门票已预订，10/09 当天营业时间内可入园，无需按 13:10 固定时段入场。13:10–16:15 是我们的精华游计划，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间非官方导览时刻。实付金额待补；海狮活动场次仍以当天公告为准。",
         "zooRoute": true,
-        "tags": ["需提前订", "介绍"],
+        "tags": ["已预订", "介绍"],
         "p": "taronga"
       },
       {
@@ -3065,6 +3065,12 @@ function renderTripFlow(){
 }
 
 const TICKETS = [
+{t:'🐾 塔龙加动物园门票（10/09）',ok:true,rows:[
+  ['状态','2 人已预订（用户确认），无需重复购票'],
+  ['入园','10/09 当天营业时间内可入园；13:10 为行程计划时间，不是票面限定场次'],
+  ['游览计划','13:10–16:15 精华游；计划 13:40 到海狮场地，14:00 活动以当日公告为准，座位先到先得'],
+  ['金额','实付金额待补；预算暂保留原估价，未当作实付记账']
+]},
 {t:'✈️ 国际段往返 · 上海 ⇄ 墨尔本 / 悉尼',ok:true,rows:[
   ['订单号','****5070（已脱敏）'],
   ['航段 1','MF8510 · 10/01 18:10 上海虹桥 T1 → 20:00 厦门 T3（737-800，含晚餐）'],
@@ -3163,6 +3169,7 @@ const PHOTO_ORDER = (() => {
 const HOTEL_POI_KEYS = ['dorsett','harbourcove','grace'];
 
 const TODOS = [
+  {id:'taronga-ticket-ready',t:'塔龙加动物园 10/09 两人门票已预订：出发前保存两人的电子票 / 入园码，复核当天营业时间及海狮活动场次；无需重复购票',u:true},
   {
     "id": "dorsett-arrival-luggage",
     "t": "出发前向 Dorsett 确认 10/02 上午可寄存行李、晚餐后办理入住；若航班或入境延误，及时联系 Higher Ground 调整 12:15 午餐",
@@ -4283,7 +4290,7 @@ const BOOKING_TASKS = [
     group:b.confirmed ? 'confirmed' : b.date==='10/07' ? 'conditional' : 'pending',
     level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
   })),
-  {id:'taronga-ticket',date:'10/09',time:'D9 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人。约 3 小时精华游，14:00 海狮活动含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
+  {id:'taronga-ticket',date:'10/09',time:'D9 计划 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',confirmed:true,group:'confirmed',level:'已预订 ✓',note:'用户已确认 2 人门票预订，10/09 当天营业时间内可入园；13:10 是计划到园时间，不是限定入园时段。无需重复购票。约 3 小时精华游，海狮活动含在门票内，出发前复核场次，计划 13:40 到场等候。实付金额待补。'},
 {id:'ppp-shuttle-booking',preflightId:'ppp-return-bus',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
   {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
   {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
@@ -4522,9 +4529,9 @@ function transferStatus(d,it){
   if(it.p==='hbrbridge') return '可选，决定后购票';
   if(['asado','pavilion','glenmore'].includes(it.p)) return '建议提前订位';
   if(it.p==='thedeck') return d.n===7?'午餐按机场接驳倒排，来不及改外带':'建议提前订位';
-  if(it.p==='taronga' && /滴滴/.test(it.ttl)) return '当天 DiDi 叫车；动物园门票需提前购买';
+  if(it.p==='taronga' && /滴滴/.test(it.ttl)) return '当天 DiDi 叫车；2 人动物园门票已预订，当天营业时间内可入园';
   if(it.p==='taronga' && /海狮/.test(it.ttl)) return '含在入园门票内，无需另订；场次当日复核';
-  if(it.p==='taronga') return '动物园门票需提前购买';
+  if(it.p==='taronga') return '2 人门票已预订；当天营业时间内可入园，无需重复购票';
   if(/SkyBus/.test(it.ttl)) return '可线上或现场购票，无需预约具体班次';
   return '无需预订';
 }
@@ -4659,7 +4666,7 @@ const DAY_TRANSIT = {
     {from:'Bondi Beach',to:'Coogee Beach',mode:'Bondi–Coogee 海岸步道 · 约 3 小时',note:'全程约 6 公里，按海岸标识行走',kind:'same-day',label:'无需预订'},
     {from:'Coogee Beach',to:'Taronga Zoo Main Entrance',mode:'DiDi 国际版直达 · 约 35–45 分钟',note:'12:10 叫车，连同接驾预留至 13:10，价格以 App 为准',kind:'same-day',label:'当天叫车'},
     {from:'Taronga Zoo',to:'Circular Quay / 市区',mode:'F2 渡轮或 DiDi',note:'轮渡可刷卡；不想等船就从正门打车',kind:'same-day',label:'当天决定'},
-    {from:'Taronga Zoo',to:'14:00 海狮活动',mode:'园内步行',note:'13:40 到场；活动含在门票内，场次以当天公告为准',kind:'required',label:'门票需提前买'}
+    {from:'Taronga Zoo',to:'14:00 海狮活动',mode:'园内步行',note:'13:40 到场；活动含在门票内，场次以当天公告为准',kind:'confirmed',label:'2 人门票已预订'}
   ],
   10:[
     {from:'The Grace Hotel',to:'悉尼机场 T1',mode:'Airport Train 或 DiDi · 约 20–25 分钟',note:'国际航班建议提前 3 小时到',kind:'same-day',label:'无需预订'},
@@ -4928,7 +4935,7 @@ const BUDGET = {
   {n:'悉尼歌剧院 1 小时中文讲解团',v:'AUD 100 ≈ ¥475',d:'10/8 14:30 · 2 人 · 已全额付清 · 按汇率 4.75 折算并计入合计'}
  ],
  est:[
-  {n:'塔龙加动物园门票',v:'AUD 55 / 人',aud:110,d:'2 人预算 AUD 110 ≈ ¥522.50 · 估价，购票时核价'},
+  {n:'塔龙加动物园门票 · 2 人已预订',v:'实付待补（暂估 AUD 110）',aud:110,d:'已确认预订；实付金额尚未提供，暂保留原预算 AUD 110 ≈ ¥522.50，不计入已付合计；补录时替换估价，不重复累计'},
   {n:'BridgeMuseum 东南桥塔（可选）',v:'网上 AUD 39.95 / 人起',aud:79.90,optional:true,d:'2 人网上起价 AUD 79.90 ≈ ¥379.53 · 现场 AUD 49.95 / 人；2026/09/28 核价，实际按结算，不去则不计'},
   {n:'大洋路司导服务费',v:'AUD 5 / 人',aud:10,d:'2 人 AUD 10 ≈ ¥47.50 · 已计入基础预估；从已兑换现金支付，不重复计算换汇'},
   {n:'餐饮',v:'¥250–400 / 人 / 天',low:4500,high:7200,d:'9 天 × 2 人 ≈ ¥4,500–7,200'},
@@ -4968,7 +4975,7 @@ function budgetTotals(){
   h += sum('折算后已付合计（含歌剧院 ¥475；保险金额待补）', yuan(totals.paid), 'var(--brand)');
   h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 澳元结算（已折算）');
   BUDGET.paidAud.forEach(function(x){ h += row(x.n, x.v, x.d); });
-  h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('当地自付 · 预估，尚未发生');
+  h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('预估 / 待补实付金额（含已预订项目）');
   BUDGET.est.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += sum('基础预估：已付 + 餐饮 + 动物园 + 司导费', yuan(totals.low) + ' – ' + yuan(totals.high), 'var(--text)');
   h += sum('加上可选桥塔后的预估', yuan(totals.low + totals.optional) + ' – ' + yuan(totals.high + totals.optional), 'var(--text)');

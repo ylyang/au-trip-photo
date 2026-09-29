@@ -4,6 +4,15 @@ import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 
+test('D9 Taronga tickets are confirmed for two without a fixed entry slot', () => {
+  assert.match(html, /id:'taronga-ticket'[^\n]+confirmed:true,group:'confirmed'/);
+  assert.match(html, /10\/09 当天营业时间内可入园/);
+  assert.match(html, /13:10 是计划到园时间，不是限定入园时段/);
+  assert.match(html, /id:'taronga-ticket-ready'/);
+  assert.match(html, /实付待补（暂估 AUD 110）/);
+  assert.doesNotMatch(html, /2 人门票仍待购买|动物园门票需提前购买|尚未收到购票确认/);
+});
+
 test('D3 shows both confirmed adult vouchers and the actual pickup time', () => {
   assert.match(html, /两张独立成人凭证均已确认/);
   assert.match(html, /08:15 接载 · 601 Lonsdale Street/);
