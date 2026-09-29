@@ -1240,7 +1240,7 @@ const POIS = {
   taronga:{n:'塔龙加动物园 Taronga Zoo',loc:'Bradleys Head Rd, Mosman NSW 2088',lat:-33.8433,lng:151.2400,
     r:'建在山坡上的动物园，长颈鹿展区正对悉尼港天际线，是全澳最好看的动物园机位。',
     hl:['长颈鹿 + 歌剧院同框','码头步行或按现场指示乘巴士进园；缆车暂停运营','考拉区'],
-    tip:['Circular Quay 渡轮航程约 12 分钟，另留等船与入园时间','D9 改为 12:15–16:15 直达 Main Entrance；13:40 前往海狮活动场地等候 14:00 场','海狮活动包含在门票内；场次以出行当日官网和现场公告为准'],
+    tip:['Circular Quay 渡轮航程约 12 分钟，另留等船与入园时间','D9 13:10–16:15 精华游：滴滴直达 Main Entrance，13:40 到海狮场地等候 14:00 场；之后大猩猩 → 老虎/犀牛 → 非洲草原与长颈鹿港景','海狮活动包含在门票内；场次以出行当日官网和现场公告为准'],
     ph:['长颈鹿区俯拍悉尼港'],web:'https://www.taronga.org.au/sydney-zoo/whats-on',kind:'sight'},
   watsons:{n:'屈臣氏湾 Watsons Bay',loc:'Watsons Bay NSW 2030',lat:-33.8420,lng:151.2820,
     r:'悉尼港入口的悬崖海湾，看太平洋与港内同框，人少景好。',
@@ -2522,57 +2522,58 @@ const DAYS = [
     "hotel": "grace",
     "hotelNote": "同 The Grace Hotel 第 3 晚",
     "hotelOk": true,
-    "warn": "⚠️ 酒店出发已确定使用滴滴国际版打车去邦迪，约 06:45 出发，目标 07:15 到达；暂按 20–30 分钟车程估算，不固定预留 45 分钟，出门前按 App 接驾与到达预估调整。上午保留完整 6 公里海岸步道，动物园计划 12:15–16:15（约 4 小时，含海狮活动）。全日均为悉尼 AEDT。\n⚠️ 11:30 午餐后从 Coogee 直接使用滴滴国际版前往 Taronga Zoo Main Entrance，按实时路况预留约 35–45 分钟；不再绕行 Circular Quay，也不把轮渡作为 D9 中午进园的固定方案。13:40 到海狮场地等候 14:00 场。若实时预计晚于 13:30 抵达，优先先入园再按现场指示调整，不赶路冒险。\n⚠️ 海狮活动目前官网列为每日 11:00 / 14:00，包含在门票内；出发前复核当天公告。塔龙加缆车暂停运营，本次不安排。午餐选快速餐，不等 Coogee Pavilion 正餐开市。",
+    "warn": "⏰ 07:30 从酒店乘滴滴国际版出发，目标 08:00 到邦迪；车程暂估 20–30 分钟，出门前查看接驾与路况。08:30–11:30 完整海岸步道，11:30–12:10 午餐。全日均为悉尼 AEDT。\n🚕 12:10 从 Coogee 叫滴滴直达 Taronga Zoo Main Entrance，预留至 13:10，含接驾和路况余量。13:10–16:15 动物园精华游约 3 小时，包含等候和海狮活动；13:40 到场。若预计晚于 13:30 抵达，入园后直奔海狮场地，并缩减后续展区。\n🐾 园内顺序参考官方 Express Visit 与地图，按 14:00 海狮活动重排，并非官方下午固定导览。海狮含在门票内，座位先到先得，出发前复核场次。缆车不安排；走累了可跳过老虎/犀牛，保留海狮和长颈鹿港景。",
     "items": [
       {
-        "t": "06:45",
+        "t": "07:30",
         "tz": "AEDT",
         "ttl": "酒店出发 · 滴滴国际版直达邦迪海滩",
-        "d": "已确定交通方式为滴滴国际版打车（尚未下单或预约车辆）。早餐提前备好，带水、防晒和防风外套。约 06:45 出发，暂按 20–30 分钟车程估算，目标 07:15 抵达；出门前查看 App 的接驾和到达预估，不把预估当保证。目的地选 Bondi Beach 南端 / Icebergs 附近可合法停车处，先拍邦迪再步行到 Coogee。车费以 App 当时报价为准，按实际记账。",
+        "d": "早餐后约 07:30 使用滴滴国际版出发（当天叫车，尚未预约车辆），暂按 20–30 分钟车程，目标 08:00 抵达；提前查看 App 接驾和到达预估。目的地选 Bondi Beach 南端 / Icebergs 附近可合法停车处。带水、防晒和防风外套，先拍邦迪，再走完整海岸步道。车费以 App 当时报价为准。",
         "tags": [
           "导航"
         ],
         "p": "bondi"
       },
       {
-        "t": "07:15",
+        "t": "08:00",
         "tz": "AEDT",
         "ttl": "★ 邦迪海滩 + Icebergs 外观拍照",
-        "d": "先拍沙滩与 Icebergs 泳池外观，约 30 分钟，不安排入池游泳。晨间通常人较少，具体光线看当天云量；这不是日出观赏时段，也不保证所有机位顺光。07:45 从海滩南端接海岸步道。",
+        "d": "08:00–08:30 拍沙滩与 Icebergs 泳池外观，不安排入池游泳。晨间通常人较少，具体光线看当天云量；这不是日出观赏时段。08:30 从海滩南端接海岸步道。",
         "tags": ["介绍"],
         "p": "bondi"
       },
       {
-        "t": "07:45",
+        "t": "08:30",
         "tz": "AEDT",
         "ttl": "★ Bondi → Coogee 完整海岸步道",
-        "d": "沿 Bondi → Tamarama → Bronte → Clovelly → Gordons Bay → Coogee 行走，全程约 6 公里，含拍照留 3 小时，目标 10:45 到 Coogee。途中按海岸步道标识，不按地图内陆最短路线抄近路；遇封闭段按官方绕行提示。体力或天气不适时可缩短，不为赶海狮冒险。",
+        "d": "08:30–11:30 沿 Bondi → Tamarama → Bronte → Clovelly → Gordons Bay → Coogee 行走，全程约 6 公里，含拍照留 3 小时。沿海岸步道标识行走，遇封闭段按官方绕行提示。体力或天气不适时可缩短；若走得较慢，午餐选外带并根据实时路况调整，不为赶海狮冒险。",
         "tags": ["介绍", "注意"],
         "p": "coogee",
         "tr": "步行约 3 小时"
       },
       {
-        "t": "11:00",
+        "t": "11:30",
         "tz": "AEDT",
         "ttl": "午餐 · Coogee 海边快速餐 / 外带",
-        "d": "在海滩附近当时已营业的咖啡店选三明治、肉派或简餐，按约 30 分钟、两人 AUD 35–60 暂估。先问出餐时间，排队就改外带；不等待 Coogee Pavilion 的正餐开市。11:30 准时叫车，路上不要边走边赶着吃。",
+        "d": "11:30–12:10 用餐约 40 分钟，海边咖啡店选三明治、肉派或简餐，两人 AUD 35–60 暂估。先问出餐时间，排队就换店或外带；Coogee Pavilion 可作为当时已开门且无需久等的备选，不安排耗时正餐。12:10 叫车前往动物园。",
         "tags": ["介绍", "注意"],
         "p": "coogee"
       },
       {
-        "t": "11:30",
+        "t": "12:10",
         "tz": "AEDT",
         "ttl": "Coogee → Taronga Zoo · 滴滴国际版直达",
-        "d": "已确认中午从 Coogee Beach 使用滴滴国际版直达 Taronga Zoo Main Entrance，不再绕行 Circular Quay 或等待 F2 渡轮。11:30 左右出发，按实时路况预留约 35–45 分钟，目标 12:15 左右抵达；费用以当天 App 报价为准，建议上车前截图留存。若遇严重拥堵，先按 App 重新估算到达时间，超过 13:30 就先入园再调整活动顺序。",
+        "d": "12:10 从 Coogee Beach 叫滴滴国际版，直达 Taronga Zoo Main Entrance。车程暂估 35–45 分钟，连同接驾与路况余量预留至 13:10；费用和预计到达时间以当天 App 为准。若预计晚于 13:30 抵达，入园后按园区标识直接去海狮场地，后续展区做减法。",
         "tags": ["导航", "注意"],
         "p": "taronga",
-        "tr": "打车约 35–45 分钟，按实时路况"
+        "tr": "打车约 35–45 分钟，连同等车预留至 13:10"
       },
       {
-        "t": "12:15",
+        "t": "13:10",
         "tz": "AEDT",
         "ttl": "★ 塔龙加动物园 · 约 3 小时",
-        "d": "计划 12:15–16:15 游园，包含海狮活动。直达 Main Entrance 后先核对当天场次和园区地图，13:40 前到 Seals for the Wild 场地等候，再安排其他展区。门票按 AUD 55/人暂估，实际看官网购票价格；2 人门票已列待办，尚未确认购买。",
+        "d": "13:10–16:15 精华游，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间是我们的计划，非官方导览时刻。门票按 AUD 55/人暂估，实际看官网；2 人门票仍待购买。",
+        "zooRoute": true,
         "tags": ["需提前订", "介绍"],
         "p": "taronga"
       },
@@ -2580,7 +2581,7 @@ const DAYS = [
         "t": "14:00",
         "tz": "AEDT",
         "ttl": "★ Seals for the Wild 海狮活动（以当日公告为准）",
-        "d": "官网当前列有每日 14:00 场，包含在动物园门票内，无需另买活动票。场地为 Seal Amphitheatre（园区地图 9F）；13:40 前到场等候，座位先到先得，不视为已预留。结束后继续看长颈鹿港景、考拉等感兴趣的展区，16:15 开始离园；不要求 3 小时看完整个动物园。",
+        "d": "官网当前列有每日 14:00 场，包含在动物园门票内，无需另买活动票。Seal Amphitheatre（地图 9F）13:40 前到场，座位先到先得。活动结束后按上方园内路线看大猩猩 → 老虎/犀牛 → 非洲草原与长颈鹿港景；后续时间随实际散场顺延，16:15 离园。",
         "tags": ["介绍", "注意"],
         "p": "taronga"
       },
@@ -2588,7 +2589,7 @@ const DAYS = [
         "t": "16:15",
         "tz": "AEDT",
         "ttl": "离园 · F2 渡轮 / 滴滴返回市区",
-        "d": "16:15 开始离园。若想体验海港景色，可从 Lower Zoo Entrance 步行到码头后按实时 F2 班次返 Circular Quay；若更看重省时，则直接在 Main Entrance 叫滴滴回市区。回市区后可先回酒店歇脚，晚餐不再折返 Coogee。",
+        "d": "15:45 起按返程方式朝出口走，目标 16:15 离园。坐船：沿现场标识走 Lower Zoo Entrance → 码头，按实时 F2 班次回 Circular Quay，另留等船时间；打车：走回 Main Entrance，滴滴返回市中心。回市区后可先回酒店歇脚，18:30 在市中心晚餐。",
         "tags": ["导航"],
         "p": "circularquay",
         "tr": "渡轮约 12 分钟，另加等船"
@@ -2826,14 +2827,15 @@ const TRIP_FLOW = [
     "d": 9,
     "title": "邦迪到库吉 · 塔龙加海狮",
     "stops": [
-      "约 06:45 滴滴国际版 → 邦迪",
-      "07:15 邦迪 / Icebergs 拍照",
-      "07:45–10:45 完整海岸步道",
-      "11:00 Coogee 快速午餐",
-      "11:30 滴滴国际版 → 环形码头 → 渡轮",
-      "13:15 入园 / 13:40 海狮场地等候",
+      "07:30 滴滴国际版 → 邦迪",
+      "08:00 邦迪 / Icebergs 拍照",
+      "08:30–11:30 完整海岸步道",
+      "11:30–12:10 Coogee 午餐",
+      "12:10 滴滴直达 Taronga 正门",
+      "13:10 入园 / 13:40 海狮场地等候",
       "14:00 海狮（复核当日场次）",
-      "16:15 离园 → 环形码头",
+      "大猩猩 → 老虎/犀牛 → 长颈鹿港景",
+      "16:15 离园 · F2 / 滴滴回市区",
       "18:30 市中心晚餐 → 酒店"
     ]
   },
@@ -4030,7 +4032,7 @@ const RESTAURANT_BOOKINGS = [
   {date:'10/07',time:'13:10',name:'The Deck Airlie Beach',note:'2 人 · 待接驳确认后再决定堂食；以机场车时间倒排，来不及改外带',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
   {date:'10/08',time:'18:30',name:'The Glenmore',note:'2 人 · 预订时选 Rooftop / 屋顶偏好',level:'现在预订',url:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',phone:'+61 2 9247 4794'},
   {date:'10/04',time:'约 20:30',name:'Stalactites',note:'2 人晚餐不接受预约；返城后直接 walk-in',level:'无需预订'},
-  {date:'10/09',time:'11:00–11:30',name:'Coogee 海边快速午餐',note:'选当时已营业的咖啡店或外带，不等 Coogee Pavilion 正餐开市；11:30 转场去动物园',level:'无需预订'}
+  {date:'10/09',time:'11:30–12:10',name:'Coogee 海边快速午餐',note:'用餐约 40 分钟；选出餐快的咖啡店或外带，Pavilion 仅在无需久等时考虑；12:10 叫滴滴直达动物园',level:'无需预订'}
 ];
 
 /* Booking overview reuses restaurant, ticket and hotel status instead of duplicating it. */
@@ -4048,7 +4050,7 @@ const BOOKING_TASKS = [
     group:b.confirmed ? 'confirmed' : b.date==='10/07' ? 'conditional' : 'pending',
     level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
   })),
-  {id:'taronga-ticket',date:'10/09',time:'D9 12:15–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人，不要买成其他动物园。官网 Buy tickets 进入购票。14:00 海狮活动包含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
+  {id:'taronga-ticket',date:'10/09',time:'D9 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人。约 3 小时精华游，14:00 海狮活动含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
   {id:'ppp-shuttle-booking',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
   {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
   {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
@@ -4091,7 +4093,7 @@ const FOOD_GROUPS = [
   ]},
   {day:'D8–D9',date:'10/08–10/09',icon:'🍺',place:'悉尼港 · 库吉海岸',items:[
     {name:'澳洲酒馆餐 + 本地啤酒 / 姜汁啤酒',status:'D8 晚餐',must:'The Glenmore 点一份酒馆主菜或汉堡；饮品可问 NSW 精酿，或选无酒精 ginger beer。',why:'屋顶看海港的体验比追“全网第一名”餐厅更贴合这天路线，也是澳洲 pub culture 的轻松版本。',timing:'D8 18:30，天气好订屋顶位；风大或下雨就坐室内。',poi:'glenmore',query:'The Glenmore Sydney rooftop pub food local beer'},
-    {name:'Coogee 海边简餐 + Flat White / 鲜果汁',status:'D9 快速午餐',must:'选当时已营业的咖啡店，点三明治、肉派或当日简餐，配 Flat White 或鲜果汁；以实际菜单为准。',why:'走完海岸步道先补充体力，再转场去动物园。不把午餐绑在晚开市的正餐厅，优先保留 14:00 海狮活动。',timing:'D9 11:00–11:30，排队就改外带；不等 Coogee Pavilion 正餐开市。晚餐改在悉尼市中心 / 酒店附近。',poi:'coogee',query:'Coogee beach cafe takeaway lunch coffee'}
+    {name:'Coogee 海边简餐 + Flat White / 鲜果汁',status:'D9 快速午餐',must:'选当时已营业的咖啡店，点三明治、肉派或当日简餐，配 Flat White 或鲜果汁；以实际菜单为准。',why:'走完海岸步道先补充体力，再转场去动物园，保留 14:00 海狮活动。',timing:'D9 11:30–12:10，用餐约 40 分钟，排队就换店或外带；Pavilion 仅在无需久等时考虑。12:10 滴滴直达动物园，晚餐在市中心 / 酒店附近。',poi:'coogee',query:'Coogee beach cafe takeaway lunch coffee'}
   ]}
 ];
 
@@ -4283,11 +4285,29 @@ const TRANSFER_STATUS = {
   7:{3:'接驳待确认',4:'无需预订',5:'需确认 / 预订',7:'航班已出票',9:'无需预订'},
   8:{1:'无需预订',2:'无需预订',3:'无需预订',4:'无需预订',5:'无需预订',6:'无需预订',7:'门票已购',8:'可选，决定后购票',9:'建议提前订位',10:'建议提前订位'},
   9:{2:'无需预订',4:'当天 DiDi 叫车',6:'门票需提前购买',7:'无需预订',9:'无需预订'},
-  10:{1:'无需预订',4:'衔接待航司确认'}
+  10:{1:'无需预订',4:'值机时核对通程手续'}
 };
 function transferLabel(d,it,ii){
   const status = TRANSFER_STATUS[d.n] && TRANSFER_STATUS[d.n][ii];
   return it.tr + (status ? ' · ' + status : '');
+}
+
+function zooRouteHTML(){
+  const stops = [
+    ['13:10–13:40','正门入园 → 海狮场地','检票、洗手间、补水后沿园区主路去 Seal Amphitheatre（地图 9F），按现场标识行走；这段留给入园和步行，不插入完整展区。'],
+    ['13:40–14:00','到场等候','提前约 20 分钟等候，座位先到先得；以当天场次和工作人员指引为准。'],
+    ['14:00','Seals for the Wild','核心活动，包含在门票内。为衔接暂留至约 14:25，实际结束时间以现场为准。'],
+    ['约 14:25–14:45','大猩猩 Gorilla Precinct','海狮结束后看邻近的大猩猩展区（10G），不追赶 14:20 的讲解；这一段含步行。'],
+    ['约 14:45–15:10','Tiger Trek → Rhino Reserve','往老虎步道与犀牛区走（12F），挑感兴趣的动物停留；若老虎躲起来就继续。更喜欢小熊猫可用 Rainforest Trail 替换这一段。'],
+    ['约 15:10–15:45','African Savannah → 长颈鹿港景','非洲草原沿途选看狮子、狐獴等，把重点停留给长颈鹿与悉尼港合影（长颈鹿约 12I）；步行和拍照都含在时段内。'],
+    ['15:45–16:15','按返程方式前往出口','坐 F2：沿标识去 Lower Entrance，再步行到码头；滴滴：返回 Main Entrance。纪念品只顺路快看，16:15 为目标离园时间，不是渡轮开船时间。']
+  ];
+  return '<div class="note" style="margin-top:12px"><b>园内精华路线 · 海狮优先</b>'
+    + '<ol style="padding-left:22px;margin:10px 0">' + stops.map(s => '<li style="margin:0 0 12px;line-height:1.65"><b>' + esc(s[0]) + ' · ' + esc(s[1]) + '</b><br>' + esc(s[2]) + '</li>').join('') + '</ol>'
+    + '<p>取舍：D3 已安排考拉公园，今天主线不再绕看考拉。若特别想看考拉、袋鼠或鸭嘴兽，可用 Nura Diya Australia 替换老虎/犀牛与非洲草原段，按当天地图重新选路；不要叠加全部展区。走累或散场较晚就缩短中间展区，保留海狮、长颈鹿港景及离园时间。</p>'
+    + '<div class="minitools"><a class="btn" href="https://www.taronga.org.au/sydney-zoo/plan/get-the-most-out-of-your-visit/express-visit" target="_blank" rel="noopener noreferrer">官方精华路线 ↗</a>'
+    + '<a class="btn" href="https://www.taronga.org.au/siteassets/tzs/map/tz-map-online.pdf" target="_blank" rel="noopener noreferrer">官方园区地图 ↗</a>'
+    + '<a class="btn" href="https://www.taronga.org.au/sydney-zoo/whats-on/keeper-talks" target="_blank" rel="noopener noreferrer">当天活动时间 ↗</a></div></div>';
 }
 
 function itemHTML(d, di, it, ii){
@@ -4308,6 +4328,7 @@ function itemHTML(d, di, it, ii){
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
+    + (it.zooRoute ? zooRouteHTML() : '')
     + placeLink
     + (tags ? '<div class="tags">' + tags + '</div>' : '')
     + '</div>'
@@ -4391,9 +4412,9 @@ const DAY_TRANSIT = {
     {from:'BridgeMuseum / 歌剧院',to:'The Rocks / Glenmore',mode:'步行 · 约 12 分钟',note:'Glenmore 屋顶位建议预约',kind:'required',label:'餐厅建议预订'}
   ],
   9:[
-    {from:'The Grace Hotel',to:'Bondi Beach 南端 / Icebergs',mode:'DiDi 国际版 · 约 20–30 分钟',note:'约 06:45 出发，目标 07:15 到达',kind:'same-day',label:'当天叫车'},
+    {from:'The Grace Hotel',to:'Bondi Beach 南端 / Icebergs',mode:'DiDi 国际版 · 约 20–30 分钟',note:'07:30 出发，目标 08:00 到达',kind:'same-day',label:'当天叫车'},
     {from:'Bondi Beach',to:'Coogee Beach',mode:'Bondi–Coogee 海岸步道 · 约 3 小时',note:'全程约 6 公里，按海岸标识行走',kind:'same-day',label:'无需预订'},
-    {from:'Coogee Beach',to:'Taronga Zoo Main Entrance',mode:'DiDi 国际版直达 · 约 35–45 分钟',note:'11:30 左右叫车，价格以 App 为准',kind:'same-day',label:'当天叫车'},
+    {from:'Coogee Beach',to:'Taronga Zoo Main Entrance',mode:'DiDi 国际版直达 · 约 35–45 分钟',note:'12:10 叫车，连同接驾预留至 13:10，价格以 App 为准',kind:'same-day',label:'当天叫车'},
     {from:'Taronga Zoo',to:'Circular Quay / 市区',mode:'F2 渡轮或 DiDi',note:'轮渡可刷卡；不想等船就从正门打车',kind:'same-day',label:'当天决定'},
     {from:'Taronga Zoo',to:'14:00 海狮活动',mode:'园内步行',note:'13:40 到场；活动含在门票内，场次以当天公告为准',kind:'required',label:'门票需提前买'}
   ],
@@ -4819,10 +4840,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v41' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v47' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v41' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v47' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
