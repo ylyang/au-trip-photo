@@ -2769,7 +2769,7 @@ const DAYS = [
         "t": "13:10",
         "tz": "AEDT",
         "ttl": "★ 塔龙加动物园 · 约 3 小时",
-        "d": "2 人门票已预订，10/09 当天营业时间内可入园，无需按 13:10 固定时段入场。13:10–16:15 是我们的精华游计划，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间非官方导览时刻。实付金额待补；海狮活动场次仍以当天公告为准。",
+        "d": "2 人门票已预订，10/09 当天营业时间内可入园，无需按 13:10 固定时段入场。13:10–16:15 是我们的精华游计划，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间非官方导览时刻。两人合计实付 ¥375.44，已计入预算；海狮活动场次仍以当天公告为准。",
         "zooRoute": true,
         "tags": ["已预订", "介绍"],
         "p": "taronga"
@@ -3069,7 +3069,7 @@ const TICKETS = [
   ['状态','2 人已预订（用户确认），无需重复购票'],
   ['入园','10/09 当天营业时间内可入园；13:10 为行程计划时间，不是票面限定场次'],
   ['游览计划','13:10–16:15 精华游；计划 13:40 到海狮场地，14:00 活动以当日公告为准，座位先到先得'],
-  ['金额','实付金额待补；预算暂保留原估价，未当作实付记账']
+  ['金额','两人合计实付 ¥375.44（人民币），已计入已付合计并移除原估价']
 ]},
 {t:'✈️ 国际段往返 · 上海 ⇄ 墨尔本 / 悉尼',ok:true,rows:[
   ['订单号','****5070（已脱敏）'],
@@ -4290,7 +4290,7 @@ const BOOKING_TASKS = [
     group:b.confirmed ? 'confirmed' : b.date==='10/07' ? 'conditional' : 'pending',
     level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
   })),
-  {id:'taronga-ticket',date:'10/09',time:'D9 计划 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',confirmed:true,group:'confirmed',level:'已预订 ✓',note:'用户已确认 2 人门票预订，10/09 当天营业时间内可入园；13:10 是计划到园时间，不是限定入园时段。无需重复购票。约 3 小时精华游，海狮活动含在门票内，出发前复核场次，计划 13:40 到场等候。实付金额待补。'},
+  {id:'taronga-ticket',date:'10/09',time:'D9 计划 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',confirmed:true,group:'confirmed',level:'已预订 ✓',note:'用户已确认 2 人门票预订，10/09 当天营业时间内可入园；13:10 是计划到园时间，不是限定入园时段。无需重复购票。约 3 小时精华游，海狮活动含在门票内，出发前复核场次，计划 13:40 到场等候。两人合计实付 ¥375.44，已计入已付合计。'},
 {id:'ppp-shuttle-booking',preflightId:'ppp-return-bus',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
   {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
   {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
@@ -4922,6 +4922,7 @@ $('#bookingTodos').addEventListener('click', e => {
 const BUDGET = {
  rate:4.75,
  paid:[
+  {n:'塔龙加动物园门票',v:'¥375.44',d:'10/09 · 2 人合计实付 · 当天营业时间内可入园，已替换原预算估价'},
   {n:'国际机票 · 上海 ⇄ 澳洲往返',v:'¥15,387.00',d:'MF8510 + MF803 去程 / MF802 + MF8517 回程 · 2 人'},
   {n:'澳洲境内机票 · 2 段',v:'¥6,882.00',d:'VA321 + VA1117 墨尔本→布里斯班→PPP；JQ839 PPP→悉尼 · 2 人'},
   {n:'墨尔本酒店 · Dorsett Melbourne',v:'¥4,435.00',d:'3 晚（10/2–10/5）· AUD 930.74 · 不可退款'},
@@ -4935,7 +4936,6 @@ const BUDGET = {
   {n:'悉尼歌剧院 1 小时中文讲解团',v:'AUD 100 ≈ ¥475',d:'10/8 14:30 · 2 人 · 已全额付清 · 按汇率 4.75 折算并计入合计'}
  ],
  est:[
-  {n:'塔龙加动物园门票 · 2 人已预订',v:'实付待补（暂估 AUD 110）',aud:110,d:'已确认预订；实付金额尚未提供，暂保留原预算 AUD 110 ≈ ¥522.50，不计入已付合计；补录时替换估价，不重复累计'},
   {n:'BridgeMuseum 东南桥塔（可选）',v:'网上 AUD 39.95 / 人起',aud:79.90,optional:true,d:'2 人网上起价 AUD 79.90 ≈ ¥379.53 · 现场 AUD 49.95 / 人；2026/09/28 核价，实际按结算，不去则不计'},
   {n:'大洋路司导服务费',v:'AUD 5 / 人',aud:10,d:'2 人 AUD 10 ≈ ¥47.50 · 已计入基础预估；从已兑换现金支付，不重复计算换汇'},
   {n:'餐饮',v:'¥250–400 / 人 / 天',low:4500,high:7200,d:'9 天 × 2 人 ≈ ¥4,500–7,200'},
@@ -4970,18 +4970,18 @@ function budgetTotals(){
   const totals = budgetTotals();
   const yuan = n => '¥' + n.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
   var h = '';
-  h += '<details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 人民币 8 项');
+  h += '<details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 人民币 ' + BUDGET.paid.length + ' 项');
   BUDGET.paid.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += sum('折算后已付合计（含歌剧院 ¥475；保险金额待补）', yuan(totals.paid), 'var(--brand)');
   h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('已付 · 澳元结算（已折算）');
   BUDGET.paidAud.forEach(function(x){ h += row(x.n, x.v, x.d); });
   h += '</div></details><details class="card fold-card budget-fold" open style="padding:0;margin-bottom:10px">' + head('预估 / 待补实付金额（含已预订项目）');
   BUDGET.est.forEach(function(x){ h += row(x.n, x.v, x.d); });
-  h += sum('基础预估：已付 + 餐饮 + 动物园 + 司导费', yuan(totals.low) + ' – ' + yuan(totals.high), 'var(--text)');
+  h += sum('基础预估：已付（含动物园）+ 餐饮 + 司导费', yuan(totals.low) + ' – ' + yuan(totals.high), 'var(--text)');
   h += sum('加上可选桥塔后的预估', yuan(totals.low + totals.optional) + ' – ' + yuan(totals.high + totals.optional), 'var(--text)');
-  h += '<p class="note">以上均不是全包总价：当地交通、购物、保险实付和其他附加费待补。门票沿用当前预算估价，以实际购买金额为准。可选桥塔不去则减去 ' + yuan(totals.optional) + '。</p>';
+  h += '<p class="note">以上均不是全包总价：当地交通、购物、保险实付和其他附加费待补。动物园两人门票 ¥375.44 已按实付计入，不再重复估算；可选桥塔仍为估价，不去则无需计入 ' + yuan(totals.optional) + '。</p>';
   h += '<div style="font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:12px;white-space:pre-line">'
-    + esc('⚠️ ¥43,837.58 为 8 项人民币实付金额，加上歌剧院 AUD 100 × 4.75（¥475）的折算合计；实际账单可能因银行卡结算汇率或手续费略有差异。')
+    + esc('⚠️ ' + yuan(totals.paid) + ' 为 ' + BUDGET.paid.length + ' 项人民币实付金额，加上歌剧院 AUD 100 × 4.75（¥475）的折算合计；澳元折算部分可能因银行卡结算汇率或手续费略有差异。')
     + '\n' + esc('💵 已兑换 AUD 500 现金；这是资金准备，不重复计入旅行花费合计。')
     + '\n' + esc('🧾 悉尼酒店 ¥4,403.50 与大洋路一日游 ¥1,094.68（2 人）均已计入已付合计。')
     + '</div></div></details>';
