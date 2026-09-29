@@ -1014,11 +1014,11 @@ const POIS = {
     hl:['10/2 周五通常营业至 21:00','位于 Emporium Melbourne，靠近皇家拱廊','款式和常用尺码通常比 Outlet 更完整'],
     tip:['先在澳洲官网收藏目标款式、颜色和尺码','现场留意 We Made Too Much 折扣区','购买一两件不建议为 Outlet 额外支付长距离往返车费'],
     ph:['门店陈列','目标款式与尺码'],xq:'墨尔本 lululemon Emporium 购物 价格',kind:'shop'},
-  cwspencer:{n:'Chemist Warehouse · Spencer Outlet Centre',loc:'MM2, 201 Spencer St, Docklands VIC 3008',lat:-37.8158,lng:144.9530,
-    r:'位于南十字星车站和酒店附近，买完 Swisse 再进入市中心，路线最省时；查询时多款约五折或低于五折。',
+  cwspencer:{n:'Chemist Warehouse · Spencer Outlet Centre',loc:'MM2, 201 Spencer St, Docklands VIC 3008',lat:-37.8158,lng:144.9530,mapQuery:'Chemist Warehouse Spencer Outlet Centre, 201 Spencer Street, Docklands VIC 3008',
+    r:'D2 可选购物：有需要、时间充裕再去，不必专程购买 Swisse；跳过药房可从 Higher Ground 直接前往 Emporium。',
     hl:['10/2 周五通常营业至 20:00','Swisse Magnesium Glycinate 120 片：查询时 AUD 24.99','Swisse Iron 30 片：查询时 AUD 6.49','Swisse Calcium + Vitamin D 150 片：查询时 AUD 17.49'],
     tip:['价格为 2026-09-26 官网查询结果，出发当天以门店价与库存为准','先确认具体产品、剂量和数量，再比较每粒单价','保健品请按标签使用；有基础疾病或正在服药先咨询医生/药师'],
-    ph:['Swisse 货架','促销价签'],xq:'墨尔本 Chemist Warehouse Spencer Swisse 必买 价格',kind:'shop'},
+    ph:['Swisse 货架','促销价签'],xq:'墨尔本 Chemist Warehouse Spencer Swisse 价格',kind:'shop'},
   /* --- 普芬比利一日游 --- */
   meet601:{n:'集合点 · 601 Lonsdale Street',loc:'601 Lonsdale St, Melbourne VIC 3000（Men\'s Gallery 门前）',lat:-37.8105,lng:144.9590,
     r:'一日游大巴接载点，两张成人凭证均已确认；08:15 接载，建议提前 5–10 分钟到。',
@@ -1685,14 +1685,17 @@ const DAYS = [
       {
         "t": "13:30",
         "tz": "AEST",
-        "ttl": "★ Chemist Warehouse 买 Swisse",
-        "d": "Spencer Outlet Centre 门店，计划逛 30 分钟，14:00 左右离店。优先看促销与每粒单价；以门店价格和库存为准。",
+        "id": "★ Chemist Warehouse 买 Swisse",
+        "optional": true,
+        "skipDefault": true,
+        "ttl": "可选 · Chemist Warehouse 买 Swisse",
+        "d": "不一定要去，有需要且时间充裕再逛 Spencer Outlet Centre 门店。若去，参考 13:30–14:00，约 30 分钟；若不去，午餐后直接前往 Emporium，空出的时间可休息或购物。促销价格和库存以门店为准。",
         "tags": [
           "介绍",
           "注意"
         ],
         "p": "cwspencer",
-        "tr": "步行约 8–12 分钟"
+        "tr": "可选支线：从 Higher Ground 步行约 8–12 分钟；不去则跳过"
       },
       {
         "t": "14:15",
@@ -1703,7 +1706,7 @@ const DAYS = [
           "介绍"
         ],
         "p": "luluemporium",
-        "tr": "免费电车 / 步行约 15 分钟"
+        "tr": "默认：午餐后从 Higher Ground 直接步行 / 搭免费区电车前往，以实时导航为准；若去药房，则从药房出发"
       },
       {
         "t": "15:05",
@@ -2828,7 +2831,7 @@ const TRIP_FLOW = [
       "南十字星",
       "酒店寄存",
       "Higher Ground 午餐",
-      "Spencer 买 Swisse",
+      "可选：Swisse（不去则直达 Emporium）",
       "Emporium 买 lululemon",
       "拱廊街 / 可选 Essensorie",
       "咖啡巷",
@@ -3306,10 +3309,10 @@ function dayRouteSections(day){
   else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
   else {
     if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
-    const keys = day.items.filter(it=>it.p && !(day.n===8 && it.p==='fruitezy')).map(it=>it.p);
+    const keys = day.items.filter(it=>it.p && !it.skipDefault && !(day.n===8 && it.p==='fruitezy')).map(it=>it.p);
     if(day.hotel && day.n!==2) keys.unshift(day.hotel);
     if(day.hotel) keys.push(day.hotel);
-    if(day.n===2){add('机场 → 南十字星（按 SkyBus 安排）',keys.slice(0,2),'driving');add('市区游览',keys.slice(1));}
+    if(day.n===2){add('机场 → 南十字星（按 SkyBus 安排）',keys.slice(0,2),'driving');add('市区游览（默认跳过 Swisse 药房）',keys.slice(1));add('可选 · Swisse 药房定位（需要才去）',['cwspencer']);}
     else add('当天陆路参考',keys,[3,4].includes(day.n)?'driving':'walking');
   }
   return sections;
@@ -3395,6 +3398,7 @@ DAYS.forEach((day, di) => {
   const ymd = day.date.split('-').map(Number);
   let anchor = toUTC(ymd[0],ymd[1]-1,ymd[2],0,0,day.items[0].tz);
   day.items.forEach((it, ii) => {
+    if(it.skipDefault) return;
     if(it.t === '--:--'){
       EVENTS.push({u:anchor,di,ii,day,it,tentative:true}); return;
     }
@@ -4204,7 +4208,7 @@ function renderBookingTodos(){
 
 const FOOD_GROUPS = [
   {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
-    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已预订 12:15',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'2 人计划用餐 12:15–13:15（1 小时），13:30 买 Swisse、14:15 买 lululemon。原订位 12:15–13:45 不变；建议提前 10 分钟到店。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
+    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已预订 12:15',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'2 人计划用餐 12:15–13:15（1 小时），午餐后可直接去 Emporium；13:30 Swisse 药房为可选，14:15 参考安排 lululemon。原订位 12:15–13:45 不变；建议提前 10 分钟到店。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
     {name:'Queen Victoria Market · Borek + Market Lane Coffee',status:'时间宽裕再加',must:'两人共享一只 Borek，配一杯外带咖啡；不要各点一份。',why:'维州官方美食路线直接推荐市场入口的 Borek 与 Market Lane Coffee，是比通用网红甜品更有墨尔本日常感的组合。',timing:'D2 周五市场 06:00–15:00。只有酒店寄存很顺、11:00 前能到时才去；11:25 还没买到就放弃，以免影响 Higher Ground。',poi:'qvmarket',url:'https://www.visitmelbourne.com/regions/melbourne/see-and-do/itineraries/48-hour-itinerary-food',query:'Queen Victoria Market Borek Market Lane Coffee 必吃'}
   ]},
   {day:'D3',date:'10/03',icon:'🥧',place:'普芬比利 · 菲利普岛',items:[
@@ -4500,8 +4504,9 @@ const DAY_TRANSIT = {
   ],
   2:[
     {from:'Dorsett Melbourne',to:'Higher Ground',mode:'步行 · 约 5 分钟',note:'Higher Ground 订位已确认',kind:'confirmed',label:'餐厅已预订'},
-    {from:'Higher Ground',to:'Chemist Warehouse',mode:'步行 · 约 8–12 分钟',note:'Spencer Outlet Centre 内',kind:'same-day',label:'无需预订'},
-    {from:'Chemist Warehouse',to:'lululemon Emporium',mode:'免费电车 / 步行 · 约 15 分钟',note:'现场刷卡或使用交通卡',kind:'same-day',label:'无需预订'},
+    {from:'Higher Ground',to:'lululemon Emporium',mode:'步行 / 免费区电车 · 按实时导航',note:'默认跳过 Swisse 药房，午餐后直接前往',kind:'same-day',label:'无需预订'},
+    {from:'Higher Ground',to:'Chemist Warehouse（可选）',mode:'步行 · 约 8–12 分钟',note:'有需要才去 Spencer Outlet Centre，不去可跳过',kind:'same-day',label:'可选，无需预订'},
+    {from:'Chemist Warehouse（可选）',to:'lululemon Emporium',mode:'免费区电车 / 步行 · 按实时导航',note:'仅去药房时使用此衔接',kind:'same-day',label:'无需预订'},
     {from:'Emporium',to:'皇家拱廊 / 布洛克拱廊',mode:'步行 · 约 6–10 分钟',note:'购物超时可跳过',kind:'same-day',label:'无需预订'},
     {from:'拱廊',to:'迪格雷夫斯街 / 弗林德斯街车站',mode:'步行 · 约 6 分钟',note:'沿 CBD 步行',kind:'same-day',label:'无需预订'},
     {from:'联邦广场',to:'Asado Southbank',mode:'步行过河 · 约 8 分钟',note:'晚餐建议提前订位',kind:'required',label:'建议预订'},
@@ -4999,10 +5004,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v51' && info.photos === 16
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v52' && info.photos === 16
       ? '离线已就绪：网页与全部 16 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v51' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v52' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
