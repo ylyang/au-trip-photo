@@ -4272,6 +4272,24 @@ function saveCK(){ try{ localStorage.setItem('au26_ck_v2', JSON.stringify(CK)); 
 function itemKey(d,it){ return d.date + ':' + encodeURIComponent(it.id || it.ttl); }
 function dayCounted(d){ return d.items.filter(it => !it.optional); }
 
+/* 交通与预订状态直接写进每个地点之间的衔接条，不另起栏目。索引对应当天时间轴项目。 */
+const TRANSFER_STATUS = {
+  1:{1:'机场现场购票 / 刷卡，无需预订',2:'按联程指引中转',3:'航班已出票'},
+  2:{1:'无需预订',2:'无需预订',3:'餐厅已预订',4:'无需预订',5:'无需预订',6:'无需预订',7:'无需预订',8:'无需预订',9:'无需预订',10:'建议提前订位',11:'无需预订'},
+  3:{1:'跟团已确认',2:'跟团已确认',3:'按导游安排',4:'跟团已确认',5:'跟团已确认',6:'按导游安排',8:'跟团已确认'},
+  4:{1:'跟团已确认',2:'按导游安排',3:'按导游安排',4:'按导游安排',5:'按导游安排',6:'按导游安排',7:'按导游安排',8:'跟团已确认'},
+  5:{0:'无需预订',2:'航班已出票',4:'航班已出票',6:'需确认 / 预订',7:'无需预订',8:'无需预订',9:'建议提前订位'},
+  6:{8:'无需预订'},
+  7:{3:'接驳待确认',4:'无需预订',5:'需确认 / 预订',7:'航班已出票',9:'无需预订'},
+  8:{1:'无需预订',2:'无需预订',3:'无需预订',4:'无需预订',5:'无需预订',6:'无需预订',7:'门票已购',8:'可选，决定后购票',9:'建议提前订位',10:'建议提前订位'},
+  9:{2:'无需预订',4:'当天 DiDi 叫车',6:'门票需提前购买',7:'无需预订',9:'无需预订'},
+  10:{1:'无需预订',4:'衔接待航司确认'}
+};
+function transferLabel(d,it,ii){
+  const status = TRANSFER_STATUS[d.n] && TRANSFER_STATUS[d.n][ii];
+  return it.tr + (status ? ' · ' + status : '');
+}
+
 function itemHTML(d, di, it, ii){
   const id = itemKey(d,it);
   const on = !!CK[id];
@@ -4282,7 +4300,7 @@ function itemHTML(d, di, it, ii){
     : '<div class="t">' + esc(it.t) + '</div><div class="z">' + esc(it.tz) + '</div>';
   const summaryTime = it.t === '--:--' ? '待定' : esc(it.t);
   const placeLink = poi ? '<div class="item-place"><span class="placelink" data-poi="' + it.p + '">📍 查看地点详情</span></div>' : '';
-  return (it.tr ? '<div class="transfer">🚶 ' + esc(it.tr) + '</div>' : '')
+  return (it.tr ? '<div class="transfer">🚶 ' + esc(transferLabel(d,it,ii)) + '</div>' : '')
     + '<div class="item' + (on ? ' done' : '') + '" data-id="' + id + '">'
     + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="true">'
     + '<span class="item-summary-time">' + summaryTime + '</span><span class="item-summary-title">' + esc(it.ttl) + '</span><span class="item-caret">▶</span></button>'
@@ -4426,7 +4444,6 @@ function dayHTML(d, i){
     + dayTimeHTML(i, d)
     + dayCollage(i)
     + (d.warn ? '<div class="warnbox"><b>风险提示</b><div style="margin-top:5px">' + esc(d.warn) + '</div></div>' : '')
-    + transportPlanHTML(d)
     + mapPart
     + '<div class="minitools">'
     + '<button class="btn" data-jump="' + i + '">🗺️ 在主地图放大这天</button>'
