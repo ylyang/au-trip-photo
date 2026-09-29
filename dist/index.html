@@ -829,8 +829,9 @@ html[data-theme="dark"][data-palette="lemon"]{
 
   <!-- ===== 6. 待办 ===== -->
   <div id="sectTodo" class="page-section">
+  <div id="bookingTodos" aria-label="全部预订待办"></div>
   <div class="card">
-    <div class="card-title">✅ 出发前待办清单</div>
+    <div class="card-title">✅ 出发前确认与准备</div>
     <div class="sub">办完一项告诉我，我来改页面（不做勾选框，避免各人浏览器显示不一致）。</div>
     <ul class="todo" id="todoList"></ul>
   </div>
@@ -1102,7 +1103,7 @@ const POIS = {
     r:'就在泄湖与海滨步道旁，出海后的傍晚不用再走远；也适合观光飞机后快速吃午餐。',
     hl:['现代澳洲菜与地中海风味','披萨、海鲜和轻食','露台可看海滨与溪流'],
     tip:['官网当前显示周日至周四 06:30–20:00，厨房可能提早收单','两人午餐约 AUD 50–80、晚餐约 AUD 65–100，以当日菜单为准','D6 建议 18:30 前到；D7 午餐最晚 14:00 结账，以免耽误取行李'],
-    ph:['海滨露台','艾尔利主街晚餐'],xq:'艾尔利海滩 The Deck 餐厅 推荐',web:'https://thedeckairliebeach.com.au/menu/',book:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',bookNote:'D6 晚餐建议预约；D7 午餐可同时预订以保证航班衔接',kind:'food'},
+    ph:['海滨露台','艾尔利主街晚餐'],xq:'艾尔利海滩 The Deck 餐厅 推荐',web:'https://thedeckairliebeach.com.au/menu/',book:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',bookNote:'D6 晚餐建议预约；D7 午餐先确认接驳与取箱时间，再决定是否预订，来不及改外带',kind:'food'},
   coralsea:{n:'Coral Sea Marina North · Ocean Rafting',loc:'North Village, Shingley Drive, Airlie Beach QLD 4802（Sorrento 旁）',lat:-20.263897,lng:148.713415,mapQuery:'Ocean Rafting, Coral Sea Marina North, Shingley Drive, Airlie Beach QLD 4802',
     r:'直升机观光与部分快艇团的出发地，设施新。',
     hl:['直升机起降坪','新码头区'],
@@ -1212,10 +1213,10 @@ const POIS = {
     hl:['Bondi Icebergs 海边泳池','Bondi 沙滩','海岸步道'],
     tip:['Icebergs 泳池入池费约 AUD 10，出片率极高','只在红旗之间游泳'],
     ph:['Icebergs 泳池','海岸步道悬崖'],kind:'sight'},
-  coogee:{n:'Bondi → Coogee 海岸步道',loc:'Bondi to Coogee Coastal Walk, Sydney NSW',lat:-33.9000,lng:151.2700,
+  coogee:{n:'Bondi → Coogee 海岸步道终点',loc:'Coogee Beach, Beach Street, Coogee NSW 2034',mapQuery:'Coogee Beach, Coogee NSW 2034, Australia',lat:-33.9205,lng:151.2588,
     r:'免费！6 公里悬崖海景步道，悉尼最值得走的一条线。',
     hl:['沿途悬崖与海湾','Bronte Beach 中途休息','Waverley 公墓的悬崖机位'],
-    tip:['全程约 2 小时，穿运动鞋','带水，中途有补水点','从 Bondi 往 Coogee 走，顺光'],
+    tip:['全程约 6 公里，含拍照预留 3 小时，穿运动鞋','带水、防晒与轻便早餐，沿海岸步道标识行走','D9 上午走全程；遇封路或恶劣天气按现场指示调整，不为赶活动冒险'],
     ph:['Waverley 公墓悬崖','Bronte 海滩'],kind:'sight'},
   coogeepav:{n:'Coogee Pavilion · Ground Floor',loc:'169 Dolphin St, Coogee NSW 2034',lat:-33.9186735,lng:151.2582571,
     r:'正好位于 Bondi → Coogee 步道终点，楼下可直接 walk-in，适合走完 6 公里后按体力随意点餐。',
@@ -1230,8 +1231,8 @@ const POIS = {
   taronga:{n:'塔龙加动物园 Taronga Zoo',loc:'Bradleys Head Rd, Mosman NSW 2088',lat:-33.8433,lng:151.2400,
     r:'建在山坡上的动物园，长颈鹿展区正对悉尼港天际线，是全澳最好看的动物园机位。',
     hl:['长颈鹿 + 歌剧院同框','码头步行或按现场指示乘巴士进园；缆车暂停运营','考拉区'],
-    tip:['从环形码头坐渡轮直达，20 分钟','上午动物活跃','门票提前网上订便宜'],
-    ph:['长颈鹿区俯拍悉尼港'],kind:'sight'},
+    tip:['Circular Quay 渡轮航程约 12 分钟，另留等船与入园时间','D9 计划 13:15–16:15；13:40 前往海狮活动场地等候 14:00 场','海狮活动包含在门票内；场次以出行当日官网和现场公告为准'],
+    ph:['长颈鹿区俯拍悉尼港'],web:'https://www.taronga.org.au/sydney-zoo/whats-on',kind:'sight'},
   watsons:{n:'屈臣氏湾 Watsons Bay',loc:'Watsons Bay NSW 2030',lat:-33.8420,lng:151.2820,
     r:'悉尼港入口的悬崖海湾，看太平洋与港内同框，人少景好。',
     hl:['Gap 悬崖','Hornby 灯塔','Doyles 海景餐厅'],
@@ -2506,113 +2507,92 @@ const DAYS = [
     "n": 9,
     "date": "2026-10-09",
     "wd": "周五",
-    "city": "悉尼 · 塔龙加 / 邦迪 → 库吉",
+    "city": "悉尼 · 邦迪 → 库吉 / 塔龙加",
     "tz": "Australia/Sydney",
-    "title": "塔龙加动物园 + 邦迪→库吉海岸步道",
+    "title": "邦迪晨间拍照 + 海岸步道 + 塔龙加海狮",
     "hotel": "grace",
     "hotelNote": "同 The Grace Hotel 第 3 晚",
     "hotelOk": true,
-    "warn": "⚠️ 13:30 离园，按实时渡轮/公交前往邦迪，目标 15:30 开始步道。全程约 2.5–3 小时，争取 18:30 前结束。\n⚠️ 若 16:00 仍未出发、疲劳或天气不佳，改走 Bondi–Bronte 短段，再搭车去 Coogee；不为走完全程摸黑赶路。晚餐为约 19:00 弹性安排。\n⚠️ 塔龙加缆车暂停运营，官方预计 2027 年底重开，本次不安排。",
+    "warn": "⚠️ 今天早出门：06:30 离开酒店，上午保留完整 6 公里海岸步道，动物园计划 13:15–16:15（约 3 小时，含海狮活动）。全日均为悉尼 AEDT。\n⚠️ 11:30 从 Coogee 转场，优先打车到 Circular Quay＋F2 渡轮，预留约 1 小时 45 分钟（含等船、入园，属计划缓冲，不是班次承诺）。13:40 到海狮场地等候 14:00 场。若实时预计赶不上，比较直达动物园正门的打车方案；仍赶不上就正常游园，不赶路冒险。\n⚠️ 海狮活动目前官网列为每日 11:00 / 14:00，包含在门票内；出发前复核当天公告。塔龙加缆车暂停运营，本次不安排。午餐选快速餐，不等 Coogee Pavilion 正餐开市。",
     "items": [
       {
-        "t": "08:30",
+        "t": "06:30",
         "tz": "AEDT",
-        "ttl": "酒店出发 · 步行到环形码头",
-        "d": "从酒店走到 Circular Quay 约 15 分钟，也可以坐一站火车。",
+        "ttl": "酒店出发 · 打车去邦迪海滩",
+        "d": "早餐提前备好，带水、防晒和防风外套。优先打车，按约 45 分钟到达缓冲安排，实际看实时路况；若改公共交通，需要更早出发。当天增加的打车费用从交通预算中支出，按实际记账。",
         "tags": [
           "导航"
-        ],
-        "p": "circularquay"
-      },
-      {
-        "t": "09:00",
-        "tz": "AEDT",
-        "ttl": "渡轮 Circular Quay → Taronga Zoo",
-        "d": "在 Circular Quay 按当日屏幕找 Taronga Zoo 渡轮，航程约 12 分钟，不把固定泊位当保证。到码头后按现场指示步行或乘可用巴士进园，额外留进园缓冲；没有缆车。",
-        "tags": [
-          "导航"
-        ],
-        "p": "taronga",
-        "tr": "渡轮约 12 分钟"
-      },
-      {
-        "t": "09:30",
-        "tz": "AEDT",
-        "ttl": "★ 塔龙加动物园（约 AUD 55/人）",
-        "d": "长颈鹿展区可看悉尼港天际线。Sky Safari 已停运，本次不能乘缆车；到园后按现场指示进园。门票按 AUD 55/人暂估，实际以购票日期价格为准。建议线上预购。",
-        "tags": [
-          "需提前订",
-          "介绍"
-        ],
-        "p": "taronga"
-      },
-      {
-        "t": "12:15",
-        "tz": "AEDT",
-        "ttl": "午餐 · Taronga Food Market（快速吃）",
-        "d": "园区中央的 Food Market 10:00–16:00 营业，有 grab-and-go 与热食。两人约 AUD 35–60；12:45 前吃完继续逛，最迟 13:30 离园。想坐下看港景可选 Saltwater Bistro，但周五 walk-in 等位可能压缩行程。",
-        "tags": [
-          "介绍",
-          "注意"
-        ],
-        "p": "taronga"
-      },
-      {
-        "t": "13:30",
-        "tz": "AEDT",
-        "ttl": "离园 · 渡轮回环形码头",
-        "d": "13:30 开始离园，预留走到码头和等船的时间；若渡轮延误，缩短邦迪拍照并采用短段海岸步道。",
-        "tags": [
-          "注意"
-        ],
-        "p": "circularquay",
-        "tr": "渡轮约 12 分钟"
-      },
-      {
-        "t": "14:15",
-        "tz": "AEDT",
-        "ttl": "转车前往邦迪海滩",
-        "d": "环形码头坐火车到 Bondi Junction 再转公交，全程约 45 分钟。",
-        "tags": [
-          "导航"
-        ],
-        "p": "bondi",
-        "tr": "约 45 分钟"
-      },
-      {
-        "t": "15:00",
-        "tz": "AEDT",
-        "ttl": "★ 邦迪海滩 + Bondi Icebergs 海边泳池",
-        "d": "澳洲最有名的海滩，Icebergs 是建在海边岩崖上的海水泳池，出片率极高。",
-        "tags": [
-          "介绍"
         ],
         "p": "bondi"
       },
       {
-        "t": "15:30",
+        "t": "07:15",
         "tz": "AEDT",
-        "ttl": "★ Bondi → Coogee 海岸步道",
-        "d": "全程约 6 公里，含拍照预留 2.5–3 小时，争取 18:00–18:30 抵达 Coogee。16:00 仍未开始或体力不足时，只走 Bondi–Bronte，再搭车去 Coogee。不承诺固定日落分钟数，按天气和现场光线提前退出，不走黑路。",
-        "tags": [
-          "介绍",
-          "注意"
-        ],
+        "ttl": "★ 邦迪海滩 + Icebergs 外观拍照",
+        "d": "先拍沙滩与 Icebergs 泳池外观，约 30 分钟，不安排入池游泳。晨间通常人较少，具体光线看当天云量；这不是日出观赏时段，也不保证所有机位顺光。07:45 从海滩南端接海岸步道。",
+        "tags": ["介绍"],
+        "p": "bondi"
+      },
+      {
+        "t": "07:45",
+        "tz": "AEDT",
+        "ttl": "★ Bondi → Coogee 完整海岸步道",
+        "d": "沿 Bondi → Tamarama → Bronte → Clovelly → Gordons Bay → Coogee 行走，全程约 6 公里，含拍照留 3 小时，目标 10:45 到 Coogee。途中按海岸步道标识，不按地图内陆最短路线抄近路；遇封闭段按官方绕行提示。体力或天气不适时可缩短，不为赶海狮冒险。",
+        "tags": ["介绍", "注意"],
         "p": "coogee",
         "tr": "步行约 3 小时"
       },
       {
-        "t": "19:00",
+        "t": "11:00",
         "tz": "AEDT",
-        "ttl": "晚餐 · Coogee Pavilion Ground Floor",
-        "d": "就在步道终点，楼下可 walk-in。两人可点木火披萨、汉堡或海鲜共享，约 AUD 65–110（不含酒水）；若步道延误，优先楼下快速餐，不等楼上座位。",
-        "tags": [
-          "介绍"
-        ],
-        "p": "coogeepav"
+        "ttl": "午餐 · Coogee 海边快速餐 / 外带",
+        "d": "在海滩附近当时已营业的咖啡店选三明治、肉派或简餐，按约 30 分钟、两人 AUD 35–60 暂估。先问出餐时间，排队就改外带；不等待 Coogee Pavilion 的正餐开市。11:30 开始转场，路上不要边走边赶着吃。",
+        "tags": ["介绍", "注意"],
+        "p": "coogee"
       },
       {
-        "t": "20:30",
+        "t": "11:30",
+        "tz": "AEDT",
+        "ttl": "Coogee → 环形码头 → 塔龙加",
+        "d": "优先打车到 Circular Quay，再按当天屏幕搭 F2 Taronga Zoo 渡轮（航程约 12 分钟）。整段留约 1 小时 45 分钟，包含叫车、交通、等船及从码头入园；不是固定发船时间。出发时查看实时预计到达，若转船会耽误，可比较打车直达动物园正门的方案。没有缆车接驳。",
+        "tags": ["导航", "注意"],
+        "p": "circularquay",
+        "tr": "转场预留约 1 小时 45 分钟"
+      },
+      {
+        "t": "13:15",
+        "tz": "AEDT",
+        "ttl": "★ 塔龙加动物园 · 约 3 小时",
+        "d": "计划 13:15–16:15 游园，包含海狮活动。入园先查当天场次和园区地图，13:40 前到 Seals for the Wild 场地等候，再安排其他展区。门票按 AUD 55/人暂估，实际看官网购票价格；2 人门票已列待办，尚未确认购买。",
+        "tags": ["需提前订", "介绍"],
+        "p": "taronga"
+      },
+      {
+        "t": "14:00",
+        "tz": "AEDT",
+        "ttl": "★ Seals for the Wild 海狮活动（以当日公告为准）",
+        "d": "官网当前列有每日 14:00 场，包含在动物园门票内，无需另买活动票。场地为 Seal Amphitheatre（园区地图 9F）；13:40 前到场等候，座位先到先得，不视为已预留。结束后继续看长颈鹿港景、考拉等感兴趣的展区，16:15 开始离园；不要求 3 小时看完整个动物园。",
+        "tags": ["介绍", "注意"],
+        "p": "taronga"
+      },
+      {
+        "t": "16:15",
+        "tz": "AEDT",
+        "ttl": "离园 · 渡轮回环形码头",
+        "d": "16:15 开始离园，另留到码头与等船时间，按实时 F2 班次返 Circular Quay。回市区后可先回酒店歇脚，晚餐不再折返 Coogee。",
+        "tags": ["导航"],
+        "p": "circularquay",
+        "tr": "渡轮约 12 分钟，另加等船"
+      },
+      {
+        "t": "18:30",
+        "tz": "AEDT",
+        "ttl": "晚餐 · 悉尼市中心 / 酒店附近",
+        "d": "按体力在 The Grace 附近选已营业、无需久等的餐厅，烤鱼、汉堡或简餐均可；两人约 AUD 60–100 暂估。具体餐厅未锁定、未订位，不再把 Coogee Pavilion 写成当天晚餐。",
+        "tags": ["介绍"]
+      },
+      {
+        "t": "20:00",
         "tz": "AEDT",
         "ttl": "回酒店 · 收拾行李",
         "d": "明天 08:00 退房，今晚把行李收完、充电宝充满。",
@@ -2620,7 +2600,7 @@ const DAYS = [
           "注意"
         ],
         "p": "grace",
-        "tr": "车程约 30 分钟"
+        "tr": "市中心就近返回"
       }
     ]
   },
@@ -2835,16 +2815,17 @@ const TRIP_FLOW = [
   },
   {
     "d": 9,
-    "title": "塔龙加 · 邦迪到库吉",
+    "title": "邦迪到库吉 · 塔龙加海狮",
     "stops": [
-      "The Grace",
-      "环形码头 → 渡轮",
-      "塔龙加 / 午餐（无缆车）",
-      "13:30 离园 → 渡轮返环形码头",
-      "邦迪",
-      "15:30 步道（晚到改 Bronte 短段）",
-      "约 19:00 Coogee 晚餐",
-      "回酒店"
+      "06:30 The Grace 出发",
+      "07:15 邦迪 / Icebergs 拍照",
+      "07:45–10:45 完整海岸步道",
+      "11:00 Coogee 快速午餐",
+      "11:30 打车 → 环形码头 → 渡轮",
+      "13:15 入园 / 13:40 海狮场地等候",
+      "14:00 海狮（复核当日场次）",
+      "16:15 离园 → 环形码头",
+      "18:30 市中心晚餐 → 酒店"
     ]
   },
   {
@@ -3184,7 +3165,7 @@ function dayRouteSections(day){
   else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
   else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
   else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
-  else if(day.n===9){add('酒店 → 渡轮码头',['grace','circularquay']);add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('回到环形码头 → 邦迪（公共交通）',['circularquay','bondi'],'transit');add('海岸步道（途中海岸标识为准）',['bondi','coogee']);add('晚餐',['coogee','coogeepav']);add('晚餐 → 酒店',['coogeepav','grace'],'transit');}
+  else if(day.n===9){add('酒店 → 邦迪（打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（打车后转渡轮）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
   else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
   else {
     if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
@@ -4004,9 +3985,9 @@ const SOUVENIRS = [
     {icon:'🎭',name:'歌剧院官方设计小物',label:'悉尼经典',why:'优先钥匙扣、明信片、茶巾等实用小件。官方商店有本地及原住民艺术家作品，比街边仿款更有出处。',where:'Sydney Opera House Shop，参观歌剧院时直接买。',budget:'小物约 AUD 15 起，以官网/店内为准',url:'https://sydneyoperahouseshop.com/',query:'悉尼歌剧院 官方商店 纪念品',photo:'assets/souvenirs/opera-teatowel.webp',photoAlt:'悉尼歌剧院官方艺术家联名茶巾实物',photoSource:'https://sydneyoperahouseshop.com/products/sydney-opera-house-tea-towel-by-megan-pelham'},
     {icon:'🖍️',name:'Squidinki 悉尼插画茶巾 / 杯垫',label:'设计感更强',why:'用幽默插画呈现悉尼地标，茶巾、杯垫、笔记本都比大摆件好带。',where:'85 George Street, The Rocks；逛岩石区时顺路。',budget:'按用途挑一件即可',url:'https://www.therocks.com/shop/squidinki',query:'悉尼 The Rocks Squidinki 纪念品',photo:'assets/souvenirs/squidinki-coasters.webp',photoAlt:'Squidinki 悉尼海港插画杯垫套装实物',photoSource:'https://squidinki.com/products/coaster-sets-sydney-harbour-collection'}
   ]},
-  {day:'D9',date:'10/09',place:'塔龙加动物园 · 邦迪海滩',items:[
+  {day:'D9',date:'10/09',place:'邦迪海岸 → 塔龙加动物园',items:[
     {icon:'🐨',name:'Zoo Pinz / 环保考拉玩偶',label:'动物园限定感',why:'徽章体积最小；若想买玩偶，可优先看官方 Eco 系列。官方在线店当前 Zoo Pinz 约 AUD 10.95、Eco 考拉约 AUD 24.95，现场以标价为准。',where:'Top Shop 选择最多；坐船离开可看 Lower Shop。',budget:'约 AUD 11–25',url:'https://www.taronga.org.au/sydney-zoo/plan/visitor-information/shop-taronga',query:'Taronga Zoo 纪念品 Zoo Pinz 考拉 玩偶',photo:'assets/souvenirs/taronga-pinz.webp',photoAlt:'Taronga Zoo 考拉 Zoo Pinz 徽章实物',photoSource:'https://zooshop.taronga.org.au/products/koala-zoopinz'},
-    {icon:'🌊',name:'Aquabumps 邦迪摄影明信片 / 小幅作品',label:'海岸线记忆',why:'当地摄影作品比普通“Bondi”字样商品更耐看；大幅作品不便携时可选小尺寸或咨询邮寄。',where:'64 Hall Street, Bondi Beach，海滩行程附近。',budget:'先看小幅与书册，避免挤占行李',url:'https://www.aquabumps.com/contact-us/',query:'Bondi Beach Aquabumps Gallery 纪念品',photo:'assets/souvenirs/aquabumps-book.webp',photoAlt:'Aquabumps A Day at Bondi 摄影书实物',photoSource:'https://www.lawsons.com.au/auction-lot/aquabumps-a-day-at-bondi-by-eugene-tan_59F4BF9B65'},
+    {icon:'🌊',name:'Aquabumps 邦迪摄影明信片 / 小幅作品',label:'线上备选，不等开门',why:'当地摄影作品适合留作海岸线纪念；D9 是清晨拍照，不安排等画廊开门，喜欢的作品可之后线上看。',where:'64 Hall Street, Bondi Beach；当天不专程进店、不折返。',budget:'先看小幅与书册，避免挤占行李',url:'https://www.aquabumps.com/contact-us/',query:'Bondi Beach Aquabumps Gallery 纪念品',photo:'assets/souvenirs/aquabumps-book.webp',photoAlt:'Aquabumps A Day at Bondi 摄影书实物',photoSource:'https://www.lawsons.com.au/auction-lot/aquabumps-a-day-at-bondi-by-eugene-tan_59F4BF9B65'},
     {icon:'🌡️',name:'悉尼变色冰箱贴',label:'小红书热门备选',why:'近期分享里热度较高，但款式和售价差异大；只在顺路遇到且做工满意时买，不专程绕路。',where:'岩石区、Circular Quay 或 Bondi 的正规纪念品店。',budget:'先比两家再决定',query:'悉尼 变色冰箱贴 纪念品',photo:'assets/souvenirs/sydney-magnet.webp',photoAlt:'悉尼歌剧院与海港大桥纪念冰箱贴实物',photoSource:'https://m.ilovehyggelife.com/product/1878/'}
   ]}
 ];
@@ -4039,8 +4020,44 @@ const RESTAURANT_BOOKINGS = [
   {date:'10/07',time:'13:10',name:'The Deck Airlie Beach',note:'2 人 · 待接驳确认后再决定堂食；以机场车时间倒排，来不及改外带',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
   {date:'10/08',time:'18:30',name:'The Glenmore',note:'2 人 · 预订时选 Rooftop / 屋顶偏好',level:'现在预订',url:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',phone:'+61 2 9247 4794'},
   {date:'10/04',time:'约 20:30',name:'Stalactites',note:'2 人晚餐不接受预约；返城后直接 walk-in',level:'无需预订'},
-  {date:'10/09',time:'约 19:00',name:'Coogee Pavilion Ground Floor',note:'楼下采用 walk-in；走完海岸步道后直接到店',level:'现场排队'}
+  {date:'10/09',time:'11:00–11:30',name:'Coogee 海边快速午餐',note:'选当时已营业的咖啡店或外带，不等 Coogee Pavilion 正餐开市；11:30 转场去动物园',level:'无需预订'}
 ];
+
+/* Booking overview reuses restaurant, ticket and hotel status instead of duplicating it. */
+const TICKET_BOOKING_META = [
+  {match:'国际段',id:'flights-international',date:'10/01–10/10'},
+  {match:'澳洲境内段',id:'flights-domestic',date:'10/05 + 10/07'},
+  {match:'普芬比利',id:'tour-puffing',date:'10/03'},
+  {match:'Ocean Rafting',id:'tour-fly-raft',date:'10/06–10/07'},
+  {match:'大洋路',id:'tour-great-ocean',date:'10/04'},
+  {match:'歌剧院',id:'opera-tour',date:'10/08'}
+];
+const BOOKING_TASKS = [
+  ...RESTAURANT_BOOKINGS.filter(b=>b.confirmed || b.url).map(b=>({
+    ...b, id:'restaurant:'+b.date+':'+b.name, category:'餐厅',
+    group:b.confirmed ? 'confirmed' : b.date==='10/07' ? 'conditional' : 'pending',
+    level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
+  })),
+  {id:'taronga-ticket',date:'10/09',time:'D9 13:15–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人，不要买成其他动物园。官网 Buy tickets 进入购票。14:00 海狮活动包含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
+  {id:'ppp-shuttle-booking',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
+  {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
+  {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
+  ...TICKETS.filter(t=>t.t.startsWith('✈️') || t.t.startsWith('🎫')).map(t=>({
+    ...(TICKET_BOOKING_META.find(m=>t.t.includes(m.match)) || {id:'ticket:'+t.t,date:'待核对日期'}), name:t.t,category:t.t.startsWith('✈️')?'航班':'活动',time:'2 人',
+    confirmed:!!t.ok,group:t.ok?'confirmed':'pending',level:t.ok?'已预订 ✓':'待确认',
+    note:t.t.includes('普芬比利')?'小火车、企鹅地下观赏台、考拉园入场和布莱顿海滩已随一日游确认，不重复购买。':t.t.includes('Ocean Rafting')?'D6 南线与 D7 飞行套餐已确认；线上 check-in、重确认和留船安排仍看下方待办。':t.t.includes('歌剧院')?'10/08 14:30 中文讲解，2 位成人已出票；14:15 前集合，出发前保存电子票。':t.t.startsWith('✈️')?'机票已订；行李权益、值机与转机确认仍按下方待办办理，不需重复购票。':'已确认两人一日游；司机通知、集合时间和现金司导费仍需准备。'
+  })),
+  ...HOTELS.map((h,i)=>({id:'hotel:'+HOTEL_POI_KEYS[i],name:h.n,category:'住宿',date:h.d,time:'2 人',confirmed:!!h.ok,group:h.ok?'confirmed':'pending',level:h.ok?'已预订 ✓':'待确认',note:'住宿已确认：'+h.in+'。寄存和晚到通知属于另行确认事项，不代表酒店已答复。'}))
+];
+function renderBookingTodos(){
+  const box=$('#bookingTodos');
+  const counts=group=>BOOKING_TASKS.filter(b=>b.group===group).length;
+  box.innerHTML='<div class="card"><div class="card-title">📌 全部预订待办</div><p class="sub">按当前行程汇总餐厅、门票、交通、活动和住宿。日期/时间为当地时间，默认 2 人。这里只整理事项，不会自动下单；完成后告诉我，我会同步更新。<br>待预订 '+counts('pending')+' 项 · 可选 / 先确认再订 '+counts('conditional')+' 项 · 已预订 '+counts('confirmed')+' 项。</p></div>'
+    + [['pending','待预订 / 待登记'],['conditional','可选 / 先确认再订'],['confirmed','已预订 · 不要重复购买']].map(([group,title])=>
+      '<details class="card fold-card booking-board" open data-booking-group="'+group+'"><summary class="tk-h">'+title+'<span class="booking-count">'+counts(group)+' 项</span></summary><div class="booking-list">'
+      + BOOKING_TASKS.filter(b=>b.group===group).sort((a,b)=>a.date.localeCompare(b.date)).map(b=>'<div data-booking-id="'+esc(b.id)+'">'+bookingRowHTML(b)+'</div>').join('')+'</div></details>').join('')
+    + '<p class="note">无需订位：Stalactites（2 人晚餐）、Coogee 海边快速午餐等现场就餐项目，不列为待预订。海狮活动含在塔龙加入场票内，不重复购买。BridgeClimb、悉尼塔等仅作地点介绍、未安排的项目不额外加入；选择加项后再确认时间与预订。已购票不等于已完成出发手续，请继续检查下方待办。</p>';
+}
 
 const FOOD_GROUPS = [
   {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
@@ -4064,7 +4081,7 @@ const FOOD_GROUPS = [
   ]},
   {day:'D8–D9',date:'10/08–10/09',icon:'🍺',place:'悉尼港 · 库吉海岸',items:[
     {name:'澳洲酒馆餐 + 本地啤酒 / 姜汁啤酒',status:'D8 晚餐',must:'The Glenmore 点一份酒馆主菜或汉堡；饮品可问 NSW 精酿，或选无酒精 ginger beer。',why:'屋顶看海港的体验比追“全网第一名”餐厅更贴合这天路线，也是澳洲 pub culture 的轻松版本。',timing:'D8 18:30，天气好订屋顶位；风大或下雨就坐室内。',poi:'glenmore',query:'The Glenmore Sydney rooftop pub food local beer'},
-    {name:'Coogee Pavilion · 木火披萨 / 海鲜',status:'D9 已排入',must:'两人共享木火披萨，再配一份海鲜或沙拉；饮品选澳洲 cider / ginger beer。',why:'走完 6 公里海岸步道后就在终点吃，不需要再转场，实际体验会比远距离追网红餐厅更好。',timing:'D9 约 19:00，楼下 Ground Floor 可 walk-in；若步道延误就选快速餐，不等楼上座位。',poi:'coogeepav',url:'https://merivale.com/venues/coogeepavilion/',query:'Coogee Pavilion ground floor 必吃 pizza seafood'}
+    {name:'Coogee 海边简餐 + Flat White / 鲜果汁',status:'D9 快速午餐',must:'选当时已营业的咖啡店，点三明治、肉派或当日简餐，配 Flat White 或鲜果汁；以实际菜单为准。',why:'走完海岸步道先补充体力，再转场去动物园。不把午餐绑在晚开市的正餐厅，优先保留 14:00 海狮活动。',timing:'D9 11:00–11:30，排队就改外带；不等 Coogee Pavilion 正餐开市。晚餐改在悉尼市中心 / 酒店附近。',poi:'coogee',query:'Coogee beach cafe takeaway lunch coffee'}
   ]}
 ];
 
@@ -4473,7 +4490,8 @@ $('#sectHotels').innerHTML =
 /* ============================================================
    待办 / 贴士
    ============================================================ */
-$('#todoList').innerHTML = TODOS.map(t => '<li class="' + (t.done ? 'ok' : (t.u ? 'urg' : '')) + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
+renderBookingTodos();
+$('#todoList').innerHTML = TODOS.filter(t => !t.done || !/^(普芬比利一日游|Ocean Rafting Fly|D7 固定翼)/.test(t.t)).map(t => '<li class="' + (t.done ? 'ok' : (t.u ? 'urg' : '')) + '"><span class="dot"></span><span class="tx">' + esc(t.t) + '</span></li>').join('');
 $('#tipsBox').innerHTML = TIPS.map(t => '<details class="tip-fold" open><summary>' + esc(t.h) + '</summary><div style="font-size:13.5px;white-space:pre-line;margin:0 0 12px">' + esc(t.b) + '</div></details>').join('');
 $('#tipsBox').insertAdjacentHTML('beforeend', "<details class=\"tip-fold\" open><summary>官方核对依据 · 2026/09/28</summary><p>动态信息可能变化；已确认凭证及运营商最新通知优先。以下为公开资料，不含个人订单。</p><div class=\"minitools\"><a class=\"btn\" href=\"https://developers.google.com/maps/documentation/urls/get-started\" target=\"_blank\" rel=\"noopener noreferrer\">Google 路线限制 ↗</a><a class=\"btn\" href=\"https://harbourcove.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Harbour Cove 地址 ↗</a><a class=\"btn\" href=\"https://moonlitsanctuary.com.au/contact/\" target=\"_blank\" rel=\"noopener noreferrer\">Moonlit 地址 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/tours/southern-lights/\" target=\"_blank\" rel=\"noopener noreferrer\">出海时间与重确认 ↗</a><a class=\"btn\" href=\"https://oceanrafting.com.au/contact-us/\" target=\"_blank\" rel=\"noopener noreferrer\">出海码头 ↗</a><a class=\"btn\" href=\"https://www.bridgemuseum.com.au/plan-your-visit\" target=\"_blank\" rel=\"noopener noreferrer\">桥塔票价与入口 ↗</a><a class=\"btn\" href=\"https://www.jetstar.com/sg/en/flights/baggage/carry-on-baggage\" target=\"_blank\" rel=\"noopener noreferrer\">捷星手提行李 ↗</a><a class=\"btn\" href=\"https://www.taronga.org.au/about/newsroom/media-releases/construction-set-to-take-off-for-tarongas-beloved-sky-safari\" target=\"_blank\" rel=\"noopener noreferrer\">Taronga 缆车状态 ↗</a><a class=\"btn\" href=\"https://www.abf.gov.au/entering-and-leaving-australia/tourist-refund-scheme/information-for-retailers\" target=\"_blank\" rel=\"noopener noreferrer\">TRS 完整条件 ↗</a><a class=\"btn\" href=\"https://airportbuswhitsundays.com.au/\" target=\"_blank\" rel=\"noopener noreferrer\">机场小巴 ↗</a><a class=\"btn\" href=\"https://transport.vic.gov.au/tickets-and-payments/myki/myki-types/mobile-myki\" target=\"_blank\" rel=\"noopener noreferrer\">Mobile myki ↗</a></div></details>");
 
@@ -4696,10 +4714,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v37' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v38' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v37' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v38' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);

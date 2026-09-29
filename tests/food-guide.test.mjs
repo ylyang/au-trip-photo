@@ -12,7 +12,7 @@ for(const item of [
   'Apollo Bay Bakery · 扇贝派',
   'The Pavilion · 海鲜 + 日落特调',
   'Fruitezy · 现场鲜榨果汁',
-  'Coogee Pavilion · 木火披萨 / 海鲜'
+  'Coogee 海边简餐 + Flat White / 鲜果汁'
 ]){
   assert.ok(html.includes(item), `missing food recommendation: ${item}`);
 }

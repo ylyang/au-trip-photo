@@ -30,7 +30,7 @@ for(const phone of [
 }
 
 assert.match(html, /Stalactites[\s\S]*?2 人晚餐不接受预约/, 'Stalactites must be described as walk-in for two');
-assert.match(html, /Coogee Pavilion Ground Floor[\s\S]*?walk-in/, 'Coogee ground floor must be described as walk-in');
+assert.match(html, /name:'Coogee 海边快速午餐'[^\n]*level:'无需预订'/, 'D9 quick lunch must not become a reservation requirement');
 assert.match(html, /晚餐 · Coral Sea Pavilion（建议预约）/, 'D5 dinner must use a currently verifiable restaurant');
 assert.doesNotMatch(html, /晚餐 · Fish D’Vine（建议预约）/, 'the unverified Fish D’Vine dinner must not remain in the itinerary');
 assert.match(html, /p\.book \|\| p\.bookNote/, 'POI detail sheets must expose booking guidance');

@@ -13,7 +13,7 @@ for(const destination of [
   '大洋路 · 阿波罗湾',
   '艾尔利海滩 · 圣灵群岛',
   '悉尼歌剧院 · 岩石区',
-  '塔龙加动物园 · 邦迪海滩'
+  '邦迪海岸 → 塔龙加动物园'
 ]){
   assert.ok(html.includes(destination), `missing souvenir group: ${destination}`);
 }
