@@ -739,6 +739,7 @@ html[data-theme="dark"][data-palette="lemon"]{
     <button class="section-link" data-section="souvenirs">纪念品</button>
     <button class="section-link" data-section="tips">实用贴士</button>
     <button class="section-link" data-section="budget">预算与花费</button>
+    <a class="section-link section-link-external" href="tickets.html" target="_blank" rel="noopener">🔐 私密票据库</a>
   </nav>
 
   <div id="section-overview" class="page-section active">
@@ -2553,8 +2554,8 @@ const DAYS = [
       {
         "t": "11:30",
         "tz": "AEDT",
-        "ttl": "Coogee → 环形码头 → 塔龙加",
-        "d": "优先打车到 Circular Quay，再按当天屏幕搭 F2 Taronga Zoo 渡轮（航程约 12 分钟）。整段留约 1 小时 45 分钟，包含叫车、交通、等船及从码头入园；不是固定发船时间。出发时查看实时预计到达，若转船会耽误，可比较打车直达动物园正门的方案。没有缆车接驳。",
+        "ttl": "Coogee → 环形码头 · 滴滴国际版 → 塔龙加",
+        "d": "已确认使用滴滴国际版从 Coogee 打车到 Circular Quay，再按当天屏幕搭 F2 Taronga Zoo 渡轮（航程约 12 分钟）。整段留约 1 小时 45 分钟，包含叫车、交通、等船及从码头入园；不是固定发船时间。出发时查看滴滴实时预计到达，若转船会耽误，可比较滴滴直达动物园正门的方案。没有缆车接驳。",
         "tags": ["导航", "注意"],
         "p": "circularquay",
         "tr": "转场预留约 1 小时 45 分钟"
@@ -2821,7 +2822,7 @@ const TRIP_FLOW = [
       "07:15 邦迪 / Icebergs 拍照",
       "07:45–10:45 完整海岸步道",
       "11:00 Coogee 快速午餐",
-      "11:30 打车 → 环形码头 → 渡轮",
+      "11:30 滴滴国际版 → 环形码头 → 渡轮",
       "13:15 入园 / 13:40 海狮场地等候",
       "14:00 海狮（复核当日场次）",
       "16:15 离园 → 环形码头",
@@ -3166,7 +3167,7 @@ function dayRouteSections(day){
   else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
   else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
   else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
-  else if(day.n===9){add('酒店 → 邦迪（滴滴国际版打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（打车后转渡轮）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
+  else if(day.n===9){add('酒店 → 邦迪（滴滴国际版打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（滴滴国际版打车）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达（滴滴）',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
   else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
   else {
     if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
@@ -4715,10 +4716,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v40' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v41' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v40' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v41' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);

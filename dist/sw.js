@@ -1,10 +1,10 @@
-const CACHE_NAME = 'au-trip-photo-v40';
+const CACHE_NAME = 'au-trip-photo-v41';
 const SOUVENIR_ASSETS = [
   'airlie-gallery','airlie-magnet','apollo-art','apollo-candy','apollo-homewares',
   'aquabumps-book','koko-black','melbourne-tram','opera-teatowel','phillip-penguin',
   'puffing-billy','squidinki-coasters','sydney-magnet','taronga-pinz'
 ].map(name => './assets/souvenirs/' + name + '.webp');
-const CORE_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', ...SOUVENIR_ASSETS];
+const CORE_ASSETS = ['./', './index.html', './tickets.html', './ticket-vault-builder.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', ...SOUVENIR_ASSETS];
 
 self.addEventListener('install', event => {
   event.waitUntil(
