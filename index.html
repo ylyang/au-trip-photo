@@ -372,6 +372,14 @@ body.pwa-guide-open{overflow:hidden}
 .section-link.on{font-weight:700}
 
 .daymap{margin:12px 0 4px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface2)}
+.transport-plan{margin:12px 0;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,var(--surface),var(--surface2));overflow:hidden}
+.transport-plan>summary{display:flex;align-items:center;gap:8px;padding:11px 13px;cursor:pointer;list-style:none;font-weight:800;color:var(--text)}
+.transport-plan>summary::-webkit-details-marker{display:none}.transport-plan>summary:after{content:'⌄';margin-left:auto;color:var(--muted);transition:transform .2s}.transport-plan:not([open])>summary:after{transform:rotate(-90deg)}
+.transport-plan-note{padding:0 13px 9px;color:var(--muted);font-size:11.5px;line-height:1.5}
+.transport-legs{display:grid;border-top:1px solid var(--line)}
+.transport-leg{display:grid;grid-template-columns:minmax(0,1.25fr) 24px minmax(0,1.25fr) minmax(120px,.95fr) auto;gap:7px;align-items:center;padding:9px 13px;border-bottom:1px solid var(--line);font-size:11.5px;line-height:1.35}
+.transport-leg:last-child{border-bottom:0}.transport-place{font-weight:750}.transport-arrow{text-align:center;color:var(--accent);font-size:16px}.transport-mode{color:var(--muted)}.transport-mode b{display:block;color:var(--text);font-size:11.5px}.transport-mode small{display:block;margin-top:2px}.transport-status{justify-self:end;white-space:nowrap;border-radius:999px;padding:4px 7px;font-size:10.5px;font-weight:800;border:1px solid var(--line);background:var(--surface);color:var(--muted)}.transport-status.confirmed{color:#176645;border-color:#8fd0ad;background:#e8f7ef}.transport-status.required{color:#8a5a00;border-color:#e5c36f;background:var(--warn-soft)}.transport-status.same-day{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,var(--line));background:var(--accent-soft)}.transport-status.optional{color:var(--brand);border-color:color-mix(in srgb,var(--brand) 28%,var(--line));background:var(--brand-soft)}
+@media(max-width:640px){.transport-leg{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:5px;padding:9px 10px}.transport-mode{grid-column:1/-1;padding-top:2px}.transport-status{grid-column:1/-1;justify-self:start}.transport-plan>summary{padding:10px}.transport-plan-note{padding:0 10px 8px}}
 .daymap iframe,.daymap svg{display:block;width:100%;height:auto;aspect-ratio:1.28;border:0}
 .daymap.google svg,.daymap.offline iframe{display:none}
 .daymap .daymap-note{padding:8px 11px;font-size:12px;color:var(--muted);line-height:1.5}
@@ -4301,6 +4309,94 @@ function dayTimeHTML(i, d){
     + '<div class="day-clocks" data-day-clocks="' + i + '"></div></div>';
 }
 
+/* 每天地点之间的移动与预订状态：交通是计划值，航班 / 接驳 / 门票以订单和当天通知为准。 */
+const DAY_TRANSIT = {
+  1:[
+    {from:'上海虹桥 T1',to:'厦门高崎 T3',mode:'MF8510 航班 · 约 1 小时 50 分',note:'按机票办理值机',kind:'confirmed',label:'已出票'},
+    {from:'厦门高崎 T3',to:'墨尔本 T2',mode:'MF803 航班',note:'中转 2 小时 15 分，按联程指引',kind:'confirmed',label:'已出票'},
+    {from:'墨尔本 T2',to:'南十字星车站',mode:'SkyBus · 约 25 分钟',note:'机场现场购票 / 刷卡即可',kind:'same-day',label:'无需预订'},
+    {from:'南十字星车站',to:'Dorsett Melbourne',mode:'步行或 DiDi',note:'约 10 分钟，带行李可打车',kind:'same-day',label:'当天决定'}
+  ],
+  2:[
+    {from:'Dorsett Melbourne',to:'Higher Ground',mode:'步行 · 约 5 分钟',note:'Higher Ground 订位已确认',kind:'confirmed',label:'餐厅已预订'},
+    {from:'Higher Ground',to:'Chemist Warehouse',mode:'步行 · 约 8–12 分钟',note:'Spencer Outlet Centre 内',kind:'same-day',label:'无需预订'},
+    {from:'Chemist Warehouse',to:'lululemon Emporium',mode:'免费电车 / 步行 · 约 15 分钟',note:'现场刷卡或使用交通卡',kind:'same-day',label:'无需预订'},
+    {from:'Emporium',to:'皇家拱廊 / 布洛克拱廊',mode:'步行 · 约 6–10 分钟',note:'购物超时可跳过',kind:'same-day',label:'无需预订'},
+    {from:'拱廊',to:'迪格雷夫斯街 / 弗林德斯街车站',mode:'步行 · 约 6 分钟',note:'沿 CBD 步行',kind:'same-day',label:'无需预订'},
+    {from:'联邦广场',to:'Asado Southbank',mode:'步行过河 · 约 8 分钟',note:'晚餐建议提前订位',kind:'required',label:'建议预订'},
+    {from:'Asado Southbank',to:'Dorsett Melbourne',mode:'电车 / DiDi · 约 15 分钟',note:'晚餐后按体力选择',kind:'same-day',label:'无需预订'}
+  ],
+  3:[
+    {from:'Dorsett Melbourne',to:'601 Lonsdale Street',mode:'步行或 DiDi 短途接送',note:'08:05 到场，迟到不等人',kind:'same-day',label:'无需预订'},
+    {from:'601 Lonsdale Street',to:'布莱顿彩虹小屋',mode:'Klook 中文团巴士 · 约 40 分钟',note:'随团出发',kind:'confirmed',label:'跟团已确认'},
+    {from:'布莱顿彩虹小屋',to:'帕芬比利 / Belgrave',mode:'同一团巴士 · 约 1 小时 15 分钟',note:'不自行换乘火车',kind:'confirmed',label:'跟团已确认'},
+    {from:'帕芬比利',to:'Moonlit Sanctuary',mode:'同一团巴士 · 约 50 分钟',note:'按导游集合时间返回',kind:'confirmed',label:'跟团已确认'},
+    {from:'Moonlit Sanctuary',to:'Phillip Island 企鹅归巢',mode:'同一团巴士 · 约 1 小时',note:'晚餐和入场服从导游 / 园区安排',kind:'confirmed',label:'跟团已确认'},
+    {from:'Phillip Island',to:'墨尔本市区',mode:'同一团巴士 · 约 2 小时',note:'预计 22:30–23:00，交通可能延误',kind:'confirmed',label:'跟团已确认'}
+  ],
+  4:[
+    {from:'酒店',to:'300 Spencer Street',mode:'步行或 DiDi',note:'提前 10–15 分钟到 Atlantis Hotel',kind:'same-day',label:'无需预订'},
+    {from:'300 Spencer Street',to:'大洋路各景点',mode:'飞猪一日游巴士',note:'300 Spencer 上车点已确认；司机前一天短信通知',kind:'confirmed',label:'跟团已确认'},
+    {from:'大洋路',to:'墨尔本市区',mode:'同一团巴士 · 约 19:00–20:30',note:'景点顺序受天气和路况影响',kind:'confirmed',label:'跟团已确认'}
+  ],
+  5:[
+    {from:'Dorsett Melbourne',to:'墨尔本机场 T3',mode:'DiDi / 出租车 · 约 30 分钟',note:'维珍澳洲国内航班，建议提前 2 小时到',kind:'same-day',label:'无需预订'},
+    {from:'墨尔本 T3',to:'布里斯班国内机场',mode:'VA321 航班 · 约 2 小时 10 分钟',note:'行李按订单直挂',kind:'confirmed',label:'已出票'},
+    {from:'布里斯班国内机场',to:'普罗瑟派恩 PPP',mode:'VA1117 航班 · 约 1 小时 50 分钟',note:'国内航站楼内中转',kind:'confirmed',label:'已出票'},
+    {from:'PPP 到达厅 Shop 1',to:'Harbour Cove',mode:'Airlie Airport Bus 红色小巴 · 约 40 分钟',note:'先到柜台报到，返程接驳也要一并确认',kind:'required',label:'需确认 / 预订'},
+    {from:'Harbour Cove',to:'Coral Sea Pavilion',mode:'步行或 DiDi',note:'晚餐建议订位',kind:'required',label:'餐厅建议预订'}
+  ],
+  6:[
+    {from:'Harbour Cove',to:'Coral Sea Marina North',mode:'Ocean Rafting 酒店接驳',note:'08:45 门口接载，提前 5 分钟等候',kind:'confirmed',label:'接驳已确认'},
+    {from:'Coral Sea Marina North',to:'Whitehaven / Hill Inlet',mode:'Southern Lights 快艇',note:'白天堂和希尔湾顺序由船员安排',kind:'confirmed',label:'出海已确认'},
+    {from:'船上停靠点',to:'Coral Sea Marina North',mode:'同一快艇返港 · 官网约 16:30',note:'两人不浮潜，登船时向船员说明',kind:'confirmed',label:'出海已确认'},
+    {from:'Coral Sea Marina North',to:'Harbour Cove',mode:'运营商接驳',note:'返港后按工作人员指示，不去 Port of Airlie',kind:'same-day',label:'现场跟随'},
+    {from:'Harbour Cove',to:'The Deck',mode:'步行约 20–25 分钟或 DiDi',note:'晚餐建议 20:00 前结束',kind:'same-day',label:'无需预订'}
+  ],
+  7:[
+    {from:'Harbour Cove',to:'观光飞机集合点',mode:'Ocean Rafting 接驳',note:'11:00 门口接载，酒店已知情',kind:'confirmed',label:'接驳已确认'},
+    {from:'集合点',to:'心形礁上空',mode:'60 分钟观光飞机',note:'11:30–12:30，座位按重量分配',kind:'confirmed',label:'已确认'},
+    {from:'降落点',to:'Harbour Cove / 艾尔利海滩',mode:'运营商返程接驳',note:'是否送回酒店和下车点仍需确认',kind:'required',label:'需再次确认'},
+    {from:'Harbour Cove',to:'PPP 机场',mode:'Airlie Airport Bus 红色小巴 · 约 40 分钟',note:'返程接载时间地点以运营商最终通知为准',kind:'required',label:'待确认'},
+    {from:'PPP',to:'悉尼 T2',mode:'JQ839 航班 · 约 2 小时 25 分钟',note:'国内航站楼抵达',kind:'confirmed',label:'已出票'},
+    {from:'悉尼 T2',to:'The Grace Hotel',mode:'Airport Train 或 DiDi · 约 13–25 分钟',note:'晚间抵达，按行李和价格选择',kind:'same-day',label:'无需预订'}
+  ],
+  8:[
+    {from:'The Grace Hotel',to:'QVB',mode:'步行 · 约 10–15 分钟',note:'不需要公共交通',kind:'same-day',label:'无需预订'},
+    {from:'QVB',to:'Hyde Park / St Mary’s Cathedral',mode:'步行 · 约 5–8 分钟',note:'沿 CBD 南北向步行',kind:'same-day',label:'无需预订'},
+    {from:'St Mary’s Cathedral',to:'新州美术馆',mode:'步行 · 约 10 分钟',note:'常设展免费，特展另算',kind:'same-day',label:'无需预订'},
+    {from:'美术馆',to:'皇家植物园 / 麦考利夫人座椅',mode:'步行 · 约 20–30 分钟',note:'沿海滨步道',kind:'same-day',label:'无需预订'},
+    {from:'麦考利夫人座椅',to:'悉尼歌剧院台阶',mode:'步行 · 约 15 分钟',note:'预留拍照和风景时间',kind:'same-day',label:'无需预订'},
+    {from:'歌剧院台阶',to:'Welcome Centre',mode:'步行 · 约 3 分钟',note:'14:15 前集合',kind:'same-day',label:'无需预订'},
+    {from:'Welcome Centre',to:'歌剧院中文讲解团',mode:'步行入场 · 约 1 小时',note:'迟到无法加入；票据已保存',kind:'confirmed',label:'门票已购'},
+    {from:'歌剧院',to:'BridgeMuseum 东南桥塔',mode:'步行 + 离场缓冲 · 约 40 分钟',note:'可选；决定去再买票',kind:'optional',label:'可选需预订'},
+    {from:'BridgeMuseum / 歌剧院',to:'The Rocks / Glenmore',mode:'步行 · 约 12 分钟',note:'Glenmore 屋顶位建议预约',kind:'required',label:'餐厅建议预订'}
+  ],
+  9:[
+    {from:'The Grace Hotel',to:'Bondi Beach 南端 / Icebergs',mode:'DiDi 国际版 · 约 20–30 分钟',note:'约 06:45 出发，目标 07:15 到达',kind:'same-day',label:'当天叫车'},
+    {from:'Bondi Beach',to:'Coogee Beach',mode:'Bondi–Coogee 海岸步道 · 约 3 小时',note:'全程约 6 公里，按海岸标识行走',kind:'same-day',label:'无需预订'},
+    {from:'Coogee Beach',to:'Taronga Zoo Main Entrance',mode:'DiDi 国际版直达 · 约 35–45 分钟',note:'11:30 左右叫车，价格以 App 为准',kind:'same-day',label:'当天叫车'},
+    {from:'Taronga Zoo',to:'Circular Quay / 市区',mode:'F2 渡轮或 DiDi',note:'轮渡可刷卡；不想等船就从正门打车',kind:'same-day',label:'当天决定'},
+    {from:'Taronga Zoo',to:'14:00 海狮活动',mode:'园内步行',note:'13:40 到场；活动含在门票内，场次以当天公告为准',kind:'required',label:'门票需提前买'}
+  ],
+  10:[
+    {from:'The Grace Hotel',to:'悉尼机场 T1',mode:'Airport Train 或 DiDi · 约 20–25 分钟',note:'国际航班建议提前 3 小时到',kind:'same-day',label:'无需预订'},
+    {from:'悉尼 T1',to:'厦门高崎 T3',mode:'MF802 航班 · 约 9 小时 40 分钟',note:'值机时确认行李直挂和中转要求',kind:'confirmed',label:'已出票'},
+    {from:'厦门高崎 T3',to:'上海虹桥 T1',mode:'MF8517 航班 · 约 1 小时 40 分钟',note:'1 小时 55 分钟衔接仍需向航司确认',kind:'required',label:'衔接待确认'}
+  ]
+};
+
+function transportPlanHTML(d){
+  const legs = DAY_TRANSIT[d.n] || [];
+  if(!legs.length) return '';
+  return '<details class="transport-plan" open><summary>🚦 交通方式与预订清单</summary>'
+    + '<div class="transport-plan-note">按当天游玩顺序列出；“当天决定”不代表已叫车，“需确认 / 预订”请放入待办并以订单或运营商通知为准。</div>'
+    + '<div class="transport-legs">' + legs.map(l => '<div class="transport-leg">'
+      + '<span class="transport-place">' + esc(l.from) + '</span><span class="transport-arrow">→</span><span class="transport-place">' + esc(l.to) + '</span>'
+      + '<span class="transport-mode"><b>' + esc(l.mode) + '</b><small>' + esc(l.note) + '</small></span>'
+      + '<span class="transport-status ' + esc(l.kind) + '">' + esc(l.label) + '</span></div>').join('') + '</div></details>';
+}
+
 function dayHTML(d, i){
   const counted = dayCounted(d);
   const done = counted.filter(it => CK[itemKey(d,it)]).length;
@@ -4330,6 +4426,7 @@ function dayHTML(d, i){
     + dayTimeHTML(i, d)
     + dayCollage(i)
     + (d.warn ? '<div class="warnbox"><b>风险提示</b><div style="margin-top:5px">' + esc(d.warn) + '</div></div>' : '')
+    + transportPlanHTML(d)
     + mapPart
     + '<div class="minitools">'
     + '<button class="btn" data-jump="' + i + '">🗺️ 在主地图放大这天</button>'
