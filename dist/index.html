@@ -372,6 +372,14 @@ body.pwa-guide-open{overflow:hidden}
 .section-link.on{font-weight:700}
 
 .daymap{margin:12px 0 4px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface2)}
+.transport-plan{margin:12px 0;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,var(--surface),var(--surface2));overflow:hidden}
+.transport-plan>summary{display:flex;align-items:center;gap:8px;padding:11px 13px;cursor:pointer;list-style:none;font-weight:800;color:var(--text)}
+.transport-plan>summary::-webkit-details-marker{display:none}.transport-plan>summary:after{content:'⌄';margin-left:auto;color:var(--muted);transition:transform .2s}.transport-plan:not([open])>summary:after{transform:rotate(-90deg)}
+.transport-plan-note{padding:0 13px 9px;color:var(--muted);font-size:11.5px;line-height:1.5}
+.transport-legs{display:grid;border-top:1px solid var(--line)}
+.transport-leg{display:grid;grid-template-columns:minmax(0,1.25fr) 24px minmax(0,1.25fr) minmax(120px,.95fr) auto;gap:7px;align-items:center;padding:9px 13px;border-bottom:1px solid var(--line);font-size:11.5px;line-height:1.35}
+.transport-leg:last-child{border-bottom:0}.transport-place{font-weight:750}.transport-arrow{text-align:center;color:var(--accent);font-size:16px}.transport-mode{color:var(--muted)}.transport-mode b{display:block;color:var(--text);font-size:11.5px}.transport-mode small{display:block;margin-top:2px}.transport-status{justify-self:end;white-space:nowrap;border-radius:999px;padding:4px 7px;font-size:10.5px;font-weight:800;border:1px solid var(--line);background:var(--surface);color:var(--muted)}.transport-status.confirmed{color:#176645;border-color:#8fd0ad;background:#e8f7ef}.transport-status.required{color:#8a5a00;border-color:#e5c36f;background:var(--warn-soft)}.transport-status.same-day{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,var(--line));background:var(--accent-soft)}.transport-status.optional{color:var(--brand);border-color:color-mix(in srgb,var(--brand) 28%,var(--line));background:var(--brand-soft)}
+@media(max-width:640px){.transport-leg{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:5px;padding:9px 10px}.transport-mode{grid-column:1/-1;padding-top:2px}.transport-status{grid-column:1/-1;justify-self:start}.transport-plan>summary{padding:10px}.transport-plan-note{padding:0 10px 8px}}
 .daymap iframe,.daymap svg{display:block;width:100%;height:auto;aspect-ratio:1.28;border:0}
 .daymap.google svg,.daymap.offline iframe{display:none}
 .daymap .daymap-note{padding:8px 11px;font-size:12px;color:var(--muted);line-height:1.5}
@@ -732,13 +740,13 @@ html[data-theme="dark"][data-palette="lemon"]{
   <nav class="section-nav" id="sectionNav" aria-label="页面分区">
     <button class="section-link on" data-section="overview">总览</button>
     <span id="dayNav" style="display:contents"></span>
-    <button class="section-link" data-section="tickets">票据与保险</button>
     <button class="section-link" data-section="hotels">住宿</button>
     <button class="section-link" data-section="todo">待办</button>
     <button class="section-link" data-section="food">必吃必喝</button>
     <button class="section-link" data-section="souvenirs">纪念品</button>
     <button class="section-link" data-section="tips">实用贴士</button>
     <button class="section-link" data-section="budget">预算与花费</button>
+    <button class="section-link" data-section="tickets">票据与保险</button>
     <a class="section-link section-link-external" href="tickets.html" target="_blank" rel="noopener">🔐 私密票据库</a>
   </nav>
 
@@ -911,7 +919,7 @@ const POIS = {
     tip:['电子登机牌可先截屏存相册，断网也能调出','充电宝、雨伞单独放，安检要拿出来'],
     ph:['出发大厅落地窗','安检前合影'],kind:'airport'},
   xmn:{n:'厦门高崎国际机场 T3',loc:'福建省厦门市湖里区高崎',lat:24.5444,lng:118.1277,
-    r:'去程 D1 中转 2 小时 15 分；返程 D10 中转 1 小时 55 分的衔接与行李手续待本人向厦航确认，不能套用去程流程。',
+    r:'去程 D1 中转 2 小时 15 分；返程 D10 中转约 1 小时 55 分，已高于厦航在线 AI 客服确认的境内↔国际/港澳台、国际/港澳台↔境内最短 90 分钟；仍按联程票实际通程手续和行李状态执行。',
     hl:['按去程/返程分别核对中转流程','返程须办理入境及通程待检手续','T3 有休息区与免费饮水'],
     tip:['中转时间不算长，别走太远','登机口可能变更，留意屏幕'],
     ph:['中转通道指示牌','停机坪夜景'],kind:'airport'},
@@ -1232,7 +1240,7 @@ const POIS = {
   taronga:{n:'塔龙加动物园 Taronga Zoo',loc:'Bradleys Head Rd, Mosman NSW 2088',lat:-33.8433,lng:151.2400,
     r:'建在山坡上的动物园，长颈鹿展区正对悉尼港天际线，是全澳最好看的动物园机位。',
     hl:['长颈鹿 + 歌剧院同框','码头步行或按现场指示乘巴士进园；缆车暂停运营','考拉区'],
-    tip:['Circular Quay 渡轮航程约 12 分钟，另留等船与入园时间','D9 计划 13:15–16:15；13:40 前往海狮活动场地等候 14:00 场','海狮活动包含在门票内；场次以出行当日官网和现场公告为准'],
+    tip:['Circular Quay 渡轮航程约 12 分钟，另留等船与入园时间','D9 13:10–16:15 精华游：滴滴直达 Main Entrance，13:40 到海狮场地等候 14:00 场；之后大猩猩 → 老虎/犀牛 → 非洲草原与长颈鹿港景','海狮活动包含在门票内；场次以出行当日官网和现场公告为准'],
     ph:['长颈鹿区俯拍悉尼港'],web:'https://www.taronga.org.au/sydney-zoo/whats-on',kind:'sight'},
   watsons:{n:'屈臣氏湾 Watsons Bay',loc:'Watsons Bay NSW 2030',lat:-33.8420,lng:151.2820,
     r:'悉尼港入口的悬崖海湾，看太平洋与港内同框，人少景好。',
@@ -1475,7 +1483,7 @@ const DAYS = [
         "t": "16:10",
         "tz": "CST",
         "ttl": "抵达虹桥机场 T1 · 办理值机",
-        "d": "国际航班建议提前 2 小时到。厦门航空柜台，托运每人 1×23KG + 手提 1×8KG。",
+        "d": "首段是国内航班转国际联程，计划 16:10 抵达，距 18:10 起飞 2 小时；国庆排队可能较长，可适当更早出门。厦航柜台核对两段登机牌与 MEL 行李条。按现有订单：托运每人 1×23kg；经济舱随身 1×8kg，主件不超过 55×40×20cm，以出票权益和现场规定为准。",
         "tags": [
           "注意"
         ],
@@ -1496,7 +1504,7 @@ const DAYS = [
         "t": "20:00",
         "tz": "CST",
         "ttl": "抵达厦门高崎 T3 · 中转",
-        "d": "中转停留 2 小时 15 分。行李直挂墨尔本，无需提取、不出站。\n机上先把澳洲入境卡填好，省下落地后的时间。",
+        "d": "中转停留 2 小时 15 分。虹桥值机时核对行李条是否到 MEL、是否需在厦门办理其他手续；抵达后按国内转国际指引办理出境、安检并前往登机口，不把中转当作无手续等待。\n澳洲入境卡可在国际段机上填写。",
         "tags": [
           "航班"
         ],
@@ -1715,7 +1723,7 @@ const DAYS = [
         "ttl": "★ 帕芬比利蒸汽小火车",
         "d": "百年窄轨蒸汽火车。把腿伸出敞篷车厢挂在木框外是招牌体验。\n⚠️ 山区比市区凉 3–5℃，带外套；别穿浅色衣服（煤灰）；相机手机抓稳。",
         "tags": [
-          "需提前订",
+          "已确认",
           "介绍"
         ],
         "p": "puffing"
@@ -1808,7 +1816,7 @@ const DAYS = [
         "ttl": "集合上车 · 300 Spencer Street（约 07:00–08:30）",
         "d": "在 300 Spencer Street（Atlantis Hotel）集合。凭预订人姓名出行，无需确认单。\n📩 10/03 澳洲时间 20:00 前查收司机短信：具体出发时间、司机姓名、电话和车牌号；收到后截图保存，并提前 10–15 分钟到达。页面先按最早 07:00 提醒，以免错过集合。",
         "tags": [
-          "需提前订",
+          "已确认",
           "导航",
           "注意"
         ],
@@ -1946,7 +1954,7 @@ const DAYS = [
     "hotel": "harbourcove",
     "hotelNote": "入住 14:00 后 / 退房 10:00 · 共 2 晚（10/5–10/7）\nHarbour Cove · 28-30 The Cove Road, Airlie Beach QLD 4802",
     "hotelOk": true,
-    "warn": "⚠️ 布里斯班中转仅 1 小时 50 分，机票平台已自行标注「中转时间短」。两段同属维珍澳洲（VA321 → VA1117）、行李直达，但墨尔本段一旦延误就会连锁。下飞机直接走中转通道，不要在布里斯班闲逛。\n🚌 10/5 抵达 PPP 后优先找红色小巴 Airlie Airport Bus；上车前确认送到 Harbour Cove，并尽量当场登记 10/7 返回机场的接驳。\n⚠️ 昆士兰（布里斯班 / 普罗瑟派恩 / 艾尔利）不实行夏令时，全年 UTC+10，入境后时间会比墨尔本慢 1 小时。\n🚌 红色小巴先在到达厅 Shop 1 报到，不直接去停车区等车。",
+    "warn": "⚠️ 布里斯班中转仅 1 小时 50 分，机票平台已自行标注「中转时间短」。两段同属维珍澳洲（VA321 → VA1117）；行李是否直达 PPP，出发值机时核对行李条，但墨尔本段一旦延误就会连锁。下飞机直接走中转通道，不要在布里斯班闲逛。\n🚌 10/5 抵达 PPP 后优先找红色小巴 Airlie Airport Bus；上车前确认送到 Harbour Cove，并尽量当场登记 10/7 返回机场的接驳。\n⚠️ 昆士兰（布里斯班 / 普罗瑟派恩 / 艾尔利）不实行夏令时，全年 UTC+10，抵达昆士兰后，当地时间比墨尔本慢 1 小时。\n🚌 红色小巴先在到达厅 Shop 1 报到，不直接去停车区等车。",
     "items": [
       {
         "t": "07:30",
@@ -2071,7 +2079,7 @@ const DAYS = [
     "hotel": "harbourcove",
     "hotelNote": "同 Harbour Cove 第 2 晚",
     "hotelOk": true,
-    "warn": "🎫 Ocean Rafting Fly + Raft 延长日套餐已确认（2 人）：10/06 Southern Lights 南线，08:45 在 Harbour Cove 酒店门口车道接载。\n🚫 两人都不参加浮潜：登船时主动告诉船员；到浮潜停靠点后按安排留在船上休息观景，不下水。\n⚠️ 至少提前 24 小时完成线上 check-in；出发前一日 16:00 前向运营商提供可联系手机号。Ocean Rafting：+61 7 4946 6848。\n📝 预订确认不等于线上登记完成：分别完成 D6/D7 check-in，并至少提前 48 小时重确认接载；建议 10/03 晚前联系运营商，避免 D4 跟团和 D5 航班期间忙乱。酒店接载按凭证，海上时刻/停靠点按船员安排。留船安排尚需运营商确认。",
+    "warn": "🎫 Ocean Rafting Fly + Raft 延长日套餐已确认（2 人）：10/06 Southern Lights 南线，08:45 在 Harbour Cove 酒店门口车道接载。\n🚫 两人都不参加浮潜：登船时主动告诉船员；不下水；留船休息方案仍须运营商确认，不能仅凭预订成功视为已获同意。\n⚠️ 至少提前 24 小时完成线上 check-in；出发前一日 16:00 前向运营商提供可联系手机号。Ocean Rafting：+61 7 4946 6848。\n📝 预订确认不等于线上登记完成：分别完成 D6/D7 check-in，并至少提前 48 小时重确认接载；建议 10/03 晚前联系运营商，避免 D4 跟团和 D5 航班期间忙乱。酒店接载按凭证，海上时刻/停靠点按船员安排。留船安排尚需运营商确认。",
     "items": [
       {
         "t": "08:40",
@@ -2242,16 +2250,16 @@ const DAYS = [
         "tr": "约 15–30 分钟"
       },
       {
-        "t": "13:10",
+        "t": "13:25",
         "tz": "AEST",
         "ttl": "午餐 · The Deck + 外带晚餐",
-        "d": "若返程接驳时间允许，在 The Deck 吃轻食或披萨，两人约 AUD 50–80；最晚 14:00 结账仅为计划。以已确认的机场车接载时间倒排午餐和取箱；晚了改外带，不为堂食误车。另备 JQ839 晚餐，航班无餐食。",
+        "d": "仅在约 13:00 前回到酒店、机场小巴时间已确认且餐厅无需久等时考虑堂食。酒店往返 The Deck 步行合计约 40–50 分钟，计划 13:25 到店、13:45 前带餐离开、14:10 左右回酒店取箱；20 分钟很紧，优先快速外带或酒店附近用餐，不为推荐餐厅误车。两人约 AUD 50–80，另备 JQ839 晚餐。",
         "tags": [
           "介绍",
           "注意"
         ],
         "p": "thedeck",
-        "tr": "步行约 8 分钟"
+        "tr": "从 Harbour Cove 步行约 20–25 分钟；须预留返回取箱时间"
       },
       {
         "t": "14:15",
@@ -2290,7 +2298,7 @@ const DAYS = [
         "t": "21:15",
         "tz": "AEDT",
         "ttl": "抵达悉尼 T2 · 前往市区",
-        "d": "机场快线 Train 到 Central 约 13 分钟，或打车约 25 分钟。",
+        "d": "机场站乘 T8 往市中心，前往 Wynyard 约 20–25 分钟，再步行约 8–12 分钟到 The Grace；另留取行李、走到站台及等车时间。也可打车直达酒店，约 25–40 分钟，以当晚路况为准。",
         "tags": [
           "导航"
         ],
@@ -2439,7 +2447,7 @@ const DAYS = [
         "ttl": "★ 歌剧院 Welcome Centre 集合",
         "d": "下层大厅（Lower Concourse），Winnie's 餐厅旁。\n⚠️ 务必 14:15 前到。大于 A4 的包需在 Welcome Centre 寄存，行李箱不能寄存。",
         "tags": [
-          "需提前订",
+          "已确认",
           "注意"
         ],
         "p": "welcome",
@@ -2451,7 +2459,7 @@ const DAYS = [
         "ttl": "★ 悉尼歌剧院 1 小时中文讲解团",
         "d": "全程约 1 小时，含多达 300 级台阶的步行路线，穿好走的鞋。\n⚠️ 迟到无法加入、不退费。咨询电话 +61 2 9250 7250。",
         "tags": [
-          "需提前订",
+          "已确认",
           "介绍"
         ],
         "p": "operahouse"
@@ -2514,57 +2522,58 @@ const DAYS = [
     "hotel": "grace",
     "hotelNote": "同 The Grace Hotel 第 3 晚",
     "hotelOk": true,
-    "warn": "⚠️ 酒店出发已确定使用滴滴国际版打车去邦迪，约 06:45 出发，目标 07:15 到达；暂按 20–30 分钟车程估算，不固定预留 45 分钟，出门前按 App 接驾与到达预估调整。上午保留完整 6 公里海岸步道，动物园计划 13:15–16:15（约 3 小时，含海狮活动）。全日均为悉尼 AEDT。\n⚠️ 11:30 从 Coogee 转场，优先打车到 Circular Quay＋F2 渡轮，预留约 1 小时 45 分钟（含等船、入园，属计划缓冲，不是班次承诺）。13:40 到海狮场地等候 14:00 场。若实时预计赶不上，比较直达动物园正门的打车方案；仍赶不上就正常游园，不赶路冒险。\n⚠️ 海狮活动目前官网列为每日 11:00 / 14:00，包含在门票内；出发前复核当天公告。塔龙加缆车暂停运营，本次不安排。午餐选快速餐，不等 Coogee Pavilion 正餐开市。",
+    "warn": "⏰ 07:30 从酒店乘滴滴国际版出发，目标 08:00 到邦迪；车程暂估 20–30 分钟，出门前查看接驾与路况。08:30–11:30 完整海岸步道，11:30–12:10 午餐。全日均为悉尼 AEDT。\n🚕 12:10 从 Coogee 叫滴滴直达 Taronga Zoo Main Entrance，预留至 13:10，含接驾和路况余量。13:10–16:15 动物园精华游约 3 小时，包含等候和海狮活动；13:40 到场。若预计晚于 13:30 抵达，入园后直奔海狮场地，并缩减后续展区。\n🐾 园内顺序参考官方 Express Visit 与地图，按 14:00 海狮活动重排，并非官方下午固定导览。海狮含在门票内，座位先到先得，出发前复核场次。缆车不安排；走累了可跳过老虎/犀牛，保留海狮和长颈鹿港景。",
     "items": [
       {
-        "t": "06:45",
+        "t": "07:30",
         "tz": "AEDT",
         "ttl": "酒店出发 · 滴滴国际版直达邦迪海滩",
-        "d": "已确定交通方式为滴滴国际版打车（尚未下单或预约车辆）。早餐提前备好，带水、防晒和防风外套。约 06:45 出发，暂按 20–30 分钟车程估算，目标 07:15 抵达；出门前查看 App 的接驾和到达预估，不把预估当保证。目的地选 Bondi Beach 南端 / Icebergs 附近可合法停车处，先拍邦迪再步行到 Coogee。车费以 App 当时报价为准，按实际记账。",
+        "d": "早餐后约 07:30 使用滴滴国际版出发（当天叫车，尚未预约车辆），暂按 20–30 分钟车程，目标 08:00 抵达；提前查看 App 接驾和到达预估。目的地选 Bondi Beach 南端 / Icebergs 附近可合法停车处。带水、防晒和防风外套，先拍邦迪，再走完整海岸步道。车费以 App 当时报价为准。",
         "tags": [
           "导航"
         ],
         "p": "bondi"
       },
       {
-        "t": "07:15",
+        "t": "08:00",
         "tz": "AEDT",
         "ttl": "★ 邦迪海滩 + Icebergs 外观拍照",
-        "d": "先拍沙滩与 Icebergs 泳池外观，约 30 分钟，不安排入池游泳。晨间通常人较少，具体光线看当天云量；这不是日出观赏时段，也不保证所有机位顺光。07:45 从海滩南端接海岸步道。",
+        "d": "08:00–08:30 拍沙滩与 Icebergs 泳池外观，不安排入池游泳。晨间通常人较少，具体光线看当天云量；这不是日出观赏时段。08:30 从海滩南端接海岸步道。",
         "tags": ["介绍"],
         "p": "bondi"
       },
       {
-        "t": "07:45",
+        "t": "08:30",
         "tz": "AEDT",
         "ttl": "★ Bondi → Coogee 完整海岸步道",
-        "d": "沿 Bondi → Tamarama → Bronte → Clovelly → Gordons Bay → Coogee 行走，全程约 6 公里，含拍照留 3 小时，目标 10:45 到 Coogee。途中按海岸步道标识，不按地图内陆最短路线抄近路；遇封闭段按官方绕行提示。体力或天气不适时可缩短，不为赶海狮冒险。",
+        "d": "08:30–11:30 沿 Bondi → Tamarama → Bronte → Clovelly → Gordons Bay → Coogee 行走，全程约 6 公里，含拍照留 3 小时。沿海岸步道标识行走，遇封闭段按官方绕行提示。体力或天气不适时可缩短；若走得较慢，午餐选外带并根据实时路况调整，不为赶海狮冒险。",
         "tags": ["介绍", "注意"],
         "p": "coogee",
         "tr": "步行约 3 小时"
       },
       {
-        "t": "11:00",
+        "t": "11:30",
         "tz": "AEDT",
         "ttl": "午餐 · Coogee 海边快速餐 / 外带",
-        "d": "在海滩附近当时已营业的咖啡店选三明治、肉派或简餐，按约 30 分钟、两人 AUD 35–60 暂估。先问出餐时间，排队就改外带；不等待 Coogee Pavilion 的正餐开市。11:30 开始转场，路上不要边走边赶着吃。",
+        "d": "11:30–12:10 用餐约 40 分钟，海边咖啡店选三明治、肉派或简餐，两人 AUD 35–60 暂估。先问出餐时间，排队就换店或外带；Coogee Pavilion 可作为当时已开门且无需久等的备选，不安排耗时正餐。12:10 叫车前往动物园。",
         "tags": ["介绍", "注意"],
         "p": "coogee"
       },
       {
-        "t": "11:30",
+        "t": "12:10",
         "tz": "AEDT",
-        "ttl": "Coogee → 环形码头 · 滴滴国际版 → 塔龙加",
-        "d": "已确认使用滴滴国际版从 Coogee 打车到 Circular Quay，再按当天屏幕搭 F2 Taronga Zoo 渡轮（航程约 12 分钟）。整段留约 1 小时 45 分钟，包含叫车、交通、等船及从码头入园；不是固定发船时间。出发时查看滴滴实时预计到达，若转船会耽误，可比较滴滴直达动物园正门的方案。没有缆车接驳。",
+        "ttl": "Coogee → Taronga Zoo · 滴滴国际版直达",
+        "d": "12:10 从 Coogee Beach 叫滴滴国际版，直达 Taronga Zoo Main Entrance。车程暂估 35–45 分钟，连同接驾与路况余量预留至 13:10；费用和预计到达时间以当天 App 为准。若预计晚于 13:30 抵达，入园后按园区标识直接去海狮场地，后续展区做减法。",
         "tags": ["导航", "注意"],
-        "p": "circularquay",
-        "tr": "转场预留约 1 小时 45 分钟"
+        "p": "taronga",
+        "tr": "打车约 35–45 分钟，连同等车预留至 13:10"
       },
       {
-        "t": "13:15",
+        "t": "13:10",
         "tz": "AEDT",
         "ttl": "★ 塔龙加动物园 · 约 3 小时",
-        "d": "计划 13:15–16:15 游园，包含海狮活动。入园先查当天场次和园区地图，13:40 前到 Seals for the Wild 场地等候，再安排其他展区。门票按 AUD 55/人暂估，实际看官网购票价格；2 人门票已列待办，尚未确认购买。",
+        "d": "13:10–16:15 精华游，约 3 小时，含园内步行、等候和海狮活动。参考官方 Express Visit 的重点展区，按下午入园和 14:00 海狮重新排序；以下时间是我们的计划，非官方导览时刻。门票按 AUD 55/人暂估，实际看官网；2 人门票仍待购买。",
+        "zooRoute": true,
         "tags": ["需提前订", "介绍"],
         "p": "taronga"
       },
@@ -2572,15 +2581,15 @@ const DAYS = [
         "t": "14:00",
         "tz": "AEDT",
         "ttl": "★ Seals for the Wild 海狮活动（以当日公告为准）",
-        "d": "官网当前列有每日 14:00 场，包含在动物园门票内，无需另买活动票。场地为 Seal Amphitheatre（园区地图 9F）；13:40 前到场等候，座位先到先得，不视为已预留。结束后继续看长颈鹿港景、考拉等感兴趣的展区，16:15 开始离园；不要求 3 小时看完整个动物园。",
+        "d": "官网当前列有每日 14:00 场，包含在动物园门票内，无需另买活动票。Seal Amphitheatre（地图 9F）13:40 前到场，座位先到先得。活动结束后按上方园内路线看大猩猩 → 老虎/犀牛 → 非洲草原与长颈鹿港景；后续时间随实际散场顺延，16:15 离园。",
         "tags": ["介绍", "注意"],
         "p": "taronga"
       },
       {
         "t": "16:15",
         "tz": "AEDT",
-        "ttl": "离园 · 渡轮回环形码头",
-        "d": "16:15 开始离园，另留到码头与等船时间，按实时 F2 班次返 Circular Quay。回市区后可先回酒店歇脚，晚餐不再折返 Coogee。",
+        "ttl": "离园 · F2 渡轮 / 滴滴返回市区",
+        "d": "15:45 起按返程方式朝出口走，目标 16:15 离园。坐船：沿现场标识走 Lower Zoo Entrance → 码头，按实时 F2 班次回 Circular Quay，另留等船时间；打车：走回 Main Entrance，滴滴返回市中心。回市区后可先回酒店歇脚，18:30 在市中心晚餐。",
         "tags": ["导航"],
         "p": "circularquay",
         "tr": "渡轮约 12 分钟，另加等船"
@@ -2614,7 +2623,7 @@ const DAYS = [
     "title": "返程 · 飞回上海",
     "hotel": null,
     "hotelNote": "今晚 22:40 抵上海虹桥 T1",
-    "warn": "⚠️ 酒店退房时间 11:00，但国际航班 12:25 起飞、建议 09:25 前到机场 —— 两者对不上。方案：08:00 直接退房（不住到 11:00），08:30 出发去机场。\n🧾 TRS：离境前 60 天内，同一 ABN 商家合资格商品含税合计至少 AUD 300；保留合规税务发票，不以支付卡判断。商品、护照与登机牌需备查；液体/大件若需托运，先问 ABF 查验再托运，不能一律放随身行李。完整资格与办理要求以 ABF 为准。",
+    "warn": "⏰ 已按早退房安排：08:00 退房、08:30 出发，目标 09:25 前到悉尼 T1，留 3 小时办理国际航班手续。酒店最晚 11:00 退房不影响提前离店。\n🧾 TRS：离境前 60 天内，同一 ABN 商家合资格商品含税合计至少 AUD 300；保留合规税务发票，不以支付卡判断。商品、护照与登机牌需备查；液体/大件若需托运，先问 ABF 查验再托运，不能一律放随身行李。完整资格与办理要求以 ABF 为准。",
     "items": [
       {
         "t": "08:00",
@@ -2661,15 +2670,15 @@ const DAYS = [
       {
         "t": "19:05",
         "tz": "CST",
-        "ttl": "抵达厦门高崎 T3 · 中转（衔接待确认）",
-        "d": "当前记录中转 1 小时 55 分，是否满足这张联程票的衔接要求，等待本人向厦航 95557 确认。航班暂不改动。行李直挂须在悉尼值机时落实；在厦门仍需办理入境及通程待检区手续，以航司指引为准。",
+        "ttl": "抵达厦门高崎 T3 · 中转（90 分钟规则已核对）",
+        "d": "当前记录中转约 1 小时 55 分；用户已向厦航在线 AI 客服核实，境内↔国际/港澳台、国际/港澳台↔境内的最短衔接时间均为 90 分钟，因此时长本身高于客服口径。航班暂不改动；行李是否直挂、入境及通程待检手续仍以悉尼值机和厦航现场指引为准。",
         "tags": [
           "航班",
-          "待确认",
+          "现场核对",
           "注意"
         ],
         "p": "xmn",
-        "tr": "中转 1 小时 55 分 · 待航司确认"
+        "tr": "中转 1 小时 55 分 · 高于厦航确认的 90 分钟最低值"
       },
       {
         "t": "21:00",
@@ -2695,7 +2704,7 @@ const DAYS = [
   }
 ];
 
-DAYS[9].warn = '✈️ 待确认（由本人联系）：厦门返程转机仅 115 分钟，请向厦航 95557 核实该联程票衔接及行李手续，暂不调整航班。\n' + DAYS[9].warn;
+DAYS[9].warn = '✈️ 厦航在线 AI 客服已确认：境内↔国际/港澳台、国际/港澳台↔境内的最短衔接时间均为 90 分钟；本次厦门返程约 1 小时 55 分，高于该最低值。行李直挂、入境及通程待检手续仍以值机和机场现场指引为准。\n' + DAYS[9].warn;
 
 const TRIP_FLOW = [
   {
@@ -2818,14 +2827,15 @@ const TRIP_FLOW = [
     "d": 9,
     "title": "邦迪到库吉 · 塔龙加海狮",
     "stops": [
-      "约 06:45 滴滴国际版 → 邦迪",
-      "07:15 邦迪 / Icebergs 拍照",
-      "07:45–10:45 完整海岸步道",
-      "11:00 Coogee 快速午餐",
-      "11:30 滴滴国际版 → 环形码头 → 渡轮",
-      "13:15 入园 / 13:40 海狮场地等候",
+      "07:30 滴滴国际版 → 邦迪",
+      "08:00 邦迪 / Icebergs 拍照",
+      "08:30–11:30 完整海岸步道",
+      "11:30–12:10 Coogee 午餐",
+      "12:10 滴滴直达 Taronga 正门",
+      "13:10 入园 / 13:40 海狮场地等候",
       "14:00 海狮（复核当日场次）",
-      "16:15 离园 → 环形码头",
+      "大猩猩 → 老虎/犀牛 → 长颈鹿港景",
+      "16:15 离园 · F2 / 滴滴回市区",
       "18:30 市中心晚餐 → 酒店"
     ]
   },
@@ -2861,7 +2871,7 @@ const TICKETS = [
   ['航段 2','MF803 · 10/01 22:15 厦门 T3 → 10/02 09:35 墨尔本 T2（787，含餐食）'],
   ['航段 3','MF802 · 10/10 12:25 悉尼 T1 → 19:05 厦门 T3（787，含餐食）'],
   ['航段 4','MF8517 · 10/10 21:00 厦门 T3 → 22:40 上海虹桥 T1（737-800，含点心）'],
-  ['返程衔接待确认','厦门中转 115 分钟；本人待向厦航 95557 核实该联程票衔接、最新时刻及行李直挂手续。票已订不代表此项已确认，暂不改票。'],
+  ['返程衔接规则','厦门中转约 1 小时 55 分；厦航在线 AI 客服已确认境内↔国际/港澳台、国际/港澳台↔境内最短衔接时间均为 90 分钟。时长高于最低值；行李直挂及通程手续仍以值机/现场为准。'],
   ['行李','托运 1×23KG/人 + 手提 1×8KG/人'],
   ['总价','¥ 15,387（2 人）'],
   ['备注','含墨尔本租车券（最高减 ¥1288），已决定不使用']
@@ -2954,6 +2964,26 @@ const HOTEL_POI_KEYS = ['dorsett','harbourcove','grace'];
 
 const TODOS = [
   {
+    "id": "dorsett-arrival-luggage",
+    "t": "出发前向 Dorsett 确认 10/02 上午可寄存行李、晚餐后办理入住；若航班或入境延误，及时联系 Higher Ground 调整 12:15 午餐",
+    "u": true
+  },
+  {
+    "id": "grace-late-arrival",
+    "t": "提前告知 The Grace 10/07 约 22:30 才到店，请保留房间；如航班延误再通知酒店",
+    "u": true
+  },
+  {
+    "id": "ocean-meals-cover",
+    "t": "重确认 Fly + Raft 套餐的午餐包含情况，以及不浮潜时的留船安排；不要把官网标准团权益直接当作本订单确认",
+    "u": true
+  },
+  {
+    "id": "insurance-activity-check",
+    "t": "核对已购保险对固定翼观光飞机、出海快艇等实际活动的承保条件，并补录保险实付金额；购买成功不代表所有活动都承保",
+    "u": false
+  },
+  {
     "t": "普芬比利一日游两张独立成人凭证均已确认（2 人）",
     "u": false,
     "done": true
@@ -2984,7 +3014,8 @@ const TODOS = [
     "done": true
   },
   {
-    "t": "按各段行李额装箱：维珍托运 ≤23kg（24 寸）、捷星托运 ≤25kg（32 寸），出发前称重",
+    "id": "task:%E6%8C%89%E5%90%84%E6%AE%B5%E8%A1%8C%E6%9D%8E%E9%A2%9D%E8%A3%85%E7%AE%B1%EF%BC%9A%E7%BB%B4%E7%8F%8D%E6%89%98%E8%BF%90%20%E2%89%A423kg%EF%BC%8824%20%E5%AF%B8%EF%BC%89%E3%80%81%E6%8D%B7%E6%98%9F%E6%89%98%E8%BF%90%20%E2%89%A425kg%EF%BC%8832%20%E5%AF%B8%EF%BC%89%EF%BC%8C%E5%87%BA%E5%8F%91%E5%89%8D%E7%A7%B0%E9%87%8D",
+    "t": "按订单核对各段行李额：维珍托运 23kg、捷星托运 25kg；不能用 24/32 寸箱名判断合规，还须核对外部尺寸。全程称重，捷星标准随身两件合计 7kg",
     "u": false
   },
   {
@@ -3047,7 +3078,7 @@ const TODOS = [
   },
   {
     "id": "xmn-return-connection",
-    "t": "待本人确认：向厦航 95557 核实 10/10 MF802 19:05 抵厦门 → MF8517 21:00 起飞的 115 分钟衔接、最新航班时刻、行李直挂与入境中转流程；暂不改票",
+    "t": "出发前检查：10/10 MF802 抵厦门 → MF8517 起飞间隔约 1 小时 55 分，高于厦航确认的 90 分钟最低衔接时间；值机时确认行李直挂、通程待检和登机口",
     "u": true
   },
   {
@@ -3089,7 +3120,7 @@ const TIPS = [
   },
   {
     "h": "入境与海关",
-    "b": "· 澳洲对食品、种子、木制品、泥土制品查验极严，不确定就申报，申报不罚、瞒报罚款\n· 入境卡可在飞机上填，提前备一支笔\n· 现金超过 AUD 10,000 需申报\n· 常用药带原包装与英文说明，含麻黄碱类需留意"
+    "b": "· 澳洲对食品、种子、木制品、泥土制品查验极严，不确定就如实申报并接受检查；申报不代表物品一定允许带入\n· 入境卡可在飞机上填，提前备一支笔\n· 携带现金总额达到或超过 AUD 10,000（含等值外币）需申报\n· 常用药带原包装与英文说明，含麻黄碱类需留意"
   },
   {
     "h": "交通卡",
@@ -3167,7 +3198,7 @@ function dayRouteSections(day){
   else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
   else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
   else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
-  else if(day.n===9){add('酒店 → 邦迪（滴滴国际版打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（滴滴国际版打车）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达（滴滴）',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
+  else if(day.n===9){add('酒店 → 邦迪（滴滴国际版打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → Taronga Zoo Main Entrance（滴滴国际版直达）',['coogee','taronga'],'driving');add('备选返程：公共交通到环形码头（选择 F2，含下山至码头步行）',['taronga','circularquay'],'transit');add('返程：悉尼市区 → 酒店',['circularquay','grace']);}
   else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
   else {
     if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
@@ -4019,10 +4050,10 @@ const RESTAURANT_BOOKINGS = [
   {date:'10/02',time:'18:00',name:'Asado Southbank',note:'2 人 · 周五晚餐，建议锁定座位',level:'现在预订',url:'https://www.asado.melbourne/bookings',phone:'+61 3 9088 8600'},
   {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
   {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
-  {date:'10/07',time:'13:10',name:'The Deck Airlie Beach',note:'2 人 · 待接驳确认后再决定堂食；以机场车时间倒排，来不及改外带',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
+  {date:'10/07',time:'13:25',name:'The Deck Airlie Beach',note:'2 人 · 往返酒店步行约 40–50 分钟；13:45 前离店，堂食不宽裕，优先外带，按最终机场车时间倒排',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
   {date:'10/08',time:'18:30',name:'The Glenmore',note:'2 人 · 预订时选 Rooftop / 屋顶偏好',level:'现在预订',url:'https://www.sevenrooms.com/explore/glenmorehotel/reservations/create/search/',phone:'+61 2 9247 4794'},
   {date:'10/04',time:'约 20:30',name:'Stalactites',note:'2 人晚餐不接受预约；返城后直接 walk-in',level:'无需预订'},
-  {date:'10/09',time:'11:00–11:30',name:'Coogee 海边快速午餐',note:'选当时已营业的咖啡店或外带，不等 Coogee Pavilion 正餐开市；11:30 转场去动物园',level:'无需预订'}
+  {date:'10/09',time:'11:30–12:10',name:'Coogee 海边快速午餐',note:'用餐约 40 分钟；选出餐快的咖啡店或外带，Pavilion 仅在无需久等时考虑；12:10 叫滴滴直达动物园',level:'无需预订'}
 ];
 
 /* Booking overview reuses restaurant, ticket and hotel status instead of duplicating it. */
@@ -4040,7 +4071,7 @@ const BOOKING_TASKS = [
     group:b.confirmed ? 'confirmed' : b.date==='10/07' ? 'conditional' : 'pending',
     level:b.confirmed ? '已预订 ✓' : b.date==='10/07' ? '确认后再订 ↗' : '打开预订页 ↗'
   })),
-  {id:'taronga-ticket',date:'10/09',time:'D9 13:15–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人，不要买成其他动物园。官网 Buy tickets 进入购票。14:00 海狮活动包含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
+  {id:'taronga-ticket',date:'10/09',time:'D9 13:10–16:15 · 2 人',name:'塔龙加动物园门票',category:'门票',group:'pending',level:'官网购票入口 ↗',url:'https://www.taronga.org.au/sydney-zoo',note:'建议提前购票；选择 Taronga Zoo Sydney、10/09、2 位成人。约 3 小时精华游，14:00 海狮活动含在门票内，出发前复核场次，13:40 到场等候。尚未收到购票确认，不标为已订。'},
   {id:'ppp-shuttle-booking',date:'10/05 + 10/07',time:'D5 / D7 · 2 人',name:'Airlie Airport Bus 机场往返接驳',category:'交通',group:'pending',level:'官网 / 预订 ↗',url:'https://airportbuswhitsundays.com.au/',note:'按原计划：10/5 落地到 Shop 1 柜台报到，确认送至 Harbour Cove，并登记 10/7 返程。也可提前官网询问/订车；返程接载时间、地点和大箱数量须确认，不把计划时间当车票。'},
   {id:'bridge-museum-optional',date:'10/08',time:'D8 约 16:10 · 2 人',name:'BridgeMuseum 东南桥塔（可选）',category:'门票',group:'conditional',level:'官网 / 购票入口 ↗',url:'https://www.bridgemuseum.com.au/plan-your-visit',note:'决定登塔再购票；先核对可订时段、最后入场及退改条件。歌剧院结束后留步行缓冲，迟了或累了可跳过；不是 BridgeClimb 爬桥项目。'},
   {id:'moonlit-encounter-optional',date:'10/03',time:'D3 · 先问导游',name:'Moonlit 考拉近距离互动（可选加项）',category:'体验',group:'conditional',level:'官方体验说明 ↗',url:'https://moonlitsanctuary.com.au/koala_encounter/',note:'园区入场已在一日游内，不重复买入场票。额外互动是否包含、是否赶得上需先问导游；官网预约时段可能与跟团到园时间冲突，未经确认不要单独付款。不能抱考拉，不参加就无需预订。'},
@@ -4075,7 +4106,7 @@ const FOOD_GROUPS = [
   ]},
   {day:'D5–D7',date:'10/05–10/07',icon:'🐟',place:'艾尔利海滩 · 圣灵群岛',items:[
     {name:'The Pavilion · 海鲜 + 日落特调',status:'已排入 D5 晚餐',must:'先问 catch of the day；有澳洲 Barramundi、Coral Trout 或 Moreton Bay Bug 时优先，再配 tropical cocktail / mocktail。',why:'面向珊瑚海，官方资料明确主打区域农产、时令食材、海鲜与手工鸡尾酒；已替代目前无法确认继续营业的 Fish D’Vine。',timing:'D5 18:45，建议现在预订。两人共享一份海鲜主菜加配菜即可，现场鱼获和价格优先。',poi:'pavilion',url:'https://coralsearesort.com/coral-sea-pavilion/',query:'Airlie Beach Coral Sea Pavilion sunset seafood cocktail'},
-    {name:'The Deck · 披萨 / 海鲜 + 芒果百香果饮品',status:'已排 D6 / D7',must:'出海后选披萨或海鲜主菜；另点芒果、菠萝或百香果风味冷饮补充水分。',why:'不算“目的地级名菜”，胜在泄湖边、营业时间和航班衔接最稳，属于本次行程最实用的吃法。',timing:'D6 18:30 前到；D7 午餐 14:00 前结账并外带晚餐。',poi:'thedeck',url:'https://thedeckairliebeach.com.au/menu/',query:'Airlie Beach The Deck 必吃 tropical drink'}
+    {name:'The Deck · 披萨 / 海鲜 + 芒果百香果饮品',status:'已排 D6 / D7',must:'出海后选披萨或海鲜主菜；另点芒果、菠萝或百香果风味冷饮补充水分。',why:'不算“目的地级名菜”，胜在泄湖边、营业时间和航班衔接最稳，属于本次行程最实用的吃法。',timing:'D6 18:30 前到；D7 堂食仅作备选；13:45 前离店回酒店取箱，接驳较晚则直接外带。',poi:'thedeck',url:'https://thedeckairliebeach.com.au/menu/',query:'Airlie Beach The Deck 必吃 tropical drink'}
   ]},
   {day:'D8',date:'10/08',icon:'🍹',place:'悉尼 · 新鱼市场 / 市中心',items:[
     {name:'Fruitezy · 现场鲜榨果汁',status:'可选早起，睡眠优先',must:'两人点两种交换喝：一杯自选鲜榨（橙 + 百香果或按当季水果搭配），另一杯西瓜汁或甘蔗汁；想吃甜品可加少量巧克力水果。',why:'你看到的推荐靠谱。Fruitezy 是澳洲家庭经营果蔬店，官方鱼市场页面确认有现做果汁、甘蔗汁、smoothie 与水果甜品；新店在 C2，不再是旧 Bank Street 地址。',timing:'可选 D8 支线：07:15 酒店打车 → 约 07:30–08:05 Fruitezy → 打车返回酒店，预留至 08:45；09:00 主线出发去 QVB。前晚晚到，累了跳过；周四营业时刻以店铺当天为准。',poi:'fruitezy',url:'https://www.sydneyfishmarket.com.au/retailer/fruitezy/',query:'悉尼 Fruitezy 果汁 新鱼市场 C2 必喝',featured:true},
@@ -4083,7 +4114,7 @@ const FOOD_GROUPS = [
   ]},
   {day:'D8–D9',date:'10/08–10/09',icon:'🍺',place:'悉尼港 · 库吉海岸',items:[
     {name:'澳洲酒馆餐 + 本地啤酒 / 姜汁啤酒',status:'D8 晚餐',must:'The Glenmore 点一份酒馆主菜或汉堡；饮品可问 NSW 精酿，或选无酒精 ginger beer。',why:'屋顶看海港的体验比追“全网第一名”餐厅更贴合这天路线，也是澳洲 pub culture 的轻松版本。',timing:'D8 18:30，天气好订屋顶位；风大或下雨就坐室内。',poi:'glenmore',query:'The Glenmore Sydney rooftop pub food local beer'},
-    {name:'Coogee 海边简餐 + Flat White / 鲜果汁',status:'D9 快速午餐',must:'选当时已营业的咖啡店，点三明治、肉派或当日简餐，配 Flat White 或鲜果汁；以实际菜单为准。',why:'走完海岸步道先补充体力，再转场去动物园。不把午餐绑在晚开市的正餐厅，优先保留 14:00 海狮活动。',timing:'D9 11:00–11:30，排队就改外带；不等 Coogee Pavilion 正餐开市。晚餐改在悉尼市中心 / 酒店附近。',poi:'coogee',query:'Coogee beach cafe takeaway lunch coffee'}
+    {name:'Coogee 海边简餐 + Flat White / 鲜果汁',status:'D9 快速午餐',must:'选当时已营业的咖啡店，点三明治、肉派或当日简餐，配 Flat White 或鲜果汁；以实际菜单为准。',why:'走完海岸步道先补充体力，再转场去动物园，保留 14:00 海狮活动。',timing:'D9 11:30–12:10，用餐约 40 分钟，排队就换店或外带；Pavilion 仅在无需久等时考虑。12:10 滴滴直达动物园，晚餐在市中心 / 酒店附近。',poi:'coogee',query:'Coogee beach cafe takeaway lunch coffee'}
   ]}
 ];
 
@@ -4264,6 +4295,49 @@ function saveCK(){ try{ localStorage.setItem('au26_ck_v2', JSON.stringify(CK)); 
 function itemKey(d,it){ return d.date + ':' + encodeURIComponent(it.id || it.ttl); }
 function dayCounted(d){ return d.items.filter(it => !it.optional); }
 
+/* 根据项目本身判定，不依赖位置索引，插入景点不会造成状态错配。 */
+function transferStatus(d,it){
+  if(it.transferStatus) return it.transferStatus;
+  if(/中转/.test(it.ttl)) return '按联程指引中转，值机时核对通程手续';
+  if((it.tags||[]).includes('航班')) return '航班已出票';
+  if(d.n===3 || (d.n===4 && !['dorsett','stalactites'].includes(it.p))) return '跟团已确认，途中按导游安排';
+  if(d.n===5 && it.p==='harbourcove') return '机场柜台确认座位，并登记返程';
+  if(d.n===7 && it.p==='harbourcove' && /降落/.test(it.ttl)) return '返程接驳地点待确认';
+  if(d.n===7 && it.p==='ppp' && /取行李/.test(it.ttl)) return '机场小巴接载时间待确认';
+  if(it.p==='higherground') return '餐厅已预订';
+  if(it.p==='welcome' || /歌剧院.*中文讲解/.test(it.ttl)) return '门票已购';
+  if(it.p==='hbrbridge') return '可选，决定后购票';
+  if(['asado','pavilion','glenmore'].includes(it.p)) return '建议提前订位';
+  if(it.p==='thedeck') return d.n===7?'午餐按机场接驳倒排，来不及改外带':'建议提前订位';
+  if(it.p==='taronga' && /滴滴/.test(it.ttl)) return '当天 DiDi 叫车；动物园门票需提前购买';
+  if(it.p==='taronga' && /海狮/.test(it.ttl)) return '含在入园门票内，无需另订；场次当日复核';
+  if(it.p==='taronga') return '动物园门票需提前购买';
+  if(/SkyBus/.test(it.ttl)) return '可线上或现场购票，无需预约具体班次';
+  return '无需预订';
+}
+function transferLabel(d,it,ii){
+  const status = transferStatus(d,it);
+  return it.tr + (status ? ' · ' + status : '');
+}
+
+function zooRouteHTML(){
+  const stops = [
+    ['13:10–13:40','正门入园 → 海狮场地','检票、洗手间、补水后沿园区主路去 Seal Amphitheatre（地图 9F），按现场标识行走；这段留给入园和步行，不插入完整展区。'],
+    ['13:40–14:00','到场等候','提前约 20 分钟等候，座位先到先得；以当天场次和工作人员指引为准。'],
+    ['14:00','Seals for the Wild','核心活动，包含在门票内。为衔接暂留至约 14:25，实际结束时间以现场为准。'],
+    ['约 14:25–14:45','大猩猩 Gorilla Precinct','海狮结束后看邻近的大猩猩展区（10G），不追赶 14:20 的讲解；这一段含步行。'],
+    ['约 14:45–15:10','Tiger Trek → Rhino Reserve','往老虎步道与犀牛区走（12F），挑感兴趣的动物停留；若老虎躲起来就继续。更喜欢小熊猫可用 Rainforest Trail 替换这一段。'],
+    ['约 15:10–15:45','African Savannah → 长颈鹿港景','非洲草原沿途选看狮子、狐獴等，把重点停留给长颈鹿与悉尼港合影（长颈鹿约 12I）；步行和拍照都含在时段内。'],
+    ['15:45–16:15','按返程方式前往出口','坐 F2：沿标识去 Lower Entrance，再步行到码头；滴滴：返回 Main Entrance。纪念品只顺路快看，16:15 为目标离园时间，不是渡轮开船时间。']
+  ];
+  return '<div class="note" style="margin-top:12px"><b>园内精华路线 · 海狮优先</b>'
+    + '<ol style="padding-left:22px;margin:10px 0">' + stops.map(s => '<li style="margin:0 0 12px;line-height:1.65"><b>' + esc(s[0]) + ' · ' + esc(s[1]) + '</b><br>' + esc(s[2]) + '</li>').join('') + '</ol>'
+    + '<p>取舍：D3 已安排考拉公园，今天主线不再绕看考拉。若特别想看考拉、袋鼠或鸭嘴兽，可用 Nura Diya Australia 替换老虎/犀牛与非洲草原段，按当天地图重新选路；不要叠加全部展区。走累或散场较晚就缩短中间展区，保留海狮、长颈鹿港景及离园时间。</p>'
+    + '<div class="minitools"><a class="btn" href="https://www.taronga.org.au/sydney-zoo/plan/get-the-most-out-of-your-visit/express-visit" target="_blank" rel="noopener noreferrer">官方精华路线 ↗</a>'
+    + '<a class="btn" href="https://www.taronga.org.au/siteassets/tzs/map/tz-map-online.pdf" target="_blank" rel="noopener noreferrer">官方园区地图 ↗</a>'
+    + '<a class="btn" href="https://www.taronga.org.au/sydney-zoo/whats-on/keeper-talks" target="_blank" rel="noopener noreferrer">当天活动时间 ↗</a></div></div>';
+}
+
 function itemHTML(d, di, it, ii){
   const id = itemKey(d,it);
   const on = !!CK[id];
@@ -4274,7 +4348,7 @@ function itemHTML(d, di, it, ii){
     : '<div class="t">' + esc(it.t) + '</div><div class="z">' + esc(it.tz) + '</div>';
   const summaryTime = it.t === '--:--' ? '待定' : esc(it.t);
   const placeLink = poi ? '<div class="item-place"><span class="placelink" data-poi="' + it.p + '">📍 查看地点详情</span></div>' : '';
-  return (it.tr ? '<div class="transfer">🚶 ' + esc(it.tr) + '</div>' : '')
+  return (it.tr ? '<div class="transfer">🚶 ' + esc(transferLabel(d,it,ii)) + '</div>' : '')
     + '<div class="item' + (on ? ' done' : '') + '" data-id="' + id + '">'
     + '<button class="item-toggle" type="button" data-item-toggle="' + id + '" aria-expanded="true">'
     + '<span class="item-summary-time">' + summaryTime + '</span><span class="item-summary-title">' + esc(it.ttl) + '</span><span class="item-caret">▶</span></button>'
@@ -4282,6 +4356,7 @@ function itemHTML(d, di, it, ii){
     + '<div class="it-time">' + tline + '</div>'
     + '<div class="it-main">'
     + (it.d ? '<div class="it-desc">' + esc(it.d) + '</div>' : '')
+    + (it.zooRoute ? zooRouteHTML() : '')
     + placeLink
     + (tags ? '<div class="tags">' + tags + '</div>' : '')
     + '</div>'
@@ -4300,6 +4375,83 @@ function dayTimeHTML(i, d){
     + '<div class="cd-next" data-day-next="' + i + '">正在计算…</div>'
     + '<div class="day-clocks" data-day-clocks="' + i + '"></div></div>';
 }
+
+/* 每天地点之间的移动与预订状态：交通是计划值，航班 / 接驳 / 门票以订单和当天通知为准。 */
+const DAY_TRANSIT = {
+  1:[
+    {from:'上海虹桥 T1',to:'厦门高崎 T3',mode:'MF8510 航班 · 约 1 小时 50 分',note:'按机票办理值机',kind:'confirmed',label:'已出票'},
+    {from:'厦门高崎 T3',to:'墨尔本 T2',mode:'MF803 航班',note:'中转 2 小时 15 分，按联程指引',kind:'confirmed',label:'已出票'},
+    {from:'墨尔本 T2',to:'南十字星车站',mode:'SkyBus · 约 25 分钟',note:'机场现场购票 / 刷卡即可',kind:'same-day',label:'无需预订'},
+    {from:'南十字星车站',to:'Dorsett Melbourne',mode:'步行或 DiDi',note:'约 10 分钟，带行李可打车',kind:'same-day',label:'当天决定'}
+  ],
+  2:[
+    {from:'Dorsett Melbourne',to:'Higher Ground',mode:'步行 · 约 5 分钟',note:'Higher Ground 订位已确认',kind:'confirmed',label:'餐厅已预订'},
+    {from:'Higher Ground',to:'Chemist Warehouse',mode:'步行 · 约 8–12 分钟',note:'Spencer Outlet Centre 内',kind:'same-day',label:'无需预订'},
+    {from:'Chemist Warehouse',to:'lululemon Emporium',mode:'免费电车 / 步行 · 约 15 分钟',note:'现场刷卡或使用交通卡',kind:'same-day',label:'无需预订'},
+    {from:'Emporium',to:'皇家拱廊 / 布洛克拱廊',mode:'步行 · 约 6–10 分钟',note:'购物超时可跳过',kind:'same-day',label:'无需预订'},
+    {from:'拱廊',to:'迪格雷夫斯街 / 弗林德斯街车站',mode:'步行 · 约 6 分钟',note:'沿 CBD 步行',kind:'same-day',label:'无需预订'},
+    {from:'联邦广场',to:'Asado Southbank',mode:'步行过河 · 约 8 分钟',note:'晚餐建议提前订位',kind:'required',label:'建议预订'},
+    {from:'Asado Southbank',to:'Dorsett Melbourne',mode:'电车 / DiDi · 约 15 分钟',note:'晚餐后按体力选择',kind:'same-day',label:'无需预订'}
+  ],
+  3:[
+    {from:'Dorsett Melbourne',to:'601 Lonsdale Street',mode:'步行或 DiDi 短途接送',note:'08:05 到场，迟到不等人',kind:'same-day',label:'无需预订'},
+    {from:'601 Lonsdale Street',to:'布莱顿彩虹小屋',mode:'Klook 中文团巴士 · 约 40 分钟',note:'随团出发',kind:'confirmed',label:'跟团已确认'},
+    {from:'布莱顿彩虹小屋',to:'帕芬比利 / Belgrave',mode:'同一团巴士 · 约 1 小时 15 分钟',note:'不自行换乘火车',kind:'confirmed',label:'跟团已确认'},
+    {from:'帕芬比利',to:'Moonlit Sanctuary',mode:'同一团巴士 · 约 50 分钟',note:'按导游集合时间返回',kind:'confirmed',label:'跟团已确认'},
+    {from:'Moonlit Sanctuary',to:'Phillip Island 企鹅归巢',mode:'同一团巴士 · 约 1 小时',note:'晚餐和入场服从导游 / 园区安排',kind:'confirmed',label:'跟团已确认'},
+    {from:'Phillip Island',to:'墨尔本市区',mode:'同一团巴士 · 约 2 小时',note:'预计 22:30–23:00，交通可能延误',kind:'confirmed',label:'跟团已确认'}
+  ],
+  4:[
+    {from:'酒店',to:'300 Spencer Street',mode:'步行或 DiDi',note:'提前 10–15 分钟到 Atlantis Hotel',kind:'same-day',label:'无需预订'},
+    {from:'300 Spencer Street',to:'大洋路各景点',mode:'飞猪一日游巴士',note:'300 Spencer 上车点已确认；司机前一天短信通知',kind:'confirmed',label:'跟团已确认'},
+    {from:'大洋路',to:'墨尔本市区',mode:'同一团巴士 · 约 19:00–20:30',note:'景点顺序受天气和路况影响',kind:'confirmed',label:'跟团已确认'}
+  ],
+  5:[
+    {from:'Dorsett Melbourne',to:'墨尔本机场 T3',mode:'DiDi / 出租车 · 约 30 分钟',note:'维珍澳洲国内航班，建议提前 2 小时到',kind:'same-day',label:'无需预订'},
+    {from:'墨尔本 T3',to:'布里斯班国内机场',mode:'VA321 航班 · 约 2 小时 10 分钟',note:'行李按订单直挂',kind:'confirmed',label:'已出票'},
+    {from:'布里斯班国内机场',to:'普罗瑟派恩 PPP',mode:'VA1117 航班 · 约 1 小时 50 分钟',note:'国内航站楼内中转',kind:'confirmed',label:'已出票'},
+    {from:'PPP 到达厅 Shop 1',to:'Harbour Cove',mode:'Airlie Airport Bus 红色小巴 · 约 40 分钟',note:'先到柜台报到，返程接驳也要一并确认',kind:'required',label:'需确认 / 预订'},
+    {from:'Harbour Cove',to:'Coral Sea Pavilion',mode:'步行或 DiDi',note:'晚餐建议订位',kind:'required',label:'餐厅建议预订'}
+  ],
+  6:[
+    {from:'Harbour Cove',to:'Coral Sea Marina North',mode:'Ocean Rafting 酒店接驳',note:'08:45 门口接载，提前 5 分钟等候',kind:'confirmed',label:'接驳已确认'},
+    {from:'Coral Sea Marina North',to:'Whitehaven / Hill Inlet',mode:'Southern Lights 快艇',note:'白天堂和希尔湾顺序由船员安排',kind:'confirmed',label:'出海已确认'},
+    {from:'船上停靠点',to:'Coral Sea Marina North',mode:'同一快艇返港 · 官网约 16:30',note:'两人不浮潜，登船时向船员说明',kind:'confirmed',label:'出海已确认'},
+    {from:'Coral Sea Marina North',to:'Harbour Cove',mode:'运营商接驳',note:'返港后按工作人员指示，不去 Port of Airlie',kind:'same-day',label:'现场跟随'},
+    {from:'Harbour Cove',to:'The Deck',mode:'步行约 20–25 分钟或 DiDi',note:'晚餐建议 20:00 前结束',kind:'same-day',label:'无需预订'}
+  ],
+  7:[
+    {from:'Harbour Cove',to:'观光飞机集合点',mode:'Ocean Rafting 接驳',note:'11:00 门口接载，酒店已知情',kind:'confirmed',label:'接驳已确认'},
+    {from:'集合点',to:'心形礁上空',mode:'60 分钟观光飞机',note:'11:30–12:30，座位按重量分配',kind:'confirmed',label:'已确认'},
+    {from:'降落点',to:'Harbour Cove / 艾尔利海滩',mode:'运营商返程接驳',note:'是否送回酒店和下车点仍需确认',kind:'required',label:'需再次确认'},
+    {from:'Harbour Cove',to:'PPP 机场',mode:'Airlie Airport Bus 红色小巴 · 约 40 分钟',note:'返程接载时间地点以运营商最终通知为准',kind:'required',label:'待确认'},
+    {from:'PPP',to:'悉尼 T2',mode:'JQ839 航班 · 约 2 小时 25 分钟',note:'国内航站楼抵达',kind:'confirmed',label:'已出票'},
+    {from:'悉尼 T2',to:'The Grace Hotel',mode:'T8 到 Wynyard 约 20–25 分钟，再步行约 8–12 分钟；或 DiDi',note:'另留取行李与等车时间；提前通知酒店晚到',kind:'same-day',label:'无需预订'}
+  ],
+  8:[
+    {from:'The Grace Hotel',to:'QVB',mode:'步行 · 约 10–15 分钟',note:'不需要公共交通',kind:'same-day',label:'无需预订'},
+    {from:'QVB',to:'Hyde Park / St Mary’s Cathedral',mode:'步行 · 约 5–8 分钟',note:'沿 CBD 南北向步行',kind:'same-day',label:'无需预订'},
+    {from:'St Mary’s Cathedral',to:'新州美术馆',mode:'步行 · 约 10 分钟',note:'常设展免费，特展另算',kind:'same-day',label:'无需预订'},
+    {from:'美术馆',to:'皇家植物园 / 麦考利夫人座椅',mode:'步行 · 约 20–30 分钟',note:'沿海滨步道',kind:'same-day',label:'无需预订'},
+    {from:'麦考利夫人座椅',to:'悉尼歌剧院台阶',mode:'步行 · 约 15 分钟',note:'预留拍照和风景时间',kind:'same-day',label:'无需预订'},
+    {from:'歌剧院台阶',to:'Welcome Centre',mode:'步行 · 约 3 分钟',note:'14:15 前集合',kind:'same-day',label:'无需预订'},
+    {from:'Welcome Centre',to:'歌剧院中文讲解团',mode:'步行入场 · 约 1 小时',note:'迟到无法加入；票据已保存',kind:'confirmed',label:'门票已购'},
+    {from:'歌剧院',to:'BridgeMuseum 东南桥塔',mode:'步行 + 离场缓冲 · 约 40 分钟',note:'可选；决定去再买票',kind:'optional',label:'可选需预订'},
+    {from:'BridgeMuseum / 歌剧院',to:'The Rocks / Glenmore',mode:'步行 · 约 12 分钟',note:'Glenmore 屋顶位建议预约',kind:'required',label:'餐厅建议预订'}
+  ],
+  9:[
+    {from:'The Grace Hotel',to:'Bondi Beach 南端 / Icebergs',mode:'DiDi 国际版 · 约 20–30 分钟',note:'07:30 出发，目标 08:00 到达',kind:'same-day',label:'当天叫车'},
+    {from:'Bondi Beach',to:'Coogee Beach',mode:'Bondi–Coogee 海岸步道 · 约 3 小时',note:'全程约 6 公里，按海岸标识行走',kind:'same-day',label:'无需预订'},
+    {from:'Coogee Beach',to:'Taronga Zoo Main Entrance',mode:'DiDi 国际版直达 · 约 35–45 分钟',note:'12:10 叫车，连同接驾预留至 13:10，价格以 App 为准',kind:'same-day',label:'当天叫车'},
+    {from:'Taronga Zoo',to:'Circular Quay / 市区',mode:'F2 渡轮或 DiDi',note:'轮渡可刷卡；不想等船就从正门打车',kind:'same-day',label:'当天决定'},
+    {from:'Taronga Zoo',to:'14:00 海狮活动',mode:'园内步行',note:'13:40 到场；活动含在门票内，场次以当天公告为准',kind:'required',label:'门票需提前买'}
+  ],
+  10:[
+    {from:'The Grace Hotel',to:'悉尼机场 T1',mode:'Airport Train 或 DiDi · 约 20–25 分钟',note:'国际航班建议提前 3 小时到',kind:'same-day',label:'无需预订'},
+    {from:'悉尼 T1',to:'厦门高崎 T3',mode:'MF802 航班 · 约 9 小时 40 分钟',note:'值机时确认行李直挂和中转要求',kind:'confirmed',label:'已出票'},
+    {from:'厦门高崎 T3',to:'上海虹桥 T1',mode:'MF8517 航班 · 约 1 小时 40 分钟',note:'约 1 小时 55 分钟，高于厦航确认的 90 分钟最低值；值机时确认通程手续',kind:'required',label:'出发前现场核对'}
+  ]
+};
 
 function dayHTML(d, i){
   const counted = dayCounted(d);
@@ -4716,10 +4868,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v41' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v48' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v41' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v48' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);

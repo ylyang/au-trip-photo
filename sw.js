@@ -1,4 +1,4 @@
-const CACHE_NAME = 'au-trip-photo-v47';
+const CACHE_NAME = 'au-trip-photo-v48';
 const SOUVENIR_ASSETS = [
   'airlie-gallery','airlie-magnet','apollo-art','apollo-candy','apollo-homewares',
   'aquabumps-book','koko-black','melbourne-tram','opera-teatowel','phillip-penguin',
@@ -62,15 +62,29 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if(url.origin !== self.location.origin) return;
 
+  // The vault requests fresh ciphertext explicitly; never override no-store
+  // with an older package held by a previous service worker.
+  if(request.cache === 'no-store' || url.pathname.endsWith('/tickets.enc.json')){
+    event.respondWith(fetch(request));
+    return;
+  }
+
   if(request.mode === 'navigate'){
+    const scope = self.registration.scope;
+    const relative = url.pathname.slice(new URL(scope).pathname.length);
+    const page = !relative || relative === 'index.html' ? './index.html'
+      : ['tickets.html','ticket-vault-builder.html'].includes(relative) ? './' + relative : null;
     event.respondWith(
       fetch(request).then(response => {
-        if(response.ok){
+        if(response.ok && page){
           const copy = response.clone();
-          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy)));
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(page, copy)));
         }
         return response;
-      }).catch(() => caches.match('./index.html'))
+      }).catch(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        return (page && await cache.match(page)) || new Response('此页面尚未离线保存，请联网后再打开。',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}});
+      })
     );
     return;
   }
