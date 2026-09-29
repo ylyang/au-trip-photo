@@ -2513,13 +2513,13 @@ const DAYS = [
     "hotel": "grace",
     "hotelNote": "同 The Grace Hotel 第 3 晚",
     "hotelOk": true,
-    "warn": "⚠️ 今天早出门：06:30 离开酒店，上午保留完整 6 公里海岸步道，动物园计划 13:15–16:15（约 3 小时，含海狮活动）。全日均为悉尼 AEDT。\n⚠️ 11:30 从 Coogee 转场，优先打车到 Circular Quay＋F2 渡轮，预留约 1 小时 45 分钟（含等船、入园，属计划缓冲，不是班次承诺）。13:40 到海狮场地等候 14:00 场。若实时预计赶不上，比较直达动物园正门的打车方案；仍赶不上就正常游园，不赶路冒险。\n⚠️ 海狮活动目前官网列为每日 11:00 / 14:00，包含在门票内；出发前复核当天公告。塔龙加缆车暂停运营，本次不安排。午餐选快速餐，不等 Coogee Pavilion 正餐开市。",
+    "warn": "⚠️ 酒店出发已确定使用滴滴国际版打车去邦迪，约 06:45 出发，目标 07:15 到达；暂按 20–30 分钟车程估算，不固定预留 45 分钟，出门前按 App 接驾与到达预估调整。上午保留完整 6 公里海岸步道，动物园计划 13:15–16:15（约 3 小时，含海狮活动）。全日均为悉尼 AEDT。\n⚠️ 11:30 从 Coogee 转场，优先打车到 Circular Quay＋F2 渡轮，预留约 1 小时 45 分钟（含等船、入园，属计划缓冲，不是班次承诺）。13:40 到海狮场地等候 14:00 场。若实时预计赶不上，比较直达动物园正门的打车方案；仍赶不上就正常游园，不赶路冒险。\n⚠️ 海狮活动目前官网列为每日 11:00 / 14:00，包含在门票内；出发前复核当天公告。塔龙加缆车暂停运营，本次不安排。午餐选快速餐，不等 Coogee Pavilion 正餐开市。",
     "items": [
       {
-        "t": "06:30",
+        "t": "06:45",
         "tz": "AEDT",
-        "ttl": "酒店出发 · 打车去邦迪海滩",
-        "d": "早餐提前备好，带水、防晒和防风外套。优先打车，按约 45 分钟到达缓冲安排，实际看实时路况；若改公共交通，需要更早出发。当天增加的打车费用从交通预算中支出，按实际记账。",
+        "ttl": "酒店出发 · 滴滴国际版直达邦迪海滩",
+        "d": "已确定交通方式为滴滴国际版打车（尚未下单或预约车辆）。早餐提前备好，带水、防晒和防风外套。约 06:45 出发，暂按 20–30 分钟车程估算，目标 07:15 抵达；出门前查看 App 的接驾和到达预估，不把预估当保证。目的地选 Bondi Beach 南端 / Icebergs 附近可合法停车处，先拍邦迪再步行到 Coogee。车费以 App 当时报价为准，按实际记账。",
         "tags": [
           "导航"
         ],
@@ -2817,7 +2817,7 @@ const TRIP_FLOW = [
     "d": 9,
     "title": "邦迪到库吉 · 塔龙加海狮",
     "stops": [
-      "06:30 The Grace 出发",
+      "约 06:45 滴滴国际版 → 邦迪",
       "07:15 邦迪 / Icebergs 拍照",
       "07:45–10:45 完整海岸步道",
       "11:00 Coogee 快速午餐",
@@ -3165,7 +3165,7 @@ function dayRouteSections(day){
   else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
   else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
   else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
-  else if(day.n===9){add('酒店 → 邦迪（打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（打车后转渡轮）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
+  else if(day.n===9){add('酒店 → 邦迪（滴滴国际版打车）',['grace','bondi'],'driving');add('海岸步道终点参考（沿海标识为准，勿走内陆捷径）',['bondi','coogee']);add('Coogee → 环形码头（打车后转渡轮）',['coogee','circularquay'],'driving');add('Taronga 进园定位（渡轮不作公路规划）',['taronga']);add('备选：Coogee → 动物园正门直达',['coogee','taronga'],'driving');add('返程下船：环形码头 → 酒店',['circularquay','grace']);}
   else if(day.n===10){add('酒店 → 悉尼国际机场',['grace','syd'],'driving');}
   else {
     if(day.n===8) add('可选早起支线 · 鱼市场往返',['grace','fruitezy','grace'],'driving');
@@ -4714,10 +4714,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v38' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v39' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v38' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v39' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);
