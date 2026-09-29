@@ -1082,7 +1082,7 @@ const POIS = {
   harbourcove:{n:'Harbour Cove 海港湾公寓',loc:'28-30 The Cove Road, Airlie Beach QLD 4802',lat:-20.271589,lng:148.7258371,mapQuery:'Harbour Cove, 28-30 The Cove Road, Airlie Beach QLD 4802',
     r:'10/5–10/7 五星级海景公寓，带泳池，靠近 Port of Airlie；到主街和泄湖请按实际步行路线留时间。',
     hl:['面海阳台','泳池','到主街 / 泄湖步行预留约 20–25 分钟，以导航为准'],
-    tip:['入住 14:00 后 / 退房 10:00','厨房设备齐全，可自炊','超市 Woolworths 在主街旁'],
+    tip:['入住 14:00 后 / 退房 10:00','D7（10/07）退房后寄存行李已获酒店同意；退房时约定取件方式','厨房设备齐全，可自炊','超市 Woolworths 在主街旁'],
     ph:['阳台海景','泳池'],kind:'hotel'},
   lagoon:{n:'艾尔利海滩泄湖 Airlie Beach Lagoon',loc:'Airlie Beach QLD 4802',lat:-20.2667,lng:148.7117,
     r:'免费！海边人造泳池，看得到海又没有水母，本地人天天来。',
@@ -2194,15 +2194,15 @@ const DAYS = [
     "hotel": "grace",
     "hotelNote": "入住 15:00 / 退房 11:00 · 共 3 晚（10/7–10/10）\nThe Grace Hotel · 77 York St, Sydney NSW 2000 · 早餐 AUD 39/人（不含在房费内）",
     "hotelOk": true,
-    "warn": "🎫 Fly + Raft 延长日观光飞机已确认（2 人）：11:00 在 Harbour Cove 酒店门口车道接载，11:30–12:30 飞行；至少提前 24 小时完成线上 check-in。\n🌊 心形礁与沙纹观感受潮汐、光线和天气影响；未核实的潮汐分钟表已移除，不保证拍摄效果。\n🧳 捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。\n⚠️ 廉航称重严格，超重 / 超尺寸在机场补票很贵，装箱前先称一下。\n⚠️ 今晚 22:30 才到酒店，需提前告知酒店会晚到。\n🧳 寄存、飞行接驳返回点及机场小巴时间均待商家确认，下面午餐/取箱/到机场为计划，不是接载凭证。",
+    "warn": "🎫 Fly + Raft 延长日观光飞机已确认（2 人）：11:00 在 Harbour Cove 酒店门口车道接载，11:30–12:30 飞行；至少提前 24 小时完成线上 check-in。\n🌊 心形礁与沙纹观感受潮汐、光线和天气影响；未核实的潮汐分钟表已移除，不保证拍摄效果。\n🧳 捷星随身行李：标准 Starter 为个人物品 + 手提两件合计 ≤7kg，主件含轮子把手 ≤56×36×23cm；如已购买额外随身额度，以订单为准。托运 ≤25kg / 人按已确认订单保留，尺寸仍须符合航司要求。\n⚠️ 廉航称重严格，超重 / 超尺寸在机场补票很贵，装箱前先称一下。\n⚠️ 今晚 22:30 才到酒店，需提前告知酒店会晚到。\n🧳 Harbour Cove 已同意当天退房后寄存行李。飞行接驳返回点及机场小巴时间仍待商家确认；约 14:15 取箱仅为计划，退房时约定取件方式，再按最终接载时间调整。",
     "items": [
       {
         "t": "10:00",
         "tz": "AEST",
-        "ttl": "退房 · 行李寄存（待酒店确认）",
-        "d": "退房后优先请 Harbour Cove 保管两只大箱至约 14:15；护照、手机、相机、充电宝与药品随身。若酒店不能寄存，提前联系 Ocean Rafting 确认机场储物柜尺寸及接驳车能否携带大箱。 联系酒店确认取箱时有人在场；没有酒店回复前不把寄存当作已安排。",
+        "ttl": "退房 · 行李寄存（酒店已同意）",
+        "d": "Harbour Cove 已同意 D7（10/07）退房后寄存行李。退房时交存两只大箱，约定存放位置和取件方式，并保留寄存凭证；护照、手机、相机、充电宝与药品随身。约 14:15 取箱为当前行程计划，并非酒店确认的取件时段，按最终机场车接载时间调整。",
         "tags": [
-          "待确认",
+          "已确认",
           "注意"
         ],
         "p": "harbourcove"
@@ -2786,7 +2786,7 @@ const TRIP_FLOW = [
     "d": 7,
     "title": "心形礁 · 飞往悉尼",
     "stops": [
-      "退房 / 寄存待酒店确认",
+      "退房 / 酒店寄存已同意",
       "11:00 酒店接载",
       "11:30–12:30 心形礁飞行",
       "返程接驳待确认",
@@ -2936,7 +2936,7 @@ const HOTELS = [
   in:'入住 15:00 / 退房 11:00',price:'AUD 930.74（≈ ¥ 4,435）· 3 晚',note:'不可退款'},
  {d:'10/05 – 10/07',city:'艾尔利海滩',n:'Harbour Cove',star:'5★',ok:true,
   addr:'28-30 The Cove Road, Airlie Beach QLD 4802',
-  in:'入住 14:00 后 / 退房 10:00',price:'AUD 840（≈ ¥ 4,003）· 2 晚',note:'海景公寓，带泳池'},
+  in:'入住 14:00 后 / 退房 10:00',price:'AUD 840（≈ ¥ 4,003）· 2 晚',note:'海景公寓，带泳池；10/07 退房后寄存行李已获酒店同意，退房时约定取件方式'},
  {d:'10/07 – 10/10',city:'悉尼',n:'The Grace Hotel（悉尼百丽酒店）',star:'历史建筑',ok:true,
   addr:'77 York St, Sydney NSW 2000',
   in:'入住 15:00 / 退房 11:00',price:'¥4,403.50（3 晚 · 2 人）',note:'1930 年代 Art Deco 建筑，步行到环形码头约 10 分钟'}
@@ -2978,8 +2978,9 @@ const TODOS = [
   },
   {
     "id": "harbour-luggage",
-    "t": "确认 Harbour Cove 10/07 退房后能否寄存两只大箱至约 14:15；若不能，联系 Ocean Rafting 确认机场储物柜尺寸与大箱接驳",
-    "u": true
+    "t": "Harbour Cove 已同意 10/07 退房后寄存行李；退房时约定取件方式，取箱时间按最终机场车接载安排调整",
+    "u": false,
+    "done": true
   },
   {
     "t": "按各段行李额装箱：维珍托运 ≤23kg（24 寸）、捷星托运 ≤25kg（32 寸），出发前称重",
@@ -4047,7 +4048,7 @@ const BOOKING_TASKS = [
     confirmed:!!t.ok,group:t.ok?'confirmed':'pending',level:t.ok?'已预订 ✓':'待确认',
     note:t.t.includes('普芬比利')?'小火车、企鹅地下观赏台、考拉园入场和布莱顿海滩已随一日游确认，不重复购买。':t.t.includes('Ocean Rafting')?'D6 南线与 D7 飞行套餐已确认；线上 check-in、重确认和留船安排仍看下方待办。':t.t.includes('歌剧院')?'10/08 14:30 中文讲解，2 位成人已出票；14:15 前集合，出发前保存电子票。':t.t.startsWith('✈️')?'机票已订；行李权益、值机与转机确认仍按下方待办办理，不需重复购票。':'已确认两人一日游；司机通知、集合时间和现金司导费仍需准备。'
   })),
-  ...HOTELS.map((h,i)=>({id:'hotel:'+HOTEL_POI_KEYS[i],name:h.n,category:'住宿',date:h.d,time:'2 人',confirmed:!!h.ok,group:h.ok?'confirmed':'pending',level:h.ok?'已预订 ✓':'待确认',note:'住宿已确认：'+h.in+'。寄存和晚到通知属于另行确认事项，不代表酒店已答复。'}))
+  ...HOTELS.map((h,i)=>({id:'hotel:'+HOTEL_POI_KEYS[i],name:h.n,category:'住宿',date:h.d,time:'2 人',confirmed:!!h.ok,group:h.ok?'confirmed':'pending',level:h.ok?'已预订 ✓':'待确认',note:'住宿已确认：'+h.in+'。'+(HOTEL_POI_KEYS[i]==='harbourcove'?'10/07 退房后寄存行李已获酒店同意，退房时约定取件方式；飞行返程接驳及机场小巴仍需单独确认。':'寄存和晚到通知属于另行确认事项，不代表酒店已答复。')}))
 ];
 function renderBookingTodos(){
   const box=$('#bookingTodos');
@@ -4714,10 +4715,10 @@ function checkOfflineResources(repair = false){
     const info = event.data || {};
     if(info.type==='OFFLINE_PROGRESS'){showOfflineStatus('正在检查 / 补下载离线资源：'+info.done+'/'+info.total);return;}
     clearTimeout(timer); channel.port1.close();offlineRetry.disabled=false;
-    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v39' && info.photos === 14
+    showOfflineStatus(info.ready && info.version === 'au-trip-photo-v40' && info.photos === 14
       ? '离线已就绪：网页与全部 14 张纪念品照片已下载。'
       : navigator.onLine === false ? '当前离线，无法补下载缺失资源；已缓存内容保留，请联网后重试。'
-      : info.version !== 'au-trip-photo-v39' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
+      : info.version !== 'au-trip-photo-v40' ? '离线版本待更新，请保持联网后刷新，再检查下载。'
       : '部分离线资源未下载成功'+(info.missing ? '（缺 '+info.missing+' 项）':'')+'；已有缓存保留，请联网后重试。');
   };
   worker.postMessage({type:repair ? 'OFFLINE_REPAIR' : 'OFFLINE_STATUS'},[channel.port2]);

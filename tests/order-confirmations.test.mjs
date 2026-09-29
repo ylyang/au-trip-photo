@@ -24,9 +24,12 @@ test('D6 clearly records that both travellers will not snorkel', () => {
   assert.doesNotMatch(html, /title:'Ocean Rafting 南线 · 白天堂沙滩 \+ 浮潜'/);
 });
 
-test('D7 luggage storage remains clearly marked as unconfirmed', () => {
-  assert.match(html, /退房 · 行李寄存（待酒店确认）/);
-  assert.match(html, /确认 Harbour Cove 10\/07 退房后能否寄存两只大箱/);
+test('D7 hotel luggage storage is confirmed while pickup and transfers stay separate', () => {
+  assert.match(html, /退房 · 行李寄存（酒店已同意）/);
+  assert.match(html, /"id": "harbour-luggage",\s*"t": "Harbour Cove 已同意[^\n]+\s*"u": false,\s*"done": true/);
+  assert.doesNotMatch(html, /退房 · 行李寄存（待酒店确认）|寄存待酒店确认|确认 Harbour Cove 10\/07 退房后能否寄存/);
+  assert.match(html, /并非酒店确认的取件时段/);
+  assert.match(html, /飞行接驳返回点及机场小巴时间仍待商家确认/);
 });
 
 test('PPP transfers prioritize the red Airlie Airport Bus in both directions', () => {
