@@ -64,6 +64,20 @@ async function showFile(f){
 }
 function lockVault(){unlockGeneration++;unlocking=false;$('#unlock').disabled=false;closePreview();window.__vaultFiles=null;delete window.__drawVault;$('#password').value='';$('#filters').textContent='';$('#fileCount').textContent='';$('#fileGroups').textContent='';$('#vaultView').classList.add('hidden');$('#lockView').classList.remove('hidden');setStatus(pkg?'已锁定，输入密码可再次解锁。':'已锁定，请载入加密包。','ok')}
 $('#unlock').onclick=unlock;$('#password').onkeydown=e=>{if(e.key==='Enter')unlock()};$('#lock').onclick=lockVault;$('#closeModal').onclick=closePreview;$('#modal').onclick=e=>{if(e.target.id==='modal')closePreview()};$('#packageFile').onchange=e=>{if(e.target.files[0]){lockVault();readPackage(e.target.files[0])}};$('#filters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.group').forEach(x=>x.hidden=b.dataset.filter!=='全部'&&x.dataset.group!==b.dataset.filter)};document.addEventListener('click',e=>{const b=e.target.closest('[data-file]');if(b&&window.__vaultFiles)showFile(window.__vaultFiles[+b.dataset.file])});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview()});window.addEventListener('pagehide',lockVault);
-fetch('tickets.enc.json',{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()).then(p=>{pkg=p;setStatus('加密包已载入，请输入密码。','ok')}).catch(()=>setStatus('请导入加密票据包后解锁。'));
+async function loadPublishedPackage(){
+  const direct=await fetch('tickets.enc.json',{cache:'no-store'});
+  if(direct.ok)return direct.json();
+  const index=await fetch('tickets.enc.manifest.json',{cache:'no-store'});
+  if(!index.ok)throw Error('package-missing');
+  const manifest=await index.json();
+  if(!Array.isArray(manifest.parts)||!manifest.parts.length)throw Error('manifest-invalid');
+  const chunks=await Promise.all(manifest.parts.map(async part=>{
+    const response=await fetch(part,{cache:'no-store'});
+    if(!response.ok)throw Error('chunk-missing');
+    return response.text();
+  }));
+  return JSON.parse(chunks.join(''));
+}
+loadPublishedPackage().then(p=>{pkg=p;setStatus('加密包已载入，请输入密码。','ok')}).catch(()=>setStatus('请导入加密票据包后解锁。'));
 </script>
 </body></html>

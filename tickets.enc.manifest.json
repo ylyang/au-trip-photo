@@ -1,0 +1,15 @@
+{
+  "format": "au-trip-ticket-v1-chunked",
+  "parts": [
+    "tickets.enc.part-01",
+    "tickets.enc.part-02",
+    "tickets.enc.part-03",
+    "tickets.enc.part-04",
+    "tickets.enc.part-05",
+    "tickets.enc.part-06",
+    "tickets.enc.part-07",
+    "tickets.enc.part-08",
+    "tickets.enc.part-09"
+  ],
+  "bytes": 36958644
+}
