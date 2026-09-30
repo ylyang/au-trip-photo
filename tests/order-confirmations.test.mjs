@@ -4,6 +4,16 @@ import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 
+test('MF802 arrival update is consistent with flight duration and connection', () => {
+  assert.match(html,/MF802 · 10\/10 12:25 悉尼 T1 → 18:55 厦门 T3/);
+  assert.match(html,/"t": "18:55",\s*"tz": "CST"/);
+  assert.match(html,/MF802 航班 · 约 9 小时 30 分钟/);
+  assert.match(html,/中转约 2 小时 05 分/);
+  assert.doesNotMatch(html,/19:05|1 小时 55 分|9 小时 40 分/);
+  assert.equal((Date.parse('2026-10-10T18:55:00+08:00')-Date.parse('2026-10-10T12:25:00+11:00'))/60000,570);
+  assert.equal((Date.parse('2026-10-10T21:00:00+08:00')-Date.parse('2026-10-10T18:55:00+08:00'))/60000,125);
+});
+
 test('D9 Taronga tickets are confirmed for two without a fixed entry slot', () => {
   assert.match(html, /id:'taronga-ticket'[^\n]+confirmed:true,group:'confirmed'/);
   assert.match(html, /10\/09 当天营业时间内可入园/);
