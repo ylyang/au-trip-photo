@@ -213,6 +213,7 @@ body.pwa-guide-open{overflow:hidden}
 .preflight-check:hover{border-color:var(--brand);color:var(--brand)}
 .preflight-item.done .preflight-check{border-color:var(--brand);background:var(--brand);color:var(--on-brand)}
 .preflight-text{font-size:13px;line-height:1.45}
+.preflight-time{display:block;margin-bottom:3px;font-size:11px;font-weight:600;color:var(--brand2)}
 .preflight-foot{margin-top:8px;font-size:11.5px;color:var(--muted);line-height:1.5}
 .trip-summary{padding:16px 15px 15px;border-top:3px solid var(--accent);background:linear-gradient(145deg,var(--surface),var(--accent-soft));}
 .trip-summary .card-title{margin-bottom:5px}
@@ -796,6 +797,7 @@ html[data-theme="dark"][data-palette="lemon"]{
       <span class="preflight-count" id="preflightCount" aria-live="polite">--</span>
     </div>
     <div class="preflight-list" id="preflightList"></div>
+    <p class="preflight-foot">按建议办理时间从早到晚排列，不是按活动日期排序；无固定期限但需提前办理的事项放在最前。同一阶段的预订按使用日期排列。时间沿用事项说明中的当地时区。</p>
     <div class="preflight-foot">点击圆点可标记已确认，与“待办”中的预订清单在本设备同步；打开购票链接不会自动勾选。餐厅为建议预订，可选项目另见待办。勾选不代表商家确认或自动下单，状态不会上传或跨设备同步。</div>
     <div class="preflight-foot"><span id="offlineReady" role="status">离线资源尚未检查：首次请联网打开，等候照片下载完成。</span> <button type="button" class="btn" id="offlineRetry">检查 / 重试离线下载</button><br>网页与 16 张纪念品照片会一起缓存，无需逐张打开。Google 地图、外部链接仍需联网；浏览器清理缓存后需要重新下载。</div>
   </div>
@@ -4877,14 +4879,38 @@ let PF = readChecks('au26_preflight_v2');
 const legacyChecks = Object.values(readChecks('au26_preflight')).some(Boolean) || Object.values(readChecks('au26_ck')).some(Boolean);
 function preflightKey(t){ return t.id || 'task:' + encodeURIComponent(t.t); }
 function bookingPreflightKey(b){ return b.preflightId || b.id; }
+// Keep scheduling separate from IDs/text: reordering must never move saved checks.
+const PREFLIGHT_TIMING = {
+  'jetstar-cabin':['00-00','出发前 · 核实行李额度'],
+  'dorsett-arrival-luggage':['00-10/02-0','出发前 · 确认 10/02 酒店寄存'],
+  'grace-late-arrival':['00-10/07-0','出发前 · 告知 10/07 晚到酒店'],
+  'taronga-ticket-ready':['00-10/09-0','出发前保存电子票 · 10/09 再核对场次'],
+  'ocean-meals-cover':['10/03-10','建议尽早，与 10/03 晚前重确认一起处理'],
+  'ocean-reconfirm-48h':['10/03-11','建议 10/03 晚前 · 活动至少提前 48 小时'],
+  'rafting-online':['10/03-12','建议 10/03 晚前 · D6 登记至少提前 24 小时'],
+  'flight-online':['10/03-13','建议 10/03 晚前与 D6 一起 · D7 登记至少提前 24 小时'],
+  'great-ocean-driver':['10/03-20','10/03 墨尔本时间 20:00 前'],
+  'ppp-return-bus':['10/05-15','10/05 抵达 PPP 后 · 同时登记 10/07 返程'],
+  'ocean-phone':['10/05-16','10/05 AEST 16:00 前 · D7 项目另于 10/06 16:00 前复核'],
+  'flight-return-transfer':['10/07-00','10/07 飞行前确认 · 建议尽早联系'],
+  'xmn-return-connection':['10/10-09','10/10 悉尼值机时复核 · 出发前先检查']
+};
+function preflightTiming(t){
+  const timing=PREFLIGHT_TIMING[preflightKey(t)];
+  if(timing) return {sortKey:timing[0],when:timing[1]};
+  if(t.bookingDate) return {sortKey:'00-'+t.bookingDate+'-1-'+(t.bookingTime||''),when:'出发前尽早预订 · 使用日期 '+t.bookingDate};
+  return {sortKey:'00-00',when:'出发前 · 尽早确认'};
+}
 function preflightTasks(){
   const urgent=TODOS.filter(t=>t.u);
   const seen=new Set(urgent.map(preflightKey));
   const bookings=BOOKING_TASKS.filter(b=>b.group==='pending').map(b=>({
-    id:bookingPreflightKey(b),u:true,url:b.url,
+    id:bookingPreflightKey(b),u:true,url:b.url,bookingDate:b.date,bookingTime:b.time,
     t:b.date+' · '+b.name+' · '+b.time+' · '+(b.category==='餐厅'?'建议预订；如不去请确认替代安排':'提前购票 / 确认预订')
   }));
-  return [...bookings.filter(t=>!seen.has(t.id)),...urgent];
+  return [...bookings.filter(t=>!seen.has(t.id)),...urgent]
+    .map(t=>({...t,...preflightTiming(t)}))
+    .sort((a,b)=>a.sortKey.localeCompare(b.sortKey)||preflightKey(a).localeCompare(preflightKey(b)));
 }
 function savePF(){ try{ localStorage.setItem('au26_preflight_v2', JSON.stringify(PF)); }catch(e){} }
 function renderPreflight(){
@@ -4897,7 +4923,7 @@ function renderPreflight(){
   list.innerHTML = (legacyChecks && done < must.length ? '<p class="note">旧版待办/打卡按序号保存，无法可靠对应更新后的事项。旧数据已保留，请重新确认；新版按事项标识保存，不受排序影响。</p>' : '')
     + must.map(t => { const id = preflightKey(t); return '<div class="preflight-item' + (PF[id] ? ' done' : '') + '" data-preflight="' + esc(id) + '">'
     + '<button type="button" class="preflight-check" aria-label="' + (PF[id] ? '取消确认' : '标记已确认') + '">' + (PF[id] ? '✓' : '○') + '</button>'
-    + '<div class="preflight-text">' + esc(t.t) + (t.url?' <a class="btn" href="'+esc(t.url)+'" target="_blank" rel="noopener noreferrer">打开预订 / 购票页 ↗</a>':'') + '</div></div>'; }).join('');
+    + '<div class="preflight-text"><span class="preflight-time">' + esc(t.when) + '</span>' + esc(t.t) + (t.url?' <a class="btn" href="'+esc(t.url)+'" target="_blank" rel="noopener noreferrer">打开预订 / 购票页 ↗</a>':'') + '</div></div>'; }).join('');
 }
 renderBookingTodos();
 renderPreflight();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'au-trip-photo-v56';
+const CACHE_NAME = 'au-trip-photo-v57';
 const SOUVENIR_ASSETS = [
   'airlie-gallery','airlie-magnet','apollo-art','apollo-candy','apollo-homewares',
   'aquabumps-book','koko-black','melbourne-tram','opera-teatowel','phillip-penguin',
