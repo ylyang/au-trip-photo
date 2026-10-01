@@ -1,4 +1,4 @@
-const CACHE_NAME = 'au-trip-photo-v58';
+const CACHE_NAME = 'au-trip-photo-v59';
 const SOUVENIR_ASSETS = [
   'airlie-gallery','airlie-magnet','apollo-art','apollo-candy','apollo-homewares',
   'aquabumps-book','koko-black','melbourne-tram','opera-teatowel','phillip-penguin',
@@ -10,7 +10,7 @@ const CORE_ASSETS = ['./', './index.html', './tickets.html', './ticket-vault-bui
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(CORE_ASSETS))
+      .then(cache => cache.addAll(CORE_ASSETS.map(url => new Request(url, {cache:'reload'}))))
       .then(() => self.skipWaiting())
   );
 });
@@ -75,6 +75,20 @@ self.addEventListener('fetch', event => {
     const relative = url.pathname.slice(new URL(scope).pathname.length);
     const page = !relative || relative === 'index.html' ? './index.html'
       : ['tickets.html','ticket-vault-builder.html'].includes(relative) ? './' + relative : null;
+    if(relative === 'tickets.html'){
+      // A slow connection must not block access to already saved tickets.
+      const fresh=fetch(request);
+      event.waitUntil(fresh.then(async response=>{if(response.ok){const cache=await caches.open(CACHE_NAME);await cache.put(page,response.clone())}}).catch(()=>{}));
+      event.respondWith((async()=>{
+        const cache=await caches.open(CACHE_NAME),saved=await cache.match(page);
+        if(!saved)return fresh;
+        let timer;
+        try{return await Promise.race([fresh.then(response=>response.ok?response:saved),new Promise(resolve=>{timer=setTimeout(()=>resolve(saved),3000)})])}
+        catch(_){return saved}
+        finally{clearTimeout(timer)}
+      })());
+      return;
+    }
     event.respondWith(
       fetch(request).then(response => {
         if(response.ok && page){

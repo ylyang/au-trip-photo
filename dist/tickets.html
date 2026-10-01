@@ -18,14 +18,14 @@
   <section id="lockView">
     <div class="eyebrow">PRIVATE DOCUMENTS · AES-GCM</div>
     <h1>票据只在解锁后出现。</h1>
-    <p class="lede">机票、住宿、活动、签证和保险集中在这里。页面不保存密码。跨设备首次打开需要联网下载加密包；断网备用请事先保存加密包，或把需要的票据下载到自己的手机。</p>
+    <p class="lede">机票、住宿、活动、签证和保险集中在这里。首次打开需要联网下载；保存成功后优先读取本机副本，不再每次重新下载。</p>
     <div class="panel lock-panel">
       <label class="label" for="password">票据库密码</label>
       <div class="passrow"><input id="password" type="password" autocomplete="current-password" placeholder="输入你设置的密码"><button id="unlock" class="primary" type="button">解锁票据</button></div>
       <label class="remember-row" for="rememberDevice"><input id="rememberDevice" type="checkbox" checked><span>在此设备记住解锁，下次打开自动进入票据库</span></label>
-      <p class="device-note">只保存在当前手机的当前浏览器中；保存的是设备专用解锁密钥，不是密码。共享设备或公共设备请不要勾选。</p>
-      <div id="lockStatus" class="status" role="status">正在查找加密票据包…</div>
-      <div class="help">票据库支持跨设备访问：网站目录中的 <b>tickets.enc.json</b> 会自动载入，其他手机、平板或电脑首次打开本页后输入同一个密码即可解锁。勾选“记住解锁”后，这台设备下次可免输密码；清除浏览器网站数据、换浏览器或换网址后需要重新输入。若页面提示没有加密包，请先打开<a href="ticket-vault-builder.html">本机加密工具</a>生成密文包，再将它发布到网站目录；密码不要发给任何人。</div>
+      <p class="device-note">只在当前浏览器保存不可导出的解锁密钥，不保存密码。能使用这台设备的人也能查看票据，共享设备请勿勾选。</p>
+      <div id="lockStatus" class="status" role="status">正在读取本机票据副本…</div>
+      <div class="help">已发布的加密包会自动载入（支持分片格式）。其他设备首次输入同一个密码即可解锁。勾选“记住解锁”，并看到“免密已保存”后，这台设备下次可免输密码；清除网站数据、换浏览器或换域名后需要重新输入。新票据可用<a href="ticket-vault-builder.html">本机加密工具</a>生成密文包后发布，再点“更新加密包”；密码不要发给任何人。</div>
       <label class="label" for="packageFile">导入加密票据包</label>
       <input id="packageFile" type="file" accept="application/json,.json">
     </div>
@@ -33,38 +33,38 @@
   <section id="vaultView" class="hidden">
     <div class="vault-head"><div><div class="eyebrow">UNLOCKED ON THIS DEVICE</div><h2>我的旅行票据</h2><p id="fileCount"></p><div class="device-actions"><span id="offlineBadge" class="offline-badge">● 离线副本状态检查中</span><button id="forgetDevice" class="small-btn" type="button">清除本机免密</button></div></div><button id="lock" class="secondary" type="button">立即锁定</button></div>
     <div id="filters" class="filters"></div><div id="fileGroups"></div>
-    <p class="vault-note">票据密文包和本机解锁密钥已保存到当前浏览器的离线存储，断网时也可打开；文件只在查看时短暂解密到内存。点击“清除本机免密”会删除本机密钥并恢复为每次输入密码。</p>
+    <p class="vault-note">请以列表上方的保存状态为准：显示“免密已保存”后才可退出测试。票据仅在解锁后在本机内存中解密。清除浏览器数据、换浏览器或换域名后需重新下载并输入密码。</p>
   </section>
-  <p class="locked-foot">AES-GCM 256 位加密 · PBKDF2-SHA-256 · 不保存明文密码 · 免密状态仅限当前设备和浏览器</p>
+  <div class="help"><button id="refreshPackage" class="secondary" type="button">更新加密包</button><p id="packageStatus" role="status">正在检查本地副本…</p><span>已上传新票据时再点更新；日常打开直接使用本机副本。首次请联网打开需要的 PDF，出发前用飞行模式确认票据和 PDF 阅读器均可用。</span></div>
+  <p class="locked-foot">票据库版本 2026.10.01-r4 · AES-GCM 256 位加密 · 不保存明文密码 · 免密仅限当前浏览器</p>
 </main>
 <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><div class="modal-bar"><span id="modalTitle"></span><a id="downloadFile" class="back" hidden>下载原件</a><button id="closeModal" class="modal-close" type="button" aria-label="关闭">×</button></div><div id="preview" class="preview"></div></div></div>
 <script>
 const $=s=>document.querySelector(s), enc=new TextEncoder(), dec=new TextDecoder();
 const GROUPS=['全部','交通票据','住宿','活动与门票','签证','保险','其他'];const VAULT_CACHE='au-trip-ticket-v1',DEVICE_DB='au-trip-ticket-device-v1';let pkg=null,offlinePackageReady=false,urls=[],unlockGeneration=0,unlocking=false,previewGeneration=0,pdfPreview=null;
 const b64=bytes=>{let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s)},unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-async function keyFor(password,p){const base=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:unb64(p.salt),iterations:p.iterations,hash:'SHA-256'},base,{name:'AES-GCM',length:256},true,['decrypt'])}
+async function keyFor(password,p){const base=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:unb64(p.salt),iterations:p.iterations,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt'])}
 async function decryptPackageWithKey(key,p){const out=[];for(const item of p.items){const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(item.iv)},key,unb64(item.data));out.push(JSON.parse(dec.decode(plain)))}return out}
 async function decryptPackage(password,p){const key=await keyFor(password,p);return {key,files:await decryptPackageWithKey(key,p)}}
 function setStatus(text,kind=''){$('#lockStatus').textContent=text;$('#lockStatus').className='status '+kind}
-async function readPackage(file){try{pkg=JSON.parse(await file.text());if(pkg.format!=='au-trip-ticket-v1'||!pkg.salt||!Array.isArray(pkg.items))throw Error('format');offlinePackageReady=await cacheResponse('tickets.enc.json',new Response(JSON.stringify(pkg),{headers:{'Content-Type':'application/json'}}));setStatus('加密包已载入，请输入密码。','ok')}catch(e){pkg=null;offlinePackageReady=false;setStatus('无法读取加密包，请重新选择 tickets.enc.json。','error')}}
+async function readPackage(file){try{const text=await file.text(),next=validatePackage(JSON.parse(text));offlinePackageReady=await savePackageSnapshot(text);pkg=next;setStatus('加密包已载入，请输入密码。','ok');setPackageStatus(offlinePackageReady?'已保存完整本机副本。':'本机副本保存失败，关闭后可能需要重新下载。')}catch(e){setStatus('无法读取加密包，请重新选择 tickets.enc.json。','error')}}
 function packageFingerprint(p){return p&&p.salt?String(p.salt):''}
 const DEVICE_FALLBACK=DEVICE_DB+'-fallback';
 function readDeviceFallback(){try{const raw=localStorage.getItem(DEVICE_FALLBACK);return raw?JSON.parse(raw):null}catch(_){return null}}
-function writeDeviceFallback(value){try{localStorage.setItem(DEVICE_FALLBACK,JSON.stringify(value));return true}catch(_){return false}}
-function removeDeviceFallback(){try{localStorage.removeItem(DEVICE_FALLBACK)}catch(_){} }
-function openDeviceDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('indexeddb'));const request=indexedDB.open(DEVICE_DB,1);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||Error('indexeddb'))})}
-async function deviceStateGet(){try{const db=await openDeviceDB();return await new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),request=tx.objectStore('state').get('unlock');request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>reject(request.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))})}catch(_){return readDeviceFallback()}}
-async function deviceStatePut(value){try{const db=await openDeviceDB();await new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').put(value,'unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))});removeDeviceFallback();return true}catch(_){return writeDeviceFallback(value)}}
-async function deviceStateDelete(){let ok=false;try{const db=await openDeviceDB();await new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').delete('unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))});ok=true}catch(_){}removeDeviceFallback();return ok}
-async function saveDeviceUnlock(key,p){const rawKey=b64(new Uint8Array(await crypto.subtle.exportKey('raw',key)));if(!await deviceStatePut({rawKey,fingerprint:packageFingerprint(p),savedAt:Date.now()}))throw Error('device-storage')}
-async function getDeviceUnlock(p){const state=await deviceStateGet();if(!state||state.fingerprint!==packageFingerprint(p))return null;if(state.rawKey){try{return await crypto.subtle.importKey('raw',unb64(state.rawKey),{name:'AES-GCM'},false,['decrypt'])}catch(_){return null}}return state.key||null}
+function removeDeviceFallback(){try{localStorage.removeItem(DEVICE_FALLBACK);return true}catch(_){return false}}
+function openDeviceDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('indexeddb'));let done=false;const request=indexedDB.open(DEVICE_DB,1),timer=setTimeout(()=>finish(Error('storage-timeout')),5000);function finish(error,db){if(done){if(db)db.close();return}done=true;clearTimeout(timer);if(error)reject(error);else resolve(db)}request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>finish(null,request.result);request.onerror=()=>finish(request.error||Error('indexeddb'));request.onblocked=()=>finish(Error('storage-blocked'))})}
+async function deviceOperation(mode,action){const db=await openDeviceDB();try{return await new Promise((resolve,reject)=>{const tx=db.transaction('state',mode);let result;const timer=setTimeout(()=>{try{tx.abort()}catch(_){}reject(Error('storage-timeout'))},5000);tx.oncomplete=()=>{clearTimeout(timer);resolve(result)};tx.onerror=tx.onabort=()=>{clearTimeout(timer);reject(tx.error||Error('indexeddb'))};try{const request=action(tx.objectStore('state'));request.onsuccess=()=>{result=request.result};request.onerror=()=>{clearTimeout(timer);reject(request.error||Error('indexeddb'))}}catch(error){clearTimeout(timer);reject(error)}})}finally{db.close()}}
+async function deviceStateGet(){try{return await deviceOperation('readonly',store=>store.get('unlock'))||readDeviceFallback()}catch(error){const legacy=readDeviceFallback();if(legacy)return legacy;throw error}}
+async function deviceStatePut(value){await deviceOperation('readwrite',store=>store.put(value,'unlock'));return true}
+async function deviceStateDelete(){let ok=false;try{await deviceOperation('readwrite',store=>store.delete('unlock'));ok=true}catch(_){}return removeDeviceFallback()&&ok}
+async function saveDeviceUnlock(key,p){await deviceStatePut({key,fingerprint:packageFingerprint(p),savedAt:Date.now()});const saved=await deviceStateGet();if(!saved||!saved.key||saved.fingerprint!==packageFingerprint(p))throw Error('device-storage');await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(p.items[0].iv)},saved.key,unb64(p.items[0].data));removeDeviceFallback()}
+async function getDeviceUnlock(p){const state=await deviceStateGet();if(!state||state.fingerprint!==packageFingerprint(p))return null;if(state.rawKey){const key=await crypto.subtle.importKey('raw',unb64(state.rawKey),{name:'AES-GCM'},false,['decrypt']);await saveDeviceUnlock(key,p);return key}return state.key||null}
 async function clearDeviceUnlock(){return deviceStateDelete()}
 async function cacheResponse(url,response){try{const cache=await caches.open(VAULT_CACHE);await cache.put(new Request(new URL(url,location.href).href),response);return true}catch(_){return false}}
 async function readCachedText(url){const cache=await caches.open(VAULT_CACHE),response=await cache.match(new Request(new URL(url,location.href).href));if(!response||!response.ok)throw Error('cache-missing');return response.text()}
 async function cacheHasAll(urls){try{const cache=await caches.open(VAULT_CACHE);const found=await Promise.all(urls.map(url=>cache.match(new Request(new URL(url,location.href).href))));return found.every(response=>response&&response.ok)}catch(_){return false}}
-async function fetchTextAndCache(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('package-missing');const copy=response.clone(),text=await response.text();await cacheResponse(url,copy);return text}
-async function presentVault(files,key,remember){render(files);$('#lockView').classList.add('hidden');$('#vaultView').classList.remove('hidden');$('#password').value='';if(remember){try{await saveDeviceUnlock(key,pkg);$('#offlineBadge').textContent=offlinePackageReady?'● 已保存本机离线副本':'● 已记住解锁；离线副本保存失败'}catch(_){$('#offlineBadge').textContent='● 已解锁（本机记忆保存失败）'}}else{await clearDeviceUnlock();$('#offlineBadge').textContent=offlinePackageReady?'● 已保存本机离线密文':'● 已解锁；本机免密未启用'}}
-async function unlockWithKey(key,auto=false){if(unlocking)return false;const generation=++unlockGeneration;unlocking=true;$('#unlock').disabled=true;setStatus(auto?'正在使用本机记忆解锁…':'正在本机解密…');try{const files=await decryptPackageWithKey(key,pkg);if(generation!==unlockGeneration)return false;await presentVault(files,auto||$('#rememberDevice').checked);return true}catch(e){if(generation===unlockGeneration)setStatus(auto?'本机记忆已失效，请重新输入密码。':'密码不正确，或加密包已损坏。','error');return false}finally{if(generation===unlockGeneration){unlocking=false;$('#unlock').disabled=false}}}
+async function presentVault(files,{key,remember,auto}){render(files);$('#lockView').classList.add('hidden');$('#vaultView').classList.remove('hidden');$('#password').value='';$('#offlineBadge').textContent='● 正在保存并验证本机免密，请稍候…';if(remember){try{if(!auto)await saveDeviceUnlock(key,pkg);$('#offlineBadge').textContent=offlinePackageReady?'● 免密已保存 · 本机票据副本已保存':'● 免密已保存 · 离线副本保存失败'}catch(_){$('#offlineBadge').textContent='⚠ 免密未保存：浏览器存储不可用，下次仍需密码'}}else{const cleared=await clearDeviceUnlock();$('#offlineBadge').textContent=cleared?(offlinePackageReady?'● 票据副本已保存 · 未启用免密':'● 已解锁 · 未启用免密'):'⚠ 无法清除本机免密，请检查浏览器存储设置'}}
+async function unlockWithKey(key,auto=false){if(unlocking)return false;const generation=++unlockGeneration;unlocking=true;$('#unlock').disabled=true;setStatus(auto?'正在使用本机记忆解锁…':'正在本机解密…');try{const files=await decryptPackageWithKey(key,pkg);if(generation!==unlockGeneration)return false;await presentVault(files,{key,remember:auto||$('#rememberDevice').checked,auto});return true}catch(e){if(generation===unlockGeneration)setStatus(auto?'本机记忆已失效，请重新输入密码。':'密码不正确，或加密包已损坏。','error');return false}finally{if(generation===unlockGeneration){unlocking=false;$('#unlock').disabled=false}}}
 async function unlock(){if(unlocking)return;if(!pkg){setStatus('请先导入 tickets.enc.json，或等待公开加密包载入。','error');return}const password=$('#password').value;if(!password){setStatus('请输入密码。','error');return}try{const key=await keyFor(password,pkg);await unlockWithKey(key,false)}catch(e){setStatus('密码不正确，或加密包已损坏。','error')}}
 function icon(mime){return mime&&mime.includes('pdf')?'▤':mime&&mime.startsWith('image/')?'▧':'▣'}
 function render(files){window.__vaultFiles=files;const groups=[...new Set(files.map(f=>f.category||'其他'))];$('#fileCount').textContent=files.length+' 份文件 · 只在当前页面内存中解密';const filters=['全部',...groups];$('#filters').innerHTML=filters.map((g,i)=>`<button class="filter${i===0?' on':''}" data-filter="${esc(g)}">${esc(g)}</button>`).join('');const draw=f=>{const group=Object.groupBy?Object.groupBy(f,x=>x.category||'其他'):f.reduce((a,x)=>(a[x.category||'其他']??=[]).push(x)&&a,{});$('#fileGroups').innerHTML=(filters.slice(1).map(g=>group[g]?.length?`<section class="group" data-group="${esc(g)}"><h3>${esc(g)} · ${group[g].length} 份</h3>${group[g].map(fileCard).join('')}</section>`:'').join(''))||'<div class="empty">这个分类暂无文件。</div>'};draw(files)}
@@ -84,31 +84,53 @@ async function showFile(f){
   catch(error){if(generation===previewGeneration)host.querySelector('[data-pdf-status]').textContent='阅读器未能载入，请联网刷新或换用新版浏览器；也可点击“下载原件”用手机 PDF 阅读器打开。'}
 }
 function lockVault(){unlockGeneration++;unlocking=false;$('#unlock').disabled=false;closePreview();window.__vaultFiles=null;delete window.__drawVault;$('#password').value='';$('#filters').textContent='';$('#fileCount').textContent='';$('#fileGroups').textContent='';$('#vaultView').classList.add('hidden');$('#lockView').classList.remove('hidden');setStatus(pkg?'已锁定，输入密码可再次解锁。':'已锁定，请载入加密包。','ok')}
-async function forgetDevice(){await clearDeviceUnlock();$('#rememberDevice').checked=false;lockVault();setStatus('已清除本机免密，下次需要输入密码。','ok')}
+async function forgetDevice(){const cleared=await clearDeviceUnlock();$('#rememberDevice').checked=false;lockVault();setStatus(cleared?'已清除本机免密，下次需要输入密码。':'无法确认已清除免密，请在浏览器设置中清除此网站数据。',cleared?'ok':'error')}
 $('#unlock').onclick=unlock;$('#password').onkeydown=e=>{if(e.key==='Enter')unlock()};$('#lock').onclick=lockVault;$('#forgetDevice').onclick=forgetDevice;$('#closeModal').onclick=closePreview;$('#modal').onclick=e=>{if(e.target.id==='modal')closePreview()};$('#packageFile').onchange=e=>{if(e.target.files[0]){lockVault();readPackage(e.target.files[0])}};$('#rememberDevice').onchange=e=>{if(!e.target.checked)clearDeviceUnlock()};$('#filters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.group').forEach(x=>x.hidden=b.dataset.filter!=='全部'&&x.dataset.group!==b.dataset.filter)};document.addEventListener('click',e=>{const b=e.target.closest('[data-file]');if(b&&window.__vaultFiles)showFile(window.__vaultFiles[+b.dataset.file])});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview()});window.addEventListener('pagehide',lockVault);
-async function loadPublishedPackage(){
-  offlinePackageReady=false;
-  try{
-    const direct=await fetch('tickets.enc.json',{cache:'no-store'});
-    if(direct.ok){const copy=direct.clone(),data=await direct.json();offlinePackageReady=await cacheResponse('tickets.enc.json',copy);return data}
-    const manifestText=await fetchTextAndCache('tickets.enc.manifest.json'),manifest=JSON.parse(manifestText);
-    if(!Array.isArray(manifest.parts)||!manifest.parts.length)throw Error('manifest-invalid');
-    const chunks=await Promise.all(manifest.parts.map(part=>fetchTextAndCache(part)));
-    offlinePackageReady=await cacheHasAll(['tickets.enc.manifest.json',...manifest.parts]);
-    return JSON.parse(chunks.join(''));
-  }catch(networkError){
-    try{
-      const direct=JSON.parse(await readCachedText('tickets.enc.json'));offlinePackageReady=true;return direct;
-    }catch(_){
-      const manifest=JSON.parse(await readCachedText('tickets.enc.manifest.json'));
-      if(!Array.isArray(manifest.parts)||!manifest.parts.length)throw networkError;
-      const chunks=await Promise.all(manifest.parts.map(part=>readCachedText(part)));offlinePackageReady=await cacheHasAll(['tickets.enc.manifest.json',...manifest.parts]);return JSON.parse(chunks.join(''));
-    }
+const PACKAGE_SNAPSHOT='tickets.enc.snapshot.json';
+let packageLoading=false;
+function setPackageStatus(text){$('#packageStatus').textContent=text}
+function validatePackage(p){if(!p||p.format!=='au-trip-ticket-v1'||typeof p.salt!=='string'||!p.salt||!Number.isInteger(p.iterations)||p.iterations<=0||!Array.isArray(p.items)||!p.items.length||!p.items.every(item=>item&&typeof item.iv==='string'&&typeof item.data==='string'))throw Error('package-invalid');return p}
+function validateManifest(m){if(!m||!Array.isArray(m.parts)||!m.parts.length||!m.parts.every(part=>/^tickets\.enc\.part-\d+$/.test(part))||new Set(m.parts).size!==m.parts.length)throw Error('manifest-invalid');return m}
+function combinePackage(m,chunks){const text=chunks.join('');if(m.bytes&&enc.encode(text).byteLength!==m.bytes)throw Error('package-incomplete');return {text,data:validatePackage(JSON.parse(text))}}
+async function savePackageSnapshot(text){const saved=await cacheResponse(PACKAGE_SNAPSHOT,new Response(text,{headers:{'Content-Type':'application/json'}}));if(!saved)return false;try{return await readCachedText(PACKAGE_SNAPSHOT)===text}catch(_){return false}}
+async function readLocalPackage(){
+  for(const path of [PACKAGE_SNAPSHOT,'tickets.enc.json']){
+    try{const text=await readCachedText(path),data=validatePackage(JSON.parse(text));offlinePackageReady=true;return data}catch(_){}
   }
+  const manifest=validateManifest(JSON.parse(await readCachedText('tickets.enc.manifest.json')));
+  const chunks=await Promise.all(manifest.parts.map(part=>readCachedText(part))),complete=combinePackage(manifest,chunks);
+  // Old installations already hold the whole set of ciphertext parts.
+  offlinePackageReady=true;await savePackageSnapshot(complete.text);return complete.data;
 }
-async function tryAutoUnlock(){if(!pkg)return false;try{const key=await getDeviceUnlock(pkg);if(!key){setStatus('请保持“记住解锁”勾选并输入一次密码，下次将自动进入票据库。');return false}$('#rememberDevice').checked=true;const ok=await unlockWithKey(key,true);if(!ok){await clearDeviceUnlock();setStatus('本机免密已失效，请输入密码重新建立。','error');return false}return true}catch(_){setStatus('本机免密暂不可用，请输入密码并保持“记住解锁”勾选。','error');return false}}
+async function fetchPackageText(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),60000);try{const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok){const error=Error('package-http');error.status=response.status;throw error}return await response.text()}finally{clearTimeout(timer)}}
+async function loadPublishedPackage(refresh=false){
+  if(!refresh){try{const local=await readLocalPackage();setPackageStatus('已读取完整本机副本 · 未重新下载');return local}catch(_){}}
+  setPackageStatus('正在联网查找加密包，首次约需下载 37 MB…');
+  let complete;
+  try{
+    const manifest=validateManifest(JSON.parse(await fetchPackageText('tickets.enc.manifest.json')));
+    let done=0;setPackageStatus(`正在下载加密票据：0 / ${manifest.parts.length} 份分片…`);
+    const chunks=await Promise.all(manifest.parts.map(async part=>{const text=await fetchPackageText(part);setPackageStatus(`正在下载加密票据：${++done} / ${manifest.parts.length} 份分片…`);return text}));
+    complete=combinePackage(manifest,chunks);
+  }catch(error){
+    if(error.status!==404)throw error;
+    const text=await fetchPackageText('tickets.enc.json');complete={text,data:validatePackage(JSON.parse(text))};
+  }
+  // Commit only a complete validated package; failed downloads keep the previous snapshot.
+  offlinePackageReady=await savePackageSnapshot(complete.text);
+  setPackageStatus(offlinePackageReady?'完整本机副本已保存，下次直接读取本机。':'加密包已载入，但离线保存失败；请保持联网。');
+  return complete.data;
+}
+async function startPackageLoad(refresh=false){
+  if(packageLoading||unlocking)return;packageLoading=true;$('#refreshPackage').disabled=true;
+  try{const next=await loadPublishedPackage(refresh);lockVault();pkg=next;setStatus('加密包已载入，正在检查本机免密…','ok');await tryAutoUnlock()}
+  catch(_){setPackageStatus(pkg?'更新未完成，仍可使用原有票据。请稍后重试。':'加载未完成，请检查网络后点击“更新加密包”重试，或导入本机加密包。');if(!pkg)setStatus('加密包尚未载入，请重试。','error')}
+  finally{packageLoading=false;$('#refreshPackage').disabled=false}
+}
+async function tryAutoUnlock(){if(!pkg||unlocking)return false;try{const key=await getDeviceUnlock(pkg);if(!key){setStatus('请保持“记住解锁”勾选并输入一次密码，下次将自动进入票据库。');return false}$('#rememberDevice').checked=true;const ok=await unlockWithKey(key,true);if(!ok){setStatus('本机免密未能恢复，请输入密码重新建立。','error');return false}return true}catch(_){setStatus('本机免密暂不可用，请输入密码；解锁后请查看保存状态。','error');return false}}
 window.addEventListener('pageshow',event=>{if(event.persisted&&pkg&&$('#vaultView').classList.contains('hidden'))tryAutoUnlock()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});
-loadPublishedPackage().then(async p=>{pkg=p;setStatus('加密包已载入，本机可离线使用。','ok');await tryAutoUnlock()}).catch(()=>setStatus('请导入加密票据包后解锁。'));
+$('#refreshPackage').onclick=()=>startPackageLoad(true);
+startPackageLoad();
 </script>
 </body></html>
