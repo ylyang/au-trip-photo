@@ -1008,8 +1008,8 @@ const POIS = {
   asado:{n:'Langlands Restaurant & Bar · D2 晚餐首选',loc:'25 Downie St, Melbourne VIC 3000',lat:-37.8202503,lng:144.9556264,
     r:'Hyatt Centric Melbourne 25 楼的现代澳洲餐厅，离 Dorsett 较近；入住后步行前往，适合把晚餐时间保持在 18:00 左右。',
     hl:['两人 Feast & Taste · AUD 76/人','Hibachi 炭火料理','维州本地食材','25 楼城市与雅拉河景'],
-    tip:['优先查询 D2 10/02 18:00 或 18:30 的两人座位；官方晚餐时段为周二至周六 17:30–21:30','两人套餐 Feast & Taste 约 AUD 76/人；菜单会随季节调整，价格以官方菜单为准','如果 Langlands 没有位置，改用 Supernormal（180 Flinders Lane）现场 walk-in；不要把备用餐厅提前写成已订','预订、最低消费、取消政策和座位以官方页面实时结果为准'],
-    ph:['Hibachi 炭火料理','25 楼墨尔本城市夜景'],xq:'Langlands Melbourne 现代澳洲料理',web:'https://langlandsrestaurant.com/',book:'https://langlandsrestaurant.com/reservations/',bookNote:'待重新确认；D2 10/02 18:00/18:30 · 2 人',kind:'food'},
+    tip:['已确认 D2 10/02 18:30 两人晚餐；Reservation ID：LV9FPD2，状态 Accepted','两人套餐 Feast & Taste 约 AUD 76/人；菜单会随季节调整，价格以官方菜单为准','如临时取消或到店无法兑现，再启用 Supernormal（180 Flinders Lane）现场 walk-in；备用方案不代表已预订','地址以预约确认页为准：25 Downie St, Melbourne VIC 3004；建议保存确认截图'],
+    ph:['Hibachi 炭火料理','25 楼墨尔本城市夜景'],xq:'Langlands Melbourne 现代澳洲料理',web:'https://langlandsrestaurant.com/',book:'https://langlandsrestaurant.com/reservations/',bookNote:'已预订；D2 10/02 18:30 · 2 人 · Reservation LV9FPD2 · Accepted',kind:'food'},
   supernormal:{n:'Supernormal · Flinders Lane（Langlands 无位时 walk-in 备选）',loc:'180 Flinders Lane, Melbourne VIC 3000',lat:-37.8159587,lng:144.9683260,
     r:'墨尔本代表性的现代亚洲餐厅，官网明确保留现场 walk-in 座位；仅在 Langlands 无位时启用。',
     hl:['AUD 90/人 Banquet','虾鸡肉饺子','慢炖川味羊肩','花生酱 parfait'],
@@ -1852,22 +1852,22 @@ const DAYS = [
         "tr": "步行约 3 分钟"
       },
       {
-        "t": "18:00",
+        "t": "18:30",
         "tz": "AEST",
-        "ttl": "晚餐 · Langlands（待重新确认）",
-        "d": "优先查询 Langlands 18:00/18:30 的两人座位；如果没有位置，改去 Supernormal 现场 walk-in。晚餐结束后再回 Dorsett 办理入住，实际时间按现场候位和用餐时长调整。",
+        "ttl": "晚餐 · Langlands（已预订）",
+        "d": "18:30 两人预约已接受，Reservation ID：LV9FPD2。建议携带确认截图；如临时取消或到店无法兑现，再启用 Supernormal 现场 walk-in。",
         "tags": [
           "介绍",
-          "需提前订"
+          "已确认"
         ],
         "p": "asado",
         "tr": "DiDi / 步行 · 按实时 Google 导航"
       },
       {
-        "t": "20:00",
+        "t": "20:30",
         "tz": "AEST",
         "ttl": "晚餐后回 Dorsett 办理入住",
-        "d": "晚餐结束后返回 Dorsett Melbourne，办理正式入住并取回寄存行李。若 Supernormal 现场候位较久，入住时间顺延，不再安排其他活动。",
+        "d": "晚餐结束后返回 Dorsett Melbourne，办理正式入住并取回寄存行李。按 18:30 晚餐预留约 2 小时，实际返回时间以用餐情况为准。",
         "tags": [
           "注意"
         ],
@@ -2937,7 +2937,7 @@ const TRIP_FLOW = [
       "拱廊街 / 可选 Essensorie",
       "咖啡巷",
       "弗林德斯街 / 联邦广场",
-      "Langlands 晚餐（首选，待重新确认）",
+      "Langlands 晚餐（已预订 · 18:30）",
       "酒店入住"
     ]
   },
@@ -4274,7 +4274,7 @@ renderSouvenirs();
 
 const RESTAURANT_BOOKINGS = [
   {date:'10/02',time:'12:15–13:45',name:'Higher Ground',note:'2 人 · 订位已确认；原订位时段保留，实际计划用餐 12:15–13:15（1 小时），之后购物',level:'已预订 ✓',confirmed:true,phone:'+61 3 8899 6219'},
-  {date:'10/02',time:'18:00/18:30',name:'Langlands（D2 晚餐首选）',note:'2 人 · 优先查 Langlands；如果没有位置，使用 Supernormal 现场 walk-in，不把备用餐厅提前写成已订。',level:'待重新确认',url:'https://langlandsrestaurant.com/reservations/',fallbackLabel:'无位时查 Supernormal',fallbackUrl:'https://supernormal.net.au/book'},
+  {date:'10/02',time:'18:30',name:'Langlands（D2 晚餐）',note:'2 人 · Reservation ID：LV9FPD2 · 状态 Accepted · 25 Downie St, Melbourne VIC 3004；请保存确认截图。若临时取消或无法兑现，再使用 Supernormal 现场 walk-in。',level:'已预订 ✓',confirmed:true,url:'https://langlandsrestaurant.com/reservations/',fallbackLabel:'临时取消时查 Supernormal',fallbackUrl:'https://supernormal.net.au/book'},
   {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
   {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
   {date:'10/07',time:'13:25',name:'The Deck Airlie Beach',note:'2 人 · 往返酒店步行约 40–50 分钟；13:45 前离店，堂食不宽裕，优先外带，按最终机场车时间倒排',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
@@ -4536,7 +4536,8 @@ function transferStatus(d,it){
   if(it.p==='higherground') return '餐厅已预订';
   if(it.p==='welcome' || /歌剧院.*中文讲解/.test(it.ttl)) return '门票已购';
   if(it.p==='hbrbridge') return '可选，决定后购票';
-  if(['asado','pavilion','glenmore'].includes(it.p)) return '建议提前订位';
+  if(it.p==='asado') return '餐厅已预订 · LV9FPD2';
+  if(['pavilion','glenmore'].includes(it.p)) return '建议提前订位';
   if(it.p==='thedeck') return d.n===7?'午餐按机场接驳倒排，来不及改外带':'建议提前订位';
   if(it.p==='taronga' && /滴滴/.test(it.ttl)) return '当天 DiDi 叫车；2 人动物园门票已预订，当天营业时间内可入园';
   if(it.p==='taronga' && /海狮/.test(it.ttl)) return '含在入园门票内，无需另订；场次当日复核';
@@ -4621,7 +4622,7 @@ const DAY_TRANSIT = {
     {from:'Chemist Warehouse（可选）',to:'lululemon Emporium',mode:'免费区电车 / 步行 · 按实时导航',note:'仅去药房时使用此衔接',kind:'same-day',label:'无需预订'},
     {from:'Emporium',to:'皇家拱廊 / 布洛克拱廊',mode:'步行 · 约 6–10 分钟',note:'购物超时可跳过',kind:'same-day',label:'无需预订'},
     {from:'拱廊',to:'迪格雷夫斯街 / 弗林德斯街车站',mode:'步行 · 约 6 分钟',note:'沿 CBD 步行',kind:'same-day',label:'无需预订'},
-    {from:'联邦广场',to:'Langlands（首选）',mode:'DiDi / 步行 · 按实时 Google 导航',note:'优先查 18:00/18:30；无位时改 Supernormal 现场 walk-in',kind:'required',label:'待重新确认'},
+    {from:'联邦广场',to:'Langlands（已预订）',mode:'DiDi / 步行 · 按实时 Google 导航',note:'18:30 两人预约已接受 · Reservation LV9FPD2；请带确认截图',kind:'confirmed',label:'餐厅已预订'},
     {from:'Langlands / Supernormal',to:'Dorsett Melbourne',mode:'步行 / DiDi · 约 10–15 分钟',note:'晚餐后回酒店办理入住；候位久则顺延，不再安排其他活动',kind:'same-day',label:'晚餐后入住'}
   ],
   3:[
