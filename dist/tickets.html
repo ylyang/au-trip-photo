@@ -23,7 +23,7 @@
       <label class="label" for="password">票据库密码</label>
       <div class="passrow"><input id="password" type="password" autocomplete="current-password" placeholder="输入你设置的密码"><button id="unlock" class="primary" type="button">解锁票据</button></div>
       <label class="remember-row" for="rememberDevice"><input id="rememberDevice" type="checkbox" checked><span>在此设备记住解锁，下次打开自动进入票据库</span></label>
-      <p class="device-note">只保存在当前手机的当前浏览器中；保存的是不可导出的解锁密钥，不是密码。共享设备或公共设备请不要勾选。</p>
+      <p class="device-note">只保存在当前手机的当前浏览器中；保存的是设备专用解锁密钥，不是密码。共享设备或公共设备请不要勾选。</p>
       <div id="lockStatus" class="status" role="status">正在查找加密票据包…</div>
       <div class="help">票据库支持跨设备访问：网站目录中的 <b>tickets.enc.json</b> 会自动载入，其他手机、平板或电脑首次打开本页后输入同一个密码即可解锁。勾选“记住解锁”后，这台设备下次可免输密码；清除浏览器网站数据、换浏览器或换网址后需要重新输入。若页面提示没有加密包，请先打开<a href="ticket-vault-builder.html">本机加密工具</a>生成密文包，再将它发布到网站目录；密码不要发给任何人。</div>
       <label class="label" for="packageFile">导入加密票据包</label>
@@ -42,19 +42,23 @@
 const $=s=>document.querySelector(s), enc=new TextEncoder(), dec=new TextDecoder();
 const GROUPS=['全部','交通票据','住宿','活动与门票','签证','保险','其他'];const VAULT_CACHE='au-trip-ticket-v1',DEVICE_DB='au-trip-ticket-device-v1';let pkg=null,offlinePackageReady=false,urls=[],unlockGeneration=0,unlocking=false,previewGeneration=0,pdfPreview=null;
 const b64=bytes=>{let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s)},unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-async function keyFor(password,p){const base=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:unb64(p.salt),iterations:p.iterations,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt'])}
+async function keyFor(password,p){const base=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:unb64(p.salt),iterations:p.iterations,hash:'SHA-256'},base,{name:'AES-GCM',length:256},true,['decrypt'])}
 async function decryptPackageWithKey(key,p){const out=[];for(const item of p.items){const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(item.iv)},key,unb64(item.data));out.push(JSON.parse(dec.decode(plain)))}return out}
 async function decryptPackage(password,p){const key=await keyFor(password,p);return {key,files:await decryptPackageWithKey(key,p)}}
 function setStatus(text,kind=''){$('#lockStatus').textContent=text;$('#lockStatus').className='status '+kind}
 async function readPackage(file){try{pkg=JSON.parse(await file.text());if(pkg.format!=='au-trip-ticket-v1'||!pkg.salt||!Array.isArray(pkg.items))throw Error('format');offlinePackageReady=await cacheResponse('tickets.enc.json',new Response(JSON.stringify(pkg),{headers:{'Content-Type':'application/json'}}));setStatus('加密包已载入，请输入密码。','ok')}catch(e){pkg=null;offlinePackageReady=false;setStatus('无法读取加密包，请重新选择 tickets.enc.json。','error')}}
 function packageFingerprint(p){return p&&p.salt?String(p.salt):''}
+const DEVICE_FALLBACK=DEVICE_DB+'-fallback';
+function readDeviceFallback(){try{const raw=localStorage.getItem(DEVICE_FALLBACK);return raw?JSON.parse(raw):null}catch(_){return null}}
+function writeDeviceFallback(value){try{localStorage.setItem(DEVICE_FALLBACK,JSON.stringify(value));return true}catch(_){return false}}
+function removeDeviceFallback(){try{localStorage.removeItem(DEVICE_FALLBACK)}catch(_){} }
 function openDeviceDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('indexeddb'));const request=indexedDB.open(DEVICE_DB,1);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||Error('indexeddb'))})}
-async function deviceStateGet(){const db=await openDeviceDB();return new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),request=tx.objectStore('state').get('unlock');request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>reject(request.error||Error('indexeddb'))})}
-async function deviceStatePut(value){const db=await openDeviceDB();return new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').put(value,'unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'))})}
-async function deviceStateDelete(){const db=await openDeviceDB();return new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').delete('unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'))})}
-async function saveDeviceUnlock(key,p){await deviceStatePut({key,fingerprint:packageFingerprint(p),savedAt:Date.now()})}
-async function getDeviceUnlock(p){const state=await deviceStateGet();return state&&state.key&&state.fingerprint===packageFingerprint(p)?state.key:null}
-async function clearDeviceUnlock(){try{await deviceStateDelete();return true}catch(_){return false}}
+async function deviceStateGet(){try{const db=await openDeviceDB();return await new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),request=tx.objectStore('state').get('unlock');request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>reject(request.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))})}catch(_){return readDeviceFallback()}}
+async function deviceStatePut(value){try{const db=await openDeviceDB();await new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').put(value,'unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))});removeDeviceFallback();return true}catch(_){return writeDeviceFallback(value)}}
+async function deviceStateDelete(){let ok=false;try{const db=await openDeviceDB();await new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').delete('unlock');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('indexeddb'));tx.onabort=()=>reject(tx.error||Error('indexeddb'))});ok=true}catch(_){}removeDeviceFallback();return ok}
+async function saveDeviceUnlock(key,p){const rawKey=b64(new Uint8Array(await crypto.subtle.exportKey('raw',key)));if(!await deviceStatePut({rawKey,fingerprint:packageFingerprint(p),savedAt:Date.now()}))throw Error('device-storage')}
+async function getDeviceUnlock(p){const state=await deviceStateGet();if(!state||state.fingerprint!==packageFingerprint(p))return null;if(state.rawKey){try{return await crypto.subtle.importKey('raw',unb64(state.rawKey),{name:'AES-GCM'},false,['decrypt'])}catch(_){return null}}return state.key||null}
+async function clearDeviceUnlock(){return deviceStateDelete()}
 async function cacheResponse(url,response){try{const cache=await caches.open(VAULT_CACHE);await cache.put(new Request(new URL(url,location.href).href),response);return true}catch(_){return false}}
 async function readCachedText(url){const cache=await caches.open(VAULT_CACHE),response=await cache.match(new Request(new URL(url,location.href).href));if(!response||!response.ok)throw Error('cache-missing');return response.text()}
 async function cacheHasAll(urls){try{const cache=await caches.open(VAULT_CACHE);const found=await Promise.all(urls.map(url=>cache.match(new Request(new URL(url,location.href).href))));return found.every(response=>response&&response.ok)}catch(_){return false}}
