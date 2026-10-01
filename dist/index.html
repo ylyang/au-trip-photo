@@ -440,6 +440,16 @@ body.pwa-guide-open{overflow:hidden}
 .hotel-box{background:var(--surface2);border-radius:12px;padding:11px 13px;margin-top:12px;font-size:13px}
 .hotel-box .hb-t{font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13.5px}
 .hotel-box .hb-m{color:var(--muted);font-size:12.5px;margin-top:3px;white-space:pre-line}
+.hotel-markets{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.65;overflow-wrap:anywhere}
+.hotel-markets h4{font-size:13px;margin:0 0 7px}
+.market-item+.market-item{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.market-title{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.market-title b{font-size:13px}
+.market-meta,.market-source{color:var(--muted);font-size:12px}
+.market-hours{margin:3px 0;white-space:pre-line}
+.market-actions{display:flex;flex-wrap:wrap;gap:8px;margin:7px 0 3px}
+.market-actions .btn{font-size:12px;padding:6px 10px;min-height:36px}
+.market-caution{margin:7px 0;padding-left:9px;border-left:3px solid var(--warn);color:var(--text)}
 .badge{font-size:10.5px;border-radius:5px;padding:1px 6px;font-weight:700}
 .badge.ok{background:var(--brand-soft);color:var(--brand)}
 .badge.tbd{background:var(--surface3);color:var(--muted)}
@@ -3177,6 +3187,66 @@ const PHOTO_ORDER = (() => {
 })();
 const HOTEL_POI_KEYS = ['dorsett','harbourcove','grace'];
 
+/* 酒店周边补给：独立于必去行程，避免把可选超市自动插入每日导航。 */
+const HOTEL_SUPERMARKETS = {
+  dorsett:{
+    note:'D2 晚餐后可顺路补给；D3、D4 跟团早出晚归，建议提前买好早餐、水和零食。超市时间与商场普通店铺不同。',
+    stores:[
+      {id:'coles-spencer',n:'Coles Spencer Outlet Centre',loc:'201 Spencer St, Docklands VIC 3008',
+       walk:'酒店步行约 8–10 分钟（估算）',position:'南十字星车站北端，Spencer Outlet Centre 内',
+       hours:'每天 06:00–次日 00:00',label:'首选 · 营业至午夜',
+       source:'https://spenceroutletcentre.com.au/stores/coles/',sourceLabel:'商场官方门店时间'},
+      {id:'woolworths-southern-cross',n:'Woolworths Metro Southern Cross',loc:'Southern Cross Station, corner of Collins St and Spencer St, Docklands VIC 3008',
+       walk:'酒店步行约 10–15 分钟（估算）',position:'南十字星车站南端，Collins St / Spencer St 路口附近',
+       hours:'周一至五 05:30–23:00 · 周六 06:00–23:00 · 周日 07:00–23:00',label:'备选 · 车站南端',
+       source:'https://www.infranexus.com.au/southern-cross-station/retail',sourceLabel:'车站运营方公布时间',
+       note:'按车站官网保守采用 23:00 关门；门店当天公告优先。'}
+    ]
+  },
+  harbourcove:{
+    note:'D5（10/5）为昆士兰公共假日：该店当日特殊营业时间尚未确认，不能直接按周一 21:00 关门。入住时先请酒店核实，保留晚餐前采购；如提前关门，改问酒店仍营业的便利店。',
+    stores:[
+      {id:'woolworths-airlie',n:'Woolworths Airlie Beach',loc:'Shute Harbour Road & Waterson Way, Airlie Beach QLD 4802',
+       walk:'酒店步行约 10–15 分钟（估算）',position:'沿 Port of Airlie 滨海步道进入镇中心，主街与 Waterson Way 附近',
+       hours:'常规参考：周一至五 08:00–21:00 · 周六 08:00–18:00 · 周日 09:00–18:00',label:'首选 · 主街店',
+       source:'https://www.localmint.com/au/woolworths-airlie-beach-central-hours-424134',sourceLabel:'时间参考：Localmint（非官方）',
+       web:'https://www.woolworths.com.au/shop/storelocator/qld-airlie-beach-2951',
+       note:'官方动态页面未能核实营业时间；以上仅作常规参考，不代表 10/5 假日时间。可顺便找 Whittaker’s 椰子味巧克力，库存以当天为准。'}
+    ]
+  },
+  grace:{
+    note:'D7（10/7）预计 22:30 到酒店，下列两家 Coles 均已关门。请提前买水和简单食品，或询问酒店仍营业的便利店；超市采购放到 D8。',
+    stores:[
+      {id:'coles-york',n:'Coles Local Sydney CBD – York Street',loc:'68 York St, Sydney NSW 2000',
+       walk:'酒店步行约 3–5 分钟（估算）',position:'沿 York St 向南，酒店附近的优先补给点',
+       hours:'周一至五 06:00–22:00 · 周六 07:00–21:00 · 周日 07:00–20:00',label:'首选 · 离酒店近',
+       source:'https://www.coles.com.au/find-stores/coles-local/nsw/local-sydney-cbd-york-street-7689',sourceLabel:'Coles 官方门店时间'},
+      {id:'coles-wynyard',n:'Coles Central Wynyard Express',loc:'Wynyard St & Carrington St, Sydney NSW 2000',
+       walk:'酒店步行约 5–7 分钟（估算）',position:'Wynyard 车站附近，沿市区行程顺路补给',
+       hours:'周一至五 06:00–22:00 · 周六日 07:00–22:00',label:'备选 · Wynyard',
+       source:'https://www.coles.com.au/find-stores/coles/nsw/central-wynyard-express-840',sourceLabel:'Coles 官方门店时间'}
+    ]
+  }
+};
+function supermarketRouteURL(hotelKey,store){
+  return navWeb(store,'walking') + '&origin=' + mapDestination(POIS[hotelKey]);
+}
+function hotelSupermarketsHTML(hotelKey){
+  const group=HOTEL_SUPERMARKETS[hotelKey];
+  if(!group) return '';
+  return '<section class="hotel-markets" aria-label="酒店附近超市"><h4>🛒 酒店附近超市 · 按需前往</h4>'
+    + '<div class="market-meta">当地时间 · 2026/10/01 核查 · 步行时间为估算，临时调整以门店为准</div>'
+    + '<p class="market-caution">'+esc(group.note)+'</p>'
+    + group.stores.map(store=>'<div class="market-item"><div class="market-title"><b>'+esc(store.n)+'</b><span class="market-meta">'+esc(store.label)+'</span></div>'
+      + '<div>'+esc(store.walk)+' · '+esc(store.position)+'</div><div class="market-meta">'+esc(store.loc)+'</div>'
+      + '<div class="market-hours">🕒 '+esc(store.hours)+'</div>'
+      + (store.note?'<div class="market-meta">'+esc(store.note)+'</div>':'')
+      + '<div class="market-actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query='+mapDestination(store)+'" target="_blank" rel="noopener noreferrer">地图定位 ↗</a>'
+      + '<a class="btn" href="'+esc(supermarketRouteURL(hotelKey,store))+'" data-market-hotel="'+hotelKey+'" data-market-id="'+store.id+'">从酒店步行 / 复制地址</a></div>'
+      + '<div class="market-source"><a href="'+esc(store.source)+'" target="_blank" rel="noopener noreferrer">'+esc(store.sourceLabel)+' ↗</a>'
+      + (store.web?' · <a href="'+esc(store.web)+'" target="_blank" rel="noopener noreferrer">门店官网 ↗</a>':'')+'</div></div>').join('')+'</section>';
+}
+
 const TODOS = [
   {id:'taronga-ticket-ready',t:'塔龙加动物园 10/09 两人门票已预订：出发前保存两人的电子票 / 入园码，复核当天营业时间及海狮活动场次；无需重复购票',u:true},
   {
@@ -4386,6 +4456,7 @@ function openPOI(key){
     + (p.web ? '<div class="sh-sec"><a class="xhs-open" href="' + esc(p.web) + '" target="_blank" rel="noopener noreferrer">查看官网 / 菜单 ↗</a></div>' : '')
     + (p.book || p.bookNote ? '<div class="booking-detail"><b>订位：</b>' + esc(p.bookNote || '建议提前预约') + (p.book ? '<a href="' + esc(p.book) + '" target="_blank" rel="noopener noreferrer">打开预订页 ↗</a>' : '') + '</div>' : '')
     + (key==='blockarcade' ? shoppingOptionHTML('essensorie') : '')
+    + hotelSupermarketsHTML(key)
     + dayListHTML(key)
     + '<div class="reason">「' + esc(p.r) + '」</div>'
     + '<div class="sh-sec"><h4>必看点</h4><ul>' + p.hl.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>'
@@ -4446,6 +4517,17 @@ document.addEventListener('click', function(e){
       const frame=document.querySelector('[data-gday="'+di+'"]');
       if(frame) frame.src=dayGoogleURL(day,section);
       openNavRoute(section.keys,e,section.mode,section.label);
+    }
+    return;
+  }
+  const marketLink = e.target.closest('[data-market-id]');
+  if(marketLink){
+    const hotelKey=marketLink.dataset.marketHotel;
+    const group=HOTEL_SUPERMARKETS[hotelKey];
+    const store=group && group.stores.find(s=>s.id===marketLink.dataset.marketId);
+    if(store){
+      e.preventDefault(); e.stopPropagation();
+      openNavChoice({title:'酒店 → '+store.n,summary:POIS[hotelKey].n+' → '+store.n+'\n'+store.loc,url:supermarketRouteURL(hotelKey,store),copy:poiCopyText(store),route:false});
     }
     return;
   }
@@ -4725,7 +4807,7 @@ function dayHTML(d, i){
     + (hotelP
       ? '<div class="hotel-box"><div class="hb-t">🏨 ' + esc(hotelP.n) + (d.hotelOk ? ' <span class="badge ok">已确认</span>' : ' <span class="badge tbd">待确认</span>') + '</div>'
         + '<div class="hb-m">' + esc(d.hotelNote || '') + '</div>'
-        + '<div style="margin-top:7px"><a class="btn" href="' + navWeb(hotelP) + '" data-nav-poi="' + d.hotel + '">📍 导航到酒店</a></div></div>'
+        + '<div style="margin-top:7px"><a class="btn" href="' + navWeb(hotelP) + '" data-nav-poi="' + d.hotel + '">📍 导航到酒店</a></div>' + hotelSupermarketsHTML(d.hotel) + '</div>'
       : '<div class="hotel-box"><div class="hb-t">🏨 住宿</div><div class="hb-m">' + esc(d.hotelNote || '待补充') + '</div></div>')
     + '</div></div>';
 }
@@ -4873,6 +4955,7 @@ $('#sectHotels').innerHTML =
       + '<div class="kv"><div class="k">金额</div><div class="v mono">' + esc(h.price) + '</div></div>'
       + '<div class="kv"><div class="k">备注</div><div class="v">' + esc(h.note) + '</div></div>'
       + '<div class="kv"><div class="k">导航</div><div class="v"><a href="' + navWeb(POIS[HOTEL_POI_KEYS[hi]]) + '" data-nav-hotel="' + hi + '">选择导航方式</a></div></div>'
+      + hotelSupermarketsHTML(HOTEL_POI_KEYS[hi])
       + '</div></details>').join('');
 
 /* ============================================================
