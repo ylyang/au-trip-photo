@@ -102,7 +102,8 @@ async function loadPublishedPackage(){
     }
   }
 }
-async function tryAutoUnlock(){if(!pkg)return;try{const key=await getDeviceUnlock(pkg);if(!key)return;$('#rememberDevice').checked=true;const ok=await unlockWithKey(key,true);if(!ok){await clearDeviceUnlock();setStatus('本机免密已失效，请输入密码重新建立。','error')}}catch(_){setStatus('已找到本机设置，但当前浏览器无法读取，请输入密码。','error')}}
+async function tryAutoUnlock(){if(!pkg)return false;try{const key=await getDeviceUnlock(pkg);if(!key){setStatus('请保持“记住解锁”勾选并输入一次密码，下次将自动进入票据库。');return false}$('#rememberDevice').checked=true;const ok=await unlockWithKey(key,true);if(!ok){await clearDeviceUnlock();setStatus('本机免密已失效，请输入密码重新建立。','error');return false}return true}catch(_){setStatus('本机免密暂不可用，请输入密码并保持“记住解锁”勾选。','error');return false}}
+window.addEventListener('pageshow',event=>{if(event.persisted&&pkg&&$('#vaultView').classList.contains('hidden'))tryAutoUnlock()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});
 loadPublishedPackage().then(async p=>{pkg=p;setStatus('加密包已载入，本机可离线使用。','ok');await tryAutoUnlock()}).catch(()=>setStatus('请导入加密票据包后解锁。'));
 </script>
