@@ -1006,10 +1006,10 @@ const POIS = {
     tip:['Hopetoun 常排队，可外带','上午光线透过玻璃顶最好看','可选逛 Essensorie：Block Arcade 3 号铺，先闻香再决定；与拱廊拍照共用短停时间，购物超时则跳过'],
     ph:['拱廊中段的穹顶','茶室橱窗'],kind:'sight'},
   southbank:{n:'雅拉河南岸 Southbank',loc:'Southbank Promenade, Melbourne VIC 3006',lat:-37.8210,lng:144.9640,
-    r:'河边餐厅一条街，吃完饭沿河散步看墨尔本夜景，倒时差的第一晚不该太晚。',
-    hl:['Southbank Promenade 河岸步道','沿河餐厅与酒吧','对岸就是 Flinders St 站灯光'],
-    tip:['晚上河边风大，带件外套','餐厅偏游客价，可往东走两条街找本地店'],
-    ph:['河边夜景','步道上的街头艺人'],kind:'sight'},
+    r:'D2 晚餐前的可选河景休息点，沿雅拉河南岸慢走或坐下歇脚；疲劳或下雨可直接跳过。',
+    hl:['Southbank Promenade 河岸步道','沿河餐厅与酒吧','对岸 Flinders Street 车站景观'],
+    tip:['河边有风，带件外套','约 17:40 前往 Langlands，18:30 预约不变，不在这里另吃晚餐'],
+    ph:['雅拉河与城市景观','步道上的街头艺人'],kind:'sight'},
   higherground:{n:'Higher Ground Melbourne',loc:'650 Little Bourke St, Melbourne VIC 3000',lat:-37.8158967,lng:144.9531574,
     r:'离酒店和南十字星都近，挑高 15 米的旧电站空间很有墨尔本气氛，落地第一餐无需绕路。',
     hl:['招牌辣味炒蛋 Chilli Scrambled Eggs','Avocado Pretzel','Blueberry & Ricotta Hotcakes'],
@@ -1807,14 +1807,25 @@ const DAYS = [
       {
         "t": "14:40",
         "tz": "AEST",
-        "ttl": "皇家拱廊 + 布洛克拱廊（弹性短逛）",
-        "d": "14:15 左右离开药房，步行约 20–25 分钟到皇家拱廊。14:40–15:00 先看 Royal Arcade，再步行约 3–5 分钟到 Block Arcade，15:05–15:25 看马赛克地砖和玻璃顶。可选进 3 号铺 Essensorie 闻香约 10–15 分钟（周五常规 10:00–18:00），与这段拱廊时间共用，不必购买。前面购物延误就缩短拍照或跳过香氛店。",
-        "shoppingRefs": ["essensorie"],
+        "id": "d2-royal-arcade",
+        "ttl": "皇家拱廊 Royal Arcade",
+        "d": "14:15 左右离开药房，步行约 20–25 分钟到皇家拱廊；14:40–15:00 看拱顶与 Gog / Magog 钟、慢慢拍照。之后从 Little Collins Street 方向走去布洛克拱廊，不绕回 Bourke Street。购物若超时，缩短拍照即可。",
         "tags": [
           "介绍"
         ],
-        "p": "blockarcade",
+        "p": "royalarcade",
         "tr": "Chemist Warehouse → 皇家拱廊，步行约 20–25 分钟（估算）"
+      },
+      {
+        "id": "皇家拱廊 + 布洛克拱廊（弹性短逛）",
+        "t": "15:05",
+        "tz": "AEST",
+        "ttl": "布洛克拱廊 · 可选 Essensorie",
+        "d": "15:05–15:25 看马赛克地砖和玻璃顶。可选进 3 号铺 Essensorie 闻香约 10–15 分钟（周五常规 10:00–18:00），与本段拍照时间共用，不必购买。排队或前面购物延误就跳过香氛店，保留 15:30 咖啡歇脚。",
+        "shoppingRefs": ["essensorie"],
+        "tags": ["介绍"],
+        "p": "blockarcade",
+        "tr": "皇家拱廊 → 布洛克拱廊，步行约 3–5 分钟（估算）"
       },
       {
         "t": "15:30",
