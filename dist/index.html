@@ -1031,10 +1031,10 @@ const POIS = {
     tip:['先在澳洲官网收藏目标款式、颜色和尺码','现场留意 We Made Too Much 折扣区','购买一两件不建议为 Outlet 额外支付长距离往返车费'],
     ph:['门店陈列','目标款式与尺码'],xq:'墨尔本 lululemon Emporium 购物 价格',kind:'shop'},
   cwspencer:{n:'Chemist Warehouse · Spencer Outlet Centre',loc:'MM2, 201 Spencer St, Docklands VIC 3008',lat:-37.8158,lng:144.9530,mapQuery:'Chemist Warehouse Spencer Outlet Centre, 201 Spencer Street, Docklands VIC 3008',
-    r:'D2 可选购物：有需要、时间充裕再去，不必专程购买 Swisse；跳过药房可从 Higher Ground 直接前往 Emporium。',
+    r:'D2 已确定购买 Swisse：13:30 从 Higher Ground 离店后先来 Spencer Outlet Centre 门店，购物后前往皇家拱廊，不再去 lululemon / Emporium。',
     hl:['10/2 周五通常营业至 20:00','Swisse Magnesium Glycinate 120 片：查询时 AUD 24.99','Swisse Iron 30 片：查询时 AUD 6.49','Swisse Calcium + Vitamin D 150 片：查询时 AUD 17.49'],
     tip:['价格为 2026-09-26 官网查询结果，出发当天以门店价与库存为准','先确认具体产品、剂量和数量，再比较每粒单价','保健品请按标签使用；有基础疾病或正在服药先咨询医生/药师'],
-    ph:['Swisse 货架','促销价签'],xq:'墨尔本 Chemist Warehouse Spencer Swisse 价格',kind:'shop'},
+    ph:['Swisse 货架','促销价签'],xq:'墨尔本 Chemist Warehouse Spencer Swisse 价格',web:'https://spenceroutletcentre.com.au/stores/chemist-warehouse/',kind:'shop'},
   /* --- 普芬比利一日游 --- */
   meet601:{n:'集合点 · 601 Lonsdale Street',loc:'601 Lonsdale St, Melbourne VIC 3000（Men\'s Gallery 门前）',lat:-37.8105,lng:144.9590,
     r:'一日游大巴接载点，两张成人凭证均已确认；08:15 接载，建议提前 5–10 分钟到。',
@@ -1743,7 +1743,7 @@ const DAYS = [
     "hotel": "dorsett",
     "hotelNote": "入住 15:00 / 退房 11:00 · 不可退款 · 共 3 晚（10/2–10/5）\nDorsett Melbourne · 615 Little Lonsdale Street, Melbourne VIC 3000",
     "hotelOk": true,
-    "warn": "🛍️ 只买 1–2 件 lululemon，不去 Moorabbin Outlet：长距离往返车费很可能抵消折扣。改逛市中心 Emporium，节省约 2 小时并保留更多款式与尺码选择。",
+    "warn": "🛍️ 10/2 按现场进度更新：正在 Higher Ground 用餐，预计 13:30 离店；取消 lululemon / Emporium，确定去 Chemist Warehouse 买 Swisse。下午以步行为主，沿拱廊 → 咖啡巷 → 车站 / 联邦广场慢逛。18:30 Langlands 两人预约不变，建议 18:15 到酒店大堂后乘电梯上 25 楼；所有时间为墨尔本当地 AEST。步行时长为估算。",
     "items": [
       {
         "t": "09:35",
@@ -1783,7 +1783,7 @@ const DAYS = [
         "t": "12:15",
         "tz": "AEST",
         "ttl": "午餐 · Higher Ground（已预订）",
-        "d": "两人计划用餐 12:15–13:15，按 1 小时安排，13:15 左右结账离店。原订位时段 12:15–13:45 保留不变，不代表需要坐满。建议提前 10 分钟到店；人均约 AUD 25–40。若上菜较慢，缩短后续购物/拱廊停留，不赶着吃饭。",
+        "d": "已到店用餐，按你 10/2 的现场反馈，预计 13:30 结账离店。原订位 12:15–13:45 不变；后续改为先去 Chemist Warehouse 买 Swisse，不去 lululemon。若离店晚于 13:30，将购物和拱廊时间顺延，压缩可选河边散步，不挤占 18:30 晚餐。",
         "tags": [
           "介绍",
           "已确认"
@@ -1792,48 +1792,35 @@ const DAYS = [
         "tr": "步行约 5 分钟"
       },
       {
-        "t": "13:30",
+        "t": "13:40",
         "tz": "AEST",
         "id": "★ Chemist Warehouse 买 Swisse",
-        "optional": true,
-        "skipDefault": true,
-        "ttl": "可选 · Chemist Warehouse 买 Swisse",
-        "d": "不一定要去，有需要且时间充裕再逛 Spencer Outlet Centre 门店。若去，参考 13:30–14:00，约 30 分钟；若不去，午餐后直接前往 Emporium，空出的时间可休息或购物。促销价格和库存以门店为准。",
+        "ttl": "Chemist Warehouse 买 Swisse（确定去）",
+        "d": "13:30 从 Higher Ground 离开，沿 Spencer Street 向北到 Spencer Outlet Centre 内的 Chemist Warehouse（201 Spencer St）。预计 13:40–14:15 购物，预留约 35 分钟；周五常规营业 08:00–20:00（10/2 查商场官方门店页）。先找需要的 Swisse，核对规格、数量和价签，库存以现场为准；无需预订，不额外安排 lululemon。买得多可先回酒店寄放购物袋，再向东前往皇家拱廊；相应缩短河边散步。",
         "tags": [
           "介绍",
           "注意"
         ],
         "p": "cwspencer",
-        "tr": "可选支线：从 Higher Ground 步行约 8–12 分钟；不去则跳过"
+        "tr": "13:30 午餐后出发 · 步行约 8–12 分钟（含找店估算）"
       },
       {
-        "t": "14:15",
-        "tz": "AEST",
-        "ttl": "★ lululemon Emporium 选购",
-        "d": "只买 1–2 件，计划逛约 40 分钟，14:55 左右离店。先看目标款式，再留意折扣区；无需专程去远郊 Outlet。",
-        "tags": [
-          "介绍"
-        ],
-        "p": "luluemporium",
-        "tr": "默认：午餐后从 Higher Ground 直接步行 / 搭免费区电车前往，以实时导航为准；若去药房，则从药房出发"
-      },
-      {
-        "t": "15:05",
+        "t": "14:40",
         "tz": "AEST",
         "ttl": "皇家拱廊 + 布洛克拱廊（弹性短逛）",
-        "d": "两条 19 世纪拱廊街，看马赛克地砖与彩色玻璃穹顶。可选进布洛克拱廊 3 号铺 Essensorie 闻香，考虑薰衣草葡萄柚枕头香氛。与拱廊拍照共用约 10 分钟，不叠加购物时长；想进店则减少另一条拱廊的停留，排队或前面购物超时就跳过，保留 15:20 咖啡休息。无需预订，也不必购买。",
+        "d": "14:15 左右离开药房，步行约 20–25 分钟到皇家拱廊。14:40–15:00 先看 Royal Arcade，再步行约 3–5 分钟到 Block Arcade，15:05–15:25 看马赛克地砖和玻璃顶。可选进 3 号铺 Essensorie 闻香约 10–15 分钟（周五常规 10:00–18:00），与这段拱廊时间共用，不必购买。前面购物延误就缩短拍照或跳过香氛店。",
         "shoppingRefs": ["essensorie"],
         "tags": [
           "介绍"
         ],
         "p": "blockarcade",
-        "tr": "步行约 6–10 分钟"
+        "tr": "Chemist Warehouse → 皇家拱廊，步行约 20–25 分钟（估算）"
       },
       {
-        "t": "15:20",
+        "t": "15:30",
         "tz": "AEST",
         "ttl": "咖啡歇脚 · 迪格雷夫斯街",
-        "d": "墨尔本咖啡巷文化的发源地。晒太阳 + 一杯咖啡帮助倒时差，今天不回酒店午睡。",
+        "d": "15:30–16:00 在迪格雷夫斯街找仍营业的咖啡馆坐下歇脚，喝咖啡或水；各家关门时间不同，现场选店即可。今天刚落地，留出半小时休息，不继续加购物点。",
         "tags": [
           "介绍"
         ],
@@ -1841,10 +1828,10 @@ const DAYS = [
         "tr": "步行约 6 分钟"
       },
       {
-        "t": "16:00",
+        "t": "16:05",
         "tz": "AEST",
         "ttl": "弗林德斯街车站 + 圣保罗大教堂",
-        "d": "墨尔本最经典地标组合，隔街相望。",
+        "d": "16:05–16:30 拍弗林德斯街车站正面与对面的圣保罗大教堂。以外观拍照为主，教堂若开放且无礼拜再短暂入内，不把入内作为必达项目。",
         "tags": [
           "介绍"
         ],
@@ -1852,10 +1839,10 @@ const DAYS = [
         "tr": "步行约 4 分钟"
       },
       {
-        "t": "16:45",
+        "t": "16:35",
         "tz": "AEST",
         "ttl": "联邦广场",
-        "d": "几何立面广场，正对弗林德斯街车站；傍晚可以慢慢拍照。",
+        "d": "16:35–17:00 在车站对面的联邦广场慢慢拍照、休息；不另外安排收费展览。精神好可继续去雅拉河南岸，累了就找地方歇脚，保留晚餐前的机动时间。",
         "tags": [
           "介绍"
         ],
@@ -1863,22 +1850,34 @@ const DAYS = [
         "tr": "步行约 3 分钟"
       },
       {
+        "id": "d2-southbank-optional",
+        "t": "17:10",
+        "tz": "AEST",
+        "ttl": "可选 · 雅拉河南岸轻松散步",
+        "d": "从联邦广场经 Princes Bridge 到 Southbank Promenade，约 17:10–17:40 看河景、找长椅休息。不是必去；购物较久、下雨或疲劳就跳过。最迟约 17:40 开始前往 Langlands，途中如不想走可叫 DiDi，以 18:15 到餐厅所在酒店为目标。",
+        "optional": true,
+        "skipDefault": true,
+        "tags": ["介绍"],
+        "p": "southbank",
+        "tr": "联邦广场 → Southbank，步行约 8–12 分钟（估算）"
+      },
+      {
         "t": "18:30",
         "tz": "AEST",
         "ttl": "晚餐 · Langlands（已预订）",
-        "d": "18:30 两人预约已接受，Reservation ID：LV9FD2。建议携带确认截图；如临时取消或到店无法兑现，再启用 Supernormal 现场 walk-in。",
+        "d": "18:30 两人预约已接受，Reservation ID：LV9FD2，不作改动。建议 17:40 左右离开联邦广场 / Southbank，18:15 到 Hyatt Centric（25 Downie St）大堂，预留找入口和乘电梯上 25 楼的时间。携带确认截图；如预约临时无法兑现，再启用 Supernormal 现场 walk-in。",
         "tags": [
           "介绍",
           "已确认"
         ],
         "p": "asado",
-        "tr": "DiDi / 步行 · 按实时 Google 导航"
+        "tr": "约 17:40 出发 · 步行约 20–30 分钟（估算）/ DiDi，以 18:15 到店为目标"
       },
       {
-        "t": "20:30",
+        "t": "20:45",
         "tz": "AEST",
         "ttl": "晚餐后回 Dorsett 办理入住",
-        "d": "晚餐结束后返回 Dorsett Melbourne，办理正式入住并取回寄存行李。按 18:30 晚餐预留约 2 小时，实际返回时间以用餐情况为准。",
+        "d": "18:30 晚餐预留约 2 小时，约 20:30 离店，20:45 左右回 Dorsett 办理正式入住并取回行李，实际以用餐情况为准。若仍有精力、确实缺水或早餐，再考虑酒店附近超市；不作为今晚必去任务。",
         "tags": [
           "注意"
         ],
@@ -2942,14 +2941,15 @@ const TRIP_FLOW = [
       "墨尔本机场",
       "南十字星",
       "酒店寄存",
-      "Higher Ground 午餐",
-      "可选：Swisse（不去则直达 Emporium）",
-      "Emporium 买 lululemon",
-      "拱廊街 / 可选 Essensorie",
-      "咖啡巷",
-      "弗林德斯街 / 联邦广场",
+      "Higher Ground 午餐至约 13:30",
+      "13:40–14:15 Swisse（确定去）",
+      "14:40 皇家拱廊 → 布洛克 / 可选 Essensorie",
+      "15:30 咖啡巷歇脚",
+      "16:05 弗林德斯街 → 联邦广场",
+      "可选 17:10 Southbank 河边休息",
+      "约 18:15 到 Langlands 所在酒店",
       "Langlands 晚餐（已预订 · 18:30）",
-      "酒店入住"
+      "约 20:45 酒店入住"
     ]
   },
   {
@@ -3482,6 +3482,7 @@ function dayRouteSections(day){
     for(let i=0;i<keys.length-1;i+=4) sections.push({label:label+(keys.length>5?' · 第 '+(i/4+1)+' 段':''),keys:keys.slice(i,i+5),mode});
   }
   if(day.n===1){add('虹桥机场定位',['sha'],'driving');add('厦门中转机场定位',['xmn'],'driving');}
+  else if(day.n===2){add('13:30 起 · 午餐 → Swisse → 拱廊',['higherground','cwspencer','royalarcade','blockarcade']);add('拱廊 → 咖啡巷 → 车站 / 教堂 → 广场',['blockarcade','degraves','flinders','stpaul','fedsquare']);add('约 17:40 出发 · 广场 → 已订晚餐',['fedsquare','asado']);add('可选 · 广场 → 雅拉河南岸 → 已订晚餐',['fedsquare','southbank','asado']);add('晚餐 → 酒店入住',['asado','dorsett']);add('上午参考 · 机场 → 南十字星',['mel','southern'],'driving');add('上午参考 · 南十字星 → 酒店 → 午餐',['southern','dorsett','higherground']);}
   else if(day.n===5){add('墨尔本机场接送',['dorsett','melt3'],'driving');add('布里斯班中转机场定位',['bne'],'driving');add('PPP → 酒店接送',['ppp','harbourcove'],'driving');add('镇上散步及晚餐',['harbourcove','lagoon','pavilion']);}
   else if(day.n===6){add('酒店 → 出海集合点',['harbourcove','coralsea'],'driving');add('返港 → 酒店接送',['coralsea','harbourcove'],'driving');add('酒店 → 晚餐',['harbourcove','thedeck']);}
   else if(day.n===7){add('酒店 → 午餐 → 取箱（待接驳确认）',['harbourcove','thedeck','harbourcove']);add('机场接送（接载时间待确认）',['harbourcove','ppp'],'driving');add('悉尼机场 → 酒店',['sydt2','grace'],'driving');}
@@ -3492,8 +3493,7 @@ function dayRouteSections(day){
     const keys = day.items.filter(it=>it.p && !it.optional && !it.skipDefault && it.p!=='lakeside').flatMap(it=>day.n===2 && it.p==='blockarcade'?['royalarcade','blockarcade']:day.n===2 && it.p==='flinders'?['flinders','stpaul']:[it.p]);
     if(day.hotel && day.n!==2) keys.unshift(day.hotel);
     if(day.hotel) keys.push(day.hotel);
-    if(day.n===2){add('机场 → 南十字星（按 SkyBus 安排）',keys.slice(0,2),'driving');add('市区游览（默认跳过 Swisse 药房）',keys.slice(1));add('可选 · Swisse 药房定位（需要才去）',['cwspencer']);}
-    else add('当天陆路参考',keys,[3,4].includes(day.n)?'driving':'walking');
+    add('当天陆路参考',keys,[3,4].includes(day.n)?'driving':'walking');
     if(day.n===3) add('Lakeside 午餐定位（仅在导游安排此站时使用）',['lakeside']);
     if(day.n===8){add('可选 · 歌剧院 → BridgeMuseum 桥塔 → 岩石区',['operahouse','hbrbridge','rocks']);add('可选 · 桥塔 → 天文台山 → 岩石区',['hbrbridge','observatory','rocks']);}
   }
@@ -4344,7 +4344,7 @@ function renderSouvenirs(){
 renderSouvenirs();
 
 const RESTAURANT_BOOKINGS = [
-  {date:'10/02',time:'12:15–13:45',name:'Higher Ground',note:'2 人 · 订位已确认；原订位时段保留，实际计划用餐 12:15–13:15（1 小时），之后购物',level:'已预订 ✓',confirmed:true,phone:'+61 3 8899 6219'},
+  {date:'10/02',time:'12:15–13:45',name:'Higher Ground',note:'2 人 · 已到店用餐；10/2 现场预计 13:30 离店，随后去 Chemist Warehouse 买 Swisse；原订位时段不变',level:'已预订 ✓',confirmed:true,phone:'+61 3 8899 6219'},
   {date:'10/02',time:'18:30',name:'Langlands（D2 晚餐）',note:'2 人 · Reservation ID：LV9FD2 · 状态 Accepted · 25 Downie St, Melbourne VIC 3004；请保存确认截图。若临时取消或无法兑现，再使用 Supernormal 现场 walk-in。',level:'已预订 ✓',confirmed:true,url:'https://langlandsrestaurant.com/reservations/',fallbackLabel:'临时取消时查 Supernormal',fallbackUrl:'https://supernormal.net.au/book'},
   {date:'10/05',time:'18:45',name:'Coral Sea Pavilion',note:'2 人 · 海景 / 日落位，已替代 Fish D’Vine',level:'现在预订',url:'https://www.opentable.com.au/r/coral-sea-pavilion-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=131168',phone:'+61 7 4964 1300'},
   {date:'10/06',time:'18:30',name:'The Deck Airlie Beach',note:'2 人 · 周二晚餐，20:00 前结束',level:'建议预订',url:'https://www.opentable.com.au/r/the-deck-airlie-beach-reservations-airlie-beach?lang=en-AU&ot_source=Restaurant+website&restref=160943',phone:'+61 7 4948 2721'},
@@ -4392,7 +4392,7 @@ function renderBookingTodos(){
 
 const FOOD_GROUPS = [
   {day:'D2',date:'10/02',icon:'☕',place:'墨尔本市中心',items:[
-    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已预订 12:15',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'2 人计划用餐 12:15–13:15（1 小时），午餐后可直接去 Emporium；13:30 Swisse 药房为可选，14:15 参考安排 lululemon。原订位 12:15–13:45 不变；建议提前 10 分钟到店。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
+    {name:'Higher Ground · 一甜一咸早午餐 + 墨尔本咖啡',status:'已到店 · 预计 13:30 结束',must:'Blueberry & Ricotta Hotcakes；再点辣味炒蛋或 Avocado Pretzel；饮品选 Magic 或 Flat White。',why:'墨尔本真正值得体验的是咖啡馆文化。两人一甜一咸共享，既尝到招牌又不会第一餐吃得太撑。',timing:'按 10/2 现场进度预计 13:30 离店；13:40–14:15 到 Chemist Warehouse 买 Swisse，随后逛拱廊。不去 lululemon / Emporium。原订位 12:15–13:45 不变。',poi:'higherground',query:'墨尔本 Higher Ground hotcakes Magic coffee 必吃'},
     {name:'Queen Victoria Market · Borek + Market Lane Coffee',status:'时间宽裕再加',must:'两人共享一只 Borek，配一杯外带咖啡；不要各点一份。',why:'维州官方美食路线直接推荐市场入口的 Borek 与 Market Lane Coffee，是比通用网红甜品更有墨尔本日常感的组合。',timing:'D2 周五市场 06:00–15:00。只有酒店寄存很顺、11:00 前能到时才去；11:25 还没买到就放弃，以免影响 Higher Ground。',poi:'qvmarket',url:'https://www.visitmelbourne.com/regions/melbourne/see-and-do/itineraries/48-hour-itinerary-food',query:'Queen Victoria Market Borek Market Lane Coffee 必吃'}
   ]},
   {day:'D3',date:'10/03',icon:'🥧',place:'普芬比利 · 菲利普岛',items:[
@@ -4700,13 +4700,12 @@ const DAY_TRANSIT = {
   ],
   2:[
     {from:'Dorsett Melbourne',to:'Higher Ground',mode:'步行 · 约 5 分钟',note:'Higher Ground 订位已确认',kind:'confirmed',label:'餐厅已预订'},
-    {from:'Higher Ground',to:'lululemon Emporium',mode:'步行 / 免费区电车 · 按实时导航',note:'默认跳过 Swisse 药房，午餐后直接前往',kind:'same-day',label:'无需预订'},
-    {from:'Higher Ground',to:'Chemist Warehouse（可选）',mode:'步行 · 约 8–12 分钟',note:'有需要才去 Spencer Outlet Centre，不去可跳过',kind:'same-day',label:'可选，无需预订'},
-    {from:'Chemist Warehouse（可选）',to:'lululemon Emporium',mode:'免费区电车 / 步行 · 按实时导航',note:'仅去药房时使用此衔接',kind:'same-day',label:'无需预订'},
-    {from:'Emporium',to:'皇家拱廊 / 布洛克拱廊',mode:'步行 · 约 6–10 分钟',note:'购物超时可跳过',kind:'same-day',label:'无需预订'},
+    {from:'Higher Ground',to:'Chemist Warehouse Spencer Outlet',mode:'步行 · 约 8–12 分钟（估算）',note:'13:30 离店，预计 13:40–14:15 买 Swisse，确定去',kind:'same-day',label:'无需预订'},
+    {from:'Chemist Warehouse',to:'皇家拱廊 → 布洛克拱廊',mode:'步行 · 约 20–25 分钟；两拱廊间约 3–5 分钟（估算）',note:'14:40 起慢逛；Essensorie 仍为可选',kind:'same-day',label:'无需预订'},
     {from:'拱廊',to:'迪格雷夫斯街 / 弗林德斯街车站',mode:'步行 · 约 6 分钟',note:'沿 CBD 步行',kind:'same-day',label:'无需预订'},
-    {from:'联邦广场',to:'Langlands（已预订）',mode:'DiDi / 步行 · 按实时 Google 导航',note:'18:30 两人预约已接受 · Reservation LV9FD2；请带确认截图',kind:'confirmed',label:'餐厅已预订'},
-    {from:'Langlands / Supernormal',to:'Dorsett Melbourne',mode:'步行 / DiDi · 约 10–15 分钟',note:'晚餐后回酒店办理入住；候位久则顺延，不再安排其他活动',kind:'same-day',label:'晚餐后入住'}
+    {from:'联邦广场',to:'Southbank（可选）',mode:'步行 · 约 8–12 分钟（估算）',note:'17:10–17:40 河边歇脚，疲劳或下雨就跳过',kind:'same-day',label:'可选，无需预订'},
+    {from:'联邦广场 / Southbank',to:'Langlands（已预订）',mode:'约 17:40 出发 · 步行约 20–30 分钟（估算）/ DiDi',note:'目标 18:15 到 Hyatt Centric 大堂上 25 楼，18:30 两人预约不变',kind:'confirmed',label:'餐厅已预订'},
+    {from:'Langlands',to:'Dorsett Melbourne',mode:'步行 / DiDi · 约 10–15 分钟',note:'约 20:30 离店、20:45 回酒店办理入住；实际随用餐情况调整',kind:'same-day',label:'晚餐后入住'}
   ],
   3:[
     {from:'Dorsett Melbourne',to:'601 Lonsdale Street',mode:'步行或 DiDi 短途接送',note:'08:05 到场，迟到不等人',kind:'same-day',label:'无需预订'},
